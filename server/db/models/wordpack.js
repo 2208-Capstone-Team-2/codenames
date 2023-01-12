@@ -1,11 +1,11 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
 
-const Wordbank = db.define("wordbank", {
-  word: {
+const Wordpack = db.define("wordpack", {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
   },
 });
 
-module.exports = Wordbank;
+module.exports = Wordpack;
