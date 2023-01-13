@@ -1,27 +1,29 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUsername, setRoomId } from "../store/playersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setUsername, setRoomId } from "../store/playerSlice";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useSelector } from "react-redux";
-import { getDatabase, onValue, ref, set } from "firebase/database";
-import { initializeApp } from "firebase/app";
-import { database, app, auth, firebaseConfig } from "../utils/firebase";
+import { ref, set } from "firebase/database";
+import { database, auth } from "../utils/firebase";
+import { useEffect } from "react";
+import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import { setPlayerId } from "../store/playerSlice";
 
-const Login = ({ playerId, playerRef }) => {
-  const roomId = useSelector((state) => state.players.roomId);
-  const username = useSelector((state) => state.players.username);
+const Login = () => {
+  const navigate = useNavigate();
+  const roomId = useSelector((state) => state.player.roomId);
+  const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
+  let playerId = useSelector((state) => state.player.playerId);
+  let playerRef;
   let roomRef;
 
+  // references to firebase data
   playerRef = ref(database, "players/" + playerId);
   roomRef = ref(database, "rooms/" + roomId);
 
-  console.log({ playerId });
-  console.log({ playerRef });
-  console.log({ roomRef });
-
+  // setting user room and name on frontend
   const handleRoom = (event) => {
     dispatch(setRoomId(event.target.value));
   };
@@ -29,16 +31,42 @@ const Login = ({ playerId, playerRef }) => {
     dispatch(setUsername(event.target.value));
   };
 
+  //  moving player into room, setting data on firebase
   const playerLogin = (e) => {
-    e.preventDefault();
-    set(playerRef, { username, roomId });
+    // e.preventDefault();
     set(roomRef, { roomId: roomId });
-    //     navigate(`/room/${roomId}`);
+    set(playerRef, { username, roomId });
+    navigate(`/room/${roomId}`);
   };
 
-  //   const navigateToRoom = () => {
-  //     navigate(`/room/${roomId}`);
-  //   };
+  useEffect(() => {
+    signInAnonymously(auth)
+      .then(() => {
+        // Signed in..
+        console.log(auth);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // uid as 'playerId'
+        const playerId = user.uid;
+        dispatch(setPlayerId(playerId));
+        // Returns a Reference to the location in the Database corresponding to the provided player
+        playerRef = ref(database, "players/" + playerId);
+
+        // set player in firebase db
+        set(playerRef, { id: playerId });
+      } else {
+        // User is signed out
+        console.log("signed out");
+        playerRef.onDisconnect().remove();
+      }
+    });
+  }, []);
 
   return (
     <form onSubmit={playerLogin}>

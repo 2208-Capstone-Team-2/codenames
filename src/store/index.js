@@ -3,11 +3,13 @@ Here is where you will configure the store
 */
 
 import { configureStore } from "@reduxjs/toolkit";
-import playersReducer from "./playersSlice";
+import playerReducer from "./playerSlice";
+import allPlayersReducer from "./allPlayersSlice";
 
 const store = configureStore({
   reducer: {
-    players: playersReducer,
+    player: playerReducer,
+    allPlayers: allPlayersReducer,
   },
 });
 

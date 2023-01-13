@@ -6,8 +6,8 @@ const initialState = {
   roomId: "",
 };
 
-export const playersSlice = createSlice({
-  name: "players",
+export const playerSlice = createSlice({
+  name: "player",
   initialState,
   reducers: {
     setPlayerId: (state, action) => {
@@ -22,5 +22,5 @@ export const playersSlice = createSlice({
   },
 });
 
-export const { setUsername, setRoomId, setPlayerId } = playersSlice.actions;
-export default playersSlice.reducer;
+export const { setUsername, setRoomId, setPlayerId } = playerSlice.actions;
+export default playerSlice.reducer;
