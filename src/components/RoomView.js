@@ -45,6 +45,7 @@ const RoomView = () => {
           playersInRoom.push(player);
         }
       });
+      console.log({ playersInRoom });
       dispatch(setAllPlayers(playersInRoom));
       // setting players in the room to the 'players' key on firebase
       set(roomRef, { players: playersInRoom });
@@ -60,7 +61,7 @@ const RoomView = () => {
       <br></br>
       players:
       {allPlayers?.map((player) => (
-        <p>{player.username}</p>
+        <p key={player.id}>{player.username}</p>
       ))}
     </>
   );
