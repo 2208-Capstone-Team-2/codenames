@@ -1,5 +1,5 @@
 import React from "react";
-import "./teamBoxes.css";
+import "./RedTeamBox.css";
 const RedTeamBox = () => {
   return (
     <div className="boxCard">
