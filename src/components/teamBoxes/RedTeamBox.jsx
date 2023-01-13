@@ -1,10 +1,10 @@
 import React from "react";
-import "./RedTeamBox.css";
+import "./redTeamBox.css";
 const RedTeamBox = () => {
   return (
-    <div className="boxCard">
+    <div className="redBoxCard">
       <div>Red Team</div>
-      <div className="opsAndSpys">
+      <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>
           <button>Join as Operative</button>

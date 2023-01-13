@@ -28,4 +28,7 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: [".js", ".jsx", ".html", ".css"],
+  },
 };
