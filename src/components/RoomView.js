@@ -52,14 +52,16 @@ const RoomView = () => {
       console.log("new player!");
     });
   }, []);
+
   if (loading) return <p>...loading...</p>;
   return (
     <>
+      Room id: {roomId}
+      <br></br>
       players:
-      {/* below isnt working yet */}
-      {/* {allPlayers?.forEach((player) => {
-        <p>{player.username}</p>;
-      })} */}
+      {allPlayers?.map((player) => (
+        <p>{player.username}</p>
+      ))}
     </>
   );
 };
