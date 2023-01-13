@@ -1,14 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUsername, setRoomId } from "../store/playerSlice";
+import { setUsername, setRoomId } from "../../store/playerSlice";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { ref, set } from "firebase/database";
-import { database, auth } from "../utils/firebase";
+import { database, auth } from "../../utils/firebase";
 import { useEffect } from "react";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { setPlayerId } from "../store/playerSlice";
+import { setPlayerId } from "../../store/playerSlice";
+import styles from "./Lobby.styles";
+import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
 
 const Login = () => {
   const navigate = useNavigate();
@@ -69,26 +71,31 @@ const Login = () => {
   }, []);
 
   return (
-    <form onSubmit={playerLogin}>
-      <TextField
-        id="outlined-basic"
-        label="username"
-        variant="outlined"
-        placeholder="username"
-        onChange={handleName}
-      />
-      <TextField
-        id="outlined-basic"
-        label="room id"
-        variant="outlined"
-        placeholder="room number"
-        onChange={handleRoom}
-      />
+    <div style={styles.sx.HomeContainer}>
+      <div style={styles.sx.LoginContainer}>
+        <img src={logo} alt={""} width="50%" />
+        <form onSubmit={playerLogin} style={styles.sx.FormContainer}>
+          <TextField
+            id="outlined-basic"
+            label="username"
+            variant="outlined"
+            placeholder="username"
+            onChange={handleName}
+          />
+          <TextField
+            id="outlined-basic"
+            label="room id"
+            variant="outlined"
+            placeholder="room number"
+            onChange={handleRoom}
+          />
 
-      <Button type="submit" variant="contained">
-        Join Room
-      </Button>
-    </form>
+          <Button type="submit" variant="contained">
+            Join Room
+          </Button>
+        </form>
+      </div>
+    </div>
   );
 };
 
