@@ -1,0 +1,17 @@
+.boxCard{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 300px;
+    width: 250px;
+    color: #e46d4d;
+    padding: 10px;
+    background-color:  #8f2a1c;
+    border-radius: 20px;
+}
+.opsAndSpys{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-top: 100px;
+}
