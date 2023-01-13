@@ -5,38 +5,18 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { getDatabase, onValue, ref, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDgwmE6Cs0gGyCrdWbCNiCJBzqWk2C0Cmo",
-  authDomain: "codenames-15627.firebaseapp.com",
-  databaseURL: "https://codenames-15627-default-rtdb.firebaseio.com",
-  projectId: "codenames-15627",
-  storageBucket: "codenames-15627.appspot.com",
-  messagingSenderId: "83297844882",
-  appId: "1:83297844882:web:2fe2658e9e0b4b83c3304b",
-  measurementId: "G-9YXEWYWX70",
-};
-
-// Initialize Firebase
-
-/**
- * This is the entry point for all of our react stuff
- */
+import Login from "./Login";
+import { database, app, auth, firebaseConfig } from "../utils/firebase";
+import { setPlayerId } from "../store/playersSlice";
+import { useDispatch, useSelector } from "react-redux";
 const App = () => {
-  let playerId;
+  let playerId = useSelector((state) => state.players.playerId);
   let playerRef;
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  const database = getDatabase(app);
-
+  // let roomRef;
   // let players = {};
   // let playerElements = {};
 
+  const dispatch = useDispatch();
   useEffect(() => {
     signInAnonymously(auth)
       .then(() => {
@@ -55,7 +35,7 @@ const App = () => {
 
         // uid as 'playerId'
         const playerId = user.uid;
-
+        dispatch(setPlayerId(playerId));
         // Returns a Reference to the location in the Database corresponding to the provided player
         playerRef = ref(database, "players/" + playerId);
 
@@ -68,10 +48,10 @@ const App = () => {
       }
     });
   }, []);
+
   return (
     <div>
-      <h1>Welcome to dsfghjkl, Good luck!</h1>
-      <Button variant="contained">Hello World</Button>
+      <Login playerId={playerId} playerRef={playerRef} />
     </div>
   );
 };
