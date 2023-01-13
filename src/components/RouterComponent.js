@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Login, RoomView } from "./";
+import { Login, RoomView, About } from "./";
 
 const RouterComponent = () => {
   return (
@@ -11,10 +11,8 @@ const RouterComponent = () => {
       <Route path="/room/:id" element={<RoomView />} />
       {/*-------------------- a page for where the game actually takes place---------------------*/}
       <Route path="/room/:id/playing" />
-      {/*-------------------- a FAQ page--------------------*/}
-      <Route path="/faq" />
       {/*-------------------- about us--------------------*/}
-      <Route path="/about" />
+      <Route path="/about" element={<About />} />
     </Routes>
   );
 };
