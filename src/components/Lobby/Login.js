@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { setPlayerId } from "../../store/playerSlice";
 import styles from "./Lobby.styles";
-import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
+import logo from "../../static/images/logoLight.png";
 
 const Login = () => {
   const navigate = useNavigate();
