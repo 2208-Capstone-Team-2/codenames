@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import styles from "./Room.styles";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -15,20 +16,20 @@ const Item = styled(Paper)(({ theme }) => ({
 function FormRow() {
   return (
     <React.Fragment>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
+      <Grid item xs={2} style={{ minWidth: "0" }}>
+        <Item>Card</Item>
       </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
+      <Grid item xs={2} style={{ minWidth: "0" }}>
+        <Item>Card</Item>
       </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
+      <Grid item xs={2} style={{ minWidth: "0" }}>
+        <Item>Card</Item>
       </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
+      <Grid item xs={2} style={{ minWidth: "0" }}>
+        <Item>Card</Item>
       </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
+      <Grid item xs={2} style={{ minWidth: "0" }}>
+        <Item>Card</Item>
       </Grid>
     </React.Fragment>
   );
@@ -36,17 +37,10 @@ function FormRow() {
 
 export default function NestedGrid() {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        border: "3px solid red",
-        marginTop: "2%",
-        width: "80vw",
-      }}
-    >
-      <Grid container spacing={1} style={styles.sx.GridBox} noWrap>
-        <Grid container item spacing={2} style={styles.sx.GridBox} noWrap>
-          <FormRow noWrap />
+    <Box style={styles.sx.NestedGridBox}>
+      <Grid container spacing={1} style={styles.sx.GridBox}>
+        <Grid container item spacing={2} style={styles.sx.GridBox}>
+          <FormRow />
         </Grid>
         <Grid container item spacing={2} style={styles.sx.GridBox}>
           <FormRow />

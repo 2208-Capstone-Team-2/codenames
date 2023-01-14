@@ -9,7 +9,6 @@ import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
 import ResponsiveAppBar from "../ResponsiveAppBar";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import NestedGrid from "./Board";
@@ -42,7 +41,7 @@ const RoomView = () => {
       console.log("joined room!");
     }
 
-    // whenever users are added (not working for disconnecting users yet)
+    // whenever users are added
     onValue(allPlayersRef, (snapshot) => {
       setLoading(true);
       const data = snapshot.val();
@@ -61,6 +60,7 @@ const RoomView = () => {
       console.log("new player!");
     });
   }, []);
+  console.log({ allPlayers });
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

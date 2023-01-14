@@ -51,6 +51,12 @@ const styles = {
       alignContent: "center",
       alignItems: "center",
     },
+    NestedGridBox: {
+      display: "flex",
+      border: "3px solid red",
+      marginTop: "2%",
+      width: "80vw",
+    },
   },
 };
 
