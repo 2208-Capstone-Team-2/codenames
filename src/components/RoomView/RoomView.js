@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import NestedGrid from "./Board";
+import styles from "./Room.styles";
 
 const RoomView = () => {
   // for room nav
@@ -73,70 +74,31 @@ const RoomView = () => {
   return (
     <>
       <ResponsiveAppBar />
-      <Container
-        sx={{
-          flexGrow: 2,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          justifyItems: "center",
-          alignContent: "center",
-          alignItems: "center",
-          border: "3px solid red",
-        }}
-      >
-        <Box
-          sx={{
-            flexGrow: 2,
-            border: "5px solid blue",
-          }}
-        >
-          <Grid
-            container
-            spacing={2}
-            style={{
-              justifyContent: "center",
-              justifyItems: "center",
-              alignContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Grid item xs={6} md={8}>
-              <Item>Room id: {roomId}</Item>
-              <Item>
-                Players:
-                {allPlayers?.map((player) => (
-                  <p key={player.id}>{player.username}</p>
-                ))}
-              </Item>
-            </Grid>
-            <Grid item xs={4} md={6}>
-              <Item>Red Team</Item>
-            </Grid>
-            <Grid item xs={4} md={6}>
-              <Item>Blue Team</Item>
-            </Grid>
-            <Grid item xs={2} md={4}>
-              <Item>Game History</Item>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-              md={10}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                justifyItems: "center",
-                alignContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Item>Board</Item>
-              <NestedGrid />
-            </Grid>
+      <Container style={styles.sx.RoomContainer}>
+        <Grid container spacing={2} style={styles.sx.RoomGrid}>
+          <Grid item xs={12} style={styles.sx.RoomAndPlayers}>
+            <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
+            <Item style={styles.sx.PlayerContainer}>
+              Players:
+              {allPlayers?.map((player) => (
+                <p key={player.id}>{player.username}</p>
+              ))}
+            </Item>
           </Grid>
-        </Box>
+          <Grid item xs={3} md={4} zeroMinWidth>
+            <Item>Red Team</Item>
+          </Grid>
+          <Grid item xs={3} md={3} zeroMinWidth>
+            <Item>Game History</Item>
+          </Grid>
+          <Grid item xs={3} md={4} zeroMinWidth>
+            <Item>Blue Team</Item>
+          </Grid>
+          <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
+            <Item>Board</Item>
+            <NestedGrid />
+          </Grid>
+        </Grid>
       </Container>
     </>
   );
