@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { onValue, ref, set } from "firebase/database";
 import { database } from "../utils/firebase";
 import { setAllPlayers } from "../store/allPlayersSlice";
+import RedTeamBox from "./teamBoxes/RedTeamBox";
+import BlueTeamBox from "./teamBoxes/BlueTeamBox";
 const RoomView = () => {
   // for room nav
   const params = useParams("");
@@ -24,7 +26,7 @@ const RoomView = () => {
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
   const allPlayersRef = ref(database, "players/");
-
+  console.log(allPlayers)
   useEffect(() => {
     // on loading page if no room or name, send back to join page
     if (roomId === "" || username === "") {
@@ -62,6 +64,8 @@ const RoomView = () => {
       {allPlayers?.map((player) => (
         <p>{player.username}</p>
       ))}
+      <RedTeamBox/>
+      <BlueTeamBox/>
     </>
   );
 };
