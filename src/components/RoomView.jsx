@@ -26,7 +26,6 @@ const RoomView = () => {
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
   const allPlayersRef = ref(database, "players/");
-  console.log(allPlayers)
   useEffect(() => {
     // on loading page if no room or name, send back to join page
     if (roomId === "" || username === "") {
