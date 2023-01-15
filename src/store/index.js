@@ -10,7 +10,7 @@ const store = configureStore({
   reducer: {
     player: playerReducer,
     allPlayers: allPlayersReducer,
-    wordsInGame: wordsInGameSliceReducer,
+    wordsInGame: wordsInGameReducer,
   },
 });
 
