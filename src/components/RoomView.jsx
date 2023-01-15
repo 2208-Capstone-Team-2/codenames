@@ -60,22 +60,22 @@ const RoomView = () => {
 
     // whenever users are added (need to change this to when theyre added to ROOM)
     
-    onValue(allPlayersRef, (snapshot) => {
+    onValue(roomRef, (snapshot) => {
       setLoading(true);
-      const data = snapshot.val();
+      const players = snapshot.val()?.players;
+      console.log('players', players)
 
-      let playersInRoom = [];
-      // whenever a player joins room, push them into room array
-      Object.values(data).forEach((player) => {
-        if (player.roomId === roomId) {
-          playersInRoom.push(player);
-        }
-      });
-      dispatch(setAllPlayers(playersInRoom));
-      // setting players in the room to the 'players' key on firebase
-      set(roomRef, { players: playersInRoom });
+      if (players !== undefined) {
+        let playersInRoom = [];
+        // whenever a player joins room, push them into room array
+        Object.values(players).forEach((player) => {
+          if (player.roomId === roomId) {
+            playersInRoom.push(player);
+          }
+        });
+        dispatch(setAllPlayers(playersInRoom));
+      }
       setLoading(false);
-      console.log("new player!");
     });
 
      

@@ -40,9 +40,17 @@ const Login = () => {
   //  moving player into room, setting data on firebase
   const playerLogin = (e) => {
     // e.preventDefault();
-      set(roomRef, {roomId: roomId})
-      set(playerRef, { id: playerId, username, roomId });
-    navigate(`/room/${roomId}`);
+    set(roomRef, {roomId: roomId})
+    set(playerRef, {id: playerId, username, roomId })
+
+    const playerData = {
+      id: playerId, username, roomId 
+    }
+    const newPlayerKey = push(child(roomRef, 'players')).key;
+      const updates = {};
+      updates['/players/' + newPlayerKey] = playerData;
+      update(roomRef, updates);
+      navigate(`/room/${roomId}`);
   };
 
   useEffect(() => {
