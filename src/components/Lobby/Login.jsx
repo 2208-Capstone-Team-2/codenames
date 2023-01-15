@@ -11,8 +11,8 @@ import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { setPlayerId } from "../../store/playerSlice";
 import styles from "./Lobby.styles";
 import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
-import HowToPlay from "./HowToPlay";
-import FAQ from "./FAQ";
+import HowToPlay from "./HowToPlay.jsx";
+import FAQ from "./FAQ.jsx";
 const Login = () => {
   const navigate = useNavigate();
   const roomId = useSelector((state) => state.player.roomId);
