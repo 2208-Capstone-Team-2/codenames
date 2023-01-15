@@ -7,11 +7,11 @@ import { onValue, ref, set } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
-import ResponsiveAppBar from "../ResponsiveAppBar";
+import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import NestedGrid from "./Board";
+import NestedGrid from "./Board.jsx";
 import styles from "./Room.styles";
 
 const RoomView = () => {

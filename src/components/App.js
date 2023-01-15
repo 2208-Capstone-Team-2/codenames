@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "./Lobby/Login";
-import RoomView from "./RoomView/RoomView";
+import Login from "./Lobby/Login.jsx";
+import RoomView from "./RoomView/RoomView.jsx";
 
 const App = () => {
   return (
