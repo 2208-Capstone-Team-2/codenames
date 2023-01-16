@@ -1,13 +1,13 @@
 const db = require("../db");
 const { Word, Wordpack } = require("../index");
-const defaultPackString = require("../wordpacks/defaultPack");
+const duetPackString = require("../wordpacks/duetPack");
 
-const seedDefaultWordpack = async () => {
-  const wordArray = defaultPackString.split("\n"); // split the string on 'return' characters
+const seedDuetWordpack = async () => {
+  const wordArray = duetPackString.split("\n"); // split the string on 'return' characters
 
   // First, create the Wordpack model
-  const defaultPack = await Wordpack.create({
-    name: "default",
+  const duetPack = await Wordpack.create({
+    name: "duet",
   });
 
   // Create the 400 wordbanks.
@@ -24,9 +24,9 @@ const seedDefaultWordpack = async () => {
 
   // Create association between the pack and all the words.
   // Using magic method.
-  defaultPack.setWords(wordModels);
+  duetPack.setWords(wordModels);
 
-  console.log("DONE SEEDING DEFAULT WORDPACK...");
+  console.log("DONE SEEDING DUET WORDPACK...");
 };
 
-module.exports = seedDefaultWordpack;
+module.exports = seedDuetWordpack;

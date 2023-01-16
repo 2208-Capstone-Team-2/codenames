@@ -1,66 +1,28 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import styles from "./Room.styles";
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import React from "react";
+import Card from "./Card.jsx";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setWordsInGame } from "../../store/wordsInGameSlice";
 
-function FormRow() {
-  return (
-    <React.Fragment>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
-      </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
-      </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
-      </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
-      </Grid>
-      <Grid item xs={2} noWrap style={{ minWidth: "0" }}>
-        <Item noWrap>Card</Item>
-      </Grid>
-    </React.Fragment>
-  );
-}
+const Board = () => {
+  const words = useSelector((state) => state.wordsInGame);
 
-export default function NestedGrid() {
+  const style = {
+    display: "grid",
+    gridTemplateColumns: "auto auto auto auto auto",
+    marginTop: "5%",
+    gap: "2%",
+    justifyContent: "center",
+    alightItems: "center",
+  };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        border: "3px solid red",
-        marginTop: "2%",
-        width: "80vw",
-      }}
-    >
-      <Grid container spacing={1} style={styles.sx.GridBox} noWrap>
-        <Grid container item spacing={2} style={styles.sx.GridBox} noWrap>
-          <FormRow noWrap />
-        </Grid>
-        <Grid container item spacing={2} style={styles.sx.GridBox}>
-          <FormRow />
-        </Grid>
-        <Grid container item spacing={2} style={styles.sx.GridBox}>
-          <FormRow />
-        </Grid>
-        <Grid container item spacing={2} style={styles.sx.GridBox}>
-          <FormRow />
-        </Grid>
-        <Grid container item spacing={2} style={styles.sx.GridBox}>
-          <FormRow />
-        </Grid>
-      </Grid>
-    </Box>
+    <div style={style}>
+      {words.wordsInGame.map((singleWord) => {
+        return <Card singleWord={singleWord} />;
+      })}
+    </div>
   );
-}
+};
+
+export default Board;

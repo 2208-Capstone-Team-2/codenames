@@ -9,12 +9,14 @@ import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
 import ResponsiveAppBar from "../ResponsiveAppBar";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import NestedGrid from "./Board";
 import styles from "./Room.styles";
-
+import Popup from "reactjs-popup";
+import SetupGame from "./setupGame.jsx";
+import { flexbox } from "@mui/system";
+import { FullscreenExitOutlined } from "@mui/icons-material";
+import Board from "./Board";
 const RoomView = () => {
   // for room nav
   const params = useParams("");
@@ -94,12 +96,30 @@ const RoomView = () => {
           <Grid item xs={3} md={4} zeroMinWidth>
             <Item>Blue Team</Item>
           </Grid>
+
           <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
             <Item>Board</Item>
-            <NestedGrid />
           </Grid>
         </Grid>
       </Container>
+
+      <Popup
+        trigger={
+          <button
+            style={{
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            {" "}
+            Set Up
+          </button>
+        }
+      >
+        <SetupGame />
+      </Popup>
+      <Board />
     </>
   );
 };
