@@ -12,7 +12,6 @@ const RoomView = () => {
   const params = useParams("");
   const roomIdFromParams = params.id;
   setRoomId(roomIdFromParams);
-  const player = auth.currentUser
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,8 +27,7 @@ const RoomView = () => {
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
   let playersInRoomRef = ref(database, "rooms/" + roomId + '/players/');
-  const allPlayersRef = ref(database, "players/");
-  let playerRef = ref(database, "players/" + playerId);
+
 
   
 
@@ -44,29 +42,29 @@ const RoomView = () => {
     }
 
     //when a user joins room, this checks to see if it exists 
-  get(roomRef).then((snapshot) => {
-    const doesRoomExist = snapshot.exists()
-      if (doesRoomExist) {
-        console.log("room already created, just add the player!");
-        // playerId is key in the room/roomId/players/playerId, so we creating new player obj
-        set(child(playersInRoomRef, playerId), { playerId, username })
-      } else {
-        // create the room, with players and host
-        console.log('room not created yet. make one!')
-        set(roomRef, {roomId: roomId, host: {playerId, username}, players: { [playerId]: {playerId, username }}})
-      }})
+    get(roomRef).then((snapshot) => {
+      const doesRoomExist = snapshot.exists()
+        if (doesRoomExist) {
+          console.log("room already created, just add the player!");
+          // playerId is key in the room/roomId/players/playerId, so we creating new player obj
+          set(child(playersInRoomRef, playerId), { playerId, username })
+        } else {
+          // create the room, with players and host
+          console.log('room not created yet. make one!')
+          set(roomRef, {roomId: roomId, host: {playerId, username}, players: { [playerId]: {playerId, username }}})
+        }})
       
 
-    // whenever users are added to specific room, update frontend redux store
-    onValue(playersInRoomRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const players = snapshot.val();
-        const values = Object.values(players)
-        dispatch(setAllPlayers(values));
-      } else {
-        console.log('no players in room yet!')
-      }
-    })
+      // whenever users are added to specific room, update frontend redux store
+      onValue(playersInRoomRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const players = snapshot.val();
+          const values = Object.values(players)
+          dispatch(setAllPlayers(values));
+        } else {
+          console.log('no players in room yet!')
+        }
+      })
     
   }, []);
  

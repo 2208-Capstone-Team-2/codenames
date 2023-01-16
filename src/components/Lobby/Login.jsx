@@ -23,9 +23,7 @@ const Login = () => {
   let playerId = useSelector((state) => state.player.playerId);
   let playerRef;
   let roomRef;
-  let playerInRoomRef;
-
-  const player = auth.currentUser
+ 
   // references to firebase data
   playerRef = ref(database, "players/" + playerId);
   roomRef = ref(database, "rooms/" + roomId);
