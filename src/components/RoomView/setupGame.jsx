@@ -25,10 +25,14 @@ function SetupGame() {
   //------------------functions to handle selection---------------------//
 
   const handleWordPackSelection = (event) => {
+    //if event.target.value is already in the array, we delete the already existed one in the array and return
     if(selectedWordPackId.indexOf(event.target.value)>-1){return selectedWordPackId.splice(selectedWordPackId.indexOf(event.target.value),1)
     }
+    // if event.target.value is not in the array, we add it in
     if(selectedWordPackId.indexOf(event.target.value)<0)
-{     setSelectedWordPackId([...selectedWordPackId,event.target.value]);}}
+{ setSelectedWordPackId([...selectedWordPackId,event.target.value]);}}
+
+//-------------get the res.send data from the backend and set it up in the store
   const submitHandler = (event) => {
     event.preventDefault();
 axios.post("/api/25words", {selectedWordPackId})
