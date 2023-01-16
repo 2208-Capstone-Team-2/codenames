@@ -39,24 +39,9 @@ const Login = () => {
 
   //  moving player into room, setting data on firebase
   const playerLogin = (e) => {
-    // e.preventDefault();
     // update player with name and room id
     update(playerRef, {id: playerId, username, roomId })
-    // if room exists, push player into room
-    // update(roomRef, {roomId: roomId})
-
-   
-
-    // if it doesnt exist, create the room
-
-    const playerData = {
-      id: playerId, username, roomId 
-    }
-    // const newPlayerKey = push(child(roomRef, 'players')).key;
-    //   const updates = {};
-    //   console.log(newPlayerKey)
-    //   updates['/players/' + newPlayerKey] = playerData;
-    //   update(roomRef, updates);
+    // room will be updated with player on 'roomview' component
       navigate(`/room/${roomId}`);
   };
 

@@ -27,6 +27,7 @@ const RoomView = () => {
 
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
+  let playersInRoomRef = ref(database, "rooms/" + roomId + '/players/');
   let hostRef = ref(database, "rooms/" + roomId + "/host/");
   const allPlayersRef = ref(database, "players/");
   let playerRef = ref(database, "players/" + playerId);
@@ -59,38 +60,33 @@ const RoomView = () => {
       console.log("joined room!");
     }
 
- 
-
   get(roomRef).then((snapshot) => {
     const doesRoomExist = snapshot.exists()
-    console.log(doesRoomExist)
       if (doesRoomExist) {
-        // if the room doesnt exist, create it
-        // add player as host
         console.log("room already created");
+        // playerId is key in the room/roomId/players/playerId, so we creating new player obj
+        set(child(playersInRoomRef, playerId), { playerId, username })
       } else {
         // create the room, with players and host
         console.log('setting room ref')
-        set(roomRef, {roomId: roomId, host: playerId})
+        set(roomRef, {roomId: roomId, host: {playerId, username}, players: { [playerId]: {playerId, username }}})
       }})
       
 
     // whenever users are added (need to change this to when theyre added to ROOM)
     
-    // let playersInRoom = [];
-    // onValue(roomRef, async (snapshot) => {
-    //   setLoading(true);
-      
-    //   const data = await snapshot.val().players;
-    //   console.log('roomref/players', data)
-
-    //     Object.values(data).forEach((player) => {
-    //      console.log('in object values', player)
-    //         playersInRoom.push(player);
-    //     });
-    //     dispatch(setAllPlayers(players));
-    //     setLoading(false);
-    //   })
+    onValue(playersInRoomRef, (snapshot) => {
+      if (snapshot.exists()) {
+        console.log('players in room updating: ', snapshot.val())
+        const players = snapshot.val();
+        const values = Object.values(players)
+        console.log('the values',values)
+        dispatch(setAllPlayers(values));
+      } else {
+        console.log('no players in room yet!')
+      }
+    })
+    
     
     
     
@@ -107,9 +103,9 @@ const RoomView = () => {
     // });
   }, []);
 
-  // if (allPlayers.length === 1) {
-  //   console.log('first player')
-  // }
+  console.log('redux', {allPlayers})
+
+ 
 
   if (loading) return <p>...loading...</p>;
   return (
@@ -117,9 +113,9 @@ const RoomView = () => {
       Room id: {roomId}
       <br></br>
       players:
-      {/* {allPlayers?.map((player) => (
+      {allPlayers?.map((player) => (
         <p key={player.id}>{player.username}</p>
-      ))} */}
+      ))}
 
       <button onClick={(e) => {makeSpymaster(e, player, username)}} value="red">red</button>
       <button onClick={(e) => {makeSpymaster(e, player, username)}} value="blue">blue</button>
