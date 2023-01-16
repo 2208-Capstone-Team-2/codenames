@@ -7,7 +7,7 @@ import { onValue, ref, set } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
-import ResponsiveAppBar from "../ResponsiveAppBar";
+import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -16,7 +16,7 @@ import Popup from "reactjs-popup";
 import SetupGame from "./setupGame.jsx";
 import { flexbox } from "@mui/system";
 import { FullscreenExitOutlined } from "@mui/icons-material";
-import Board from "./Board";
+import Board from "./Board.jsx";
 const RoomView = () => {
   // for room nav
   const params = useParams("");
@@ -44,7 +44,7 @@ const RoomView = () => {
       console.log("joined room!");
     }
 
-    // whenever users are added (not working for disconnecting users yet)
+    // whenever users are added
     onValue(allPlayersRef, (snapshot) => {
       setLoading(true);
       const data = snapshot.val();
@@ -63,6 +63,7 @@ const RoomView = () => {
       console.log("new player!");
     });
   }, []);
+  console.log({ allPlayers });
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

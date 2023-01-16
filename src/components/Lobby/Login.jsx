@@ -10,8 +10,9 @@ import { useEffect } from "react";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { setPlayerId } from "../../store/playerSlice";
 import styles from "./Lobby.styles";
-import logo from "../../static/images/logoLight.png";
-
+import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
+import HowToPlay from "./HowToPlay.jsx";
+import FAQ from "./FAQ.jsx";
 const Login = () => {
   const navigate = useNavigate();
   const roomId = useSelector((state) => state.player.roomId);
@@ -89,12 +90,13 @@ const Login = () => {
             placeholder="room number"
             onChange={handleRoom}
           />
-
           <Button type="submit" variant="contained">
             Join Room
           </Button>
         </form>
       </div>
+      <HowToPlay />
+      <FAQ />
     </div>
   );
 };

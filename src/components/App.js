@@ -1,15 +1,8 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Login from "./Lobby/Login";
-import RoomView from "./RoomView/RoomView";
+import RouterComponent from "./RouterComponent.jsx";
 
 const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/room/:id" element={<RoomView />} />
-    </Routes>
-  );
+  return <RouterComponent />;
 };
 
 export default App;
