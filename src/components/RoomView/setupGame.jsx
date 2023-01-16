@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Board from "./Board";
+
 function SetupGame() {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
