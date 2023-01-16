@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRoomId } from "../store/playerSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { onValue, ref, set, update } from "firebase/database";
+import { onValue, ref, set, update, get, child } from "firebase/database";
 import { setAllPlayers } from "../store/allPlayersSlice";
 import { database, auth } from "../utils/firebase";
 
@@ -51,6 +51,7 @@ const RoomView = () => {
   }
 
   useEffect(() => {
+    console.log('in room view use effect')
     // on loading page if no room or name, send back to join page
     if (roomId === "" || username === "") {
       navigate("/");
@@ -58,28 +59,44 @@ const RoomView = () => {
       console.log("joined room!");
     }
 
+ 
+
+  get(roomRef).then((snapshot) => {
+    const doesRoomExist = snapshot.exists()
+    console.log(doesRoomExist)
+      if (doesRoomExist) {
+        // if the room doesnt exist, create it
+        // add player as host
+        console.log("room already created");
+      } else {
+        // create the room, with players and host
+        console.log('setting room ref')
+        set(roomRef, {roomId: roomId, host: playerId})
+      }})
+      
+
     // whenever users are added (need to change this to when theyre added to ROOM)
     
-    onValue(roomRef, (snapshot) => {
-      setLoading(true);
-      const players = snapshot.val()?.players;
-      console.log('players', players)
+    // let playersInRoom = [];
+    // onValue(roomRef, async (snapshot) => {
+    //   setLoading(true);
+      
+    //   const data = await snapshot.val().players;
+    //   console.log('roomref/players', data)
 
-      if (players !== undefined) {
-        let playersInRoom = [];
-        // whenever a player joins room, push them into room array
-        Object.values(players).forEach((player) => {
-          if (player.roomId === roomId) {
-            playersInRoom.push(player);
-          }
-        });
-        dispatch(setAllPlayers(playersInRoom));
-      }
-      setLoading(false);
-    });
+    //     Object.values(data).forEach((player) => {
+    //      console.log('in object values', player)
+    //         playersInRoom.push(player);
+    //     });
+    //     dispatch(setAllPlayers(players));
+    //     setLoading(false);
+    //   })
+    
+    
+    
 
      
-
+// console.log(allPlayers)
 
 
     // onValue(roomRef, (snapshot) => {
@@ -90,7 +107,9 @@ const RoomView = () => {
     // });
   }, []);
 
-  console.log(allPlayers)
+  // if (allPlayers.length === 1) {
+  //   console.log('first player')
+  // }
 
   if (loading) return <p>...loading...</p>;
   return (
@@ -98,9 +117,9 @@ const RoomView = () => {
       Room id: {roomId}
       <br></br>
       players:
-      {allPlayers?.map((player) => (
+      {/* {allPlayers?.map((player) => (
         <p key={player.id}>{player.username}</p>
-      ))}
+      ))} */}
 
       <button onClick={(e) => {makeSpymaster(e, player, username)}} value="red">red</button>
       <button onClick={(e) => {makeSpymaster(e, player, username)}} value="blue">blue</button>
