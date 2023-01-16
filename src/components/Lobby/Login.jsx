@@ -13,7 +13,7 @@ import styles from "./Lobby.styles";
 import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
 import HowToPlay from "./HowToPlay.jsx";
 import FAQ from "./FAQ.jsx";
-import { ref, child, push, update } from "firebase/database";
+import { ref, update } from "firebase/database";
 
 const Login = () => {
   const navigate = useNavigate();
