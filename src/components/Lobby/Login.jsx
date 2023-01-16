@@ -38,7 +38,7 @@ const Login = () => {
   const playerLogin = (e) => {
     // e.preventDefault();
     set(roomRef, { roomId: roomId });
-    set(playerRef, { username, roomId });
+    set(playerRef, { id: playerId, username, roomId });
     navigate(`/room/${roomId}`);
   };
 
@@ -90,7 +90,6 @@ const Login = () => {
             placeholder="room number"
             onChange={handleRoom}
           />
-
           <Button type="submit" variant="contained">
             Join Room
           </Button>
