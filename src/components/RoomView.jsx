@@ -60,27 +60,25 @@ const RoomView = () => {
       console.log("joined room!");
     }
 
+    //when a user joins room, this checks to see if it exists 
   get(roomRef).then((snapshot) => {
     const doesRoomExist = snapshot.exists()
       if (doesRoomExist) {
-        console.log("room already created");
+        console.log("room already created, just add the player!");
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username })
       } else {
         // create the room, with players and host
-        console.log('setting room ref')
+        console.log('room not created yet. make one!')
         set(roomRef, {roomId: roomId, host: {playerId, username}, players: { [playerId]: {playerId, username }}})
       }})
       
 
-    // whenever users are added (need to change this to when theyre added to ROOM)
-    
+    // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
-        console.log('players in room updating: ', snapshot.val())
         const players = snapshot.val();
         const values = Object.values(players)
-        console.log('the values',values)
         dispatch(setAllPlayers(values));
       } else {
         console.log('no players in room yet!')
@@ -88,23 +86,7 @@ const RoomView = () => {
     })
     
     
-    
-    
-
-     
-// console.log(allPlayers)
-
-
-    // onValue(roomRef, (snapshot) => {
-    //   const roomData = snapshot.val();
-      // // next steps: 
-      // // make roomInfo redux store to hold all room data!
-      // // dispatch(setRoomInfo(roomInfo));
-    // });
   }, []);
-
-  console.log('redux', {allPlayers})
-
  
 
   if (loading) return <p>...loading...</p>;

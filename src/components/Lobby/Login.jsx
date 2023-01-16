@@ -37,12 +37,11 @@ const Login = () => {
     dispatch(setUsername(event.target.value));
   };
 
-  //  moving player into room, setting data on firebase
   const playerLogin = (e) => {
     // update player with name and room id
     update(playerRef, {id: playerId, username, roomId })
     // room will be updated with player on 'roomview' component
-      navigate(`/room/${roomId}`);
+    navigate(`/room/${roomId}`);
   };
 
   useEffect(() => {
