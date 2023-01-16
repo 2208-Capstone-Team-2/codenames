@@ -28,28 +28,11 @@ const RoomView = () => {
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
   let playersInRoomRef = ref(database, "rooms/" + roomId + '/players/');
-  let hostRef = ref(database, "rooms/" + roomId + "/host/");
   const allPlayersRef = ref(database, "players/");
   let playerRef = ref(database, "players/" + playerId);
 
   
-  function makeSpymaster(e, player, username) {  
-    let redSpymaster;
-    let blueSpymaster;
-    if (e.target.value === 'red') {
-      redSpymaster = {
-        playerId: player.uid,
-        username
-      };
-      update(roomRef, {redSpymaster: redSpymaster});
-    } else if (e.target.value === 'blue'){
-        blueSpymaster = {
-          playerId: player.uid,
-          username
-        };
-      update(roomRef, {blueSpymaster: blueSpymaster});
-    }
-  }
+
 
   useEffect(() => {
     console.log('in room view use effect')
@@ -85,7 +68,6 @@ const RoomView = () => {
       }
     })
     
-    
   }, []);
  
 
@@ -99,8 +81,6 @@ const RoomView = () => {
         <p key={player.id}>{player.username}</p>
       ))}
 
-      <button onClick={(e) => {makeSpymaster(e, player, username)}} value="red">red</button>
-      <button onClick={(e) => {makeSpymaster(e, player, username)}} value="blue">blue</button>
     </>
   );
 };
