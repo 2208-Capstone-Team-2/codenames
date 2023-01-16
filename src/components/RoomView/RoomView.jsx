@@ -15,6 +15,8 @@ import NestedGrid from "./Board.jsx";
 import styles from "./Room.styles";
 
 const RoomView = () => {
+  console.log("inside the correct! RoomViewComponent");
+
   // for room nav
   const params = useParams("");
   const roomIdFromParams = params.id;
