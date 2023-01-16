@@ -25,10 +25,10 @@ function SetupGame() {
   //------------------functions to handle selection---------------------//
 
   const handleWordPackSelection = (event) => {
-     setSelectedWordPackId([...selectedWordPackId,event.target.value]);
- 
-  };
-
+    if(selectedWordPackId.indexOf(event.target.value)>-1){return selectedWordPackId.splice(selectedWordPackId.indexOf(event.target.value),1)
+    }
+    if(selectedWordPackId.indexOf(event.target.value)<0)
+{     setSelectedWordPackId([...selectedWordPackId,event.target.value]);}}
   const submitHandler = (event) => {
     event.preventDefault();
 axios.post("/api/25words", {selectedWordPackId})

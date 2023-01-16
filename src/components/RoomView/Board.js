@@ -4,10 +4,11 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
+import { NoEncryption } from "@mui/icons-material";
 
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
-
+  console.log(words.wordsInGame);
   const style = {
     display: "grid",
     gridTemplateColumns: "auto auto auto auto auto",
@@ -19,7 +20,12 @@ const Board = () => {
   return (
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
-        return <Card singleWord={singleWord} />;
+        return (
+          <>
+            <Card singleWord={singleWord} />
+            <div style={{ display: "none" }}>Reveal Team</div>
+          </>
+        );
       })}
     </div>
   );

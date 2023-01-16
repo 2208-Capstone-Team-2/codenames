@@ -5,7 +5,7 @@ import { setWordsInGame } from "../../store/wordsInGameSlice";
 import Grid from "@mui/material/Grid";
 const Card = (singleWord) => {
   const words = useSelector((state) => state.wordsInGame);
-
+console.log(singleWord)
   const style = {
     width:"120px",
     height:"150px",
@@ -15,7 +15,7 @@ const Card = (singleWord) => {
     display:"grid"
   };
 
-  return <div style={style} >{singleWord.singleWord.word}</div>;
+  return <div style={style} >{singleWord.singleWord.word.word}</div>;
 };
 
 export default Card;
