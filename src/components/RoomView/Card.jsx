@@ -15,7 +15,7 @@ console.log(singleWord)
     display:"grid"
   };
 
-  return <div style={style} >{singleWord.singleWord.word.word}</div>;
+  return <div style={style} >{singleWord.singleWord.word}</div>;
 };
 
 export default Card;

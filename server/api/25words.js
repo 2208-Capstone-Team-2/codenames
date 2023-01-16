@@ -56,16 +56,17 @@ router.post("/", async (req, res, next) => {
     return randomLayout;
   }
   //get 25 random index from allwords (see line 10)
-  const randomWordsIndex = getRandomInt(25, allWords.length);
+  const randomWordsIndexArray = getRandomInt(25, allWords.length);
   const finalWords = [];
   const layout = createRandomLayout();
 
   //loop through the random index array
-  for (let i = 0; i < randomWordsIndex.length; i++) {
+  for (let i = 0; i < randomWordsIndexArray.length; i++) {
     //assign the last number in layout array as the team number
     const teamNumber = layout.pop();
     const word = {
-      word: allWords[randomWordsIndex[i]],
+      //change this if front end needs more than the word itself
+      word: allWords[randomWordsIndexArray[i]].dataValues.word,
       isVisibleToAll: false,
       teamNumber,
     };
