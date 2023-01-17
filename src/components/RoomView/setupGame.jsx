@@ -2,13 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { getDatabase, ref, update,onValue  } from "firebase/database";
 
 function SetupGame() {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const words = useSelector((state) => state.wordsInGame);
+  const database = getDatabase();
+  const roomId = useSelector((state) => state.player.roomId);
   const dispatch=useDispatch()
 //   //----------------fet all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
@@ -38,7 +39,21 @@ function SetupGame() {
 axios.post("/api/25words", {selectedWordPackId})
  .then(response =>{return response})
  .then((result)=>{
-  dispatch(setWordsInGame(result.data))
+update(ref(database, 'rooms/' + roomId), {
+    words:result.data
+  })
+let createStore=ref(database, "rooms/" + roomId);
+  onValue(createStore, (snapshot) => {
+    if (snapshot.exists()) {
+      const room = snapshot.val();
+      const values = Object.values(room.words);
+      console.log(values)
+      dispatch(setWordsInGame(values));
+      console.log("new words in game")
+    } else {
+      console.log("no words yet");
+    }
+  });
 })
 
 }
