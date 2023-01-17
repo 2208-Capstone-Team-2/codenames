@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRoomId } from "../../store/playerSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, set, get, child } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
@@ -14,8 +14,8 @@ import Grid from "@mui/material/Grid";
 import styles from "./Room.styles";
 import Popup from "reactjs-popup";
 import SetupGame from "./setupGame.jsx";
-import { flexbox } from "@mui/system";
-import { FullscreenExitOutlined } from "@mui/icons-material";
+
+
 import Board from "./Board.jsx";
 const RoomView = () => {
   // for room nav
@@ -28,15 +28,17 @@ const RoomView = () => {
 
   // frontend state
   const roomId = useSelector((state) => state.player.roomId);
+  const playerId = useSelector((state) => state.player.playerId);
   const username = useSelector((state) => state.player.username);
   const allPlayers = useSelector((state) => state.allPlayers.allPlayers);
   const [loading, setLoading] = useState(false);
 
-  // firebase room  & players reference
-  let roomRef = ref(database, "rooms/" + roomId);
-  const allPlayersRef = ref(database, "players/");
+ // firebase room  & players reference
+ let roomRef = ref(database, "rooms/" + roomId);
+ let playersInRoomRef = ref(database, "rooms/" + roomId + '/players/');
 
   useEffect(() => {
+    console.log('in room view use effect')
     // on loading page if no room or name, send back to join page
     if (roomId === "" || username === "") {
       navigate("/");
@@ -44,26 +46,32 @@ const RoomView = () => {
       console.log("joined room!");
     }
 
-    // whenever users are added
-    onValue(allPlayersRef, (snapshot) => {
-      setLoading(true);
-      const data = snapshot.val();
+    //when a user joins room, this checks to see if it exists 
+    get(roomRef).then((snapshot) => {
+      const doesRoomExist = snapshot.exists()
+        if (doesRoomExist) {
+          console.log("room already created, just add the player!");
+          // playerId is key in the room/roomId/players/playerId, so we creating new player obj
+          set(child(playersInRoomRef, playerId), { playerId, username })
+        } else {
+          // create the room, with players and host
+          console.log('room not created yet. make one!')
+          set(roomRef, {roomId: roomId, host: {playerId, username}, players: { [playerId]: {playerId, username }}})
+        }})
+      
 
-      // moving fb data into array on frontend so easier to work with
-      let playersInRoom = [];
-      Object.values(data).forEach((player) => {
-        if (player.roomId === roomId) {
-          playersInRoom.push(player);
+      // whenever users are added to specific room, update frontend redux store
+      onValue(playersInRoomRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const players = snapshot.val();
+          const values = Object.values(players)
+          dispatch(setAllPlayers(values));
+        } else {
+          console.log('no players in room yet!')
         }
-      });
-      dispatch(setAllPlayers(playersInRoom));
-      // setting players in the room to the 'players' key on firebase
-      set(roomRef, { players: playersInRoom });
-      setLoading(false);
-      console.log("new player!");
-    });
+      })
+    
   }, []);
-  console.log({ allPlayers });
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

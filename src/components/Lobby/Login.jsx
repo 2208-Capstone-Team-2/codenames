@@ -13,6 +13,8 @@ import styles from "./Lobby.styles";
 import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
 import HowToPlay from "./HowToPlay.jsx";
 import FAQ from "./FAQ.jsx";
+import { ref, update, set } from "firebase/database";
+
 const Login = () => {
   const navigate = useNavigate();
   const roomId = useSelector((state) => state.player.roomId);
@@ -25,7 +27,6 @@ const Login = () => {
   // references to firebase data
   playerRef = ref(database, "players/" + playerId);
   roomRef = ref(database, "rooms/" + roomId);
-
   // setting user room and name on frontend
   const handleRoom = (event) => {
     dispatch(setRoomId(event.target.value));
@@ -34,11 +35,10 @@ const Login = () => {
     dispatch(setUsername(event.target.value));
   };
 
-  //  moving player into room, setting data on firebase
   const playerLogin = (e) => {
-    // e.preventDefault();
-    set(roomRef, { roomId: roomId });
-    set(playerRef, { id: playerId, username, roomId });
+    // update player with name and room id
+    update(playerRef, { id: playerId, username, roomId });
+    // room will be updated with player on 'roomview' component
     navigate(`/room/${roomId}`);
   };
 
