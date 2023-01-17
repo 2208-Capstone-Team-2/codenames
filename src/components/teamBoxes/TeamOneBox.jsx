@@ -12,8 +12,6 @@ const RedTeamBox = () => {
   const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
   playerRef = ref(database, "players/" + playerId);
-  const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives } = useSelector(state => state.teamOne);

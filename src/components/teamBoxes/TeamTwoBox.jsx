@@ -10,10 +10,7 @@ const BlueTeamBox = () => {
   let playerRef;
   const roomId = useSelector((state) => state.player.roomId);
   const username = useSelector((state) => state.player.username);
-
   playerRef = ref(database, "players/" + playerId);
-  const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const { teamTwoOperatives } = useSelector(state => state.teamTwo);
