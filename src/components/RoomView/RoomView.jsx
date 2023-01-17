@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRoomId } from "../../store/playerSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { onValue, ref, set, get } from "firebase/database";
+import { onValue, ref, set, get, child } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
