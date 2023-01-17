@@ -17,7 +17,7 @@ const RedTeamBox = () => {
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
 
   // On click event for a player to be able to join team-1 team as a operative
-  const joinRedOp = () => {
+  const joinTeam1Op = () => {
     //Here we want to check if a player is already a spymaster, so that they cannot join both
     get(teamOneSpymasterRef).then((snapshot)=> {
       if(snapshot.exists()){
@@ -34,7 +34,7 @@ const RedTeamBox = () => {
   }
 
   // On click event for a player to be able to join the blue team-2 as a spymaster
-  const joinRedSpy = () => {
+  const joinTeam1Spy = () => {
     get(teamOneOperativesRef).then((snapshot)=> {
       if(snapshot.exists()){
         const teamOneOperatives = Object.keys(snapshot.val());
@@ -55,13 +55,13 @@ const RedTeamBox = () => {
         <div>
           <p>Operative(s)</p>
           <button
-          onClick={joinRedOp}
+          onClick={joinTeam1Op}
           >Join as Operative</button>
         </div>
         <div>
           <p>Spymaster(s)</p>
           <button
-          onClick={joinRedSpy}
+          onClick={joinTeam1Spy}
           >Join as Spymaster</button>
         </div>
       </div>
