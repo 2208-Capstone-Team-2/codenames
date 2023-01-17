@@ -17,7 +17,7 @@ const BlueTeamBox = () => {
   }
     return (
     <div className="blueBoxCard">
-      <div>Red Team</div>
+      <div>Team 2</div>
       <div className="blueOpsAndSpys">
         <div>
           <p>Operative(s)</p>

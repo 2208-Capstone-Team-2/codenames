@@ -13,6 +13,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import NestedGrid from "./Board.jsx";
 import styles from "./Room.styles";
+import RedTeamBox from "../teamBoxes/RedTeamBox";
+import BlueTeamBox from "../teamBoxes/BlueTeamBox";
 
 const RoomView = () => {
   // for room nav
@@ -86,13 +88,13 @@ const RoomView = () => {
             </Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <Item>Red Team</Item>
+            <RedTeamBox/>
           </Grid>
           <Grid item xs={3} md={3} zeroMinWidth>
             <Item>Game History</Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <Item>Blue Team</Item>
+            <BlueTeamBox/>
           </Grid>
           <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
             <Item>Board</Item>
