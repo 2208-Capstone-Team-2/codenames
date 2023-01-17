@@ -70,6 +70,13 @@ const RoomView = () => {
           console.log('no players in room yet!')
         }
       })
+
+      onValue(playerRef, (snapshot) => {
+        if (snapshot.exists()) {
+          // if the player disconnects, remove them from the room
+          onDisconnect(playerRef).remove(playersInRoomRef+ '/' + playerId);
+        } 
+      })
     
   }, []);
 
