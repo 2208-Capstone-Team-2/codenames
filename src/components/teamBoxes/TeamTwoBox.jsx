@@ -64,6 +64,7 @@ const BlueTeamBox = () => {
         set(child(teamTwoSpymasterRef, playerId), {playerId, username})
       }
     })
+    //Dispatch to redux
     get(teamTwoSpymasterRef).then((snapshot)=> {
       dispatch(setTeamTwoSpymaster(Object.values(snapshot.val())))
     })
@@ -80,7 +81,7 @@ const BlueTeamBox = () => {
             })
           }
           <button
-          onClick={joinTeam2Op}
+          onClick={joinTeamTwoOp}
           >Join as Operative</button>
         </div>
         <div>
@@ -91,7 +92,7 @@ const BlueTeamBox = () => {
             })
           }
           <button
-          onClick={joinTeam2Spy}
+          onClick={joinTeamTwoSpy}
           >Join as Spymaster</button>
         </div>
       </div>
