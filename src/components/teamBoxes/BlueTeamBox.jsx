@@ -28,7 +28,6 @@ const BlueTeamBox = () => {
           set(child(teamTwoOperativesRef, playerId), {playerId, username})
         }
       } else {
-        console.log('should be here')
         set(child(teamTwoOperativesRef, playerId), {playerId, username})
       }
     })
