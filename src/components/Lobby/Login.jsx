@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUsername, setRoomId } from "../../store/playerSlice";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import {  set } from "firebase/database";
 import { database, auth } from "../../utils/firebase";
 import { useEffect } from "react";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
@@ -13,7 +12,7 @@ import styles from "./Lobby.styles";
 import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
 import HowToPlay from "./HowToPlay.jsx";
 import FAQ from "./FAQ.jsx";
-import { ref, update } from "firebase/database";
+import { ref, update, set } from "firebase/database";
 
 const Login = () => {
   const navigate = useNavigate();
