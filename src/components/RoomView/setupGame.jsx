@@ -47,7 +47,7 @@ let createStore=ref(database, "rooms/" + roomId);
     if (snapshot.exists()) {
       const room = snapshot.val();
       const values = Object.values(room.words);
-      console.log(values)
+      
       dispatch(setWordsInGame(values));
       console.log("new words in game")
     } else {

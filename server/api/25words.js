@@ -14,7 +14,7 @@ router.post("/", async (req, res, next) => {
     },
   });
   //a function to get "quantity" of unique random interger, from 0 - max (inclusive)
-  function getRandomInt(quantity, max) {
+  function getRandomIntArray(quantity, max) {
     const arr = [];
     while (arr.length < quantity) {
       let candidateInt = Math.floor(Math.random() * (max + 1));
@@ -31,7 +31,7 @@ router.post("/", async (req, res, next) => {
     let randomLayout = [];
     while (randomLayout.length < 25) {
       // find 1 int from 0 1 2 3
-      const randomInt = getRandomInt(1, 4);
+      const randomInt = getRandomIntArray(1, 4);
       // If we 'rolled' a 0, pick from the red pile to slot into the string
       if (randomInt[0] === 0 && team1Pile > 0) {
         team1Pile--;
@@ -56,7 +56,7 @@ router.post("/", async (req, res, next) => {
     return randomLayout;
   }
   //get 25 random index from allwords (see line 10)
-  const randomWordsIndexArray = getRandomInt(25, allWords.length);
+  const randomWordsIndexArray = getRandomIntArray(25, allWords.length);
   const finalWords = [];
   const layout = createRandomLayout();
 
