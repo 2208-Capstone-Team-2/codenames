@@ -44,9 +44,9 @@ const BlueTeamBox = () => {
   }
 
   // On click event for a player to be able to join the blue team-2 as a spymaster
-  const joinTeam2Spy = () => {
+  const joinTeam2Spy = async () => {
     //Here we want to check if a player is already an operative, so that they cannot join both.
-    get(teamTwoOperativesRef).then((snapshot)=> {
+    await get(teamTwoOperativesRef).then((snapshot)=> {
       //If players already exist as team one operatives:
       if(snapshot.exists()){
         //Now we can check if the player is an operative, if they are for now we just console log

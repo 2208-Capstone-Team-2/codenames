@@ -12,6 +12,8 @@ const RedTeamBox = () => {
   const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
   playerRef = ref(database, "players/" + playerId);
+  const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
+  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives } = useSelector(state => state.teamOne);
@@ -20,6 +22,7 @@ const RedTeamBox = () => {
   const joinTeam1Op = async () => {
     //Here we want to check if a player is already a spymaster, so that they cannot join both
     await get(teamOneSpymasterRef).then((snapshot)=> {
+      console.log(snapshot)
       //If players already exist as team one spymasters:
       if(snapshot.exists()){
         //'teamOneSpymasters' sets the spymasers id's to an array
@@ -75,8 +78,10 @@ const RedTeamBox = () => {
         <div>
           <p>Operative(s)</p>
           {
-            teamOneOperatives.map((player)=> {
-              return <p>{player.username}</p>
+            teamOneOperatives.map((player, index)=> {
+              return <p
+              key={index}
+              >{player.username}</p>
             })
           }
           <button
@@ -86,8 +91,10 @@ const RedTeamBox = () => {
         <div>
           <p>Spymaster(s)</p>
           {
-            teamOneSpymaster.map((player)=> {
-              return <p>{player.username}</p>
+            teamOneSpymaster.map((player, index)=> {
+              return <p
+              key={index}
+              >{player.username}</p>
             })
           }
           <button
