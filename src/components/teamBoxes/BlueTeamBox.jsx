@@ -20,14 +20,21 @@ const BlueTeamBox = () => {
   const joinTeam2Op = () => {
     //Here we want to check if a player is already a spymaster, so that they cannot join both
     get(teamTwoSpymasterRef).then((snapshot)=> {
+      //If players already exist as team one spymasters:
       if(snapshot.exists()){
+        //'teamTwoSpymasters' sets the spymasers id's to an array
         const teamTwoSpymaster = Object.keys(snapshot.val());
+        //Now we can check if the player is a spymaster, if they are, for now we just console log
         if(teamTwoSpymaster.includes(playerId)){
+          // later we should probably refactor this so that something on the UI is triggered
           console.log('cannot join both the spymasters and the operatives')
         } else {
+          // if they are not a spymaster, then we allow them to join as an operative
           set(child(teamTwoOperativesRef, playerId), {playerId, username})
         }
       } else {
+        // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
+        // this code might be redundant, but I figured it could account for an edge case
         set(child(teamTwoOperativesRef, playerId), {playerId, username})
       }
     })
@@ -35,15 +42,22 @@ const BlueTeamBox = () => {
 
   // On click event for a player to be able to join the blue team-2 as a spymaster
   const joinTeam2Spy = () => {
+    //Here we want to check if a player is already an operative, so that they cannot join both.
     get(teamTwoOperativesRef).then((snapshot)=> {
+      //If players already exist as team one operatives:
       if(snapshot.exists()){
+        //Now we can check if the player is an operative, if they are for now we just console log
         const teamTwoOperatives = Object.keys(snapshot.val());
         if(teamTwoOperatives.includes(playerId)){
+          // later we should probably refactor thisso that something on the UI is triggered
           console.log('cannot join both the spymasters and the operatives')
         } else{
+          // if they are not an operative, then we allow them to join as a spymaster
           set(child(teamTwoSpymasterRef, playerId), {playerId, username})
         }
       } else {
+        // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
+        // this code might be redundant, but I figured it could account for an edge case
         set(child(teamTwoSpymasterRef, playerId), {playerId, username})
       }
     })
