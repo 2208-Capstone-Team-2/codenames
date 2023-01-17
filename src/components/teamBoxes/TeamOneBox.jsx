@@ -19,7 +19,7 @@ const RedTeamBox = () => {
   const { teamOneOperatives } = useSelector(state => state.teamOne);
   const { teamOneSpymaster } = useSelector(state => state.teamOne);
   // On click event for a player to be able to join team-1 team as a operative
-  const joinTeam1Op = async () => {
+  const joinTeamOneOp = async () => {
     //Here we want to check if a player is already a spymaster, so that they cannot join both
     await get(teamOneSpymasterRef).then((snapshot)=> {
       console.log(snapshot)
@@ -47,7 +47,7 @@ const RedTeamBox = () => {
   }
 
   // On click event for a player to be able to join the blue team-2 as a spymaster
-  const joinTeam1Spy = async () => {
+  const joinTeamOneSpy = async () => {
     //Here we want to check if a player is already an operative, so that they cannot join both.
     await get(teamOneOperativesRef).then((snapshot)=> {
       //If players already exist as team one operatives:
