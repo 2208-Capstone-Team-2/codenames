@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUsername, setRoomId } from "../../store/playerSlice";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { ref, set } from "firebase/database";
+import { ref, set, onDisconnect } from "firebase/database";
 import { database, auth } from "../../utils/firebase";
 import { useEffect } from "react";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
@@ -63,10 +63,12 @@ const Login = () => {
 
         // set player in firebase db
         set(playerRef, { id: playerId });
+
+        // When I disconnect, remove me from firebase/players
+        onDisconnect(playerRef).remove();
       } else {
         // User is signed out
         console.log("signed out");
-        playerRef.onDisconnect().remove();
       }
     });
   }, []);
