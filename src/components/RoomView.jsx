@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { onValue, ref, set } from "firebase/database";
 import { database } from "../utils/firebase";
 import { setAllPlayers } from "../store/allPlayersSlice";
-import RedTeamBox from "./teamBoxes/RedTeamBox";
-import BlueTeamBox from "./teamBoxes/BlueTeamBox";
+import RedTeamBox from "./teamBoxes/TeamOneBox";
+import BlueTeamBox from "./teamBoxes/TeamTwoBox";
 const RoomView = () => {
   // for room nav
   const params = useParams("");

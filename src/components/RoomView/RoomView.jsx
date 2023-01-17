@@ -16,8 +16,8 @@ import Popup from "reactjs-popup";
 import SetupGame from "./setupGame.jsx";
 
 import Board from "./Board.jsx";
-import RedTeamBox from "../teamBoxes/RedTeamBox";
-import BlueTeamBox from "../teamBoxes/BlueTeamBox";
+import TeamOneBox from "../teamBoxes/TeamOneBox";
+import TeamTwoBox from "../teamBoxes/TeamTwoBox";
 
 const RoomView = () => {
   // for room nav
@@ -118,13 +118,13 @@ const RoomView = () => {
             </Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <RedTeamBox/>
+            <TeamOneBox/>
           </Grid>
           <Grid item xs={3} md={3} zeroMinWidth>
             <Item>Game History</Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <BlueTeamBox/>
+            <TeamTwoBox/>
           </Grid>
 
           <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
