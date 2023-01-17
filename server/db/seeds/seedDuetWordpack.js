@@ -2,7 +2,7 @@ const db = require("../db");
 const { Word, Wordpack } = require("../index");
 const duetPackString = require("../wordpacks/duetPack");
 
-const seedDefaultWordpack = async () => {
+const seedDuetWordpack = async () => {
   const wordArray = duetPackString.split("\n"); // split the string on 'return' characters
 
   // First, create the Wordpack model
@@ -29,4 +29,4 @@ const seedDefaultWordpack = async () => {
   console.log("DONE SEEDING DUET WORDPACK...");
 };
 
-module.exports = seedDefaultWordpack;
+module.exports = seedDuetWordpack;
