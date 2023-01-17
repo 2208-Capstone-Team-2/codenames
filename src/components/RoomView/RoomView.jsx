@@ -11,9 +11,12 @@ import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import NestedGrid from "./Board.jsx";
 import styles from "./Room.styles";
-import RedTeamBox from "../teamBoxes/RedTeamBox";
+import Popup from "reactjs-popup";
+import SetupGame from "./setupGame.jsx";
+import { flexbox } from "@mui/system";
+import { FullscreenExitOutlined } from "@mui/icons-material";
+import Board from "./Board.jsx";import RedTeamBox from "../teamBoxes/RedTeamBox";
 import BlueTeamBox from "../teamBoxes/BlueTeamBox";
 
 const RoomView = () => {
@@ -96,12 +99,30 @@ const RoomView = () => {
           <Grid item xs={3} md={4} zeroMinWidth>
             <BlueTeamBox/>
           </Grid>
+
           <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
             <Item>Board</Item>
-            <NestedGrid />
           </Grid>
         </Grid>
       </Container>
+
+      <Popup
+        trigger={
+          <button
+            style={{
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            {" "}
+            Set Up
+          </button>
+        }
+      >
+        <SetupGame />
+      </Popup>
+      <Board />
     </>
   );
 };
