@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   status: "",
   team1RemainingCards: 9,
-  team2RemainingCards: 9,
+  team2RemainingCards: 8,
   turn: "",
 };
 

@@ -12,7 +12,7 @@ import styles from "./Lobby.styles";
 import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
 import HowToPlay from "./HowToPlay.jsx";
 import FAQ from "./FAQ.jsx";
-import { ref, update, set } from "firebase/database";
+import { ref, update, set, onDisconnect } from "firebase/database";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -62,10 +62,12 @@ const Login = () => {
 
         // set player in firebase db
         set(playerRef, { id: playerId });
+        onDisconnect(playerRef).remove();
       } else {
         // User is signed out
         console.log("signed out");
-        playerRef.onDisconnect().remove();
+        // playerRef.onDisconnect().remove();
+
       }
     });
   }, []);
