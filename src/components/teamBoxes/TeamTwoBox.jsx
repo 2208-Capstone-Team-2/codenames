@@ -20,16 +20,20 @@ const BlueTeamBox = () => {
   const dispatch = useDispatch();
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamTwoOp = async () => {
+    //lines 23 - 35 are checking if the current player is already on a team
     const teamOne = await get(teamOneRef)
     const teamOneOpsAndSpys = teamOne.val();
     let teamOneSpymaster;
     let teamOneOperatives;
+    //Grabbing team ones info
     if(teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster){
       teamOneSpymaster = Object.keys(teamOneOpsAndSpys.spymaster);
     }
+    //Grabbing team ones info
     if(teamOneOpsAndSpys && teamOneOpsAndSpys.operatives){
       teamOneOperatives = Object.keys(teamOneOpsAndSpys.operatives);
     }
+    //If a player is on team 1, they cannot join this team
     if(teamOneSpymaster && teamOneSpymaster.includes(playerId) || teamOneOperatives && teamOneOperatives.includes(playerId)){
       console.log('Cannot join the other team!')
     } else {
@@ -61,16 +65,20 @@ const BlueTeamBox = () => {
 
   // On click event for a player to be able to join the blue team-2 as a spymaster
   const joinTeamTwoSpy = async () => {
+    //lines 64 - 76 are checking if the current player is already on a team
     const teamOne = await get(teamOneRef)
     const teamOneOpsAndSpys = teamOne.val();
     let teamOneSpymaster;
     let teamOneOperatives;
+    //Grabbing team ones info
     if(teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster){
       teamOneSpymaster = Object.keys(teamOneOpsAndSpys.spymaster);
     }
+    //Grabbing team ones info
     if(teamOneOpsAndSpys && teamOneOpsAndSpys.operatives){
       teamOneOperatives = Object.keys(teamOneOpsAndSpys.operatives);
     }
+    //If a player is on team 1, they cannot join this team
     if(teamOneSpymaster && teamOneSpymaster.includes(playerId) || teamOneOperatives && teamOneOperatives.includes(playerId)){
       console.log('Cannot join the other team!')
     } else {
