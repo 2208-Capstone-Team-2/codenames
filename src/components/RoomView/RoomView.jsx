@@ -57,6 +57,7 @@ const RoomView = () => {
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
       } else {
+        console.log("room does not exist...yet! Creating it now...");
         // create the room, (nested) players, and host.
         set(roomRef, {
           roomId: roomId,
@@ -64,7 +65,7 @@ const RoomView = () => {
           players: { [playerId]: { playerId, username } },
         });
         // Set our state for if the player is the host or not.
-        setIsHost(true);
+        dispatch(setIsHost(true));
       }
     });
 
@@ -97,7 +98,6 @@ const RoomView = () => {
     color: theme.palette.text.secondary,
   }));
 
-  console.log(isHost);
   if (loading) return <p>...loading...</p>;
   return (
     <>
@@ -139,7 +139,6 @@ const RoomView = () => {
                 marginRight: "auto",
               }}
             >
-              {" "}
               Set Up
             </button>
           }
