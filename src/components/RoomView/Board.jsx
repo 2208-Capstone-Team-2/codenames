@@ -5,11 +5,17 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
 import { NoEncryption } from "@mui/icons-material";
-
+import { onValue, ref, set, get, child, onDisconnect, update } from "firebase/database";
+import { database } from "../../utils/firebase";
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
-
-  console.log(words.wordsInGame);
+  let playerRef = ref(database, "players/" + playerId);
+  const roomId = useSelector((state) => state.player.roomId);
+  const playerId = useSelector((state) => state.player.playerId);
+  let gameRef = ref(database, "rooms/" + roomId + "/game/");
+  let gameStatusRef = ref(database, "rooms/" + roomId + "/game/gameStatus/");
+  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
+  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const style = {
     display: "grid",
     gridTemplateColumns: "auto auto auto auto auto",
@@ -19,31 +25,68 @@ const Board = () => {
     alightItems: "center",
   };
 
-
-  const submitAnswer = (e) => {
+  const submitAnswer = async (e) => {
     e.preventDefault()
-    console.log(e.target.value)
+    let gameStatus;
+    let teamOneOps;
+    let teamTwoOps;
+    
     // reveal card color
-    // decrement from the cards remaining for the team the card belongs to
-  
-    // if the team clicks a correct card:
-        // decrement 1 from their cardsRemaining
-        // decrement from tthe clue number remaining
-  
-    // if the team clicks an incorrect card:
-        // if its an assassin, end the game // setWinner, do other stuff
-        // if its a bystander, endTurn()
-        // if its other teams card, decrement from cards remaining, & endTurn()
+
+    // get game status -- whos turn is it?
+    await get(gameRef).then((snapshot) => {
+      gameStatus = snapshot.val().gameStatus})
+
+    // get team one operatives data
+    await get(teamOneOperativesRef).then((snapshot) => {
+      if (snapshot.exists) {
+        teamOneOps = snapshot.val()
+      }
+    })
+    // get team two operatives data
+    await get(teamTwoOperativesRef).then((snapshot) => {
+      if (snapshot.exists) {
+        teamTwoOps = snapshot.val()
+      }
+    })
+
+  //  if its team 1 ops turn and they are the one who clicked on the card...
+    if (gameStatus === 'team1OpsTurn' && Object.keys(teamOneOps).includes(playerId)) {
+      console.log('im on team 1 - i submitted an answer bc it was my turn!')
+        // reveal card
+        // if it is correct guess?
+            // decrement from cards remaining
+            // if cards remaining === 0, endGame, setWinner
+            // decrement from guesses remaining
+            // if guesses remaining === 0, endTurn()
+        // if it is incorrect guess?
+            // is assassin? game over, set winner
+            // is bystander ? endTurn()
+            // is other teams card ? decrement from other teams cards remaining, endTurn()
+      } else if (gameStatus === 'team2OpsTurn' && Object.keys(teamTwoOps).includes(playerId)) {
+        console.log('im on team 2 - i submitted an answer bc it was my turn!')
+        // reveal card
+        // if it is correct guess?
+            // decrement from cards remaining
+            // if cards remaining === 0, endGame, setWinner
+            // decrement from guesses remaining
+            // if guesses remaining === 0, endTurn()
+        // if it is incorrect guess?
+            // is assassin? game over, set winner
+            // is bystander ? endTurn()
+            // is other teams card ? decrement from other teams cards remaining, endTurn()
+      } else {
+        console.log('its not my turn')
+      }    
+    
   }
+
 
   return (
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
         return (
-          <>
-            <Card singleWord={singleWord} onClick={submitAnswer} value={singleWord.teamNumber}/>
-            <div style={{ display: "none" }}>Reveal Team</div>
-          </>
+            <Card singleWord={singleWord} value={singleWord.teamNumber} submitAnswer={submitAnswer}/>
         );
       })}
     </div>

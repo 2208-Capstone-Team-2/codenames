@@ -22,7 +22,7 @@ const Login = () => {
   let playerId = useSelector((state) => state.player.playerId);
   let playerRef;
   let roomRef;
- 
+
   // references to firebase data
   playerRef = ref(database, "players/" + playerId);
   roomRef = ref(database, "rooms/" + roomId);
@@ -36,7 +36,7 @@ const Login = () => {
 
   const playerLogin = (e) => {
     // update player with name and room id
-    update(playerRef, {id: playerId, username, roomId })
+    update(playerRef, { id: playerId, username, roomId });
     // room will be updated with player on 'roomview' component
     navigate(`/room/${roomId}`);
   };
@@ -62,12 +62,12 @@ const Login = () => {
 
         // set player in firebase db
         set(playerRef, { id: playerId });
+
+        // When I disconnect, remove me from firebase/players
         onDisconnect(playerRef).remove();
       } else {
         // User is signed out
         console.log("signed out");
-        // playerRef.onDisconnect().remove();
-
       }
     });
   }, []);
