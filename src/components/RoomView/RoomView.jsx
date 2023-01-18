@@ -100,16 +100,19 @@ const RoomView = () => {
        onValue(gameRef, (snapshot) => {
         if (snapshot.exists()) {
           const game = snapshot.val();
-          console.log(game)
-          if (game.gameStatus === 'team1SpyTurn') {
-            // dispatch(setTurn('team1Spy'))
-          } else if (game.gameStatus === 'team2SpyTurn') {
-            // dispatch(setTurn('team2Spy'))
-         } else if (game.gameStatus === 'team1OpsTurn') {
-            // dispatch(setTurn('team2Spy'))
-         } else if (game.gameStatus === 'team2OpsTurn') {
-            // dispatch(setTurn('team2Spy'))
-         } else if (game.gameStatus === 'gameOver') {
+          if (game.team1RemainingCards && game.team2RemainingCards) {
+            if (game.gameStatus === 'team1SpyTurn') {
+              // dispatch(setTurn('team1Spy'))
+            } else if (game.gameStatus === 'team2SpyTurn') {
+              // dispatch(setTurn('team2Spy'))
+           } else if (game.gameStatus === 'team1OpsTurn') {
+              // dispatch(setTurn('team2Spy'))
+           } else if (game.gameStatus === 'team2OpsTurn') {
+              // dispatch(setTurn('team2Spy'))
+           } 
+          }
+         
+         else if (game.gameStatus === 'gameOver') {
             // havent gotten here yet really, but presumably we'd want to:
                 // dispatch(setTurn('')) --> its no ones turn anymore
                 // set and get winning team from firebase so that we can...
@@ -145,14 +148,12 @@ const RoomView = () => {
           if (currentGameStatus === 'team1SpyTurn') {
             nextGameStatus = 'team1OpsTurn'
             update(gameRef, {gameStatus: nextGameStatus})
-            // dispatch(setTurn(nextGameStatus))
             // update clue data in redux and firebase
           }
           // if its team2spy submission, team2Ops goes next
           if (currentGameStatus === 'team2SpyTurn') {
             nextGameStatus = 'team2OpsTurn'
             update(gameRef, {gameStatus: nextGameStatus})
-           // dispatch(setTurn(nextGameStatus))
            // update clue data in redux and firebase
 
           }
@@ -171,12 +172,12 @@ const RoomView = () => {
       if (snapshot.exists()) {
         console.log(snapshot.val())
         let currentGameStatus = snapshot.val().gameStatus
-        let team1CardsRemaining = snapshot.val().team1RemainingCards
-        let team2CardsRemaining = snapshot.val().team2RemainingCards
+        let team1RemainingCards = snapshot.val().team1RemainingCards
+        let team2RemainingCards = snapshot.val().team2RemainingCards
         let nextStatus;
 
         // if cards remain on both sides, swap to the next teams turn
-        if (team1CardsRemaining && team2CardsRemaining) {
+        if (team1RemainingCards && team2RemainingCards) {
           if (currentGameStatus === 'team1OpsTurn') {
             nextStatus = 'team2SpyTurn'
             update(gameRef, {gameStatus: nextStatus})
