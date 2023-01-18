@@ -28,28 +28,28 @@ router.post("/", async (req, res, next) => {
     let team1Pile = 9; // 9 '1' --> red card
     let team2Pile = 8; // 8 '2' --> blue card
     let team3Pile = 7; // 7 '3' --> white card
-    let team4Pile = 1; // 1 '4' --> black card
+    let team0Pile = 1; // 1 '4' --> black card
     let randomLayout = [];
     while (randomLayout.length < 25) {
       // find 1 int from 0 1 2 3
-      const randomInt = getRandomIntArray(1, 4);
+      const randomInt = getRandomIntArray(1, 4)[0];
       // If we 'rolled' a 0, pick from the red pile to slot into the string
-      if (randomInt[0] === 0 && team4Pile > 0) {
-        team4Pile--;
+      if (randomInt === 0 && team0Pile > 0) {
+        team0Pile--;
         randomLayout.push(0);
       }
 
-      if (randomInt[0] === 1 && team1Pile > 0) {
+      if (randomInt === 1 && team1Pile > 0) {
         team1Pile--;
         randomLayout.push(1);
       }
 
-      if (randomInt[0] === 2 && team2Pile > 0) {
+      if (randomInt === 2 && team2Pile > 0) {
         team2Pile--;
         randomLayout.push(2);
       }
 
-      if (randomInt[0] === 3 && team3Pile > 0) {
+      if (randomInt === 3 && team3Pile > 0) {
         team3Pile--;
         randomLayout.push(3);
       }
