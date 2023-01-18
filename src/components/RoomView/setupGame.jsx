@@ -36,18 +36,19 @@ function SetupGame() {
 //-------------get the res.send data from the backend and set it up in the store
   const submitHandler = (event) => {
     event.preventDefault();
-axios.post("/api/25words", {selectedWordPackId})
+axios.post("/api/25words", {selectedWordPackId}
+)
  .then(response =>{return response})
  .then((result)=>{
 update(ref(database, 'rooms/' + roomId), {
-    words:result.data
+    gameboard:result.data
   })
-let createStore=ref(database, "rooms/" + roomId);
-  onValue(createStore, (snapshot) => {
+  
+let roomRef=ref(database, "rooms/" + roomId);
+  onValue(roomRef, (snapshot) => {
     if (snapshot.exists()) {
       const room = snapshot.val();
-      const values = Object.values(room.words);
-      
+      const values = Object.values(room.gameboard);
       dispatch(setWordsInGame(values));
       console.log("new words in game")
     } else {

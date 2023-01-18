@@ -7,6 +7,7 @@ const { Word, Wordpack } = require("../db");
 router.post("/", async (req, res, next) => {
   //  find which pack users select and put all the candidate words in an array
   const { selectedWordPackId } = req.body;
+
   const allWords = await Word.findAll({
     where: {
       //findAll can work with an array
@@ -62,6 +63,7 @@ router.post("/", async (req, res, next) => {
 
   //loop through the random index array
   for (let i = 0; i < randomWordsIndexArray.length; i++) {
+    console.log(allWords[randomWordsIndexArray[2]].dataValues.word);
     //assign the last number in layout array as the team number
     const teamNumber = layout.pop();
     const word = {
