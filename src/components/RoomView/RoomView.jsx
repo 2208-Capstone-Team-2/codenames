@@ -149,7 +149,9 @@ const RoomView = () => {
         }})
   }
 
-  const submitAnswer = () => {
+  const submitAnswer = (e) => {
+    e.preventDefault()
+    console.log(e.target.value)
     // reveal card color
     // decrement from the cards remaining for the team the card belongs to
 
@@ -263,7 +265,7 @@ const RoomView = () => {
 
       <Button variant ="contained" onClick={startGame}>start game</Button>
       <Button variant ="contained" onClick={submitClue}>submit clue</Button>
-      <Button variant ="contained" onClick={submitAnswer}>submit clue</Button>
+      <Button variant ="contained" onClick={submitAnswer}>submit answer</Button>
       <Button variant ="contained" onClick={endTurn}>end turn</Button>
     </>
   );
