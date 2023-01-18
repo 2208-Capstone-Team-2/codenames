@@ -43,6 +43,7 @@ const RoomView = () => {
  let playerNestedInRoom = ref(database, "rooms/" + roomId + "/players/" + playerId);
  let playersInRoomRef = ref(database, "rooms/" + roomId + "/players/");
  let gameRef = ref(database, "rooms/" + roomId + "/game/");
+ let gameStatusRef = ref(database, "rooms/" + roomId + "/game/gameStatus/");
 
 
 
@@ -89,8 +90,9 @@ const RoomView = () => {
       })
 
        onValue(gameRef, (snapshot) => {
+        if (snapshot.exists()) {
           const game = snapshot.val();
-          console.log(gameStatus)
+          console.log(game)
           if (game.gameStatus === 'team1SpyTurn') {
             // dispatch(setTurn('team1Spy'))
           } else if (game.gameStatus === 'team2SpyTurn') {
@@ -104,7 +106,7 @@ const RoomView = () => {
             //   find winner from firebase
             // dispatch(setWinner(teamThatWon))
       }
-      })
+      }})
 
   }, []);
 
@@ -124,16 +126,75 @@ const RoomView = () => {
 
   const submitClue = () => {
     console.log('submitting clue')
-    // if the team1spy submits clue, setTurn('team1Ops)
-    // if the team2spy submits clue, setTurn('team2Ops)
-    // setClue(team1Spy, 'magic', 2) /* dummy data */
+    // we only need to set what is triggered for spy --> ops bc they will be the only ones who can see the submit clue button
+    // get gamestatus -- 
+    get(gameRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          let currentGameStatus = snapshot.val().gameStatus
+          let nextGameStatus;
+          // if its team1spy turn, team1Ops goes next..etc
+          if (currentGameStatus === 'team1SpyTurn') {
+            nextGameStatus = 'team1OpsTurn'
+            update(gameRef, {gameStatus: nextGameStatus})
+            // dispatch(setTurn(nextGameStatus))
+            // update clue in redux and firebase
+          }
+          if (currentGameStatus === 'team2SpyTurn') {
+            nextGameStatus = 'team2OpsTurn'
+            update(gameRef, {gameStatus: nextGameStatus})
+           // dispatch(setTurn(nextGameStatus))
+           // update clue in redux and firebase
 
+          }
+        } else {
+          console.log('there should always be a game status so this should never get hit!')
+        }})
+  }
+
+  const submitAnswer = () => {
+    // reveal card color
+    // decrement from the cards remaining for the team the card belongs to
+
+    // if the team clicks a correct card:
+        // decrement 1 from their cardsRemaining
+        // decrement from tthe clue number remaining
+
+    // if the team clicks an incorrect card:
+        // if its an assassin, end the game // setWinner, do other stuff
+        // if its a bystander, endTurn()
+        // if its other teams card, decrement from cards remaining, & endTurn()
   }
 
   const endTurn = () => {
     console.log("ending turn")  
-    // update card remaining ammounts for each team
-    // if team1CardRemaining && team2CardsRemaining -->
+
+    get(gameRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        let currentGameStatus = snapshot.val().gameStatus
+        let team1CardsRemaining = snapshot.val().team1CardsRemaining
+        let team2CardsRemaining = snapshot.val().team2CardsRemaining
+        let nextGameStatus;
+
+        // if cards remain on both sides, swap to the next teams turn
+        if (team1CardsRemaining && team2CardsRemaining) {
+          if (currentGameStatus === 'team1OpsTurn') {
+            nextGameStatus = 'team2SpyTurn'
+            update(gameRef, {gameStatus: nextGameStatus})
+            // dispatch(setTurn(nextGameStatus))
+            // update cards remaining in redux and firebase
+          }
+          if (currentGameStatus === 'team2OpsTurn') {
+            nextGameStatus = 'team1SpyTurn'
+            update(gameRef, {gameStatus: nextGameStatus})
+           // dispatch(setTurn(nextGameStatus))
+           // update cards remaining in redux and firebase
+          }
+        }
+      }})
+
+
+ 
+
         // if the team1Ops endsTurn --> setTurn('team2Spy)
         // if the team2Ops endsTurn --> setTurn('team2Spy)
     // if team1CardsRemaining === 0 || team2CardsRemaining === 0 {
@@ -141,7 +202,7 @@ const RoomView = () => {
     }
 
   
-console.log(allPlayers)
+
 
 
 
@@ -204,6 +265,7 @@ console.log(allPlayers)
 
       <Button variant ="contained" onClick={startGame}>start game</Button>
       <Button variant ="contained" onClick={submitClue}>submit clue</Button>
+      <Button variant ="contained" onClick={submitAnswer}>submit clue</Button>
       <Button variant ="contained" onClick={endTurn}>end turn</Button>
     </>
   );
