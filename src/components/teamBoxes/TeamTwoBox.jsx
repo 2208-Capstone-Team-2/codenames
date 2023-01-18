@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './blueTeamBox.css'
 import { useDispatch, useSelector } from "react-redux";
 import "./redTeamBox.css";
-import { child, get, onValue, ref, set, update } from "firebase/database";
+import { child, get, onValue, ref, set } from "firebase/database";
 import { database,  } from "../../utils/firebase";
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const BlueTeamBox = () => {

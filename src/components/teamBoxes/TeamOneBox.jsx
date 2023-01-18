@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./redTeamBox.css";
-import { get, ref, update, set, child, onValue } from "firebase/database";
+import { get, ref, set, child, onValue } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setTeamOneOperatives, setTeamOneSpymaster } from "../../store/teamOneSlice";
 
