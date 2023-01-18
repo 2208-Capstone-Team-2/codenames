@@ -110,8 +110,6 @@ const RoomView = () => {
 
   }, []);
 
-  console.log('whos turn?', whosTurn)
-
   const startGame = () => {
     console.log('startingGame')
       // firebase updates
@@ -126,7 +124,7 @@ const RoomView = () => {
 
   const submitClue = () => {
     console.log('submitting clue')
-    // we only need to set what is triggered for spy --> ops bc they will be the only ones who can see the submit clue button
+    // we only need to set what is triggered after spy submits clue bc only spies see the submit clue button
     // get gamestatus -- 
     get(gameRef).then((snapshot) => {
         if (snapshot.exists()) {
