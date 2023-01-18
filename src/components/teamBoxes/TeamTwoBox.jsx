@@ -18,7 +18,7 @@ const BlueTeamBox = () => {
   const { teamTwoOperatives } = useSelector(state => state.teamTwo);
   const { teamTwoSpymaster } = useSelector(state => state.teamTwo);
   const dispatch = useDispatch();
-  // On click event for a player to be able to join team-1 team as a operative
+  // On click event for a player to be able to join team-2 team as a operative
   const joinTeamTwoOp = async () => {
     //lines 23 - 35 are checking if the current player is already on a team
     const teamOne = await get(teamOneRef)

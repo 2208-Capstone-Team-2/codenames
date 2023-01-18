@@ -65,7 +65,7 @@ const RedTeamBox = () => {
     }
   }
 
-  // On click event for a player to be able to join the blue team-2 as a spymaster
+  // On click event for a player to be able to join the blue team-1 as a spymaster
   const joinTeamOneSpy = async () => {
     //lines 71 - 82 are checking if the current player is already on a team
     const teamTwo = await get(teamTwoRef)
