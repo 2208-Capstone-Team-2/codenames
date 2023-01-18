@@ -1,0 +1,17 @@
+.blueBoxCard{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 300px;
+    width: 250px;
+    color: white;
+    padding: 10px;
+    background-color: blue;
+    border-radius: 20px;
+}
+.blueOpsAndSpys{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-top: 100px;
+}
