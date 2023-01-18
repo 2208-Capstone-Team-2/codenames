@@ -34,10 +34,12 @@ const Board = () => {
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
         return (
-          <>
+   <div key={singleWord.id}>
+
             <Card singleWord={singleWord} />
-            <div style={{ display: "none" }}>Reveal Team</div>
-          </>
+  {/* maybe set this to visible after players select it?  */}
+<div style={{display:"none"}}>card result</div>
+</div>
         );
       })}
     </div>

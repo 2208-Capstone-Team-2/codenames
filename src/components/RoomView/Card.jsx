@@ -15,7 +15,7 @@ const Card = (singleWord) => {
     display:"grid"
   };
 
-  return  <div style={style} >{singleWord.singleWord.word}</div>;
+  return  <div style={style}>{singleWord.singleWord.word}</div>;
 };
 
 export default Card;
