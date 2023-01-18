@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./redTeamBox.css";
-import { get, ref, update, set, child } from "firebase/database";
+import { get, ref, update, set, child, onValue } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setTeamOneOperatives, setTeamOneSpymaster } from "../../store/teamOneSlice";
 
@@ -13,16 +13,16 @@ const RedTeamBox = () => {
   const dispatch = useDispatch();
   playerRef = ref(database, "players/" + playerId);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives } = useSelector(state => state.teamOne);
   const { teamOneSpymaster } = useSelector(state => state.teamOne);
+
+  
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {
     //Here we want to check if a player is already a spymaster, so that they cannot join both
     await get(teamOneSpymasterRef).then((snapshot)=> {
-      console.log(snapshot)
       //If players already exist as team one spymasters:
       if(snapshot.exists()){
         //'teamOneSpymasters' sets the spymasers id's to an array
@@ -40,10 +40,10 @@ const RedTeamBox = () => {
         // this code might be redundant, but I figured it could account for an edge case
         set(child(teamOneOperativesRef, playerId), {playerId, username})
       }
-    })
+    });
     get(teamOneOperativesRef).then((snapshot)=> {
       dispatch(setTeamOneOperatives(Object.values(snapshot.val())))
-    })
+    });
   }
 
   // On click event for a player to be able to join the blue team-2 as a spymaster
@@ -69,9 +69,26 @@ const RedTeamBox = () => {
     })
     //Dispatch to redux
     get(teamOneSpymasterRef).then((snapshot)=> {
-      dispatch(setTeamOneSpymaster(Object.values(snapshot.val())))
+      if(snapshot.exists()){
+        dispatch(setTeamOneSpymaster(Object.values(snapshot.val())))
+      }
     })
   }
+  useEffect(()=>{
+    onValue(teamOneRef, (snapshot) => {
+      if(snapshot.exists()){
+        const teamOne = snapshot.val()
+        if(teamOne.operatives){
+          const teamOneOperativesFirebase = Object.values(teamOne.operatives);
+          dispatch(setTeamOneOperatives(teamOneOperativesFirebase))
+        }
+        if(teamOne.spymaster){
+          const teamOneSpymasterFirebase = Object.values(teamOne.spymaster);
+          dispatch(setTeamOneSpymaster(teamOneSpymasterFirebase))
+        }
+      }
+    })
+  }, [])
   return (
     <div className="redBoxCard">
       <div>Team 1</div>

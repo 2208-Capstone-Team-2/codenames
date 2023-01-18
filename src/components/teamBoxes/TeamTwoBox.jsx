@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './blueTeamBox.css'
 import { useDispatch, useSelector } from "react-redux";
 import "./redTeamBox.css";
-import { child, get, ref, set, update } from "firebase/database";
+import { child, get, onValue, ref, set, update } from "firebase/database";
 import { database,  } from "../../utils/firebase";
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const BlueTeamBox = () => {
@@ -13,6 +13,7 @@ const BlueTeamBox = () => {
   playerRef = ref(database, "players/" + playerId);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const { teamTwoOperatives } = useSelector(state => state.teamTwo);
   const { teamTwoSpymaster } = useSelector(state => state.teamTwo);
   const dispatch = useDispatch();
@@ -69,6 +70,21 @@ const BlueTeamBox = () => {
       dispatch(setTeamTwoSpymaster(Object.values(snapshot.val())))
     })
   }
+  useEffect(()=>{
+    onValue(teamTwoRef, (snapshot) => {
+      if(snapshot.exists()){
+        const teamTwo = snapshot.val()
+        if(teamTwo.operatives){
+          const teamTwoOperativesFirebase = Object.values(teamTwo.operatives);
+          dispatch(setTeamTwoOperatives(teamTwoOperativesFirebase))
+        }
+        if(teamTwo.spymaster){
+          const teamTwoSpymasterFirebase = Object.values(teamTwo.spymaster);
+          dispatch(setTeamTwoSpymaster(teamTwoSpymasterFirebase))
+        }
+      }
+    })
+  }, [])
     return (
     <div className="blueBoxCard">
       <div>Team 2</div>
