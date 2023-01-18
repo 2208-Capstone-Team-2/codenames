@@ -21,7 +21,6 @@ export const playerSlice = createSlice({
       state.roomId = action.payload;
     },
     setIsHost: (state, action) => {
-      console.log("setting isHost to:", action.payload);
       state.isHost = action.payload;
     },
   },
