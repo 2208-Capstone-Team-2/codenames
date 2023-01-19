@@ -110,33 +110,32 @@ const BlueTeamBox = () => {
     }
   }
   useEffect(()=>{
-    onValue(teamTwoRef, (snapshot) => {
-      if(snapshot.exists()){
-        const teamTwo = snapshot.val()
-        if(teamTwo.operatives){
-          const teamTwoOperativesFirebase = Object.values(teamTwo.operatives);
-          dispatch(setTeamTwoOperatives(teamTwoOperativesFirebase))
+    onValue(teamTwoOperativesRef, async (snapshot)=> {
+        if(snapshot.exists()){
+            const teamTwoOperativesFirebase = snapshot.val()
+            const teamTwoOperatives = Object.values(teamTwoOperativesFirebase)
+            dispatch(setTeamTwoOperatives(teamTwoOperatives))
+        } else {
+            dispatch(setTeamTwoOperatives([]))
         }
-        if(teamTwo.spymaster){
-          const teamTwoSpymasterFirebase = Object.values(teamTwo.spymaster);
-          dispatch(setTeamTwoSpymaster(teamTwoSpymasterFirebase))
-        }
-      }
     })
     onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
       if(snapshot.exists()){
         onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef)
-        // const newValues = await get(teamTwoOperativesRef)
-        // const newOperatives = Object.values(newValues);
-        // dispatch(setTeamTwoOperatives(newOperatives))
       }
+    })
+    onValue(teamTwoSpymasterRef, async (snapshot)=> {
+        if(snapshot.exists()){
+            const teamTwoSpymasterFirebase = snapshot.val()
+            const teamTwoSpymaster = Object.values(teamTwoSpymasterFirebase)
+            dispatch(setTeamTwoSpymaster(teamTwoSpymaster))
+        } else {
+            dispatch(setTeamTwoSpymaster([]))
+        }
     })
     onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
       if(snapshot.exists()){
-        onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef);
-        // const newValues = await get(teamTwoSpymasterRef);
-        // const newSpymaster = Object.values(newValues);
-        // dispatch(setTeamTwoSpymaster(newSpymaster));
+        onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef)
       }
     })
   }, [])

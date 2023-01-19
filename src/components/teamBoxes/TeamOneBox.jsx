@@ -7,13 +7,9 @@ import { setTeamOneOperatives, setTeamOneSpymaster } from "../../store/teamOneSl
 
 const RedTeamBox = () => {
   let playerId = useSelector((state) => state.player.playerId);
-  let playerRef;
   const roomId = useSelector((state) => state.player.roomId);
   const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
-  playerRef = ref(database, "players/" + playerId);
-  const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
@@ -115,29 +111,32 @@ const RedTeamBox = () => {
     }
   }
   useEffect(()=>{
-    onValue(teamOneRef, (snapshot) => {
-      if(snapshot.exists()){
-        const teamOne = snapshot.val()
-        if(teamOne.operatives){
-          const teamOneOperativesFirebase = Object.values(teamOne.operatives);
-          dispatch(setTeamOneOperatives(teamOneOperativesFirebase))
+    onValue(teamOneOperativesRef, async (snapshot)=> {
+        if(snapshot.exists()){
+            const teamOneOperativesFirebase = snapshot.val()
+            const teamOneOperatives = Object.values(teamOneOperativesFirebase)
+            dispatch(setTeamOneOperatives(teamOneOperatives))
         } else {
-          console.log('we should be here')
+            dispatch(setTeamOneOperatives([]))
         }
-        if(teamOne.spymaster){
-          const teamOneSpymasterFirebase = Object.values(teamOne.spymaster);
-          dispatch(setTeamOneSpymaster(teamOneSpymasterFirebase))
-        }
-      }
     })
     onValue(playerOnTeamOneOperativesRef, async (snapshot) => {
-      console.log('hitting playerOne Disconnect')
       if(snapshot.exists()){
-        console.log('snapshot exists')
         onDisconnect(playerOnTeamOneOperativesRef).remove(playerOnTeamOneOperativesRef)
-      } else {
-        console.log('hitting the else!')
-        dispatch(setTeamOneOperatives([]))
+      }
+    })
+    onValue(teamOneSpymasterRef, async (snapshot)=> {
+        if(snapshot.exists()){
+            const teamOneSpymasterFirebase = snapshot.val()
+            const teamOneSpymaster = Object.values(teamOneSpymasterFirebase)
+            dispatch(setTeamOneSpymaster(teamOneSpymaster))
+        } else {
+            dispatch(setTeamOneSpymaster([]))
+        }
+    })
+    onValue(playerOnTeamOneSpymasterRef, async (snapshot) => {
+      if(snapshot.exists()){
+        onDisconnect(playerOnTeamOneSpymasterRef).remove(playerOnTeamOneSpymasterRef)
       }
     })
   }, [])
