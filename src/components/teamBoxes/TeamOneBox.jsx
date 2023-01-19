@@ -125,11 +125,14 @@ const TeamOneBox = () => {
   }
   useEffect(()=>{
     onValue(teamOneOperativesRef, async (snapshot)=> {
+        // if operatives exist
         if(snapshot.exists()){
+            // watch firebase and update redux
             const teamOneOperativesFirebase = snapshot.val()
             const teamOneOperatives = Object.values(teamOneOperativesFirebase)
             dispatch(setTeamOneOperatives(teamOneOperatives))
         } else {
+            // if operatives don't exist, that means that the last one left and the redux store should be empty
             dispatch(setTeamOneOperatives([]))
         }
     })
