@@ -13,12 +13,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.10.11",
     "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.27.2",
+    "babel-eslint": "^10.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "firebase": "^9.15.0",
@@ -38,7 +40,7 @@
   "devDependencies": {
     "@babel/core": "7.17.10",
     "@babel/preset-env": "7.17.10",
-    "@babel/preset-react": "7.16.7",
+    "@babel/preset-react": "^7.16.7",
     "@babel/preset-stage-2": "^7.8.3",
     "babel-loader": "8.2.5",
     "css-loader": "^6.7.3",
