@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Room, Team } = require('../db');
+const randomWords = require('random-words'); // used for room name generation
 
 // GET - /api/room/
 // gets all the rooms and returns them
@@ -13,13 +14,37 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// GET - /api/room/create/
-// Makes a new room and returns it
-// Maybe change to POST if we want the firebase room name on the room
-router.post('/create/:roomId', async (req, res, next) => {
+// GET - api/room/:roomId/
+// this route is being used to send back team ids for individual rooms
+router.get('/:roomId', async (req, res, next) => {
   try {
     const { roomId } = req.params;
-    const room = await Room.create({ name: roomId });
+    console.log('looking for a room with name:', roomId);
+    const room = await Room.findOne({ where: { name: roomId } });
+    if (!room) res.sendStatus(404);
+    else res.send(room);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// POST - /api/room/
+// Creates a new room with a randomly generated word slug
+router.post('/', async (req, res, next) => {
+  // Note: Even though this is a 'POST' we don't actually have a req.body that is needed.
+  // I merely stuck to calling it 'post' because this route creates a new room.
+  try {
+    let slug = randomWords({ exactly: 3, join: '-' }); // EG: happy-knight-work
+
+    // the chance of this is VERY RARE, but make sure a room with this slug doesn't exist yet:
+    let roomWithThisSlug = await Room.findOne({ where: { name: slug } });
+    // If a room exists with this name,
+    while (roomWithThisSlug) {
+      slug = randomWords({ exactly: 3, join: '-' }); // Make another random slug
+      roomWithThisSlug = await Room.findOne({ where: { name: slug } }); // See if there's a room that exists with this name again.
+    }
+
+    const room = await Room.create({ name: slug });
 
     // Creates four teams models (aka the 4 card colors)
     const team1 = await Team.create({ name: 'team red', roomId: room.id });
@@ -42,17 +67,4 @@ router.post('/create/:roomId', async (req, res, next) => {
     next(err);
   }
 });
-
-// /api/room/:roomId/
-// this route is being used to send back team ids for individual rooms
-router.get('/:roomId', async (req, res, next) => {
-  try {
-    const { roomId } = req.params;
-    const room = await Room.findOne({ where: { name: roomId } });
-    res.send(room);
-  } catch (err) {
-    next(err);
-  }
-});
-
 module.exports = router;

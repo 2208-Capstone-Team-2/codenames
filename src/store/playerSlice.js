@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  playerId: '',
+  playerId: null,
   username: '',
   roomId: '',
   isHost: false,
