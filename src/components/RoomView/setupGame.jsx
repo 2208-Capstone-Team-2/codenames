@@ -32,8 +32,6 @@ function SetupGame() {
 
     //if event.target.value is already in the array, we delete the already existed one in the array and return
     if (selectedWordPackId.includes(idInteractedWith)) {
-      console.log("Need to remove this id from the array");
-
       // This creates a new array where each element is NOT the id interacted with.
       const filtered = selectedWordPackId.filter(
         (element) => element !== idInteractedWith
@@ -43,7 +41,6 @@ function SetupGame() {
     }
     // if idInteractedWithis not in the array, we add it in
     else {
-      console.log("inside else");
       setSelectedWordPackId([...selectedWordPackId, idInteractedWith]);
     }
   };
