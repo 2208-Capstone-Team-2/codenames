@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./redTeamBox.css";
-import { get, ref, set, child, onValue } from "firebase/database";
+import { get, ref, set, child, onValue, onDisconnect } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setTeamOneOperatives, setTeamOneSpymaster } from "../../store/teamOneSlice";
 
@@ -16,6 +16,9 @@ const RedTeamBox = () => {
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
+  const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
+  const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
+
   const { teamOneOperatives } = useSelector(state => state.teamOne);
   const { teamOneSpymaster } = useSelector(state => state.teamOne);
 
@@ -118,11 +121,23 @@ const RedTeamBox = () => {
         if(teamOne.operatives){
           const teamOneOperativesFirebase = Object.values(teamOne.operatives);
           dispatch(setTeamOneOperatives(teamOneOperativesFirebase))
+        } else {
+          console.log('we should be here')
         }
         if(teamOne.spymaster){
           const teamOneSpymasterFirebase = Object.values(teamOne.spymaster);
           dispatch(setTeamOneSpymaster(teamOneSpymasterFirebase))
         }
+      }
+    })
+    onValue(playerOnTeamOneOperativesRef, async (snapshot) => {
+      console.log('hitting playerOne Disconnect')
+      if(snapshot.exists()){
+        console.log('snapshot exists')
+        onDisconnect(playerOnTeamOneOperativesRef).remove(playerOnTeamOneOperativesRef)
+      } else {
+        console.log('hitting the else!')
+        dispatch(setTeamOneOperatives([]))
       }
     })
   }, [])

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './blueTeamBox.css'
 import { useDispatch, useSelector } from "react-redux";
 import "./redTeamBox.css";
-import { child, get, onValue, ref, set } from "firebase/database";
+import { child, get, onDisconnect, onValue, ref, set } from "firebase/database";
 import { database,  } from "../../utils/firebase";
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const BlueTeamBox = () => {
@@ -17,6 +17,8 @@ const BlueTeamBox = () => {
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const { teamTwoOperatives } = useSelector(state => state.teamTwo);
   const { teamTwoSpymaster } = useSelector(state => state.teamTwo);
+  const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
+  const playerOnTeamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/${playerId}`);
   const dispatch = useDispatch();
   // On click event for a player to be able to join team-2 team as a operative
   const joinTeamTwoOp = async () => {
@@ -119,6 +121,22 @@ const BlueTeamBox = () => {
           const teamTwoSpymasterFirebase = Object.values(teamTwo.spymaster);
           dispatch(setTeamTwoSpymaster(teamTwoSpymasterFirebase))
         }
+      }
+    })
+    onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
+      if(snapshot.exists()){
+        onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef)
+        // const newValues = await get(teamTwoOperativesRef)
+        // const newOperatives = Object.values(newValues);
+        // dispatch(setTeamTwoOperatives(newOperatives))
+      }
+    })
+    onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
+      if(snapshot.exists()){
+        onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef);
+        // const newValues = await get(teamTwoSpymasterRef);
+        // const newSpymaster = Object.values(newValues);
+        // dispatch(setTeamTwoSpymaster(newSpymaster));
       }
     })
   }, [])
