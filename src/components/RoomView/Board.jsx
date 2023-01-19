@@ -1,11 +1,8 @@
 import React from "react";
 import Card from "./Card.jsx";
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setWordsInGame } from "../../store/wordsInGameSlice";
-import { NoEncryption } from "@mui/icons-material";
-import { onValue, ref, set, get, child, onDisconnect, update } from "firebase/database";
+
+import { useSelector } from "react-redux";
+import { ref, get } from "firebase/database";
 import { database } from "../../utils/firebase";
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
@@ -16,6 +13,7 @@ const Board = () => {
   let gameStatusRef = ref(database, "rooms/" + roomId + "/game/gameStatus/");
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
+
   const style = {
     display: "grid",
     gridTemplateColumns: "auto auto auto auto auto",
@@ -78,7 +76,6 @@ const Board = () => {
       } else {
         console.log('its not my turn')
       }    
-    
   }
 
 
