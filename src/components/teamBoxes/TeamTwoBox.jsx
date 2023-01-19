@@ -1,19 +1,20 @@
 import { useEffect } from "react";
 import "./blueTeamBox.css";
 import { useDispatch, useSelector } from "react-redux";
-import "./redTeamBox.css";
 import { child, get, onValue, ref, set } from "firebase/database";
 import { database } from "../../utils/firebase";
 import {
   setTeamTwoOperatives,
   setTeamTwoSpymaster,
 } from "../../store/teamTwoSlice";
+
 const BlueTeamBox = () => {
-  let playerId = useSelector((state) => state.player.playerId);
+  const dispatch = useDispatch();
+  const { playerId, roomId, username } = useSelector((state) => state.player);
+
   let playerRef;
-  const roomId = useSelector((state) => state.player.roomId);
-  const username = useSelector((state) => state.player.username);
   playerRef = ref(database, "players/" + playerId);
+
   const teamTwoOperativesRef = ref(
     database,
     `rooms/${roomId}/team-2/operatives/`
@@ -24,9 +25,10 @@ const BlueTeamBox = () => {
   );
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
-  const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
-  const { teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  const dispatch = useDispatch();
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector(
+    (state) => state.teamTwo
+  );
+
   // On click event for a player to be able to join team-2 team as a operative
   const joinTeamTwoOp = async () => {
     //lines 23 - 35 are checking if the current player is already on a team

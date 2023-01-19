@@ -9,11 +9,10 @@ import {
 } from "../../store/teamOneSlice";
 
 const RedTeamBox = () => {
-  let playerId = useSelector((state) => state.player.playerId);
-  let playerRef;
-  const roomId = useSelector((state) => state.player.roomId);
-  const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
+  const { playerId, roomId, username } = useSelector((state) => state.player);
+
+  let playerRef;
   playerRef = ref(database, "players/" + playerId);
 
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
@@ -26,8 +25,9 @@ const RedTeamBox = () => {
     database,
     `rooms/${roomId}/team-1/spymaster/`
   );
-  const { teamOneOperatives } = useSelector((state) => state.teamOne);
-  const { teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector(
+    (state) => state.teamOne
+  );
 
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {
