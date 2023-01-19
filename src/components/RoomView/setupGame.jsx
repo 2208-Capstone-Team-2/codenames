@@ -2,12 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { ref, update, onValue } from "firebase/database";
+import { database } from "../../utils/firebase";
 
 function SetupGame() {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const roomId = useSelector((state) => state.player.roomId);
   const words = useSelector((state) => state.wordsInGame);
   const dispatch = useDispatch();
   //   //----------------fet all packs for users to select from-----------------//
@@ -54,7 +57,21 @@ function SetupGame() {
         return response;
       })
       .then((result) => {
-        dispatch(setWordsInGame(result.data));
+        update(ref(database, "rooms/" + roomId), {
+          gameboard: result.data,
+        });
+
+        let roomRef = ref(database, "rooms/" + roomId);
+        onValue(roomRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const room = snapshot.val();
+            const values = Object.values(room.gameboard);
+            dispatch(setWordsInGame(values));
+            console.log("new words in game");
+          } else {
+            console.log("no words yet");
+          }
+        });
       });
   };
   if (isLoading) return <p>Loading...</p>;
