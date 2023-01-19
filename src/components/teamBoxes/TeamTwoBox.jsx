@@ -5,7 +5,7 @@ import "./redTeamBox.css";
 import { child, get, onDisconnect, onValue, ref, set } from "firebase/database";
 import { database,  } from "../../utils/firebase";
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
-const BlueTeamBox = () => {
+const TeamTwoBox = () => {
   let playerId = useSelector((state) => state.player.playerId);
   let playerRef;
   const roomId = useSelector((state) => state.player.roomId);
@@ -174,4 +174,4 @@ const BlueTeamBox = () => {
     );
 };
 
-export default BlueTeamBox;
+export default TeamTwoBox;
