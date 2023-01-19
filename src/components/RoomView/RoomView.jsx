@@ -11,9 +11,9 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Popup from "reactjs-popup";
-
-import styles from "./Room.styles";
 import SetupGame from "./setupGame.jsx";
+import { setWordsInGame } from "../../store/wordsInGameSlice";
+import styles from "./Room.styles";
 import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import Board from "./Board.jsx";
 import TeamOneBox from "../teamBoxes/TeamOneBox";
@@ -36,6 +36,7 @@ const RoomView = () => {
 
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
+  let gameboardRef = ref(database, "rooms/" + roomId + "/gameboard");
   let playersInRoomRef = ref(database, "rooms/" + roomId + "/players/");
   let playerNestedInRoomRef = ref(
     database,
@@ -85,6 +86,20 @@ const RoomView = () => {
         onDisconnect(playerNestedInRoomRef).remove(
           playersInRoomRef + "/" + playerId
         );
+      }
+    });
+  }, []);
+  //check to see if there are words to set up gameboard
+  useEffect(() => {
+    onValue(gameboardRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const gameboard = snapshot.val();
+        const values = Object.values(gameboard);
+        console.log(gameboard);
+        dispatch(setWordsInGame(values));
+        console.log("new words in game");
+      } else {
+        console.log("no words yet");
       }
     });
   }, []);
