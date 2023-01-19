@@ -1,3 +1,4 @@
+
 import React from "react";
 import Card from "./Card.jsx";
 import { useSelector } from "react-redux";
@@ -13,17 +14,16 @@ const Board = () => {
     justifyContent: "center",
     alightItems: "center",
   };
- 
+
   return (
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
         return (
-   <div key={singleWord.id}>
-
+          <div key={singleWord.id}>
             <Card singleWord={singleWord} />
-  {/* maybe set this to visible after players select it?  */}
-<div style={{display:"none"}}>card result</div>
-</div>
+            {/* maybe set this to visible after players select it?  */}
+            <div style={{ display: "none" }}>card result</div>
+          </div>
         );
       })}
     </div>
