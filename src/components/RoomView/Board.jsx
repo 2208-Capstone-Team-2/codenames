@@ -5,15 +5,20 @@ import { ref, update,onValue, get  } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { Button } from "@mui/material";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
-import { setTeam1RemainingCards, setTeam2RemainingCards } from "../../store/gameSlice.js";
+import {setTeam1RemainingCards, setTeam2RemainingCards} from '../../store/gameSlice'
+
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
   const roomId = useSelector((state) => state.player.roomId);
   const playerId = useSelector((state) => state.player.playerId);
+  const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards)
+  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards)
+  const turn = useSelector((state) => state.game.turn)
+  const { teamOneOperatives } = useSelector(state => state.teamOne);
+  const { teamTwoOperatives } = useSelector(state => state.teamTwo);
+
   
   let gameRef = ref(database, "rooms/" + roomId + "/game/");
-  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
-  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   
   const dispatch = useDispatch()
@@ -29,11 +34,10 @@ const Board = () => {
 
   const submitAnswer = async (e) => {
     e.preventDefault()
-    let gameStatus;
-    let teamOneOps;
-    let teamTwoOps;
-    let team1RemainingCards;
-    let team2RemainingCards;
+
+    // need axios to check value of card
+
+    // reveal card color and disable clicking the card
 
     // values:
     // 0 = assassin
@@ -42,31 +46,20 @@ const Board = () => {
     // 3 = bystander
 
     let cardBelongsTo = e.target.value
+
+    const teamOneOpsIds = []
+    const teamTwoOpsIds = []
+
+    teamOneOperatives.forEach((operative) => {
+      teamOneOpsIds.push(operative.playerId)
+    })
     
-    // reveal card color and disable clicking the card
-
-    // get game status -- whos turn is it?
-    await get(gameRef).then((snapshot) => {
-      gameStatus = snapshot.val().gameStatus
-      team1RemainingCards = snapshot.val().team1RemainingCards
-      team2RemainingCards = snapshot.val().team2RemainingCards
-    })
-
-    // get team one operatives data
-    await get(teamOneOperativesRef).then((snapshot) => {
-      if (snapshot.exists) {
-        teamOneOps = snapshot.val()
-      }
-    })
-    // get team two operatives data
-    await get(teamTwoOperativesRef).then((snapshot) => {
-      if (snapshot.exists) {
-        teamTwoOps = snapshot.val()
-      }
+    teamTwoOperatives.forEach((operative) => {
+      teamTwoOpsIds.push(operative.playerId)
     })
 
   //  if its team 1 ops turn and they are the one who clicked on the card...
-    if (gameStatus === 'team1OpsTurn' && Object.keys(teamOneOps).includes(playerId)) {
+    if (turn === 'team1OpsTurn' && teamOneOpsIds.includes(playerId)) {
         // reveal card
       if (cardBelongsTo === '0') {
         console.log('you hit the assassin! you lose.')
@@ -80,17 +73,17 @@ const Board = () => {
       }  
       if (cardBelongsTo === '1') {
         console.log('thats correct!')
-        await update(gameRef, {team1RemainingCards: team1RemainingCards - 1})
+        await update(gameRef, {team1RemainingCards: teamOneRemainingCards - 1})
          // decrement from guesses remaining from spymasters clue
          // if guesses remaining === 0, endTurn()
       }
       if (cardBelongsTo === '2') {
         console.log('thats the other teams card! turn is over')
-        update(gameRef, {team2RemainingCards: team2RemainingCards - 1})
+        update(gameRef, {team2RemainingCards: teamTwoRemainingCards - 1})
         endTurn()
       }
       
-      } else if (gameStatus === 'team2OpsTurn' && Object.keys(teamTwoOps).includes(playerId)) {
+      } else if (turn === 'team2OpsTurn' && teamTwoOpsIds.includes(playerId)) {
           // reveal card
             if (cardBelongsTo === '0') {
               console.log('you hit the assassin! you lose.')
@@ -104,13 +97,13 @@ const Board = () => {
             }  
             if (cardBelongsTo === '2') {
               console.log('thats correct!')
-              update(gameRef, {team2RemainingCards: team2RemainingCards - 1})
+              update(gameRef, {team2RemainingCards: teamTwoRemainingCards - 1})
               // decrement from guesses remaining from spymasters clue
               // if guesses remaining === 0, endTurn()
             }
             if (cardBelongsTo === '1') {
               console.log('thats the other teams card! turn is over')
-              update(gameRef, {team1RemainingCards: team1RemainingCards - 1})
+              update(gameRef, {team1RemainingCards: teamOneRemainingCards - 1})
               endTurn()
             }
           } else {
@@ -123,27 +116,18 @@ const Board = () => {
   // only operatives should see this button when its their 'turn'
   const endTurn = () => {
     console.log("ending turn")  
-
-    get(gameRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val())
-        let currentGameStatus = snapshot.val().gameStatus
-        let team1RemainingCards = snapshot.val().team1RemainingCards
-        let team2RemainingCards = snapshot.val().team2RemainingCards
         let nextStatus;
-
         // if cards remain on both sides, swap to the next teams turn
-        if (team1RemainingCards && team2RemainingCards) {
-          if (currentGameStatus === 'team1OpsTurn') {
+        if (teamOneRemainingCards && teamTwoRemainingCards) {
+          if (turn === 'team1OpsTurn') {
             nextStatus = 'team2SpyTurn'
             update(gameRef, {gameStatus: nextStatus})
           }
-          if (currentGameStatus === 'team2OpsTurn') {
+          if (turn === 'team2OpsTurn') {
             nextStatus = 'team1SpyTurn'
             update(gameRef, {gameStatus: nextStatus})
           }
         }
-      }})
     }
 
   // only spymaster whos turn it is should see the button that triggers this fxn

@@ -23,7 +23,6 @@ const Login = () => {
 
   // references to firebase data
   let playerRef = ref(database, "players/" + playerId);
-
   // setting user room and name on frontend
   const handleRoom = (event) => {
     dispatch(setRoomId(event.target.value));
