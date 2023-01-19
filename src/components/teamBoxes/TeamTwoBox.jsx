@@ -5,6 +5,7 @@ import "./redTeamBox.css";
 import { child, get, onValue, ref, set } from "firebase/database";
 import { database,  } from "../../utils/firebase";
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
+
 const BlueTeamBox = () => {
   let playerId = useSelector((state) => state.player.playerId);
   const roomId = useSelector((state) => state.player.roomId);

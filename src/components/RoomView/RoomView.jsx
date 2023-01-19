@@ -101,8 +101,6 @@ let whosTurnItIs = useSelector((state) => state.game.turn)
           const team2RemainingCards = snapshot.val().team2RemainingCards
           dispatch(setTeam1RemainingCards(team1RemainingCards))
           dispatch(setTeam2RemainingCards(team2RemainingCards))
-          console.log({team1RemainingCards})
-          console.log({team2RemainingCards})
 
           console.log(game.gameStatus)
           if (game.team1RemainingCards && game.team2RemainingCards) {
@@ -157,6 +155,7 @@ let whosTurnItIs = useSelector((state) => state.game.turn)
       <Container style={styles.sx.RoomContainer}>
         <Grid container spacing={2} style={styles.sx.RoomGrid}>
           <Grid item xs={12} style={styles.sx.RoomAndPlayers}>
+            <Item style={styles.sx.PlayerContainer}>Welcome, {username}</Item>
             <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
             <Item style={styles.sx.PlayerContainer}>
               Players:
