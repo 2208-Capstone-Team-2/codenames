@@ -1,4 +1,3 @@
-const db = require("../db");
 const { Word, Wordpack } = require("../index");
 const duetPackString = require("../wordpacks/duetPack");
 
