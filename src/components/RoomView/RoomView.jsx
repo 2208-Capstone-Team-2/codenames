@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setRoomId, setIsHost } from "../../store/playerSlice";
 import { useParams } from "react-router-dom";
@@ -7,14 +7,14 @@ import { onValue, ref, set, get, child, onDisconnect } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
-import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import styles from "./Room.styles";
 import Popup from "reactjs-popup";
-import SetupGame from "./setupGame.jsx";
 
+import styles from "./Room.styles";
+import SetupGame from "./setupGame.jsx";
+import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import Board from "./Board.jsx";
 import TeamOneBox from "../teamBoxes/TeamOneBox";
 import TeamTwoBox from "../teamBoxes/TeamTwoBox";
@@ -33,7 +33,6 @@ const RoomView = () => {
     (state) => state.player
   );
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const [loading, setLoading] = useState(false);
 
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
@@ -98,7 +97,6 @@ const RoomView = () => {
     color: theme.palette.text.secondary,
   }));
 
-  if (loading) return <p>...loading...</p>;
   return (
     <>
       <ResponsiveAppBar />

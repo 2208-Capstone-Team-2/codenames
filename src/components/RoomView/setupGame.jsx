@@ -9,16 +9,14 @@ function SetupGame() {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const roomId = useSelector((state) => state.player.roomId);
-  const words = useSelector((state) => state.wordsInGame);
+  const { roomId } = useSelector((state) => state.player);
   const dispatch = useDispatch();
+
   //   //----------------fet all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
     setIsLoading(true);
     const { data } = await axios.get("/api/wordpack");
     setWordpacks(data);
-
     setIsLoading(false);
   };
   useEffect(() => {
