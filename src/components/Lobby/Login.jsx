@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUsername, setRoomId } from "../../store/playerSlice";
@@ -21,11 +20,10 @@ const Login = () => {
   const dispatch = useDispatch();
   let playerId = useSelector((state) => state.player.playerId);
   let playerRef;
-  let roomRef;
 
   // references to firebase data
   playerRef = ref(database, "players/" + playerId);
-  roomRef = ref(database, "rooms/" + roomId);
+
   // setting user room and name on frontend
   const handleRoom = (event) => {
     dispatch(setRoomId(event.target.value));
@@ -34,7 +32,7 @@ const Login = () => {
     dispatch(setUsername(event.target.value));
   };
 
-  const playerLogin = (e) => {
+  const playerLogin = () => {
     // update player with name and room id
     update(playerRef, { id: playerId, username, roomId });
     // room will be updated with player on 'roomview' component
@@ -45,10 +43,11 @@ const Login = () => {
     signInAnonymously(auth)
       .then(() => {
         // Signed in..
-        console.log(auth);
       })
       .catch((error) => {
+        // eslint-disable-next-line no-unused-vars
         const errorCode = error.code;
+        // eslint-disable-next-line no-unused-vars
         const errorMessage = error.message;
       });
 
@@ -67,7 +66,6 @@ const Login = () => {
         onDisconnect(playerRef).remove();
       } else {
         // User is signed out
-        console.log("signed out");
       }
     });
   }, []);

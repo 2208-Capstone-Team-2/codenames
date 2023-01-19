@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ref, update, onValue } from "firebase/database";
@@ -9,17 +9,15 @@ function SetupGame() {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const roomId = useSelector((state) => state.player.roomId);
-  const words = useSelector((state) => state.wordsInGame);
+  const { roomId } = useSelector((state) => state.player);
 
   const dispatch = useDispatch();
+
   //   //----------------fet all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
     setIsLoading(true);
     const { data } = await axios.get("/api/wordpack");
     setWordpacks(data);
-
     setIsLoading(false);
   };
   useEffect(() => {

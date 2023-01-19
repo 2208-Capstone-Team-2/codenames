@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Card from "./Card.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { getDatabase, ref, update,onValue  } from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
+
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
   const roomId = useSelector((state) => state.player.roomId);
@@ -14,9 +15,12 @@ const Board = () => {
     justifyContent: "center",
     alightItems: "center",
   };
-  const database=getDatabase();
-  const dispatch=useDispatch()
+
+  const database = getDatabase();
+  const dispatch = useDispatch();
+
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+
   // On load...
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
@@ -34,12 +38,11 @@ const Board = () => {
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
         return (
-   <div key={singleWord.id}>
-
+          <div key={singleWord.id}>
             <Card singleWord={singleWord} />
-  {/* maybe set this to visible after players select it?  */}
-<div style={{display:"none"}}>card result</div>
-</div>
+            {/* maybe set this to visible after players select it?  */}
+            <div style={{ display: "none" }}>card result</div>
+          </div>
         );
       })}
     </div>

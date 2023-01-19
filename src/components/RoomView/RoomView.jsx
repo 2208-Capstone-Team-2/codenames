@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setRoomId } from "../../store/playerSlice";
 import { useParams } from "react-router-dom";
@@ -33,7 +33,6 @@ const RoomView = () => {
   const playerId = useSelector((state) => state.player.playerId);
   const username = useSelector((state) => state.player.username);
   const allPlayers = useSelector((state) => state.allPlayers.allPlayers);
-  const [loading, setLoading] = useState(false);
 
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
@@ -102,7 +101,6 @@ const RoomView = () => {
     color: theme.palette.text.secondary,
   }));
 
-  if (loading) return <p>...loading...</p>;
   return (
     <>
       <ResponsiveAppBar />
@@ -118,13 +116,13 @@ const RoomView = () => {
             </Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <TeamOneBox/>
+            <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={3} zeroMinWidth>
             <Item>Game History</Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <TeamTwoBox/>
+            <TeamTwoBox />
           </Grid>
 
           <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
