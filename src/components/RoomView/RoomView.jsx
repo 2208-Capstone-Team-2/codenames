@@ -100,8 +100,10 @@ const RoomView = () => {
        onValue(gameRef, (snapshot) => {
         if (snapshot.exists()) {
           const game = snapshot.val();
+          console.log(game.gameStatus)
           if (game.team1RemainingCards && game.team2RemainingCards) {
             if (game.gameStatus === 'team1SpyTurn') {
+              console.log('status inside of team1Spy', game.gameStatus)
               // dispatch(setTurn('team1Spy'))
             } else if (game.gameStatus === 'team2SpyTurn') {
               // dispatch(setTurn('team2Spy'))
