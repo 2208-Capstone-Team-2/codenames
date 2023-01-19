@@ -35,6 +35,7 @@ const Login = () => {
   };
 
   const playerLogin = (e) => {
+    e.preventDefault();
     // update player with name and room id
     update(playerRef, { id: playerId, username, roomId });
     // room will be updated with player on 'roomview' component
