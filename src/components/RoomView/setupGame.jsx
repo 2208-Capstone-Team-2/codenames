@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ref, update, onValue } from "firebase/database";

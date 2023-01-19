@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import "./blueTeamBox.css";
 import { useDispatch, useSelector } from "react-redux";
 import { child, get, onValue, ref, set } from "firebase/database";

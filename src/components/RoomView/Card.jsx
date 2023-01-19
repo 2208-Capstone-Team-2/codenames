@@ -1,3 +1,5 @@
+import React from "react";
+
 const Card = (singleWord) => {
   const style = {
     width: "120px",
