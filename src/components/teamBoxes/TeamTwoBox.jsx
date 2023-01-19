@@ -1,30 +1,18 @@
 import React, { useEffect } from "react";
-import "./blueTeamBox.css";
+import "./teamTwoBox.css";
 import { useDispatch, useSelector } from "react-redux";
-import { child, get, onValue, ref, set } from "firebase/database";
-import { database } from "../../utils/firebase";
-import {
-  setTeamTwoOperatives,
-  setTeamTwoSpymaster,
-} from "../../store/teamTwoSlice";
-
-const BlueTeamBox = () => {
-  const dispatch = useDispatch();
+import { child, get, onDisconnect, onValue, ref, set } from "firebase/database";
+import { database,  } from "../../utils/firebase";
+import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
+const TeamTwoBox = () => {
   const { playerId, roomId, username } = useSelector((state) => state.player);
-
-  const teamTwoOperativesRef = ref(
-    database,
-    `rooms/${roomId}/team-2/operatives/`
-  );
-  const teamTwoSpymasterRef = ref(
-    database,
-    `rooms/${roomId}/team-2/spymaster/`
-  );
+  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
+  const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector(
-    (state) => state.teamTwo
-  );
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector(state => state.teamTwo);
+  const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
+  const playerOnTeamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/${playerId}`);
+  const dispatch = useDispatch();
 
   // On click event for a player to be able to join team-2 team as a operative
   const joinTeamTwoOp = async () => {
@@ -120,19 +108,35 @@ const BlueTeamBox = () => {
         dispatch(setTeamTwoSpymaster(Object.values(snapshot.val())));
       });
     }
-  };
-  useEffect(() => {
-    onValue(teamTwoRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const teamTwo = snapshot.val();
-        if (teamTwo.operatives) {
-          const teamTwoOperativesFirebase = Object.values(teamTwo.operatives);
-          dispatch(setTeamTwoOperatives(teamTwoOperativesFirebase));
+
+  }
+  useEffect(()=>{
+    onValue(teamTwoOperativesRef, async (snapshot)=> {
+        if(snapshot.exists()){
+            const teamTwoOperativesFirebase = snapshot.val()
+            const teamTwoOperatives = Object.values(teamTwoOperativesFirebase)
+            dispatch(setTeamTwoOperatives(teamTwoOperatives))
+        } else {
+            dispatch(setTeamTwoOperatives([]))
         }
-        if (teamTwo.spymaster) {
-          const teamTwoSpymasterFirebase = Object.values(teamTwo.spymaster);
-          dispatch(setTeamTwoSpymaster(teamTwoSpymasterFirebase));
+    })
+    onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
+      if(snapshot.exists()){
+        onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef)
+      }
+    })
+    onValue(teamTwoSpymasterRef, async (snapshot)=> {
+        if(snapshot.exists()){
+            const teamTwoSpymasterFirebase = snapshot.val()
+            const teamTwoSpymaster = Object.values(teamTwoSpymasterFirebase)
+            dispatch(setTeamTwoSpymaster(teamTwoSpymaster))
+        } else {
+            dispatch(setTeamTwoSpymaster([]))
         }
+    })
+    onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
+      if(snapshot.exists()){
+        onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef)
       }
     });
   }, []);
@@ -159,4 +163,6 @@ const BlueTeamBox = () => {
   );
 };
 
-export default BlueTeamBox;
+
+export default TeamTwoBox;
+
