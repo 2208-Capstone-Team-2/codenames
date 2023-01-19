@@ -51,6 +51,7 @@ function SetupGame() {
         dispatch(setWordsInGame(result.data));
       });
   };
+  
   if (isLoading) return <p>Loading...</p>;
   return (
     <div>

@@ -113,6 +113,9 @@ const RoomView = () => {
               // dispatch(setTurn('team2Spy'))
            } 
           }
+
+        // update cards remaining in redux and firebase
+
          
          else if (game.gameStatus === 'gameOver') {
             // havent gotten here yet really, but presumably we'd want to:
@@ -183,14 +186,10 @@ const RoomView = () => {
           if (currentGameStatus === 'team1OpsTurn') {
             nextStatus = 'team2SpyTurn'
             update(gameRef, {gameStatus: nextStatus})
-            // dispatch(setTurn(nextStatus))
-            // update cards remaining in redux and firebase
           }
           if (currentGameStatus === 'team2OpsTurn') {
             nextStatus = 'team1SpyTurn'
             update(gameRef, {gameStatus: nextStatus})
-           // dispatch(setTurn(nextStatus))
-           // update cards remaining in redux and firebase
           }
         }
         else {

@@ -4,6 +4,7 @@ import Card from "./Card.jsx";
 import { useSelector } from "react-redux";
 import { ref, get } from "firebase/database";
 import { database } from "../../utils/firebase";
+
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
   let playerRef = ref(database, "players/" + playerId);
