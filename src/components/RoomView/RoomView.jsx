@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setRoomId } from "../../store/playerSlice";
+import { setRoomId, setIsHost } from "../../store/playerSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { onValue, ref, set, get, child, onDisconnect, update } from "firebase/database";
@@ -32,10 +32,10 @@ const RoomView = () => {
   const navigate = useNavigate();
 
   // frontend state
-  const roomId = useSelector((state) => state.player.roomId);
-  const playerId = useSelector((state) => state.player.playerId);
-  const username = useSelector((state) => state.player.username);
-  const allPlayers = useSelector((state) => state.allPlayers.allPlayers);
+  const { playerId, username, roomId, isHost } = useSelector(
+    (state) => state.player
+  );
+  const { allPlayers } = useSelector((state) => state.allPlayers);
   const whosTurn = useSelector((state) => state.game.turn);
   const team1RemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const team2RemainingCards = useSelector((state) => state.game.team2RemainingCards);
@@ -51,30 +51,31 @@ const RoomView = () => {
 
 
   useEffect(() => {
-    console.log("in room view use effect");
     // on loading page if no room or name, send back to join page
     if (roomId === "" || username === "") {
       navigate("/");
-      return; //immediately kick them!
-    } else {
-      console.log("joined room!");
+      return; // immediately kick them!
     }
-
-    console.log("hit here");
 
     //when a user joins room, this checks to see if it exists
     get(roomRef).then((snapshot) => {
-      const doesRoomExist = snapshot.exists()
-        if (doesRoomExist) {
-          console.log("room already created, just add the player!");
-          // playerId is key in the room/roomId/players/playerId, so we creating new player obj
-          set(child(playersInRoomRef, playerId), { playerId, username })
-        } else {
-          // create the room, with players and host
-          console.log('room not created yet. make one!')
-          set(roomRef, {roomId: roomId, host: {playerId, username}, players: { [playerId]: {playerId, username }}, game: {gameStatus: 'not playing', team1RemainingCards, team2RemainingCards}})
-        }})
-      
+      const doesRoomExist = snapshot.exists();
+      if (doesRoomExist) {
+        console.log("room already created, just add the player!");
+        // playerId is key in the room/roomId/players/playerId, so we creating new player obj
+        set(child(playersInRoomRef, playerId), { playerId, username });
+      } else {
+        // create the room, with players and host
+        console.log("room not created yet. make one!");
+        set(roomRef, {
+          roomId: roomId,
+          host: { playerId, username },
+          players: { [playerId]: { playerId, username } },
+        });
+        // Set our state for if the player is the host or not.
+        dispatch(setIsHost(true));
+      }
+    });
 
       // whenever users are added to specific room, update frontend redux store
       onValue(playersInRoomRef, (snapshot) => {
@@ -228,13 +229,13 @@ const RoomView = () => {
             </Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <TeamOneBox/>
+            <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={3} zeroMinWidth>
             <Item>Game History</Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <TeamTwoBox/>
+            <TeamTwoBox />
           </Grid>
 
           <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
@@ -243,22 +244,23 @@ const RoomView = () => {
         </Grid>
       </Container>
 
-      <Popup
-        trigger={
-          <button
-            style={{
-              display: "block",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            {" "}
-            Set Up
-          </button>
-        }
-      >
-        <SetupGame />
-      </Popup>
+      {isHost && (
+        <Popup
+          trigger={
+            <button
+              style={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              Set Up
+            </button>
+          }
+        >
+          <SetupGame />
+        </Popup>
+      )}
       <Board />
 
       <Button variant ="contained" onClick={startGame}>start game</Button>

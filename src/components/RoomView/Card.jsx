@@ -7,11 +7,6 @@ import Grid from "@mui/material/Grid";
 
 const Card = ({singleWord, value, submitAnswer}) => {
   const words = useSelector((state) => state.wordsInGame);
-
-  console.log(value)
-
-  
-console.log(singleWord)
   const style = {
     width:"120px",
     height:"150px",

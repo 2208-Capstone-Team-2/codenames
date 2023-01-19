@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card.jsx";
-
-import { useSelector } from "react-redux";
-import { ref, get } from "firebase/database";
+import { useDispatch, useSelector } from "react-redux";
+import { ref, update,onValue, get  } from "firebase/database";
 import { database } from "../../utils/firebase";
 
+import { setWordsInGame } from "../../store/wordsInGameSlice";
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
   let playerRef = ref(database, "players/" + playerId);
@@ -80,6 +80,22 @@ const Board = () => {
   }
 
 
+
+  const dispatch=useDispatch()
+  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+  // On load...
+  useEffect(() => {
+    // Look to see if there are cards already loaded for the room
+    onValue(cardsRef, (snapshot) => {
+      // If there are cards in /room/roomId/cards
+      if (snapshot.exists()) {
+        //update our redux to reflect that
+        const cardsFromSnapshot = snapshot.val();
+        const values = Object.values(cardsFromSnapshot);
+        dispatch(setWordsInGame(values));
+      }
+    });
+  }, []);
   return (
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
