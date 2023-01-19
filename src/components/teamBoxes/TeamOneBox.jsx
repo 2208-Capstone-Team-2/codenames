@@ -18,6 +18,8 @@ const RedTeamBox = () => {
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives } = useSelector(state => state.teamOne);
   const { teamOneSpymaster } = useSelector(state => state.teamOne);
+  const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards)
+  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards)
 
   
   // On click event for a player to be able to join team-1 team as a operative
@@ -129,6 +131,7 @@ const RedTeamBox = () => {
   return (
     <div className="redBoxCard">
       <div>Team 1</div>
+      <div>Remaining Cards: {teamOneRemainingCards}</div>
       <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>

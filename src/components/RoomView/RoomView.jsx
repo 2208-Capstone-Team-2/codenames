@@ -15,7 +15,7 @@ import styles from "./Room.styles";
 import Popup from "reactjs-popup";
 import SetupGame from "./setupGame.jsx";
 import Button from "@mui/material/Button";
-import {setTurn} from '../../store/gameSlice'
+import {setTeam1RemainingCards, setTeam2RemainingCards, setTurn} from '../../store/gameSlice'
 
 
 import Board from "./Board.jsx";
@@ -36,17 +36,13 @@ const RoomView = () => {
     (state) => state.player
   );
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const whosTurn = useSelector((state) => state.game.turn);
-  const team1RemainingCards = useSelector((state) => state.game.team1RemainingCards);
-  const team2RemainingCards = useSelector((state) => state.game.team2RemainingCards);
   const [loading, setLoading] = useState(false);
-
+let whosTurnItIs = useSelector((state) => state.game.turn)
  // firebase room  & players reference
  let roomRef = ref(database, "rooms/" + roomId);
  let playerNestedInRoom = ref(database, "rooms/" + roomId + "/players/" + playerId);
  let playersInRoomRef = ref(database, "rooms/" + roomId + "/players/");
  let gameRef = ref(database, "rooms/" + roomId + "/game/");
- let gameStatusRef = ref(database, "rooms/" + roomId + "/game/gameStatus/");
 
 
 
@@ -71,6 +67,7 @@ const RoomView = () => {
           roomId: roomId,
           host: { playerId, username },
           players: { [playerId]: { playerId, username } },
+          game: {gameStatus: 'ready', team1RemainingCards: 9, team2RemainingCards: 8}
         });
         // Set our state for if the player is the host or not.
         dispatch(setIsHost(true));
@@ -95,36 +92,46 @@ const RoomView = () => {
         } 
       })
 
-
       // setting the 'turn' on the frontend will help determine what users are seeing depending on their role
       // for example, if its team1spymasters turn, they'll see the input clue box and number dropdown
        onValue(gameRef, (snapshot) => {
         if (snapshot.exists()) {
           const game = snapshot.val();
+          const team1RemainingCards = snapshot.val().team1RemainingCards
+          const team2RemainingCards = snapshot.val().team2RemainingCards
+          dispatch(setTeam1RemainingCards(team1RemainingCards))
+          dispatch(setTeam2RemainingCards(team2RemainingCards))
+          console.log({team1RemainingCards})
+          console.log({team2RemainingCards})
+
           console.log(game.gameStatus)
           if (game.team1RemainingCards && game.team2RemainingCards) {
             if (game.gameStatus === 'team1SpyTurn') {
               console.log('status inside of team1Spy', game.gameStatus)
-              // dispatch(setTurn('team1Spy'))
+              dispatch(setTurn('team1SpyTurn'))
             } else if (game.gameStatus === 'team2SpyTurn') {
-              // dispatch(setTurn('team2Spy'))
+              dispatch(setTurn('team2SpyTurn'))
            } else if (game.gameStatus === 'team1OpsTurn') {
-              // dispatch(setTurn('team2Spy'))
+              dispatch(setTurn('team1OpsTurn'))
            } else if (game.gameStatus === 'team2OpsTurn') {
-              // dispatch(setTurn('team2Spy'))
+              dispatch(setTurn('team2OpsTurn'))
            } 
+           else if (game.gameStatus === 'gameOver') {
+             // havent gotten here yet really, but presumably we'd want to:
+             // dispatch(setTurn('')) --> its no ones turn anymore
+             // set and get winning team from firebase so that we can...
+             // dispatch(setWinner(teamThatWon))
+           }
           }
-
-        // update cards remaining in redux and firebase
-
-         
-         else if (game.gameStatus === 'gameOver') {
-            // havent gotten here yet really, but presumably we'd want to:
-                // dispatch(setTurn('')) --> its no ones turn anymore
-                // set and get winning team from firebase so that we can...
-                    // dispatch(setWinner(teamThatWon))
-      }
-      }})
+          // update cards remaining in redux and firebase
+            if (game.team1RemainingCards === 0) {
+              console.log('team 1 wins!')
+            }
+            if (game.team2RemainingCards === 0) {
+              console.log('team 2 wins!')
+            }
+        }
+    })
 
   }, []);
 
@@ -134,76 +141,6 @@ const RoomView = () => {
       // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
       update(gameRef, {gameStatus: 'team1SpyTurn'})
   }
-
-
-  // only spymaster whos turn it is should see the button that triggers this fxn
-  // when the spymaster submits the clue, the corresponding operatives team gets to guess next
-  const submitClue = () => {
-    console.log('submitting clue')
-    // haven't done any clue validation. this is just changing 'turns'
-
-    // store the clue in clueHistory and as current clue
-    // will have {teamSubmittingClue: team-1, clue: string, numOfGuesses: 3}
-
-    // get the gameStatus
-    get(gameRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          let currentGameStatus = snapshot.val().gameStatus
-          let nextGameStatus;
-          // if its team1spy submission, team1Ops goes next
-          if (currentGameStatus === 'team1SpyTurn') {
-            nextGameStatus = 'team1OpsTurn'
-            update(gameRef, {gameStatus: nextGameStatus})
-            // update clue data in redux and firebase
-          }
-          // if its team2spy submission, team2Ops goes next
-          if (currentGameStatus === 'team2SpyTurn') {
-            nextGameStatus = 'team2OpsTurn'
-            update(gameRef, {gameStatus: nextGameStatus})
-           // update clue data in redux and firebase
-
-          }
-        } else {
-          console.log('there should always be a game status so this should never get hit!')
-        }})
-  }
-
-
-  // right now, this is just changing turns depending on who clicks on the end turn button.
-  // only operatives should see this button when its their 'turn'
-  const endTurn = () => {
-    console.log("ending turn")  
-
-    get(gameRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val())
-        let currentGameStatus = snapshot.val().gameStatus
-        let team1RemainingCards = snapshot.val().team1RemainingCards
-        let team2RemainingCards = snapshot.val().team2RemainingCards
-        let nextStatus;
-
-        // if cards remain on both sides, swap to the next teams turn
-        if (team1RemainingCards && team2RemainingCards) {
-          if (currentGameStatus === 'team1OpsTurn') {
-            nextStatus = 'team2SpyTurn'
-            update(gameRef, {gameStatus: nextStatus})
-          }
-          if (currentGameStatus === 'team2OpsTurn') {
-            nextStatus = 'team1SpyTurn'
-            update(gameRef, {gameStatus: nextStatus})
-          }
-        }
-        else {
-          // if someone has 0 cards remaining, that means that someone won the game
-        }
-
-      }})
-    }
-
-  
-
-
-
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -227,6 +164,12 @@ const RoomView = () => {
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
+            {whosTurnItIs !== '' && 
+            <Item style={styles.sx.PlayerContainer}>
+            Turn: 
+            {whosTurnItIs}
+          </Item>
+            }
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
             <TeamOneBox />
@@ -261,11 +204,10 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )}
-      <Board />
+      <Board/>
 
       <Button variant ="contained" onClick={startGame}>start game</Button>
-      <Button variant ="contained" onClick={submitClue}>submit clue</Button>
-      <Button variant ="contained" onClick={endTurn}>end turn</Button>
+      
     </>
   );
 };

@@ -20,12 +20,10 @@ const Login = () => {
   const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
   let playerId = useSelector((state) => state.player.playerId);
-  let playerRef;
-  let roomRef;
 
   // references to firebase data
-  playerRef = ref(database, "players/" + playerId);
-  roomRef = ref(database, "rooms/" + roomId);
+  let playerRef = ref(database, "players/" + playerId);
+  let roomRef = ref(database, "rooms/" + roomId);
   // setting user room and name on frontend
   const handleRoom = (event) => {
     dispatch(setRoomId(event.target.value));

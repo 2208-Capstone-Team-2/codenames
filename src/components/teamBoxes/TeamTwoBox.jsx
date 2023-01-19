@@ -7,16 +7,16 @@ import { database,  } from "../../utils/firebase";
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const BlueTeamBox = () => {
   let playerId = useSelector((state) => state.player.playerId);
-  let playerRef;
   const roomId = useSelector((state) => state.player.roomId);
   const username = useSelector((state) => state.player.username);
-  playerRef = ref(database, "players/" + playerId);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const { teamTwoOperatives } = useSelector(state => state.teamTwo);
   const { teamTwoSpymaster } = useSelector(state => state.teamTwo);
+  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
+
   const dispatch = useDispatch();
   // On click event for a player to be able to join team-2 team as a operative
   const joinTeamTwoOp = async () => {
@@ -125,6 +125,7 @@ const BlueTeamBox = () => {
     return (
     <div className="blueBoxCard">
       <div>Team 2</div>
+      <div>Remaining Cards: {teamTwoRemainingCards}</div>
       <div className="blueOpsAndSpys">
         <div>
           <p>Operative(s)</p>
