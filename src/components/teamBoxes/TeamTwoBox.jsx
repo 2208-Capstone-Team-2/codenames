@@ -12,9 +12,6 @@ const BlueTeamBox = () => {
   const dispatch = useDispatch();
   const { playerId, roomId, username } = useSelector((state) => state.player);
 
-  let playerRef;
-  playerRef = ref(database, "players/" + playerId);
-
   const teamTwoOperativesRef = ref(
     database,
     `rooms/${roomId}/team-2/operatives/`
