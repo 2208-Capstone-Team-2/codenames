@@ -5,7 +5,6 @@ import { ref, update,onValue, get  } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { Button } from "@mui/material";
 import { setWordsInGame } from "../../store/wordsInGameSlice";
-import {setTeam1RemainingCards, setTeam2RemainingCards} from '../../store/gameSlice'
 
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
