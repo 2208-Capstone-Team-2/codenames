@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setRoomId } from "../../store/playerSlice";
+import { setRoomId, setIsHost } from "../../store/playerSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { onValue, ref, set, get, child, onDisconnect } from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
-import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import styles from "./Room.styles";
 import Popup from "reactjs-popup";
-import SetupGame from "./setupGame.jsx";
 
+import styles from "./Room.styles";
+import SetupGame from "./setupGame.jsx";
+import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import Board from "./Board.jsx";
 import TeamOneBox from "../teamBoxes/TeamOneBox";
 import TeamTwoBox from "../teamBoxes/TeamTwoBox";
@@ -29,11 +29,10 @@ const RoomView = () => {
   const navigate = useNavigate();
 
   // frontend state
-  const roomId = useSelector((state) => state.player.roomId);
-  const playerId = useSelector((state) => state.player.playerId);
-  const username = useSelector((state) => state.player.username);
-  const allPlayers = useSelector((state) => state.allPlayers.allPlayers);
-  const [loading, setLoading] = useState(false);
+  const { playerId, username, roomId, isHost } = useSelector(
+    (state) => state.player
+  );
+  const { allPlayers } = useSelector((state) => state.allPlayers);
 
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
@@ -42,33 +41,30 @@ const RoomView = () => {
     database,
     "rooms/" + roomId + "/players/" + playerId
   );
+
   useEffect(() => {
-    console.log("in room view use effect");
     // on loading page if no room or name, send back to join page
     if (roomId === "" || username === "") {
       navigate("/");
-      return; //immediately kick them!
-    } else {
-      console.log("joined room!");
+      return; // immediately kick them!
     }
-
-    console.log("hit here");
 
     //when a user joins room, this checks to see if it exists
     get(roomRef).then((snapshot) => {
       const doesRoomExist = snapshot.exists();
       if (doesRoomExist) {
-        console.log("room already created, just add the player!");
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
       } else {
-        // create the room, with players and host
-        console.log("room not created yet. make one!");
+        console.log("room does not exist...yet! Creating it now...");
+        // create the room, (nested) players, and host.
         set(roomRef, {
           roomId: roomId,
           host: { playerId, username },
           players: { [playerId]: { playerId, username } },
         });
+        // Set our state for if the player is the host or not.
+        dispatch(setIsHost(true));
       }
     });
 
@@ -86,7 +82,6 @@ const RoomView = () => {
     // if the player disconnects, remove them from the room
     onValue(playerNestedInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
-        console.log("hit here");
         onDisconnect(playerNestedInRoomRef).remove(
           playersInRoomRef + "/" + playerId
         );
@@ -102,7 +97,6 @@ const RoomView = () => {
     color: theme.palette.text.secondary,
   }));
 
-  if (loading) return <p>...loading...</p>;
   return (
     <>
       <ResponsiveAppBar />
@@ -118,13 +112,13 @@ const RoomView = () => {
             </Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <TeamOneBox/>
+            <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={3} zeroMinWidth>
             <Item>Game History</Item>
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
-            <TeamTwoBox/>
+            <TeamTwoBox />
           </Grid>
 
           <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
@@ -133,22 +127,23 @@ const RoomView = () => {
         </Grid>
       </Container>
 
-      <Popup
-        trigger={
-          <button
-            style={{
-              display: "block",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            {" "}
-            Set Up
-          </button>
-        }
-      >
-        <SetupGame />
-      </Popup>
+      {isHost && (
+        <Popup
+          trigger={
+            <button
+              style={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              Set Up
+            </button>
+          }
+        >
+          <SetupGame />
+        </Popup>
+      )}
       <Board />
     </>
   );

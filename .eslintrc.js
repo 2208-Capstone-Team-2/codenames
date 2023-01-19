@@ -23,5 +23,8 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react"],
-  rules: {},
+  rules: {
+    "react/jsx-uses-react": 1,
+    "react/react-in-jsx-scope": 1,
+  },
 };

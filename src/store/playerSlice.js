@@ -4,6 +4,7 @@ const initialState = {
   playerId: "",
   username: "",
   roomId: "",
+  isHost: false,
 };
 
 export const playerSlice = createSlice({
@@ -19,8 +20,12 @@ export const playerSlice = createSlice({
     setRoomId: (state, action) => {
       state.roomId = action.payload;
     },
+    setIsHost: (state, action) => {
+      state.isHost = action.payload;
+    },
   },
 });
 
-export const { setUsername, setRoomId, setPlayerId } = playerSlice.actions;
+export const { setUsername, setRoomId, setPlayerId, setIsHost } =
+  playerSlice.actions;
 export default playerSlice.reducer;
