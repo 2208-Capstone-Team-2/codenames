@@ -1,22 +1,15 @@
 import React, { useEffect } from "react";
-import "./blueTeamBox.css";
+import "./teamTwoBox.css";
 import { useDispatch, useSelector } from "react-redux";
-import "./redTeamBox.css";
 import { child, get, onDisconnect, onValue, ref, set } from "firebase/database";
 import { database,  } from "../../utils/firebase";
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const TeamTwoBox = () => {
-  let playerId = useSelector((state) => state.player.playerId);
-  let playerRef;
-  const roomId = useSelector((state) => state.player.roomId);
-  const username = useSelector((state) => state.player.username);
-  playerRef = ref(database, "players/" + playerId);
+  const { playerId, roomId, username } = useSelector((state) => state.player);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
-  const { teamTwoOperatives } = useSelector(state => state.teamTwo);
-  const { teamTwoSpymaster } = useSelector(state => state.teamTwo);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector(state => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
   const playerOnTeamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/${playerId}`);
   const dispatch = useDispatch();

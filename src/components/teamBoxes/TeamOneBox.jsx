@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./redTeamBox.css";
+import "./teamOneBox.css";
 import { get, ref, set, child, onValue, onDisconnect } from "firebase/database";
 import { database } from "../../utils/firebase";
-import {
-  setTeamOneOperatives,
-  setTeamOneSpymaster,
-} from "../../store/teamOneSlice";
+import {setTeamOneOperatives, setTeamOneSpymaster} from "../../store/teamOneSlice";
 
 const TeamOneBox = () => {
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
@@ -14,17 +11,9 @@ const TeamOneBox = () => {
   const dispatch = useDispatch();
   const { playerId, roomId, username } = useSelector((state) => state.player);
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
-  const teamOneOperativesRef = ref(
-    database,
-    `rooms/${roomId}/team-1/operatives/`
-  );
-  const teamOneSpymasterRef = ref(
-    database,
-    `rooms/${roomId}/team-1/spymaster/`
-  );
-  const { teamOneOperatives, teamOneSpymaster } = useSelector(
-    (state) => state.teamOne
-  );
+  const teamOneOperativesRef = ref(database,`rooms/${roomId}/team-1/operatives/`);
+  const teamOneSpymasterRef = ref(database,`rooms/${roomId}/team-1/spymaster/`);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
 
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {
