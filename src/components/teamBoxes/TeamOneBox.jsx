@@ -13,8 +13,6 @@ const TeamOneBox = () => {
   const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
   const dispatch = useDispatch();
   const { playerId, roomId, username } = useSelector((state) => state.player);
-
-  const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(
     database,
