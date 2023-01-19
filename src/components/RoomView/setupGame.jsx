@@ -12,7 +12,6 @@ function SetupGame() {
 
   const roomId = useSelector((state) => state.player.roomId);
   const words = useSelector((state) => state.wordsInGame);
-
   const dispatch = useDispatch();
   //   //----------------fet all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
@@ -29,17 +28,20 @@ function SetupGame() {
   //------------------functions to handle selection---------------------//
 
   const handleWordPackSelection = (event) => {
+    const idInteractedWith = event.target.value;
+
     //if event.target.value is already in the array, we delete the already existed one in the array and return
-    if (selectedWordPackId.indexOf(event.target.value) > -1) {
-      return selectedWordPackId.splice(
-        selectedWordPackId.indexOf(event.target.value),
-        1
+    if (selectedWordPackId.includes(idInteractedWith)) {
+      // This creates a new array where each element is NOT the id interacted with.
+      const filtered = selectedWordPackId.filter(
+        (element) => element !== idInteractedWith
       );
+
+      setSelectedWordPackId(filtered);
     }
-    // if event.target.value is not in the array, we add it in
-    else selectedWordPackId.indexOf(event.target.value) < 0;
-    {
-      setSelectedWordPackId([...selectedWordPackId, event.target.value]);
+    // if idInteractedWithis not in the array, we add it in
+    else {
+      setSelectedWordPackId([...selectedWordPackId, idInteractedWith]);
     }
   };
 
