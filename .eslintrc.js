@@ -1,7 +1,7 @@
 module.exports = {
   settings: {
     react: {
-      version: "detect",
+      version: 'detect',
     },
   },
   env: {
@@ -10,18 +10,22 @@ module.exports = {
     commonjs: true,
     node: true,
   },
-  parser: "@babel/eslint-parser",
+  parser: '@babel/eslint-parser',
   extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime",
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:prettier/recommended',
   ],
   overrides: [],
   parserOptions: {
     requireConfigFile: false,
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  plugins: ["react"],
-  rules: {},
+  plugins: ['react', 'prettier'],
+  rules: {
+    'react/jsx-uses-react': 1,
+    'react/react-in-jsx-scope': 1,
+  },
 };

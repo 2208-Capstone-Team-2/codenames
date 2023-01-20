@@ -1,41 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setRoomId, setIsHost } from "../../store/playerSlice";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import {
-  onValue,
-  ref,
-  set,
-  get,
-  child,
-  onDisconnect,
-  update,
-} from "firebase/database";
-import { database } from "../../utils/firebase";
-import { setAllPlayers } from "../../store/allPlayersSlice";
-import { Container } from "@mui/material";
-import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import styles from "./Room.styles";
-import Popup from "reactjs-popup";
-import SetupGame from "./setupGame.jsx";
-import Button from "@mui/material/Button";
-import {
-  setTeam1RemainingCards,
-  setTeam2RemainingCards,
-  setStatus,
-} from "../../store/gameSlice";
-
-import Board from "./Board.jsx";
-import TeamOneBox from "../teamBoxes/TeamOneBox";
-import TeamTwoBox from "../teamBoxes/TeamTwoBox";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRoomId, setIsHost } from '../../store/playerSlice';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { onValue, ref, set, get, child, onDisconnect, update } from 'firebase/database';
+import { database } from '../../utils/firebase';
+import { setAllPlayers } from '../../store/allPlayersSlice';
+import { Container } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Popup from 'reactjs-popup';
+import SetupGame from './setupGame.jsx';
+import { setWordsInGame } from '../../store/wordsInGameSlice';
+import styles from './Room.styles';
+import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
+import Button from '@mui/material/Button';
+import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
+import Board from './Board.jsx';
+import TeamOneBox from '../teamBoxes/TeamOneBox';
+import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 
 const RoomView = () => {
   // for room nav
-  const params = useParams("");
+  const params = useParams('');
   const roomIdFromParams = params.id;
   setRoomId(roomIdFromParams);
 
@@ -43,25 +31,20 @@ const RoomView = () => {
   const navigate = useNavigate();
 
   // frontend state
-  const { playerId, username, roomId, isHost } = useSelector(
-    (state) => state.player
-  );
+  const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const [loading, setLoading] = useState(false);
-  let whosTurnItIs = useSelector((state) => state.game.turn);
+  let gameStatus = useSelector((state) => state.game.status);
   // firebase room  & players reference
-  let roomRef = ref(database, "rooms/" + roomId);
-  let playerNestedInRoom = ref(
-    database,
-    "rooms/" + roomId + "/players/" + playerId
-  );
-  let playersInRoomRef = ref(database, "rooms/" + roomId + "/players/");
-  let gameRef = ref(database, "rooms/" + roomId + "/game/");
+  let roomRef = ref(database, 'rooms/' + roomId);
+  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
+  let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
+  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   useEffect(() => {
     // on loading page if no room or name, send back to join page
-    if (roomId === "" || username === "") {
-      navigate("/");
+    if (roomId === '' || username === '') {
+      navigate('/');
       return; // immediately kick them!
     }
 
@@ -69,18 +52,18 @@ const RoomView = () => {
     get(roomRef).then((snapshot) => {
       const doesRoomExist = snapshot.exists();
       if (doesRoomExist) {
-        console.log("room already created, just add the player!");
+        console.log('room already created, just add the player!');
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
       } else {
-        // create the room, with players and host
-        console.log("room not created yet. make one!");
+        console.log('room does not exist...yet! Creating it now...');
+        // create the room, (nested) players, and host.
         set(roomRef, {
           roomId: roomId,
           host: { playerId, username },
           players: { [playerId]: { playerId, username } },
           game: {
-            gameStatus: "ready",
+            gameStatus: 'ready',
             team1RemainingCards: 9,
             team2RemainingCards: 8,
           },
@@ -97,16 +80,13 @@ const RoomView = () => {
         const values = Object.values(players);
         dispatch(setAllPlayers(values));
       } else {
-        console.log("no players in room yet!");
+        console.log('no players in room yet!');
       }
     });
 
     onValue(playerNestedInRoom, (snapshot) => {
       if (snapshot.exists()) {
-        // if the player disconnects, remove them from the room
-        onDisconnect(playerNestedInRoom).remove(
-          playersInRoomRef + "/" + playerId
-        );
+        onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
       }
     });
 
@@ -122,16 +102,16 @@ const RoomView = () => {
 
         console.log(game.gameStatus);
         if (game.team1RemainingCards && game.team2RemainingCards) {
-          if (game.gameStatus === "team1SpyTurn") {
-            console.log("status inside of team1Spy", game.gameStatus);
-            dispatch(setStatus("team1SpyTurn"));
-          } else if (game.gameStatus === "team2SpyTurn") {
-            dispatch(setStatus("team2SpyTurn"));
-          } else if (game.gameStatus === "team1OpsTurn") {
-            dispatch(setStatus("team1OpsTurn"));
-          } else if (game.gameStatus === "team2OpsTurn") {
-            dispatch(setStatus("team2OpsTurn"));
-          } else if (game.gameStatus === "gameOver") {
+          if (game.gameStatus === 'team1SpyTurn') {
+            console.log('status inside of team1Spy', game.gameStatus);
+            dispatch(setStatus('team1SpyTurn'));
+          } else if (game.gameStatus === 'team2SpyTurn') {
+            dispatch(setStatus('team2SpyTurn'));
+          } else if (game.gameStatus === 'team1OpsTurn') {
+            dispatch(setStatus('team1OpsTurn'));
+          } else if (game.gameStatus === 'team2OpsTurn') {
+            dispatch(setStatus('team2OpsTurn'));
+          } else if (game.gameStatus === 'gameOver') {
             // havent gotten here yet really, but presumably we'd want to:
             // dispatch(setStatus('')) --> its no ones turn anymore
             // set and get winning team from firebase so that we can...
@@ -140,31 +120,30 @@ const RoomView = () => {
         }
         // update cards remaining in redux and firebase
         if (game.team1RemainingCards === 0) {
-          console.log("team 1 wins!");
+          console.log('team 1 wins!');
         }
         if (game.team2RemainingCards === 0) {
-          console.log("team 2 wins!");
+          console.log('team 2 wins!');
         }
       }
     });
   }, []);
 
   const startGame = () => {
-    console.log("startingGame");
+    console.log('startingGame');
     // gamestatus default value in firebase is 'not playing'.
     // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
-    update(gameRef, { gameStatus: "team1SpyTurn" });
+    update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
   const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
 
-  if (loading) return <p>...loading...</p>;
   return (
     <>
       <ResponsiveAppBar />
@@ -179,10 +158,10 @@ const RoomView = () => {
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
-            {whosTurnItIs !== "" && (
+            {gameStatus !== 'ready' && (
               <Item style={styles.sx.PlayerContainer}>
                 Turn:
-                {whosTurnItIs}
+                {gameStatus}
               </Item>
             )}
           </Grid>
@@ -207,9 +186,9 @@ const RoomView = () => {
           trigger={
             <button
               style={{
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
               }}
             >
               Set Up

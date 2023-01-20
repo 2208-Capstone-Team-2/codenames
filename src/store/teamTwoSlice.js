@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   teamTwoOperatives: [],
@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export const teamTwoSlice = createSlice({
-  name: "teamTwo",
+  name: 'teamTwo',
   initialState,
   reducers: {
     setTeamTwoOperatives: (state, action) => {
@@ -18,6 +18,5 @@ export const teamTwoSlice = createSlice({
   },
 });
 
-export const { setTeamTwoOperatives, setTeamTwoSpymaster } =
-  teamTwoSlice.actions;
+export const { setTeamTwoOperatives, setTeamTwoSpymaster } = teamTwoSlice.actions;
 export default teamTwoSlice.reducer;

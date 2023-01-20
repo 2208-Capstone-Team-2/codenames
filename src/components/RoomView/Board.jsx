@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
-import Card from "./Card.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { ref, update, onValue, get } from "firebase/database";
-import { database } from "../../utils/firebase";
-import { Button } from "@mui/material";
-import { setWordsInGame } from "../../store/wordsInGameSlice";
+import React, { useEffect, useState } from 'react';
+import Card from './Card.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { ref, update, onValue, get } from 'firebase/database';
+import { database } from '../../utils/firebase';
+import { Button } from '@mui/material';
+import { setWordsInGame } from '../../store/wordsInGameSlice';
 
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
   const roomId = useSelector((state) => state.player.roomId);
   const playerId = useSelector((state) => state.player.playerId);
-  const teamOneRemainingCards = useSelector(
-    (state) => state.game.team1RemainingCards
-  );
-  const teamTwoRemainingCards = useSelector(
-    (state) => state.game.team2RemainingCards
-  );
+  const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
+  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   const gameStatus = useSelector((state) => state.game.status);
   const { teamOneOperatives } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
 
-  let gameRef = ref(database, "rooms/" + roomId + "/game/");
+  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const dispatch = useDispatch();
 
   const style = {
-    display: "grid",
-    gridTemplateColumns: "auto auto auto auto auto",
-    marginTop: "5%",
-    gap: "2%",
-    justifyContent: "center",
-    alightItems: "center",
+    display: 'grid',
+    gridTemplateColumns: 'auto auto auto auto auto',
+    marginTop: '5%',
+    gap: '2%',
+    justifyContent: 'center',
+    alightItems: 'center',
   };
 
   const submitAnswer = async (e) => {
@@ -64,75 +60,72 @@ const Board = () => {
     });
 
     //  if its team 1 ops turn and they are the one who clicked on the card...
-    if (gameStatus === "team1OpsTurn" && teamOneOpsIds.includes(playerId)) {
+    if (gameStatus === 'team1OpsTurn' && teamOneOpsIds.includes(playerId)) {
       // reveal card
-      if (cardBelongsTo === "0") {
-        console.log("you hit the assassin! you lose.");
+      if (cardBelongsTo === '0') {
+        console.log('you hit the assassin! you lose.');
         // set winner = other team
         // do other celebratory stuff
         // show reset game button
       }
-      if (cardBelongsTo === "3") {
-        console.log("you hit a bystander!");
+      if (cardBelongsTo === '3') {
+        console.log('you hit a bystander!');
         endTurn();
       }
-      if (cardBelongsTo === "1") {
-        console.log("thats correct!");
+      if (cardBelongsTo === '1') {
+        console.log('thats correct!');
         await update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
         // decrement from guesses remaining from spymasters clue
         // if guesses remaining === 0, endTurn()
       }
-      if (cardBelongsTo === "2") {
-        console.log("thats the other teams card! turn is over");
+      if (cardBelongsTo === '2') {
+        console.log('thats the other teams card! turn is over');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
       }
-    } else if (
-      gameStatus === "team2OpsTurn" &&
-      teamTwoOpsIds.includes(playerId)
-    ) {
+    } else if (gameStatus === 'team2OpsTurn' && teamTwoOpsIds.includes(playerId)) {
       // reveal card
-      if (cardBelongsTo === "0") {
-        console.log("you hit the assassin! you lose.");
+      if (cardBelongsTo === '0') {
+        console.log('you hit the assassin! you lose.');
         // set winner = other team
         // do other celebratory stuff
         // show reset game button
       }
-      if (cardBelongsTo === "3") {
-        console.log("you hit a bystander!");
+      if (cardBelongsTo === '3') {
+        console.log('you hit a bystander!');
         endTurn();
       }
-      if (cardBelongsTo === "2") {
-        console.log("thats correct!");
+      if (cardBelongsTo === '2') {
+        console.log('thats correct!');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         // decrement from guesses remaining from spymasters clue
         // if guesses remaining === 0, endTurn()
       }
-      if (cardBelongsTo === "1") {
-        console.log("thats the other teams card! turn is over");
+      if (cardBelongsTo === '1') {
+        console.log('thats the other teams card! turn is over');
         update(gameRef, { team1RemainingCards: teamOneRemainingCards - 1 });
         endTurn();
       }
     } else {
-      console.log("its not my turn");
+      console.log('its not my turn');
     }
   };
 
   // changing turns depending on who clicks on the end turn button.
   // only operatives should see this button when its their 'turn'
   const endTurn = () => {
-    console.log("ending turn");
+    console.log('ending turn');
     let nextStatus;
     // if cards remain on both sides, swap to the next teams turn
     if (teamOneRemainingCards && teamTwoRemainingCards) {
-      if (gameStatus === "team1OpsTurn") {
-        nextStatus = "team2SpyTurn";
+      if (gameStatus === 'team1OpsTurn') {
+        nextStatus = 'team2SpyTurn';
         update(gameRef, { gameStatus: nextStatus });
       }
-      if (gameStatus === "team2OpsTurn") {
-        nextStatus = "team1SpyTurn";
+      if (gameStatus === 'team2OpsTurn') {
+        nextStatus = 'team1SpyTurn';
         update(gameRef, { gameStatus: nextStatus });
       }
     }
@@ -141,20 +134,20 @@ const Board = () => {
   // only spymaster whos turn it is should see the button that triggers this fxn
   // when the spymaster submits the clue, the operatives gets to guess next
   const submitClue = () => {
-    console.log("submitting clue");
+    console.log('submitting clue');
     // make sure clue is valid and doesnt contain any of the words on the board
     // clue number should not exceed cards remaining for that team
     // store the clue in clueHistory and as current clue
     // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
     let nextGameStatus;
     // if its team1spy submission, team1Ops goes next
-    if (gameStatus === "team1SpyTurn") {
-      nextGameStatus = "team1OpsTurn";
+    if (gameStatus === 'team1SpyTurn') {
+      nextGameStatus = 'team1OpsTurn';
       update(gameRef, { gameStatus: nextGameStatus });
     }
     // if its team2spy submission, team2Ops goes next
-    if (gameStatus === "team2SpyTurn") {
-      nextGameStatus = "team2OpsTurn";
+    if (gameStatus === 'team2SpyTurn') {
+      nextGameStatus = 'team2OpsTurn';
       update(gameRef, { gameStatus: nextGameStatus });
     }
   };
@@ -177,12 +170,7 @@ const Board = () => {
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
         return (
-          <Card
-            key={singleWord.id}
-            singleWord={singleWord}
-            value={singleWord.teamNumber}
-            submitAnswer={submitAnswer}
-          />
+          <Card key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} submitAnswer={submitAnswer} />
         );
       })}
       <Button variant="contained" onClick={endTurn}>

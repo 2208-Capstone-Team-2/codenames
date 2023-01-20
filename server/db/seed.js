@@ -1,8 +1,8 @@
-const db = require("./db");
+const db = require('./db');
 
 // Import the smaller seeding functions that we'll use:
-const seedDefaultWordpack = require("./seeds/seedDefaultWordpack");
-const seedDuetWordpack = require("./seeds/seedDuetWordpack");
+const seedDefaultWordpack = require('./seeds/seedDefaultWordpack');
+const seedDuetWordpack = require('./seeds/seedDuetWordpack');
 
 const seed = async () => {
   await db.sync({ force: true }); // Clear out any old data
@@ -10,7 +10,7 @@ const seed = async () => {
   await seedDefaultWordpack();
   await seedDuetWordpack();
 
-  console.log("DONE RUNNING SEED...");
+  console.log('DONE RUNNING SEED...');
 };
 
 seed();
