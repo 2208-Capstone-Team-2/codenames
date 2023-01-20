@@ -13,6 +13,7 @@ export const clueSlice = createSlice({
       state.currentClue = action.payload;
     },
     setClueHistory: (state, action) => {
+      // placeholder
       state.clueHistory = action.payload;
     },
   },

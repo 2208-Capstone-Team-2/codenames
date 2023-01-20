@@ -35,7 +35,7 @@ const Clue = () => {
       playerSubmitting: playerId,
     };
 
-    // Get a key for a new Post.
+    // Get a key for a new clue.
     const newClueKey = push(child(ref(database), "clues")).key;
 
     console.log(newClueKey);
