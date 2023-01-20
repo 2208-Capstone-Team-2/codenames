@@ -20,7 +20,6 @@ const Login = () => {
   const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
   let playerId = useSelector((state) => state.player.playerId);
-
   // references to firebase data
   let playerRef = ref(database, 'players/' + playerId);
 

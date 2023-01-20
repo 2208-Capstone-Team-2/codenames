@@ -9,13 +9,15 @@ function SetupGame() {
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
-  //   //----------------fet all packs for users to select from-----------------//
+
+  //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
     setIsLoading(true);
     const { data } = await axios.get('/api/wordpack');
     setWordpacks(data);
     setIsLoading(false);
   };
+
   useEffect(() => {
     fetchWordPacks();
   }, []);
@@ -41,6 +43,7 @@ function SetupGame() {
   //-------------get the res.send data from the backend and set it up in the store
   const submitHandler = (event) => {
     event.preventDefault();
+
     axios
       .post('/api/25words', { selectedWordPackId })
       .then((response) => {

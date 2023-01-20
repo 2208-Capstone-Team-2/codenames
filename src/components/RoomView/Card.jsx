@@ -1,6 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWordsInGame } from '../../store/wordsInGameSlice';
+import Grid from '@mui/material/Grid';
 
-const Card = (singleWord) => {
+const Card = ({ singleWord, value, submitAnswer }) => {
+  const words = useSelector((state) => state.wordsInGame);
   const style = {
     width: '120px',
     height: '150px',
@@ -10,7 +15,11 @@ const Card = (singleWord) => {
     display: 'grid',
   };
 
-  return <div style={style}>{singleWord.singleWord.word}</div>;
+  return (
+    <button style={style} value={value} onClick={submitAnswer}>
+      {singleWord.word}
+    </button>
+  );
 };
 
 export default Card;
