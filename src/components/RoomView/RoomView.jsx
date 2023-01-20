@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
@@ -84,7 +84,7 @@ const RoomView = () => {
       }
     });
 
-    onValue(playerNestedInRoom, (snapshot) => {
+    onValue(playerNestedInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
         onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
       }

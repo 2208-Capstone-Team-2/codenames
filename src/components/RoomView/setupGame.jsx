@@ -10,8 +10,6 @@ function SetupGame() {
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
 
-  const dispatch = useDispatch();
-
   //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
     setIsLoading(true);
