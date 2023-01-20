@@ -13,14 +13,15 @@ const Board = () => {
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneOperatives } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const dispatch = useDispatch();
 
+  console.log(teamOneSpymaster);
   const style = {
     display: 'grid',
     gridTemplateColumns: 'auto auto auto auto auto',
@@ -152,6 +153,9 @@ const Board = () => {
     }
   };
 
+  console.log('spy id', teamOneSpymaster[0]?.playerId);
+  console.log({ playerId });
+
   // On load...
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
@@ -176,9 +180,20 @@ const Board = () => {
       <Button variant="contained" onClick={endTurn}>
         end turn
       </Button>
-      <Button variant="contained" onClick={submitClue}>
-        submit clue
-      </Button>
+
+      {/* is team 1 spy's turn and player is team1spymaster */}
+      {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+        <Button variant="contained" onClick={submitClue}>
+          submit clue
+        </Button>
+      )}
+
+      {/* is team 2 spy's turn and player is team2spymaster */}
+      {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+        <Button variant="contained" onClick={submitClue}>
+          submit clue
+        </Button>
+      )}
     </div>
   );
 };
