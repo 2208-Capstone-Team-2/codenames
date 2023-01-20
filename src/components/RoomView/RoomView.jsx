@@ -1,27 +1,27 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setRoomId, setIsHost } from "../../store/playerSlice";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { onValue, ref, set, get, child, onDisconnect } from "firebase/database";
-import { database } from "../../utils/firebase";
-import { setAllPlayers } from "../../store/allPlayersSlice";
-import { Container } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Popup from "reactjs-popup";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRoomId, setIsHost } from '../../store/playerSlice';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
+import { database } from '../../utils/firebase';
+import { setAllPlayers } from '../../store/allPlayersSlice';
+import { Container } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Popup from 'reactjs-popup';
 
-import styles from "./Room.styles";
-import SetupGame from "./setupGame.jsx";
-import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
-import Board from "./Board.jsx";
-import TeamOneBox from "../teamBoxes/TeamOneBox";
-import TeamTwoBox from "../teamBoxes/TeamTwoBox";
+import styles from './Room.styles';
+import SetupGame from './setupGame.jsx';
+import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
+import Board from './Board.jsx';
+import TeamOneBox from '../teamBoxes/TeamOneBox';
+import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 
 const RoomView = () => {
   // for room nav
-  const params = useParams("");
+  const params = useParams('');
   const roomIdFromParams = params.id;
   setRoomId(roomIdFromParams);
 
@@ -29,23 +29,18 @@ const RoomView = () => {
   const navigate = useNavigate();
 
   // frontend state
-  const { playerId, username, roomId, isHost } = useSelector(
-    (state) => state.player
-  );
+  const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
 
   // firebase room  & players reference
-  let roomRef = ref(database, "rooms/" + roomId);
-  let playersInRoomRef = ref(database, "rooms/" + roomId + "/players/");
-  let playerNestedInRoomRef = ref(
-    database,
-    "rooms/" + roomId + "/players/" + playerId
-  );
+  let roomRef = ref(database, 'rooms/' + roomId);
+  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
+  let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
 
   useEffect(() => {
     // on loading page if no room or name, send back to join page
-    if (roomId === "" || username === "") {
-      navigate("/");
+    if (roomId === '' || username === '') {
+      navigate('/');
       return; // immediately kick them!
     }
 
@@ -56,7 +51,7 @@ const RoomView = () => {
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
       } else {
-        console.log("room does not exist...yet! Creating it now...");
+        console.log('room does not exist...yet! Creating it now...');
         // create the room, (nested) players, and host.
         set(roomRef, {
           roomId: roomId,
@@ -75,25 +70,23 @@ const RoomView = () => {
         const values = Object.values(players);
         dispatch(setAllPlayers(values));
       } else {
-        console.log("no players in room yet!");
+        console.log('no players in room yet!');
       }
     });
 
     // if the player disconnects, remove them from the room
     onValue(playerNestedInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
-        onDisconnect(playerNestedInRoomRef).remove(
-          playersInRoomRef + "/" + playerId
-        );
+        onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
       }
     });
   }, []);
 
   const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
 
@@ -132,9 +125,9 @@ const RoomView = () => {
           trigger={
             <button
               style={{
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
               }}
             >
               Set Up

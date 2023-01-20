@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
-import Card from "./Card.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { getDatabase, ref, onValue } from "firebase/database";
-import { setWordsInGame } from "../../store/wordsInGameSlice";
+import React, { useEffect } from 'react';
+import Card from './Card.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { setWordsInGame } from '../../store/wordsInGameSlice';
 
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
   const roomId = useSelector((state) => state.player.roomId);
   const style = {
-    display: "grid",
-    gridTemplateColumns: "auto auto auto auto auto",
-    marginTop: "5%",
-    gap: "2%",
-    justifyContent: "center",
-    alightItems: "center",
+    display: 'grid',
+    gridTemplateColumns: 'auto auto auto auto auto',
+    marginTop: '5%',
+    gap: '2%',
+    justifyContent: 'center',
+    alightItems: 'center',
   };
 
   const database = getDatabase();
@@ -41,7 +41,7 @@ const Board = () => {
           <div key={singleWord.id}>
             <Card singleWord={singleWord} />
             {/* maybe set this to visible after players select it?  */}
-            <div style={{ display: "none" }}>card result</div>
+            <div style={{ display: 'none' }}>card result</div>
           </div>
         );
       })}

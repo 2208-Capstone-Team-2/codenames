@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   allPlayers: [],
 };
 
 export const allPlayersSlice = createSlice({
-  name: "allPlayers",
+  name: 'allPlayers',
   initialState,
   reducers: {
     setAllPlayers: (state, action) => {
