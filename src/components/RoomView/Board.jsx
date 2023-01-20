@@ -16,7 +16,7 @@ const Board = () => {
   const teamTwoRemainingCards = useSelector(
     (state) => state.game.team2RemainingCards
   );
-  const turn = useSelector((state) => state.game.turn);
+  const gameStatus = useSelector((state) => state.game.status);
   const { teamOneOperatives } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
 
@@ -64,7 +64,7 @@ const Board = () => {
     });
 
     //  if its team 1 ops turn and they are the one who clicked on the card...
-    if (turn === "team1OpsTurn" && teamOneOpsIds.includes(playerId)) {
+    if (gameStatus === "team1OpsTurn" && teamOneOpsIds.includes(playerId)) {
       // reveal card
       if (cardBelongsTo === "0") {
         console.log("you hit the assassin! you lose.");
@@ -89,7 +89,7 @@ const Board = () => {
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
       }
-    } else if (turn === "team2OpsTurn" && teamTwoOpsIds.includes(playerId)) {
+    } else if (gameStatus === "team2OpsTurn" && teamTwoOpsIds.includes(playerId)) {
       // reveal card
       if (cardBelongsTo === "0") {
         console.log("you hit the assassin! you lose.");
@@ -124,11 +124,11 @@ const Board = () => {
     let nextStatus;
     // if cards remain on both sides, swap to the next teams turn
     if (teamOneRemainingCards && teamTwoRemainingCards) {
-      if (turn === "team1OpsTurn") {
+      if (gameStatus === "team1OpsTurn") {
         nextStatus = "team2SpyTurn";
         update(gameRef, { gameStatus: nextStatus });
       }
-      if (turn === "team2OpsTurn") {
+      if (gameStatus === "team2OpsTurn") {
         nextStatus = "team1SpyTurn";
         update(gameRef, { gameStatus: nextStatus });
       }
@@ -143,30 +143,20 @@ const Board = () => {
     // clue number should not exceed cards remaining for that team
     // store the clue in clueHistory and as current clue
     // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
-
-    // get the gameStatus
-    get(gameRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        let currentGameStatus = snapshot.val().gameStatus;
-        let nextGameStatus;
+    let nextGameStatus;
         // if its team1spy submission, team1Ops goes next
-        if (currentGameStatus === "team1SpyTurn") {
+        if (gameStatus === "team1SpyTurn") {
           nextGameStatus = "team1OpsTurn";
           update(gameRef, { gameStatus: nextGameStatus });
           // update clue data in redux and firebase
         }
         // if its team2spy submission, team2Ops goes next
-        if (currentGameStatus === "team2SpyTurn") {
+        if (gameStatus === "team2SpyTurn") {
           nextGameStatus = "team2OpsTurn";
           update(gameRef, { gameStatus: nextGameStatus });
           // update clue data in redux and firebase
         }
-      } else {
-        console.log(
-          "there should always be a game status so this should never get hit!"
-        );
-      }
-    });
+    }
   };
 
   // On load...

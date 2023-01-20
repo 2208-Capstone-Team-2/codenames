@@ -4,7 +4,6 @@ const initialState = {
   status: "",
   team1RemainingCards: 9,
   team2RemainingCards: 8,
-  turn: "",
 };
 
 export const gameSlice = createSlice({
@@ -20,16 +19,9 @@ export const gameSlice = createSlice({
     setTeam2RemainingCards: (state, action) => {
       state.team2RemainingCards = action.payload;
     },
-    setTurn: (state, action) => {
-      state.turn = action.payload;
-    },
   },
 });
 
-export const {
-  setStatus,
-  setTeam1RemainingCards,
-  setTeam2RemainingCards,
-  setTurn,
-} = gameSlice.actions;
+export const { setStatus, setTeam1RemainingCards, setTeam2RemainingCards } =
+  gameSlice.actions;
 export default gameSlice.reducer;
