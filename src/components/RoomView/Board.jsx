@@ -89,7 +89,10 @@ const Board = () => {
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
       }
-    } else if (gameStatus === "team2OpsTurn" && teamTwoOpsIds.includes(playerId)) {
+    } else if (
+      gameStatus === "team2OpsTurn" &&
+      teamTwoOpsIds.includes(playerId)
+    ) {
       // reveal card
       if (cardBelongsTo === "0") {
         console.log("you hit the assassin! you lose.");
@@ -144,18 +147,17 @@ const Board = () => {
     // store the clue in clueHistory and as current clue
     // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
     let nextGameStatus;
-        // if its team1spy submission, team1Ops goes next
-        if (gameStatus === "team1SpyTurn") {
-          nextGameStatus = "team1OpsTurn";
-          update(gameRef, { gameStatus: nextGameStatus });
-          // update clue data in redux and firebase
-        }
-        // if its team2spy submission, team2Ops goes next
-        if (gameStatus === "team2SpyTurn") {
-          nextGameStatus = "team2OpsTurn";
-          update(gameRef, { gameStatus: nextGameStatus });
-          // update clue data in redux and firebase
-        }
+    // if its team1spy submission, team1Ops goes next
+    if (gameStatus === "team1SpyTurn") {
+      nextGameStatus = "team1OpsTurn";
+      update(gameRef, { gameStatus: nextGameStatus });
+      // update clue data in redux and firebase
+    }
+    // if its team2spy submission, team2Ops goes next
+    if (gameStatus === "team2SpyTurn") {
+      nextGameStatus = "team2OpsTurn";
+      update(gameRef, { gameStatus: nextGameStatus });
+      // update clue data in redux and firebase
     }
   };
 
