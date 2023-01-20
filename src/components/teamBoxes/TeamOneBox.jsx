@@ -6,10 +6,16 @@ import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 
 const TeamOneBox = () => {
-  const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
-  const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
-  const dispatch = useDispatch();
   const { playerId, roomId, username } = useSelector((state) => state.player);
+  const playerOnTeamOneOperativesRef = ref(
+    database,
+    `rooms/${roomId}/team-1/operatives/${playerId}`
+  );
+  const playerOnTeamOneSpymasterRef = ref(
+    database,
+    `rooms/${roomId}/team-1/spymaster/${playerId}`
+  );
+  const dispatch = useDispatch();
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
