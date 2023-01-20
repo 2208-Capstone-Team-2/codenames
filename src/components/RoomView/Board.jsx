@@ -21,7 +21,13 @@ const Board = () => {
 
   const dispatch = useDispatch();
 
-  console.log(teamOneSpymaster);
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
+    return operative.playerId;
+  });
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
+    return operative.playerId;
+  });
+
   const style = {
     display: 'grid',
     gridTemplateColumns: 'auto auto auto auto auto',
@@ -49,19 +55,8 @@ const Board = () => {
     // 3 = bystander
     let cardBelongsTo = e.target.value;
 
-    const teamOneOpsIds = [];
-    const teamTwoOpsIds = [];
-
-    teamOneOperatives.forEach((operative) => {
-      teamOneOpsIds.push(operative.playerId);
-    });
-
-    teamTwoOperatives.forEach((operative) => {
-      teamTwoOpsIds.push(operative.playerId);
-    });
-
     //  if its team 1 ops turn and they are the one who clicked on the card...
-    if (gameStatus === 'team1OpsTurn' && teamOneOpsIds.includes(playerId)) {
+    if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
       // reveal card
       if (cardBelongsTo === '0') {
         console.log('you hit the assassin! you lose.');
@@ -86,7 +81,7 @@ const Board = () => {
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
       }
-    } else if (gameStatus === 'team2OpsTurn' && teamTwoOpsIds.includes(playerId)) {
+    } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
       // reveal card
       if (cardBelongsTo === '0') {
         console.log('you hit the assassin! you lose.');
@@ -153,9 +148,6 @@ const Board = () => {
     }
   };
 
-  console.log('spy id', teamOneSpymaster[0]?.playerId);
-  console.log({ playerId });
-
   // On load...
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
@@ -177,9 +169,17 @@ const Board = () => {
           <Card key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} submitAnswer={submitAnswer} />
         );
       })}
-      <Button variant="contained" onClick={endTurn}>
-        end turn
-      </Button>
+
+      {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (
+        <Button variant="contained" onClick={endTurn}>
+          End Turn{' '}
+        </Button>
+      )}
+      {gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId) && (
+        <Button variant="contained" onClick={endTurn}>
+          End Turn{' '}
+        </Button>
+      )}
 
       {/* is team 1 spy's turn and player is team1spymaster */}
       {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
