@@ -15,11 +15,11 @@ import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
-import Button from '@mui/material/Button';
 import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
 import Board from './Board.jsx';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
+import { Button } from '@mui/material';
 
 const RoomView = () => {
   // for room nav
@@ -40,6 +40,9 @@ const RoomView = () => {
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+
+  console.log(gameStatus);
 
   useEffect(() => {
     // on loading page if no room or name, send back to join page
@@ -103,7 +106,6 @@ const RoomView = () => {
         console.log(game.gameStatus);
         if (game.team1RemainingCards && game.team2RemainingCards) {
           if (game.gameStatus === 'team1SpyTurn') {
-            console.log('status inside of team1Spy', game.gameStatus);
             dispatch(setStatus('team1SpyTurn'));
           } else if (game.gameStatus === 'team2SpyTurn') {
             dispatch(setStatus('team2SpyTurn'));
@@ -127,14 +129,18 @@ const RoomView = () => {
         }
       }
     });
-  }, []);
 
-  const startGame = () => {
-    console.log('startingGame');
-    // gamestatus default value in firebase is 'not playing'.
-    // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
-    update(gameRef, { gameStatus: 'team1SpyTurn' });
-  };
+    // Look to see if there are cards already loaded for the room
+    onValue(cardsRef, (snapshot) => {
+      // If there are cards in /room/roomId/cards
+      if (snapshot.exists()) {
+        //update our redux to reflect that
+        const cardsFromSnapshot = snapshot.val();
+        const values = Object.values(cardsFromSnapshot);
+        dispatch(setWordsInGame(values));
+      }
+    });
+  }, []);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -165,18 +171,14 @@ const RoomView = () => {
               </Item>
             )}
           </Grid>
-          <Grid item xs={3} md={4} zeroMinWidth>
+          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamOneBox />
           </Grid>
-          <Grid item xs={3} md={3} zeroMinWidth>
+          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <Item>Game History</Item>
           </Grid>
-          <Grid item xs={3} md={4} zeroMinWidth>
+          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamTwoBox />
-          </Grid>
-
-          <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
-            <Item>Board</Item>
           </Grid>
         </Grid>
       </Container>
@@ -184,7 +186,7 @@ const RoomView = () => {
       {isHost && (
         <Popup
           trigger={
-            <button
+            <Button
               style={{
                 display: 'block',
                 marginLeft: 'auto',
@@ -192,17 +194,14 @@ const RoomView = () => {
               }}
             >
               Set Up
-            </button>
+            </Button>
           }
         >
           <SetupGame />
         </Popup>
       )}
-      <Board />
 
-      <Button variant="contained" onClick={startGame}>
-        start game
-      </Button>
+      <Board />
     </>
   );
 };

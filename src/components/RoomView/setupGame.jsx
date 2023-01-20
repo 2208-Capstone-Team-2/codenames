@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
+import Button from '@mui/material/Button';
 
-function SetupGame() {
+const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
+
+  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
@@ -56,25 +59,38 @@ function SetupGame() {
       });
   };
 
+  const startGame = () => {
+    console.log('startingGame');
+    // gamestatus default value in firebase is 'not playing'.
+    // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
+    update(gameRef, { gameStatus: 'team1SpyTurn' });
+  };
+
   if (isLoading) return <p>Loading...</p>;
   else
     return (
       <div>
-        Please select a pack of words
-        <form onSubmit={submitHandler}>
-          {wordpacks.map((wordpack) => (
-            <div key={wordpack.id}>
-              <input type="checkbox" onChange={handleWordPackSelection} id={wordpack.id} value={wordpack.id} />
-              <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
-            </div>
-          ))}
-
-          <button type="submit" disabled={selectedWordPackId.length === 0 ? true : false}>
-            Create Board
-          </button>
-        </form>
+        <>
+          Please select a pack of words
+          <form onSubmit={submitHandler}>
+            {wordpacks.map((wordpack) => (
+              <div key={wordpack.id}>
+                <input type="checkbox" onChange={handleWordPackSelection} id={wordpack.id} value={wordpack.id} />
+                <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
+              </div>
+            ))}
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={selectedWordPackId.length === 0 ? true : false}
+              onClick={startGame}
+            >
+              Start game
+            </Button>
+          </form>
+        </>
       </div>
     );
-}
+};
 
 export default SetupGame;
