@@ -15,7 +15,6 @@ import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
-import Button from '@mui/material/Button';
 import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
 import Board from './Board.jsx';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
@@ -129,13 +128,6 @@ const RoomView = () => {
     });
   }, []);
 
-  const startGame = () => {
-    console.log('startingGame');
-    // gamestatus default value in firebase is 'not playing'.
-    // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
-    update(gameRef, { gameStatus: 'team1SpyTurn' });
-  };
-
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -165,18 +157,14 @@ const RoomView = () => {
               </Item>
             )}
           </Grid>
-          <Grid item xs={3} md={4} zeroMinWidth>
+          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamOneBox />
           </Grid>
-          <Grid item xs={3} md={3} zeroMinWidth>
+          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <Item>Game History</Item>
           </Grid>
-          <Grid item xs={3} md={4} zeroMinWidth>
+          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamTwoBox />
-          </Grid>
-
-          <Grid item xs={8} md={10} style={styles.sx.BoardGrid} zeroMinWidth>
-            <Item>Board</Item>
           </Grid>
         </Grid>
       </Container>
@@ -199,12 +187,6 @@ const RoomView = () => {
         </Popup>
       )}
       <Board />
-
-      {isHost && (
-        <Button variant="contained" onClick={startGame}>
-          start game
-        </Button>
-      )}
     </>
   );
 };

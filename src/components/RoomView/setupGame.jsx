@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
+import Button from '@mui/material/Button';
 
-function SetupGame() {
+const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
+
+  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
@@ -56,6 +59,13 @@ function SetupGame() {
       });
   };
 
+  const startGame = () => {
+    console.log('startingGame');
+    // gamestatus default value in firebase is 'not playing'.
+    // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
+    update(gameRef, { gameStatus: 'team1SpyTurn' });
+  };
+
   if (isLoading) return <p>Loading...</p>;
   else
     return (
@@ -69,12 +79,17 @@ function SetupGame() {
             </div>
           ))}
 
-          <button type="submit" disabled={selectedWordPackId.length === 0 ? true : false}>
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={selectedWordPackId.length === 0 ? true : false}
+            onClick={startGame}
+          >
             Create Board
-          </button>
+          </Button>
         </form>
       </div>
     );
-}
+};
 
 export default SetupGame;
