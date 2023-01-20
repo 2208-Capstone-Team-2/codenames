@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
@@ -19,6 +20,7 @@ import Board from './Board.jsx';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 
+
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -33,6 +35,7 @@ const RoomView = () => {
   const { allPlayers } = useSelector((state) => state.allPlayers);
 
   // firebase room  & players reference
+
   let roomRef = ref(database, 'rooms/' + roomId);
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
@@ -78,6 +81,20 @@ const RoomView = () => {
     onValue(playerNestedInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
         onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
+      }
+    });
+  }, []);
+  //check to see if there are words to set up gameboard
+  useEffect(() => {
+    onValue(gameboardRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const gameboard = snapshot.val();
+        const values = Object.values(gameboard);
+        console.log(gameboard);
+        dispatch(setWordsInGame(values));
+        console.log("new words in game");
+      } else {
+        console.log("no words yet");
       }
     });
   }, []);

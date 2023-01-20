@@ -398,5 +398,4 @@ Wind
 Witch
 Worm
 Yard`;
-
 module.exports = defaultPackString;

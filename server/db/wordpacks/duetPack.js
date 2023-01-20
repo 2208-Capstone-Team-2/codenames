@@ -399,5 +399,4 @@ Wood
 Wool
 Yellowstone
 Zombie`;
-
 module.exports = duetPackString;
