@@ -1,12 +1,12 @@
-const { Word, Wordpack } = require("../index");
-const defaultPackString = require("../wordpacks/defaultPack");
+const { Word, Wordpack } = require('../index');
+const defaultPackString = require('../wordpacks/defaultPack');
 
 const seedDefaultWordpack = async () => {
-  const wordArray = defaultPackString.split("\n"); // split the string on 'return' characters
+  const wordArray = defaultPackString.split('\n'); // split the string on 'return' characters
 
   // First, create the Wordpack model
   const defaultPack = await Wordpack.create({
-    name: "default",
+    name: 'default',
   });
 
   // Create the 400 wordbanks.
@@ -25,7 +25,7 @@ const seedDefaultWordpack = async () => {
   // Using magic method.
   defaultPack.setWords(wordModels);
 
-  console.log("DONE SEEDING DEFAULT WORDPACK...");
+  console.log('DONE SEEDING DEFAULT WORDPACK...');
 };
 
 module.exports = seedDefaultWordpack;
