@@ -10,6 +10,7 @@ const SetupGame = () => {
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
+  let gameStatus = useSelector((state) => state.game.status);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
@@ -70,24 +71,25 @@ const SetupGame = () => {
   else
     return (
       <div>
-        Please select a pack of words
-        <form onSubmit={submitHandler}>
-          {wordpacks.map((wordpack) => (
-            <div key={wordpack.id}>
-              <input type="checkbox" onChange={handleWordPackSelection} id={wordpack.id} value={wordpack.id} />
-              <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
-            </div>
-          ))}
-
-          <Button
-            variant="contained"
-            type="submit"
-            disabled={selectedWordPackId.length === 0 ? true : false}
-            onClick={startGame}
-          >
-            Create Board
-          </Button>
-        </form>
+        <>
+          Please select a pack of words
+          <form onSubmit={submitHandler}>
+            {wordpacks.map((wordpack) => (
+              <div key={wordpack.id}>
+                <input type="checkbox" onChange={handleWordPackSelection} id={wordpack.id} value={wordpack.id} />
+                <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
+              </div>
+            ))}
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={selectedWordPackId.length === 0 ? true : false}
+              onClick={startGame}
+            >
+              Start game
+            </Button>
+          </form>
+        </>
       </div>
     );
 };

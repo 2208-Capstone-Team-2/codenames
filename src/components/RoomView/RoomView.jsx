@@ -19,6 +19,7 @@ import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../..
 import Board from './Board.jsx';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
+import { Button } from '@mui/material';
 
 const RoomView = () => {
   // for room nav
@@ -40,6 +41,7 @@ const RoomView = () => {
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
+  console.log(gameStatus);
   useEffect(() => {
     // on loading page if no room or name, send back to join page
     if (roomId === '' || username === '') {
@@ -102,7 +104,6 @@ const RoomView = () => {
         console.log(game.gameStatus);
         if (game.team1RemainingCards && game.team2RemainingCards) {
           if (game.gameStatus === 'team1SpyTurn') {
-            console.log('status inside of team1Spy', game.gameStatus);
             dispatch(setStatus('team1SpyTurn'));
           } else if (game.gameStatus === 'team2SpyTurn') {
             dispatch(setStatus('team2SpyTurn'));
@@ -172,7 +173,7 @@ const RoomView = () => {
       {isHost && (
         <Popup
           trigger={
-            <button
+            <Button
               style={{
                 display: 'block',
                 marginLeft: 'auto',
@@ -180,12 +181,13 @@ const RoomView = () => {
               }}
             >
               Set Up
-            </button>
+            </Button>
           }
         >
           <SetupGame />
         </Popup>
       )}
+
       <Board />
     </>
   );
