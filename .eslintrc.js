@@ -15,6 +15,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
+    "plugin:prettier/recommended",
   ],
   overrides: [],
   parserOptions: {
@@ -22,7 +23,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react"],
+  plugins: ["react", "prettier"],
   rules: {
     "react/jsx-uses-react": 1,
     "react/react-in-jsx-scope": 1,
