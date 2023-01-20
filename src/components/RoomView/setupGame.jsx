@@ -10,7 +10,6 @@ const SetupGame = () => {
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
-  let gameStatus = useSelector((state) => state.game.status);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 

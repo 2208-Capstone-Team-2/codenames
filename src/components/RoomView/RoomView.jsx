@@ -42,6 +42,7 @@ const RoomView = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   console.log(gameStatus);
+
   useEffect(() => {
     // on loading page if no room or name, send back to join page
     if (roomId === '' || username === '') {
