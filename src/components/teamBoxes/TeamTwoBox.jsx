@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import "./teamTwoBox.css";
-import { useDispatch, useSelector } from "react-redux";
-import { child, get, onDisconnect, onValue, ref, set } from "firebase/database";
-import { database,  } from "../../utils/firebase";
+import React, { useEffect } from 'react';
+import './teamTwoBox.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { child, get, onDisconnect, onValue, ref, set } from 'firebase/database';
+import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const TeamTwoBox = () => {
   const { playerId, roomId, username } = useSelector((state) => state.player);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector(state => state.teamTwo);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
   const playerOnTeamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/${playerId}`);
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const TeamTwoBox = () => {
       (teamOneSpymaster && teamOneSpymaster.includes(playerId)) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
-      console.log("Cannot join the other team!");
+      console.log('Cannot join the other team!');
     } else {
       //Here we want to check if a player is already a spymaster, so that they cannot join both
       await get(teamTwoSpymasterRef).then((snapshot) => {
@@ -45,7 +45,7 @@ const TeamTwoBox = () => {
           //Now we can check if the player is a spymaster, if they are, for now we just console log
           if (teamTwoSpymaster.includes(playerId)) {
             // later we should probably refactor this so that something on the UI is triggered
-            console.log("cannot join both the spymasters and the operatives");
+            console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not a spymaster, then we allow them to join as an operative
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
@@ -82,7 +82,7 @@ const TeamTwoBox = () => {
       (teamOneSpymaster && teamOneSpymaster.includes(playerId)) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
-      console.log("Cannot join the other team!");
+      console.log('Cannot join the other team!');
     } else {
       //Here we want to check if a player is already an operative, so that they cannot join both.
       await get(teamTwoOperativesRef).then((snapshot) => {
@@ -92,7 +92,7 @@ const TeamTwoBox = () => {
           const teamTwoOperatives = Object.keys(snapshot.val());
           if (teamTwoOperatives.includes(playerId)) {
             // later we should probably refactor thisso that something on the UI is triggered
-            console.log("cannot join both the spymasters and the operatives");
+            console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
             set(child(teamTwoSpymasterRef, playerId), { playerId, username });
@@ -108,35 +108,34 @@ const TeamTwoBox = () => {
         dispatch(setTeamTwoSpymaster(Object.values(snapshot.val())));
       });
     }
-
-  }
-  useEffect(()=>{
-    onValue(teamTwoOperativesRef, async (snapshot)=> {
-        if(snapshot.exists()){
-            const teamTwoOperativesFirebase = snapshot.val()
-            const teamTwoOperatives = Object.values(teamTwoOperativesFirebase)
-            dispatch(setTeamTwoOperatives(teamTwoOperatives))
-        } else {
-            dispatch(setTeamTwoOperatives([]))
-        }
-    })
-    onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
-      if(snapshot.exists()){
-        onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef)
+  };
+  useEffect(() => {
+    onValue(teamTwoOperativesRef, async (snapshot) => {
+      if (snapshot.exists()) {
+        const teamTwoOperativesFirebase = snapshot.val();
+        const teamTwoOperatives = Object.values(teamTwoOperativesFirebase);
+        dispatch(setTeamTwoOperatives(teamTwoOperatives));
+      } else {
+        dispatch(setTeamTwoOperatives([]));
       }
-    })
-    onValue(teamTwoSpymasterRef, async (snapshot)=> {
-        if(snapshot.exists()){
-            const teamTwoSpymasterFirebase = snapshot.val()
-            const teamTwoSpymaster = Object.values(teamTwoSpymasterFirebase)
-            dispatch(setTeamTwoSpymaster(teamTwoSpymaster))
-        } else {
-            dispatch(setTeamTwoSpymaster([]))
-        }
-    })
+    });
+    onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
+      if (snapshot.exists()) {
+        onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef);
+      }
+    });
+    onValue(teamTwoSpymasterRef, async (snapshot) => {
+      if (snapshot.exists()) {
+        const teamTwoSpymasterFirebase = snapshot.val();
+        const teamTwoSpymaster = Object.values(teamTwoSpymasterFirebase);
+        dispatch(setTeamTwoSpymaster(teamTwoSpymaster));
+      } else {
+        dispatch(setTeamTwoSpymaster([]));
+      }
+    });
     onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
-      if(snapshot.exists()){
-        onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef)
+      if (snapshot.exists()) {
+        onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef);
       }
     });
   }, []);
@@ -163,6 +162,4 @@ const TeamTwoBox = () => {
   );
 };
 
-
 export default TeamTwoBox;
-

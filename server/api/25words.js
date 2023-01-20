@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { Word } = require("../db");
+const { Word } = require('../db');
 
 //a function to get "quantity" of unique random interger, from 0 - max (inclusive)
 function getRandomIntArray(quantity, max) {
@@ -43,7 +43,7 @@ function createRandomLayout() {
 }
 
 // GET localhost:3000/api/25words
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     //  find which pack users select and put all the candidate words in an array
     const { selectedWordPackId } = req.body;

@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   wordsInGame: [],
 };
 
 export const wordsInGameSlice = createSlice({
-  name: "wordsInGame",
+  name: 'wordsInGame',
   initialState,
   reducers: {
     setWordsInGame: (state, action) => {
