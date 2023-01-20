@@ -200,9 +200,11 @@ const RoomView = () => {
       )}
       <Board />
 
-      <Button variant="contained" onClick={startGame}>
-        start game
-      </Button>
+      {isHost && (
+        <Button variant="contained" onClick={startGame}>
+          start game
+        </Button>
+      )}
     </>
   );
 };
