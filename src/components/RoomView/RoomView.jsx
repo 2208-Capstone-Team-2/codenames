@@ -18,6 +18,7 @@ import ResponsiveAppBar from "../ResponsiveAppBar.jsx";
 import Board from "./Board.jsx";
 import TeamOneBox from "../teamBoxes/TeamOneBox";
 import TeamTwoBox from "../teamBoxes/TeamTwoBox";
+import Clue from "./Clue";
 
 const RoomView = () => {
   // for room nav
@@ -33,6 +34,9 @@ const RoomView = () => {
     (state) => state.player
   );
   const { allPlayers } = useSelector((state) => state.allPlayers);
+
+  const currentClue = useSelector((state) => state.clues.currentClue);
+  console.log(currentClue);
 
   // firebase room  & players reference
   let roomRef = ref(database, "rooms/" + roomId);
@@ -160,6 +164,7 @@ const RoomView = () => {
         </Popup>
       )}
       <Board />
+      <Clue />
     </>
   );
 };

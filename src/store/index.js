@@ -4,6 +4,7 @@ import allPlayersReducer from "./allPlayersSlice";
 import wordsInGameReducer from "./wordsInGameSlice";
 import teamOneReducer from "./teamOneSlice";
 import teamTwoReducer from "./teamTwoSlice";
+import clueReducer from "./clueSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     wordsInGame: wordsInGameReducer,
     teamOne: teamOneReducer,
     teamTwo: teamTwoReducer,
+    clues: clueReducer,
   },
 });
 
