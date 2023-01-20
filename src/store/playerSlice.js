@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  playerId: "",
-  username: "",
-  roomId: "",
+  playerId: '',
+  username: '',
+  roomId: '',
   isHost: false,
 };
 
 export const playerSlice = createSlice({
-  name: "player",
+  name: 'player',
   initialState,
   reducers: {
     setPlayerId: (state, action) => {
@@ -26,6 +26,5 @@ export const playerSlice = createSlice({
   },
 });
 
-export const { setUsername, setRoomId, setPlayerId, setIsHost } =
-  playerSlice.actions;
+export const { setUsername, setRoomId, setPlayerId, setIsHost } = playerSlice.actions;
 export default playerSlice.reducer;

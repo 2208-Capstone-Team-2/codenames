@@ -1,7 +1,7 @@
-const db = require("./db");
+const db = require('./db');
 // Import models:
-const Word = require("./models/Word");
-const Wordpack = require("./models/wordpack");
+const Word = require('./models/Word');
+const Wordpack = require('./models/wordpack');
 
 // Model Associations go here
 //
