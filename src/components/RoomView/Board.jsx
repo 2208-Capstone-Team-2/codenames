@@ -151,13 +151,11 @@ const Board = () => {
     if (gameStatus === "team1SpyTurn") {
       nextGameStatus = "team1OpsTurn";
       update(gameRef, { gameStatus: nextGameStatus });
-      // update clue data in redux and firebase
     }
     // if its team2spy submission, team2Ops goes next
     if (gameStatus === "team2SpyTurn") {
       nextGameStatus = "team2OpsTurn";
       update(gameRef, { gameStatus: nextGameStatus });
-      // update clue data in redux and firebase
     }
   };
 
@@ -174,6 +172,7 @@ const Board = () => {
       }
     });
   }, []);
+
   return (
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {

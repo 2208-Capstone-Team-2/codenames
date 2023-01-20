@@ -3,7 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRoomId, setIsHost } from "../../store/playerSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { onValue, ref, set, get, child, onDisconnect, update } from "firebase/database";
+import {
+  onValue,
+  ref,
+  set,
+  get,
+  child,
+  onDisconnect,
+  update,
+} from "firebase/database";
 import { database } from "../../utils/firebase";
 import { setAllPlayers } from "../../store/allPlayersSlice";
 import { Container } from "@mui/material";
@@ -15,8 +23,11 @@ import styles from "./Room.styles";
 import Popup from "reactjs-popup";
 import SetupGame from "./setupGame.jsx";
 import Button from "@mui/material/Button";
-import {setTeam1RemainingCards, setTeam2RemainingCards, setTurn} from '../../store/gameSlice'
-
+import {
+  setTeam1RemainingCards,
+  setTeam2RemainingCards,
+  setStatus,
+} from "../../store/gameSlice";
 
 import Board from "./Board.jsx";
 import TeamOneBox from "../teamBoxes/TeamOneBox";
@@ -37,14 +48,15 @@ const RoomView = () => {
   );
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const [loading, setLoading] = useState(false);
-let whosTurnItIs = useSelector((state) => state.game.turn)
- // firebase room  & players reference
- let roomRef = ref(database, "rooms/" + roomId);
- let playerNestedInRoom = ref(database, "rooms/" + roomId + "/players/" + playerId);
- let playersInRoomRef = ref(database, "rooms/" + roomId + "/players/");
- let gameRef = ref(database, "rooms/" + roomId + "/game/");
-
-
+  let whosTurnItIs = useSelector((state) => state.game.turn);
+  // firebase room  & players reference
+  let roomRef = ref(database, "rooms/" + roomId);
+  let playerNestedInRoom = ref(
+    database,
+    "rooms/" + roomId + "/players/" + playerId
+  );
+  let playersInRoomRef = ref(database, "rooms/" + roomId + "/players/");
+  let gameRef = ref(database, "rooms/" + roomId + "/game/");
 
   useEffect(() => {
     // on loading page if no room or name, send back to join page
@@ -67,78 +79,82 @@ let whosTurnItIs = useSelector((state) => state.game.turn)
           roomId: roomId,
           host: { playerId, username },
           players: { [playerId]: { playerId, username } },
-          game: {gameStatus: 'ready', team1RemainingCards: 9, team2RemainingCards: 8}
+          game: {
+            gameStatus: "ready",
+            team1RemainingCards: 9,
+            team2RemainingCards: 8,
+          },
         });
         // Set our state for if the player is the host or not.
         dispatch(setIsHost(true));
       }
     });
 
-      // whenever users are added to specific room, update frontend redux store
-      onValue(playersInRoomRef, (snapshot) => {
-        if (snapshot.exists()) {
-          const players = snapshot.val();
-          const values = Object.values(players)
-          dispatch(setAllPlayers(values));
-        } else {
-          console.log('no players in room yet!')
-        }
-      })
+    // whenever users are added to specific room, update frontend redux store
+    onValue(playersInRoomRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const players = snapshot.val();
+        const values = Object.values(players);
+        dispatch(setAllPlayers(values));
+      } else {
+        console.log("no players in room yet!");
+      }
+    });
 
-      onValue(playerNestedInRoom, (snapshot) => {
-        if (snapshot.exists()) {
-          // if the player disconnects, remove them from the room
-          onDisconnect(playerNestedInRoom).remove(playersInRoomRef+ '/' + playerId);
-        } 
-      })
+    onValue(playerNestedInRoom, (snapshot) => {
+      if (snapshot.exists()) {
+        // if the player disconnects, remove them from the room
+        onDisconnect(playerNestedInRoom).remove(
+          playersInRoomRef + "/" + playerId
+        );
+      }
+    });
 
-      // setting the 'turn' on the frontend will help determine what users are seeing depending on their role
-      // for example, if its team1spymasters turn, they'll see the input clue box and number dropdown
-       onValue(gameRef, (snapshot) => {
-        if (snapshot.exists()) {
-          const game = snapshot.val();
-          const team1RemainingCards = snapshot.val().team1RemainingCards
-          const team2RemainingCards = snapshot.val().team2RemainingCards
-          dispatch(setTeam1RemainingCards(team1RemainingCards))
-          dispatch(setTeam2RemainingCards(team2RemainingCards))
+    // setting the 'turn' on the frontend will help determine what users are seeing depending on their role
+    // for example, if its team1spymasters turn, they'll see the input clue box and number dropdown
+    onValue(gameRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const game = snapshot.val();
+        const team1RemainingCards = snapshot.val().team1RemainingCards;
+        const team2RemainingCards = snapshot.val().team2RemainingCards;
+        dispatch(setTeam1RemainingCards(team1RemainingCards));
+        dispatch(setTeam2RemainingCards(team2RemainingCards));
 
-          console.log(game.gameStatus)
-          if (game.team1RemainingCards && game.team2RemainingCards) {
-            if (game.gameStatus === 'team1SpyTurn') {
-              console.log('status inside of team1Spy', game.gameStatus)
-              dispatch(setTurn('team1SpyTurn'))
-            } else if (game.gameStatus === 'team2SpyTurn') {
-              dispatch(setTurn('team2SpyTurn'))
-           } else if (game.gameStatus === 'team1OpsTurn') {
-              dispatch(setTurn('team1OpsTurn'))
-           } else if (game.gameStatus === 'team2OpsTurn') {
-              dispatch(setTurn('team2OpsTurn'))
-           } 
-           else if (game.gameStatus === 'gameOver') {
-             // havent gotten here yet really, but presumably we'd want to:
-             // dispatch(setTurn('')) --> its no ones turn anymore
-             // set and get winning team from firebase so that we can...
-             // dispatch(setWinner(teamThatWon))
-           }
+        console.log(game.gameStatus);
+        if (game.team1RemainingCards && game.team2RemainingCards) {
+          if (game.gameStatus === "team1SpyTurn") {
+            console.log("status inside of team1Spy", game.gameStatus);
+            dispatch(setStatus("team1SpyTurn"));
+          } else if (game.gameStatus === "team2SpyTurn") {
+            dispatch(setStatus("team2SpyTurn"));
+          } else if (game.gameStatus === "team1OpsTurn") {
+            dispatch(setStatus("team1OpsTurn"));
+          } else if (game.gameStatus === "team2OpsTurn") {
+            dispatch(setStatus("team2OpsTurn"));
+          } else if (game.gameStatus === "gameOver") {
+            // havent gotten here yet really, but presumably we'd want to:
+            // dispatch(setStatus('')) --> its no ones turn anymore
+            // set and get winning team from firebase so that we can...
+            // dispatch(setWinner(teamThatWon))
           }
-          // update cards remaining in redux and firebase
-            if (game.team1RemainingCards === 0) {
-              console.log('team 1 wins!')
-            }
-            if (game.team2RemainingCards === 0) {
-              console.log('team 2 wins!')
-            }
         }
-    })
-
+        // update cards remaining in redux and firebase
+        if (game.team1RemainingCards === 0) {
+          console.log("team 1 wins!");
+        }
+        if (game.team2RemainingCards === 0) {
+          console.log("team 2 wins!");
+        }
+      }
+    });
   }, []);
 
   const startGame = () => {
-    console.log('startingGame')
-      // gamestatus default value in firebase is 'not playing'.
-      // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
-      update(gameRef, {gameStatus: 'team1SpyTurn'})
-  }
+    console.log("startingGame");
+    // gamestatus default value in firebase is 'not playing'.
+    // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
+    update(gameRef, { gameStatus: "team1SpyTurn" });
+  };
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -163,12 +179,12 @@ let whosTurnItIs = useSelector((state) => state.game.turn)
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
-            {whosTurnItIs !== '' && 
-            <Item style={styles.sx.PlayerContainer}>
-            Turn: 
-            {whosTurnItIs}
-          </Item>
-            }
+            {whosTurnItIs !== "" && (
+              <Item style={styles.sx.PlayerContainer}>
+                Turn:
+                {whosTurnItIs}
+              </Item>
+            )}
           </Grid>
           <Grid item xs={3} md={4} zeroMinWidth>
             <TeamOneBox />
@@ -203,10 +219,11 @@ let whosTurnItIs = useSelector((state) => state.game.turn)
           <SetupGame />
         </Popup>
       )}
-      <Board/>
+      <Board />
 
-      <Button variant ="contained" onClick={startGame}>start game</Button>
-      
+      <Button variant="contained" onClick={startGame}>
+        start game
+      </Button>
     </>
   );
 };
