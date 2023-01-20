@@ -17,7 +17,6 @@ const Board = () => {
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const dispatch = useDispatch();
 
@@ -148,19 +147,19 @@ const Board = () => {
     }
   };
 
-  // On load...
-  useEffect(() => {
-    // Look to see if there are cards already loaded for the room
-    onValue(cardsRef, (snapshot) => {
-      // If there are cards in /room/roomId/cards
-      if (snapshot.exists()) {
-        //update our redux to reflect that
-        const cardsFromSnapshot = snapshot.val();
-        const values = Object.values(cardsFromSnapshot);
-        dispatch(setWordsInGame(values));
-      }
-    });
-  }, []);
+  // // On load...
+  // useEffect(() => {
+  //   // Look to see if there are cards already loaded for the room
+  //   onValue(cardsRef, (snapshot) => {
+  //     // If there are cards in /room/roomId/cards
+  //     if (snapshot.exists()) {
+  //       //update our redux to reflect that
+  //       const cardsFromSnapshot = snapshot.val();
+  //       const values = Object.values(cardsFromSnapshot);
+  //       dispatch(setWordsInGame(values));
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div style={style}>

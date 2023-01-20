@@ -40,6 +40,7 @@ const RoomView = () => {
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   console.log(gameStatus);
 
@@ -126,6 +127,17 @@ const RoomView = () => {
         if (game.team2RemainingCards === 0) {
           console.log('team 2 wins!');
         }
+      }
+    });
+
+    // Look to see if there are cards already loaded for the room
+    onValue(cardsRef, (snapshot) => {
+      // If there are cards in /room/roomId/cards
+      if (snapshot.exists()) {
+        //update our redux to reflect that
+        const cardsFromSnapshot = snapshot.val();
+        const values = Object.values(cardsFromSnapshot);
+        dispatch(setWordsInGame(values));
       }
     });
   }, []);
