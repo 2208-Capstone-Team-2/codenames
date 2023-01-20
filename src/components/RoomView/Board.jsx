@@ -13,13 +13,19 @@ const Board = () => {
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneOperatives } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const dispatch = useDispatch();
+
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
+    return operative.playerId;
+  });
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
+    return operative.playerId;
+  });
 
   const style = {
     display: 'grid',
@@ -48,19 +54,8 @@ const Board = () => {
     // 3 = bystander
     let cardBelongsTo = e.target.value;
 
-    const teamOneOpsIds = [];
-    const teamTwoOpsIds = [];
-
-    teamOneOperatives.forEach((operative) => {
-      teamOneOpsIds.push(operative.playerId);
-    });
-
-    teamTwoOperatives.forEach((operative) => {
-      teamTwoOpsIds.push(operative.playerId);
-    });
-
     //  if its team 1 ops turn and they are the one who clicked on the card...
-    if (gameStatus === 'team1OpsTurn' && teamOneOpsIds.includes(playerId)) {
+    if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
       // reveal card
       if (cardBelongsTo === '0') {
         console.log('you hit the assassin! you lose.');
@@ -85,7 +80,7 @@ const Board = () => {
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
       }
-    } else if (gameStatus === 'team2OpsTurn' && teamTwoOpsIds.includes(playerId)) {
+    } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
       // reveal card
       if (cardBelongsTo === '0') {
         console.log('you hit the assassin! you lose.');
@@ -152,19 +147,19 @@ const Board = () => {
     }
   };
 
-  // On load...
-  useEffect(() => {
-    // Look to see if there are cards already loaded for the room
-    onValue(cardsRef, (snapshot) => {
-      // If there are cards in /room/roomId/cards
-      if (snapshot.exists()) {
-        //update our redux to reflect that
-        const cardsFromSnapshot = snapshot.val();
-        const values = Object.values(cardsFromSnapshot);
-        dispatch(setWordsInGame(values));
-      }
-    });
-  }, []);
+  // // On load...
+  // useEffect(() => {
+  //   // Look to see if there are cards already loaded for the room
+  //   onValue(cardsRef, (snapshot) => {
+  //     // If there are cards in /room/roomId/cards
+  //     if (snapshot.exists()) {
+  //       //update our redux to reflect that
+  //       const cardsFromSnapshot = snapshot.val();
+  //       const values = Object.values(cardsFromSnapshot);
+  //       dispatch(setWordsInGame(values));
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div style={style}>
@@ -173,12 +168,31 @@ const Board = () => {
           <Card key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} submitAnswer={submitAnswer} />
         );
       })}
-      <Button variant="contained" onClick={endTurn}>
-        end turn
-      </Button>
-      <Button variant="contained" onClick={submitClue}>
-        submit clue
-      </Button>
+
+      {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (
+        <Button variant="contained" onClick={endTurn}>
+          End Turn{' '}
+        </Button>
+      )}
+      {gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId) && (
+        <Button variant="contained" onClick={endTurn}>
+          End Turn{' '}
+        </Button>
+      )}
+
+      {/* is team 1 spy's turn and player is team1spymaster */}
+      {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+        <Button variant="contained" onClick={submitClue}>
+          submit clue
+        </Button>
+      )}
+
+      {/* is team 2 spy's turn and player is team2spymaster */}
+      {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+        <Button variant="contained" onClick={submitClue}>
+          submit clue
+        </Button>
+      )}
     </div>
   );
 };

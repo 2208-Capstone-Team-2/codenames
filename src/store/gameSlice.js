@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  status: "",
+  status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
 };
 
 export const gameSlice = createSlice({
-  name: "game",
+  name: 'game',
   initialState,
   reducers: {
     setStatus: (state, action) => {
@@ -22,6 +22,5 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setStatus, setTeam1RemainingCards, setTeam2RemainingCards } =
-  gameSlice.actions;
+export const { setStatus, setTeam1RemainingCards, setTeam2RemainingCards } = gameSlice.actions;
 export default gameSlice.reducer;
