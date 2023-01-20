@@ -1,14 +1,10 @@
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import Card from './Card.jsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDatabase, ref, onValue } from 'firebase/database';
-import { setWordsInGame } from '../../store/wordsInGameSlice';
-
+import { useSelector } from 'react-redux';
 
 const Board = () => {
   const words = useSelector((state) => state.wordsInGame);
- 
+
   const style = {
     display: 'grid',
     gridTemplateColumns: 'auto auto auto auto auto',

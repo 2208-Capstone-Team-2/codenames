@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
@@ -12,14 +11,13 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Popup from 'reactjs-popup';
-
+import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import SetupGame from './setupGame.jsx';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
 import Board from './Board.jsx';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
-
 
 const RoomView = () => {
   // for room nav
@@ -35,8 +33,8 @@ const RoomView = () => {
   const { allPlayers } = useSelector((state) => state.allPlayers);
 
   // firebase room  & players reference
-
   let roomRef = ref(database, 'rooms/' + roomId);
+  let gameboardRef = ref(database, 'rooms/' + roomId + '/gameboard');
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
 
@@ -84,6 +82,7 @@ const RoomView = () => {
       }
     });
   }, []);
+
   //check to see if there are words to set up gameboard
   useEffect(() => {
     onValue(gameboardRef, (snapshot) => {
@@ -92,9 +91,9 @@ const RoomView = () => {
         const values = Object.values(gameboard);
         console.log(gameboard);
         dispatch(setWordsInGame(values));
-        console.log("new words in game");
+        console.log('new words in game');
       } else {
-        console.log("no words yet");
+        console.log('no words yet');
       }
     });
   }, []);
