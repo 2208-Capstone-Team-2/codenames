@@ -6,7 +6,7 @@ import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 
-const Board = () => {
+const OperativeBoard = () => {
   const words = useSelector((state) => state.wordsInGame);
   const roomId = useSelector((state) => state.player.roomId);
   const playerId = useSelector((state) => state.player.playerId);
@@ -15,10 +15,7 @@ const Board = () => {
   const gameStatus = useSelector((state) => state.game.status);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-
-  const dispatch = useDispatch();
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -147,20 +144,6 @@ const Board = () => {
     }
   };
 
-  // // On load...
-  // useEffect(() => {
-  //   // Look to see if there are cards already loaded for the room
-  //   onValue(cardsRef, (snapshot) => {
-  //     // If there are cards in /room/roomId/cards
-  //     if (snapshot.exists()) {
-  //       //update our redux to reflect that
-  //       const cardsFromSnapshot = snapshot.val();
-  //       const values = Object.values(cardsFromSnapshot);
-  //       dispatch(setWordsInGame(values));
-  //     }
-  //   });
-  // }, []);
-
   return (
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
@@ -179,22 +162,8 @@ const Board = () => {
           End Turn{' '}
         </Button>
       )}
-
-      {/* is team 1 spy's turn and player is team1spymaster */}
-      {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
-        <Button variant="contained" onClick={submitClue}>
-          submit clue
-        </Button>
-      )}
-
-      {/* is team 2 spy's turn and player is team2spymaster */}
-      {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
-        <Button variant="contained" onClick={submitClue}>
-          submit clue
-        </Button>
-      )}
     </div>
   );
 };
 
-export default Board;
+export default OperativeBoard;

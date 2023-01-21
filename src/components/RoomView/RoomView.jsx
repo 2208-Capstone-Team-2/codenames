@@ -16,7 +16,8 @@ import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
 import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
-import Board from './Board.jsx';
+import OperativeBoard from './OperativeBoard.jsx';
+import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
@@ -35,6 +36,7 @@ const RoomView = () => {
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const [loading, setLoading] = useState(false);
   let gameStatus = useSelector((state) => state.game.status);
+
   // firebase room  & players reference
   let roomRef = ref(database, 'rooms/' + roomId);
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
@@ -44,6 +46,21 @@ const RoomView = () => {
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
 
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
+    return operative.playerId;
+  });
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
+    return operative.playerId;
+  });
+  const teamOneSpymasterId = Object.values(teamOneSpymaster).map((spy) => {
+    return spy.playerId;
+  });
+  const teamTwoSpymasterId = Object.values(teamTwoSpymaster).map((spy) => {
+    return spy.playerId;
+  });
+
+  console.log('1', teamOneOperativesIds.includes(playerId));
+  console.log('2', teamTwoOperativesIds.includes(playerId));
   const isEveryRoleFilled = () => {
     if (teamOneOperatives.length > 0) {
       if (teamTwoOperatives.length > 0) {
@@ -199,8 +216,7 @@ const RoomView = () => {
       </Container>
 
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
-      <p>Make sure there is at least one person in each role!</p>
-
+      {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
       {isHost && everyonesHere && (
         <Popup
@@ -220,7 +236,12 @@ const RoomView = () => {
         </Popup>
       )}
 
-      <Board />
+      {/* player is operative && */}
+      {teamOneSpymasterId.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (
+        <OperativeBoard />
+      ) : (
+        <SpyMasterBoard />
+      )}
     </>
   );
 };
