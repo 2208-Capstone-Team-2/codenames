@@ -41,8 +41,23 @@ const RoomView = () => {
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
 
-  console.log(gameStatus);
+  const isEveryRoleFilled = () => {
+    if (teamOneOperatives.length > 0) {
+      if (teamTwoOperatives.length > 0) {
+        if (teamOneSpymaster.length > 0) {
+          if (teamTwoSpymaster.length > 0) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  const everyonesHere = isEveryRoleFilled();
 
   useEffect(() => {
     // on loading page if no room or name, send back to join page
@@ -183,7 +198,11 @@ const RoomView = () => {
         </Grid>
       </Container>
 
-      {isHost && (
+      {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
+      <p>Make sure there is at least one person in each role!</p>
+
+      {/* is host AND there is at least one person on each team */}
+      {isHost && everyonesHere && (
         <Popup
           trigger={
             <Button
@@ -193,7 +212,7 @@ const RoomView = () => {
                 marginRight: 'auto',
               }}
             >
-              Set Up
+              Set Up Board
             </Button>
           }
         >
