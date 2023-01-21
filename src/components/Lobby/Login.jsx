@@ -1,18 +1,18 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setUsername, setRoomId } from "../../store/playerSlice";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { database, auth } from "../../utils/firebase";
-import { useEffect } from "react";
-import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { setPlayerId } from "../../store/playerSlice";
-import styles from "./Lobby.styles";
-import logo from "../../static/images/logoLight.png"; // Tell Webpack this JS file uses this image
-import HowToPlay from "./HowToPlay.jsx";
-import FAQ from "./FAQ.jsx";
-import { ref, update, set, onDisconnect } from "firebase/database";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUsername, setRoomId } from '../../store/playerSlice';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { database, auth } from '../../utils/firebase';
+import { useEffect } from 'react';
+import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { setPlayerId } from '../../store/playerSlice';
+import styles from './Lobby.styles';
+import logo from '../../static/images/logoLight.png'; // Tell Webpack this JS file uses this image
+import HowToPlay from './HowToPlay.jsx';
+import FAQ from './FAQ.jsx';
+import { ref, update, set, onDisconnect } from 'firebase/database';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,9 +20,8 @@ const Login = () => {
   const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
   let playerId = useSelector((state) => state.player.playerId);
-
   // references to firebase data
-  let playerRef = ref(database, "players/" + playerId);
+  let playerRef = ref(database, 'players/' + playerId);
 
   // setting user room and name on frontend
   const handleRoom = (event) => {
@@ -58,7 +57,7 @@ const Login = () => {
         const playerId = user.uid;
         dispatch(setPlayerId(playerId));
         // Returns a Reference to the location in the Database corresponding to the provided player
-        playerRef = ref(database, "players/" + playerId);
+        playerRef = ref(database, 'players/' + playerId);
 
         // set player in firebase db
         set(playerRef, { id: playerId });
@@ -74,7 +73,7 @@ const Login = () => {
   return (
     <div style={styles.sx.HomeContainer}>
       <div style={styles.sx.LoginContainer}>
-        <img src={logo} alt={""} width="50%" />
+        <img src={logo} alt={''} width="50%" />
         <form onSubmit={playerLogin} style={styles.sx.FormContainer}>
           <TextField
             id="outlined-basic"

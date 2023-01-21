@@ -1,6 +1,6 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { Login, RoomView, About } from ".";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Login, RoomView, About } from '.';
 
 const RouterComponent = () => {
   return (
