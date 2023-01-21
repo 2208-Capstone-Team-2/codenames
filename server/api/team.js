@@ -2,16 +2,27 @@ const express = require('express');
 const router = express.Router();
 const { Team, Room } = require('../db');
 
-// POST - /api/team/makeTeamsForRoom/
+// GET - /api/team/
+// for testing routing
+router.get('/', async (req, res, next) => {
+  try {
+    res.send('hi');
+  } catch (err) {
+    next(err);
+  }
+});
+
+// GET - /api/team/makeTeamsForRoom/:roomId
 // Given the roomId from the post body,
 // Creates four teams models (aka the 4 card colors) & returns them
-router.post('/makeTeamsForRoom', async (req, res, next) => {
+router.get('/makeTeamsForRoom/:roomId', async (req, res, next) => {
   try {
     console.log('inside makeTeamsForRoom!');
 
     // get roomId (that is our room model's id, not the firebase room name
     // from req body
-    const { roomId } = req.body;
+    const { roomId } = req.params;
+    console.log(`roomId: ${roomId}`);
 
     // Double check that this room exists in our db
     const room = await Room.findByPk(roomId);

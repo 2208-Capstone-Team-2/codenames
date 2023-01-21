@@ -42,7 +42,7 @@ function createRandomLayout() {
   return randomLayout;
 }
 
-// POST localhost:3000/api/cards/make25
+// POST localhost:3000/api/card/make25
 // Given an array of workpack ids, creates 25 cards.
 router.post('/make25', async (req, res, next) => {
   try {
