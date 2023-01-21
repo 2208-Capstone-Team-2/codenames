@@ -12,10 +12,22 @@ router.post('/makeTeamsForRoom', async (req, res, next) => {
     // get roomId (that is our room model's id, not the firebase room name
     // from req body
     const { roomId } = req.body;
-    const room = await Room.findByPk(roomId);
 
-    // todo!
-    // make four teams and give them room association
+    // Double check that this room exists in our db
+    const room = await Room.findByPk(roomId);
+    if (!room) return res.status(404).send('room with that id does not exist!');
+
+    // Creates four teams models (aka the 4 card colors) & returns them
+    // awaited individually in hopes that it forces team1 to have the id of 1
+    const team1 = await Team.create({ name: 'team red', roomId });
+    const team2 = await Team.create({ name: 'team blue', roomId });
+    const team3 = await Team.create({ name: 'team white', roomId });
+    const team4 = await Team.create({ name: 'team black', roomId });
+
+    // Associate the room with the
+    // An object that wraps the teams
+    const teams = { team1, team2, team3, team4 };
+    res.send(teams);
   } catch (err) {
     next(err);
   }

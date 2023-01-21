@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Word } = require('../db');
+const { Word, Card } = require('../db');
 
 //a function to get "quantity" of unique random interger, from 0 - max (inclusive)
 function getRandomIntArray(quantity, max) {
@@ -57,21 +57,21 @@ router.post('/make25', async (req, res, next) => {
       },
     });
 
-    //get 25 random index from allwords (see line 10)
-    const randomWordsIndexArray = getRandomIntArray(25, allWords.length);
+    // This is an array of random word ids to
+    const randomWordsIds = getRandomIntArray(25, allWords.length);
     const finalWords = [];
     const layout = createRandomLayout();
 
     //loop through the random index array
-    for (let i = 0; i < randomWordsIndexArray.length; i++) {
+    for (let i = 0; i < randomWordsIds.length; i++) {
       //assign the last number in layout array as the team number
       const teamNumber = layout.pop();
       const word = {
         //change this if front end needs more than the word itself
-        word: allWords[randomWordsIndexArray[i]].dataValues.word,
+        word: allWords[randomWordsIds[i]].dataValues.word,
         isVisibleToAll: false,
         //so react return item can have a unique key={word.id}
-        id: allWords[randomWordsIndexArray[i]].dataValues.id,
+        id: allWords[randomWordsIds[i]].dataValues.id,
         teamNumber,
       };
       //push the word object to the array and send to the front
