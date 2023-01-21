@@ -29,14 +29,12 @@ router.get('/makeTeamsForRoom/:roomId', async (req, res, next) => {
     if (!room) return res.status(404).send('room with that id does not exist!');
 
     // Creates four teams models (aka the 4 card colors) & returns them
-    // awaited individually in hopes that it forces team1 to have the id of 1
     const team1 = await Team.create({ name: 'team red', roomId });
     const team2 = await Team.create({ name: 'team blue', roomId });
     const team3 = await Team.create({ name: 'team white', roomId });
     const team4 = await Team.create({ name: 'team black', roomId });
 
-    // Associate the room with the
-    // An object that wraps the teams
+    // Send back an object that wraps the teams
     const teams = { team1, team2, team3, team4 };
     res.send(teams);
   } catch (err) {
