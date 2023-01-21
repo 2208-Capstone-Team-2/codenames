@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Word, Card } = require('../db');
+const { Word, Card, Room } = require('../db');
 
 //a function to get "quantity" of unique random interger, from 0 - max (inclusive)
 function getRandomIntArray(quantity, max) {
@@ -44,12 +44,18 @@ function createRandomLayout() {
 
 // POST localhost:3000/api/card/make25
 // Given an array of workpack ids, creates 25 cards.
-router.post('/make25', async (req, res, next) => {
+router.post('/make25/forRoom/:roomId', async (req, res, next) => {
   try {
     console.log('inside make 25 cards');
-    //  find which pack users select and put all the candidate words in an array
-    const { selectedWordPackId } = req.body;
 
+    // Get the room we'll put the cards into
+    const { roomId } = req.params;
+    const room = await Room.findByPk(roomId);
+    if (!room) return res.status(404).send('room with that id does not exist!');
+
+    // Get the teamIds of the four
+    // Find which pack users select and put all the candidate words in an array
+    const { selectedWordPackId } = req.body;
     const allWords = await Word.findAll({
       where: {
         //findAll can work with an array
@@ -57,16 +63,16 @@ router.post('/make25', async (req, res, next) => {
       },
     });
 
-    // This is an array of random word ids to
+    // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWords.length);
-    const finalWords = [];
+    const finalCards = [];
     const layout = createRandomLayout();
 
     //loop through the random index array
     for (let i = 0; i < randomWordsIds.length; i++) {
       //assign the last number in layout array as the team number
       const teamNumber = layout.pop();
-      const word = {
+      const card = {
         //change this if front end needs more than the word itself
         word: allWords[randomWordsIds[i]].dataValues.word,
         isVisibleToAll: false,
@@ -75,9 +81,9 @@ router.post('/make25', async (req, res, next) => {
         teamNumber,
       };
       //push the word object to the array and send to the front
-      finalWords.push(word);
+      finalCards.push(card);
     }
-    res.send(finalWords);
+    res.send(finalCards);
   } catch (err) {
     next(err);
   }
