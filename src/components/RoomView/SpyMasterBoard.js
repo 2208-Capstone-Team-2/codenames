@@ -14,6 +14,13 @@ const SpyMasterBoard = () => {
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
+  const teamOneSpymasterId = Object.values(teamOneSpymaster).map((spy) => {
+    return spy.playerId;
+  });
+  const teamTwoSpymasterId = Object.values(teamTwoSpymaster).map((spy) => {
+    return spy.playerId;
+  });
+
   const style = {
     display: 'grid',
     gridTemplateColumns: 'auto auto auto auto auto',
@@ -22,6 +29,10 @@ const SpyMasterBoard = () => {
     justifyContent: 'center',
     alightItems: 'center',
   };
+
+  console.log('team1spyid', teamOneSpymasterId);
+  console.log('playerId', playerId);
+  //   console.log(teamTwoSpymasterId);
 
   // only spymaster whos turn it is should see the button that triggers this fxn
   // when the spymaster submits the clue, the operatives gets to guess next
@@ -51,14 +62,14 @@ const SpyMasterBoard = () => {
       })}
 
       {/* is team 1 spy's turn and player is team1spymaster */}
-      {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+      {gameStatus === 'team1SpyTurn' && teamOneSpymasterId[0] === playerId && (
         <Button variant="contained" onClick={submitClue}>
           submit clue
         </Button>
       )}
 
       {/* is team 2 spy's turn and player is team2spymaster */}
-      {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+      {gameStatus === 'team2SpyTurn' && teamTwoSpymasterId[0] === playerId && (
         <Button variant="contained" onClick={submitClue}>
           submit clue
         </Button>

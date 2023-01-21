@@ -59,8 +59,6 @@ const RoomView = () => {
     return spy.playerId;
   });
 
-  console.log('1', teamOneOperativesIds.includes(playerId));
-  console.log('2', teamTwoOperativesIds.includes(playerId));
   const isEveryRoleFilled = () => {
     if (teamOneOperatives.length > 0) {
       if (teamTwoOperatives.length > 0) {
@@ -237,7 +235,7 @@ const RoomView = () => {
       )}
 
       {/* player is operative && */}
-      {teamOneSpymasterId.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (
+      {teamOneOperativesIds.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (
         <OperativeBoard />
       ) : (
         <SpyMasterBoard />
