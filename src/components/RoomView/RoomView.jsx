@@ -57,6 +57,10 @@ const RoomView = () => {
         set(child(playersInRoomRef, playerId), { playerId, username });
       } else {
         console.log('room does not exist...yet! Creating it now...');
+
+        // TODO for now: this is where we do /api/makeRoom to create a room
+
+        // Creating room in firebase:
         // create the room, (nested) players, and host.
         set(roomRef, {
           roomId: roomId,
