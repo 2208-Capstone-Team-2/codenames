@@ -3,11 +3,15 @@ const router = express.Router();
 const { Board } = require('../db');
 
 // POST - /api/board/
-// Given a roomId (via req.body), makes a new board for it
+// Given a roomId (via req.body), makes a new board. Does not make the cards for it.
 router.get('/', async (req, res, next) => {
   try {
     const { roomId } = req.body;
-    // todo
+
+    // Make a new board
+    const board = await Board.create({ roomId });
+
+    res.send(board);
   } catch (err) {
     next(err);
   }

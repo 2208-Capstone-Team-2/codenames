@@ -34,9 +34,16 @@ router.get('/makeTeamsForRoom/:roomId', async (req, res, next) => {
     const team3 = await Team.create({ name: 'team white', roomId });
     const team4 = await Team.create({ name: 'team black', roomId });
 
+    // Update the room object to have the ids of the teams we created
+    room.update({
+      team1id: team1.id,
+      team2id: team2.id,
+      team3id: team3.id,
+      team4id: team4.id,
+    });
     // Send back an object that wraps the teams
-    const teams = { team1, team2, team3, team4 };
-    res.send(teams);
+    // const teams = { team1, team2, team3, team4 };
+    res.send(room);
   } catch (err) {
     next(err);
   }
