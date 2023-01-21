@@ -43,6 +43,7 @@ const Login = () => {
     signInAnonymously(auth)
       .then(() => {
         // Signed in..
+        // **** THIS MIGHT be where we create a Player Model? **** /
       })
       .catch((error) => {
         // eslint-disable-next-line no-unused-vars
