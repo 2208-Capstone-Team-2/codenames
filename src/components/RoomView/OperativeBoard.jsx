@@ -16,6 +16,7 @@ const OperativeBoard = () => {
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -31,96 +32,6 @@ const OperativeBoard = () => {
     gap: '2%',
     justifyContent: 'center',
     alightItems: 'center',
-  };
-
-  const submitAnswer = async (e) => {
-    e.preventDefault();
-
-    // need axios to check value of card
-
-    // let cardId = e.target.value
-    // let {data} = await axios.post('/api/answerKey/cardId', auth stuff)
-    // let cardBelongsTo = data.teamId
-
-    // reveal card color and disable clicking the card
-
-    // values:
-    // 0 = assassin
-    // 1 = team 1
-    // 2 = team 2
-    // 3 = bystander
-    let cardBelongsTo = e.target.value;
-
-    //  if its team 1 ops turn and they are the one who clicked on the card...
-    if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
-      // reveal card
-      if (cardBelongsTo === '0') {
-        console.log('you hit the assassin! you lose.');
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
-      }
-      if (cardBelongsTo === '3') {
-        console.log('you hit a bystander!');
-        endTurn();
-      }
-      if (cardBelongsTo === '1') {
-        console.log('thats correct!');
-        await update(gameRef, {
-          team1RemainingCards: teamOneRemainingCards - 1,
-        });
-        // decrement from guesses remaining from spymasters clue
-        // if guesses remaining === 0, endTurn()
-      }
-      if (cardBelongsTo === '2') {
-        console.log('thats the other teams card! turn is over');
-        update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
-        endTurn();
-      }
-    } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
-      // reveal card
-      if (cardBelongsTo === '0') {
-        console.log('you hit the assassin! you lose.');
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
-      }
-      if (cardBelongsTo === '3') {
-        console.log('you hit a bystander!');
-        endTurn();
-      }
-      if (cardBelongsTo === '2') {
-        console.log('thats correct!');
-        update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
-        // decrement from guesses remaining from spymasters clue
-        // if guesses remaining === 0, endTurn()
-      }
-      if (cardBelongsTo === '1') {
-        console.log('thats the other teams card! turn is over');
-        update(gameRef, { team1RemainingCards: teamOneRemainingCards - 1 });
-        endTurn();
-      }
-    } else {
-      console.log('its not my turn');
-    }
-  };
-
-  // changing turns depending on who clicks on the end turn button.
-  // only operatives should see this button when its their 'turn'
-  const endTurn = () => {
-    console.log('ending turn');
-    let nextStatus;
-    // if cards remain on both sides, swap to the next teams turn
-    if (teamOneRemainingCards && teamTwoRemainingCards) {
-      if (gameStatus === 'team1OpsTurn') {
-        nextStatus = 'team2SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
-      }
-      if (gameStatus === 'team2OpsTurn') {
-        nextStatus = 'team1SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
-      }
-    }
   };
 
   // only spymaster whos turn it is should see the button that triggers this fxn
@@ -144,12 +55,26 @@ const OperativeBoard = () => {
     }
   };
 
+  const endTurn = () => {
+    console.log('ending turn');
+    let nextStatus;
+    // if cards remain on both sides, swap to the next teams turn
+    if (teamOneRemainingCards && teamTwoRemainingCards) {
+      if (gameStatus === 'team1OpsTurn') {
+        nextStatus = 'team2SpyTurn';
+        update(gameRef, { gameStatus: nextStatus });
+      }
+      if (gameStatus === 'team2OpsTurn') {
+        nextStatus = 'team1SpyTurn';
+        update(gameRef, { gameStatus: nextStatus });
+      }
+    }
+  };
+
   return (
     <div style={style}>
       {words.wordsInGame.map((singleWord) => {
-        return (
-          <Card key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} submitAnswer={submitAnswer} />
-        );
+        return <Card key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} />;
       })}
 
       {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (

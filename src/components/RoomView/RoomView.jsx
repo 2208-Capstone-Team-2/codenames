@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { onValue, ref, set, get, child, onDisconnect, update } from 'firebase/database';
+import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { Container } from '@mui/material';
@@ -34,7 +34,8 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const [loading, setLoading] = useState(false);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
 
   // firebase room  & players reference
@@ -43,20 +44,12 @@ const RoomView = () => {
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
     return operative.playerId;
-  });
-  const teamOneSpymasterId = Object.values(teamOneSpymaster).map((spy) => {
-    return spy.playerId;
-  });
-  const teamTwoSpymasterId = Object.values(teamTwoSpymaster).map((spy) => {
-    return spy.playerId;
   });
 
   const isEveryRoleFilled = () => {
@@ -216,7 +209,7 @@ const RoomView = () => {
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
-      {isHost && everyonesHere && (
+      {isHost && (
         <Popup
           trigger={
             <Button
@@ -233,6 +226,24 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )}
+      {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
+      {/* {isHost && everyonesHere && (
+        <Popup
+          trigger={
+            <Button
+              style={{
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              Set Up Board
+            </Button>
+          }
+        >
+          <SetupGame />
+        </Popup>
+      )} */}
 
       {/* player is operative && */}
       {teamOneOperativesIds.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (

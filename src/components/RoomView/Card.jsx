@@ -1,24 +1,137 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { setWordsInGame } from '../../store/wordsInGameSlice';
-import Grid from '@mui/material/Grid';
+import { useSelector } from 'react-redux';
+import './card.css';
+import { useState } from 'react';
+import { ref, update } from 'firebase/database';
+import { database } from '../../utils/firebase';
 
-const Card = ({ singleWord, value, submitAnswer }) => {
-  const words = useSelector((state) => state.wordsInGame);
-  const style = {
-    width: '120px',
-    height: '150px',
-    backgroundColor: 'beige',
-    textAlign: 'center',
-    alignContent: 'center',
-    display: 'grid',
+const Card = ({ singleWord, value }) => {
+  const [revealed, setRevealed] = useState(false);
+  const { playerId, roomId } = useSelector((state) => state.player);
+  let gameStatus = useSelector((state) => state.game.status);
+  const { teamOneOperatives } = useSelector((state) => state.teamOne);
+  const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
+  const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
+  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
+  // firebase room  & players reference
+  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
+    return operative.playerId;
+  });
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
+    return operative.playerId;
+  });
+
+  const submitAnswer = async (e) => {
+    e.preventDefault();
+
+    // need axios to check value of card
+
+    // let cardId = e.target.value
+    // let {data} = await axios.post('/api/answerKey/cardId', auth stuff)
+    // let cardBelongsTo = data.teamId
+
+    // reveal card color and disable clicking the card
+
+    // values:
+    // 0 = assassin
+    // 1 = team 1
+    // 2 = team 2
+    // 3 = bystander
+    let cardBelongsTo = e.target.value;
+
+    //  if its team 1 ops turn and they are the one who clicked on the card...
+    if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
+      // reveal card
+      // instead of 'revealing', set 'isvisibletoall' to true
+      singleWord.word.isVisibleToAll = true;
+      // setRevealed(true);
+
+      if (cardBelongsTo === '0') {
+        console.log('you hit the assassin! you lose.');
+        // set winner = other team
+        // do other celebratory stuff
+        // show reset game button
+      }
+      if (cardBelongsTo === '3') {
+        console.log('you hit a bystander!');
+        endTurn();
+      }
+      if (cardBelongsTo === '1') {
+        console.log('thats correct!');
+        await update(gameRef, {
+          team1RemainingCards: teamOneRemainingCards - 1,
+        });
+        // decrement from guesses remaining from spymasters clue
+        // if guesses remaining === 0, endTurn()
+      }
+      if (cardBelongsTo === '2') {
+        console.log('thats the other teams card! turn is over');
+        update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
+        endTurn();
+      }
+    } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
+      // instead of 'revealing', set 'isvisibletoall' to true
+      singleWord.word.isVisibleToAll = true;
+
+      // reveal card
+      if (cardBelongsTo === '0') {
+        console.log('you hit the assassin! you lose.');
+        // set winner = other team
+        // do other celebratory stuff
+        // show reset game button
+      }
+      if (cardBelongsTo === '3') {
+        console.log('you hit a bystander!');
+        endTurn();
+      }
+      if (cardBelongsTo === '2') {
+        console.log('thats correct!');
+        update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
+        // decrement from guesses remaining from spymasters clue
+        // if guesses remaining === 0, endTurn()
+      }
+      if (cardBelongsTo === '1') {
+        console.log('thats the other teams card! turn is over');
+        update(gameRef, { team1RemainingCards: teamOneRemainingCards - 1 });
+        endTurn();
+      }
+    } else {
+      console.log('its not my turn');
+    }
+  };
+
+  // changing turns depending on who clicks on the end turn button.
+  // only operatives should see this button when its their 'turn'
+  const endTurn = () => {
+    console.log('ending turn');
+    let nextStatus;
+    // if cards remain on both sides, swap to the next teams turn
+    if (teamOneRemainingCards && teamTwoRemainingCards) {
+      if (gameStatus === 'team1OpsTurn') {
+        nextStatus = 'team2SpyTurn';
+        update(gameRef, { gameStatus: nextStatus });
+      }
+      if (gameStatus === 'team2OpsTurn') {
+        nextStatus = 'team1SpyTurn';
+        update(gameRef, { gameStatus: nextStatus });
+      }
+    }
   };
 
   return (
-    <button style={style} value={value} onClick={submitAnswer}>
-      {singleWord.word}
-    </button>
+    <>
+      {!singleWord.word.isVisibleToAll && (
+        <button className="notYetRevealed" value={value} onClick={submitAnswer}>
+          {singleWord.word}
+        </button>
+      )}
+      {singleWord.word.isVisibleToAll && value === 1 && <div className="red">{singleWord.word}</div>}
+      {singleWord.word.isVisibleToAll && value === 2 && <div className="blue">{singleWord.word}</div>}
+      {singleWord.word.isVisibleToAll && value === 3 && <div className="beige">{singleWord.word}</div>}
+      {singleWord.word.isVisibleToAll && value === 0 && <div className="black">{singleWord.word}</div>}
+    </>
   );
 };
 

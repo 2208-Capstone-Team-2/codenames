@@ -1,0 +1,47 @@
+.notYetRevealed {
+  width: 120px;
+  height: 150px;
+  background-color: beige;
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
+.red {
+  width: 120px;
+  height: 150px;
+  background-color: #800000;
+  text-align: 'center';
+  color: white;
+  align-content: 'center';
+  display: 'grid';
+}
+
+.blue {
+  width: 120px;
+  height: 150px;
+  background-color: #000066;
+  color: white;
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
+
+.beige {
+  width: 120px;
+  height: 150px;
+  background-color: #cc6600;
+  color: white;
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
+
+.black {
+  width: 120px;
+  height: 150px;
+  background-color: black;
+  color: white;
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
