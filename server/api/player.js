@@ -26,7 +26,7 @@ router.post('/addToRoom', async (req, res, next) => {
 // PUT --- once a player has decided their team and role, we can add them here
 router.put('/update/teamAndRole', async (req, res, next) => {
   try {
-    //Grab players uid and roomId off the req.body
+    //Grab players uid, roomId, team to join, and role off the req.body
     const playerId = req.body.playerId;
     const roomId = req.body.roomId;
     const teamToJoin = req.body.teamId;
@@ -38,6 +38,7 @@ router.put('/update/teamAndRole', async (req, res, next) => {
         roomId: roomId,
       },
     });
+    //if we found the player, we update their team and role
     if (playerToUpdate) {
       await playerToUpdate.update({
         teamId: teamToJoin,
@@ -46,7 +47,7 @@ router.put('/update/teamAndRole', async (req, res, next) => {
     } else {
       console.log('player not found!');
     }
-    res.send(playerToUpdate);
+    res.send('player added to team and role!').status(201);
   } catch (error) {
     next(error);
   }
