@@ -2,6 +2,8 @@ import React from 'react';
 import './card.css';
 
 const SpyCard = ({ singleWord, value }) => {
+  // spies have a different view of the card depending on its value, and also whether or not it's been revealed to everyone.
+  // we'll likely use images or something for css but this was helpful for testing purposes
   return (
     <>
       {!singleWord.isVisibleToAll && value === 1 && <button className="redStyle">{singleWord.word}</button>}

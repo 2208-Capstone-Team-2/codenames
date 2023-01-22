@@ -129,11 +129,14 @@ const Card = ({ singleWord, value }) => {
 
   return (
     <>
+      {/* if card hasnt been revealed, show this beige version and submit answer on click */}
       {!singleWord.isVisibleToAll && (
         <button className="notYetRevealed" value={value} onClick={submitAnswer}>
           {singleWord.word}
         </button>
       )}
+      {/* if it is visible, show the color for the team, and make it not clickable 
+      (buttons made them more visually appealing for the time being but we can edit css obviously) */}
       {singleWord.isVisibleToAll && value === 1 && <button className="redRevealed">{singleWord.word}</button>}
       {singleWord.isVisibleToAll && value === 2 && <button className="blueRevealed">{singleWord.word}</button>}
       {singleWord.isVisibleToAll && value === 3 && <button className="beigeRevealed">{singleWord.word}</button>}
