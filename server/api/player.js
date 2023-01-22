@@ -8,6 +8,9 @@ const { Player, Team, Room } = require('../db');
 router.post('/addToRoom', async (req, res, next) => {
   try {
     //1. Grab player username, uid, and room # off req.body
+    const playerId = req.body.playerId;
+    const playersUsername = req.body.playerId;
+    const roomId = req.body.roomId;
     //2. Put player in db, associate their UID to the PK, and them to the room
     //3. res.send status and maybe some info
   } catch (error) {
