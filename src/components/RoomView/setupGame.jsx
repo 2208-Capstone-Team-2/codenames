@@ -53,8 +53,18 @@ const SetupGame = () => {
         return response;
       })
       .then((result) => {
+        const updates = {};
+        result.data.forEach(
+          (card) =>
+            (updates[card.id] = {
+              id: card.id,
+              isVisibleToAll: card.isVisibleToAll,
+              teamNumber: card.teamNumber,
+              word: card.word,
+            }),
+        );
         update(ref(database, 'rooms/' + roomId), {
-          gameboard: result.data,
+          gameboard: updates,
         });
       });
   };
