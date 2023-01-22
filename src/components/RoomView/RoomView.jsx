@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { onValue, ref, set, get, child, onDisconnect, update } from 'firebase/database';
+import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { Container } from '@mui/material';
@@ -16,7 +16,8 @@ import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
 import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
-import Board from './Board.jsx';
+import OperativeBoard from './OperativeBoard.jsx';
+import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
@@ -33,8 +34,10 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const [loading, setLoading] = useState(false);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
+
   // firebase room  & players reference
   let roomRef = ref(database, 'rooms/' + roomId);
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
@@ -42,7 +45,28 @@ const RoomView = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
-  console.log(gameStatus);
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
+    return operative.playerId;
+  });
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
+    return operative.playerId;
+  });
+
+  // determines if there is at least one player in each 'role' and then shows the button for start game
+  // not uncommenting code in the return until we're done testing, but it works :)
+  const isEveryRoleFilled = () => {
+    if (teamOneOperatives.length > 0) {
+      if (teamTwoOperatives.length > 0) {
+        if (teamOneSpymaster.length > 0) {
+          if (teamTwoSpymaster.length > 0) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const everyonesHere = isEveryRoleFilled();
 
   useEffect(() => {
     // on loading page if no room or name, send back to join page
@@ -107,7 +131,6 @@ const RoomView = () => {
         dispatch(setTeam1RemainingCards(team1RemainingCards));
         dispatch(setTeam2RemainingCards(team2RemainingCards));
 
-        console.log(game.gameStatus);
         if (game.team1RemainingCards && game.team2RemainingCards) {
           if (game.gameStatus === 'team1SpyTurn') {
             dispatch(setStatus('team1SpyTurn'));
@@ -187,6 +210,9 @@ const RoomView = () => {
         </Grid>
       </Container>
 
+      {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
+      {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
+      {/* is host AND there is at least one person on each team */}
       {isHost && (
         <Popup
           trigger={
@@ -197,15 +223,40 @@ const RoomView = () => {
                 marginRight: 'auto',
               }}
             >
-              Set Up
+              Set Up Board
             </Button>
           }
         >
           <SetupGame />
         </Popup>
       )}
+      {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
+      {/* {isHost && everyonesHere && (
+        <Popup
+          trigger={
+            <Button
+              style={{
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              Set Up Board
+            </Button>
+          }
+        >
+          <SetupGame />
+        </Popup>
+      )} */}
 
-      <Board />
+      {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+      {/* this is working for now, but we probably need more protection to not display 
+      a spymaster board on someone who randomly joins room while game is 'in progress' */}
+      {teamOneOperativesIds.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (
+        <OperativeBoard />
+      ) : (
+        <SpyMasterBoard />
+      )}
     </>
   );
 };
