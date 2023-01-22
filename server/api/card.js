@@ -83,41 +83,47 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     // If any of teamIds are falsey, immediately kick.
     if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
 
-    console.log('teamIds:');
-    console.log(team1id, team2id, team3id, team4id);
     const layout = createRandomLayout(team1id, team2id, team3id, team4id);
 
-    console.log(`length is ${randomWordsIds.length} and randomWordsIds:`);
-    console.log(randomWordsIds);
-    console.log('layout: ');
-    console.log(layout);
-
     const cards = [];
-
     //loop through the random index array
     for (let i = 0; i < 25; i++) {
-      //assign the last number in layout array as the team number
+      // Get a random teamId and wordId from our random arrays
       const teamId = layout.pop();
       const wordId = randomWordsIds.pop();
-      // const cardObj = {
-      //   //change this if front end needs more than the word itself
-      //   word: allWords[randomWordsIds[i]].dataValues.word,
-      //   isVisibleToAll: false,
-      //   //so react return item can have a unique key={word.id}
-      //   id: allWords[randomWordsIds[i]].dataValues.id,
-      //   teamNumber,
-      // };
 
+      // make will become a Card, and push it
       const card = {
         boardId: board.id,
         wordId,
         teamId,
       };
-      //push the word object to the array and send to the front
       cards.push(card);
     }
-    console.log(cards);
-    res.send('hi');
+
+    const cardPromises = cards.map((card) => Card.create(card));
+    await Promise.all(cardPromises);
+
+    /****** At this point the cards have been seeded!
+    We just need to: 
+     - query so we can get the word ON to the card, from the Word Model association
+     - make a copy of what we send back do that the field teamId is not on it (this is sensitive info)
+    */
+
+    const queriedCards = await Card.findAll({
+      where: { boardId: board.id },
+      include: [Word],
+    });
+
+    // remove the teamId property using delete keyword
+    const cardsWithTeamIdDeleted = queriedCards.map((card) => {
+      // Note: I tried using the delete keyword but it didn't work. So just assigning it to null.
+      // delete card.teamId
+      card.teamId = null;
+      return card;
+    });
+
+    res.send(cardsWithTeamIdDeleted);
   } catch (err) {
     next(err);
   }
