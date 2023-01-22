@@ -29,8 +29,24 @@ router.put('/update/teamAndRole', async (req, res, next) => {
     //Grab players uid and roomId off the req.body
     const playerId = req.body.playerId;
     const roomId = req.body.roomId;
+    const teamToJoin = req.body.teamId;
+    const roleToGivePlayer = req.body.role;
     //Query for that player
-    const playerToUpdate = await Player.findAll({});
+    const playerToUpdate = await Player.findOne({
+      where: {
+        id: playerId,
+        roomId: roomId,
+      },
+    });
+    if (playerToUpdate) {
+      await playerToUpdate.update({
+        teamId: teamToJoin,
+        role: roleToGivePlayer,
+      });
+    } else {
+      console.log('player not found!');
+    }
+    res.send(playerToUpdate);
   } catch (error) {
     next(error);
   }

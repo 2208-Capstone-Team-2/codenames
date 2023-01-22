@@ -19,11 +19,11 @@ const seed = async () => {
 
   console.log('DONE RUNNING SEED...');
 };
-//some sequelize methods here
-// console.log('Player methods in here:');
-// console.log(Object.keys(Player.prototype));
-// console.log('Team methods in here:');
-// console.log(Object.keys(Team.prototype));
-// console.log('Room methods in here:');
-// console.log(Object.keys(Room.prototype));
+// some sequelize methods here
+console.log('Player methods in here:');
+console.log(Object.keys(Player.prototype));
+console.log('Team methods in here:');
+console.log(Object.keys(Team.prototype));
+console.log('Room methods in here:');
+console.log(Object.keys(Room.prototype));
 seed();
