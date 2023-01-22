@@ -52,6 +52,8 @@ const RoomView = () => {
     return operative.playerId;
   });
 
+  // determines if there is at least one player in each 'role' and then shows the button for start game
+  // not uncommenting code in the return until we're done testing, but it works :)
   const isEveryRoleFilled = () => {
     if (teamOneOperatives.length > 0) {
       if (teamTwoOperatives.length > 0) {
@@ -64,7 +66,6 @@ const RoomView = () => {
     }
     return false;
   };
-
   const everyonesHere = isEveryRoleFilled();
 
   useEffect(() => {
@@ -244,7 +245,9 @@ const RoomView = () => {
         </Popup>
       )} */}
 
-      {/* player is operative && */}
+      {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+      {/* this is working for now, but we probably need more protection to not display 
+      a spymaster board on someone who randomly joins room while game is 'in progress' */}
       {teamOneOperativesIds.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (
         <OperativeBoard />
       ) : (

@@ -6,13 +6,13 @@ import { ref, update, get } from 'firebase/database';
 import { database } from '../../utils/firebase';
 
 const Card = ({ singleWord, value }) => {
-  const [revealed, setRevealed] = useState(false);
   const { playerId, roomId } = useSelector((state) => state.player);
-  let gameStatus = useSelector((state) => state.game.status);
   const { teamOneOperatives } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
+  let gameStatus = useSelector((state) => state.game.status);
+
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${singleWord.id}`);
@@ -134,10 +134,10 @@ const Card = ({ singleWord, value }) => {
           {singleWord.word}
         </button>
       )}
-      {singleWord.isVisibleToAll && value === 1 && <div className="redRevealed">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 2 && <div className="blueRevealed">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 3 && <div className="beigeRevealed">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 0 && <div className="blackRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 1 && <button className="redRevealed">{singleWord.word}</button>}
+      {singleWord.isVisibleToAll && value === 2 && <button className="blueRevealed">{singleWord.word}</button>}
+      {singleWord.isVisibleToAll && value === 3 && <button className="beigeRevealed">{singleWord.word}</button>}
+      {singleWord.isVisibleToAll && value === 0 && <button className="blackRevealed">{singleWord.word}</button>}
     </>
   );
 };

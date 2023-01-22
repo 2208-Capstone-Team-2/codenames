@@ -30,10 +30,6 @@ const SpyMasterBoard = () => {
     alightItems: 'center',
   };
 
-  console.log('team1spyid', teamOneSpymasterId);
-  console.log('playerId', playerId);
-  //   console.log(teamTwoSpymasterId);
-
   // only spymaster whos turn it is should see the button that triggers this fxn
   // when the spymaster submits the clue, the operatives gets to guess next
   const submitClue = () => {

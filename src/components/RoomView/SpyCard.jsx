@@ -4,15 +4,15 @@ import './card.css';
 const SpyCard = ({ singleWord, value }) => {
   return (
     <>
-      {!singleWord.isVisibleToAll && value === 1 && <div className="redStyle">{singleWord.word}</div>}
-      {!singleWord.isVisibleToAll && value === 2 && <div className="blueStyle">{singleWord.word}</div>}
-      {!singleWord.isVisibleToAll && value === 3 && <div className="beigeStyle">{singleWord.word}</div>}
-      {!singleWord.isVisibleToAll && value === 0 && <div className="blackStyle">{singleWord.word}</div>}
+      {!singleWord.isVisibleToAll && value === 1 && <button className="redStyle">{singleWord.word}</button>}
+      {!singleWord.isVisibleToAll && value === 2 && <button className="blueStyle">{singleWord.word}</button>}
+      {!singleWord.isVisibleToAll && value === 3 && <button className="beigeStyle">{singleWord.word}</button>}
+      {!singleWord.isVisibleToAll && value === 0 && <button className="blackStyle">{singleWord.word}</button>}
 
-      {singleWord.isVisibleToAll && value === 1 && <div className="redRevealed">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 2 && <div className="blueRevealed">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 3 && <div className="beigeRevealed">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 0 && <div className="blackRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 1 && <button className="redRevealed">{singleWord.word}</button>}
+      {singleWord.isVisibleToAll && value === 2 && <button className="blueRevealed">{singleWord.word}</button>}
+      {singleWord.isVisibleToAll && value === 3 && <button className="beigeRevealed">{singleWord.word}</button>}
+      {singleWord.isVisibleToAll && value === 0 && <button className="blackRevealed">{singleWord.word}</button>}
     </>
   );
 };
