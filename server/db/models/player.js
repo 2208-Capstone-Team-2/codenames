@@ -21,19 +21,19 @@ const Player = db.define('player', {
 
   // Even though this is an enum, calling it an enum breaks psql for some weird reason,
   // so uses a custom validator
-  role: {
-    type: Sequelize.STRING,
-    allowNull: true,
-    unique: false,
-    validate: {
-      customValidator: (value) => {
-        const enums = ['operative', 'spymaster'];
-        if (!enums.includes(value)) {
-          throw new Error('not a valid option');
-        }
-      },
-    },
-  },
+  //   role: {
+  //     type: Sequelize.STRING,
+  //     allowNull: true,
+  //     unique: false,
+  //     validate: {
+  //       customValidator: (value) => {
+  //         const enums = ['operative', 'spymaster'];
+  //         if (!enums.includes(value)) {
+  //           throw new Error('not a valid option');
+  //         }
+  //       },
+  //     },
+  //   },
 });
 
 module.exports = Player;
