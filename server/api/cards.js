@@ -42,9 +42,11 @@ function createRandomLayout() {
   return randomLayout;
 }
 
-// GET localhost:3000/api/25words
-router.post('/', async (req, res, next) => {
+// POST localhost:3000/api/cards/make25
+// Given an array of workpack ids, creates 25 cards.
+router.post('/make25', async (req, res, next) => {
   try {
+    console.log('inside make 25 cards');
     //  find which pack users select and put all the candidate words in an array
     const { selectedWordPackId } = req.body;
 

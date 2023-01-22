@@ -48,7 +48,7 @@ const SetupGame = () => {
     event.preventDefault();
 
     axios
-      .post('/api/25words', { selectedWordPackId })
+      .post('/api/cards/make25', { selectedWordPackId })
       .then((response) => {
         return response;
       })
