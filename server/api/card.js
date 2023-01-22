@@ -131,7 +131,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     // remove the teamId property using delete keyword
     const cardsWithTeamIdDeleted = queriedCards.map((card) => {
       // Note: I tried using the delete keyword but it didn't work. So just assigning it to null.
-      // delete card.teamId
+      // delete card.teamId // didnt work....
       card.teamId = null;
       return card;
     });
@@ -142,4 +142,14 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
   }
 });
 
+// PUT localhost:3000/api/card/make25/forRoom/:roomId
+// Updates a card, given its cardID
+// probably used for toggling isVisibleToAll
+router.put('/:cardId', async (req, res, next) => {
+  try {
+    // TODO!!!!!!!
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;
