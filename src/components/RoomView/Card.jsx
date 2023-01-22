@@ -17,7 +17,6 @@ const Card = ({ singleWord, value }) => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${singleWord.id}`);
 
-  console.log({ singleWord });
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });
@@ -137,10 +136,10 @@ const Card = ({ singleWord, value }) => {
           {singleWord.word}
         </button>
       )}
-      {singleWord.isVisibleToAll && value === 1 && <div className="red">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 2 && <div className="blue">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 3 && <div className="beige">{singleWord.word}</div>}
-      {singleWord.isVisibleToAll && value === 0 && <div className="black">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 1 && <div className="redRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 2 && <div className="blueRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 3 && <div className="beigeRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 0 && <div className="blackRevealed">{singleWord.word}</div>}
     </>
   );
 };

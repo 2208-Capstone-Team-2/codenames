@@ -126,7 +126,6 @@ const RoomView = () => {
         dispatch(setTeam1RemainingCards(team1RemainingCards));
         dispatch(setTeam2RemainingCards(team2RemainingCards));
 
-        console.log(game.gameStatus);
         if (game.team1RemainingCards && game.team2RemainingCards) {
           if (game.gameStatus === 'team1SpyTurn') {
             dispatch(setStatus('team1SpyTurn'));

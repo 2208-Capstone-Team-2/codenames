@@ -1,7 +1,7 @@
 import React from 'react';
+import './card.css';
 
 const SpyCard = ({ singleWord, value }) => {
-  console.log('inspy card', singleWord, value);
   const redStyle = {
     width: '120px',
     height: '150px',
@@ -37,13 +37,15 @@ const SpyCard = ({ singleWord, value }) => {
 
   return (
     <>
-      {value === 1 && <div style={redStyle}>{singleWord.word}</div>}
+      {!singleWord.isVisibleToAll && value === 1 && <div style={redStyle}>{singleWord.word}</div>}
+      {!singleWord.isVisibleToAll && value === 2 && <div style={blueStyle}>{singleWord.word}</div>}
+      {!singleWord.isVisibleToAll && value === 3 && <div style={beigeStyle}>{singleWord.word}</div>}
+      {!singleWord.isVisibleToAll && value === 0 && <div style={blackStyle}>{singleWord.word}</div>}
 
-      {value === 2 && <div style={blueStyle}>{singleWord.word}</div>}
-
-      {value === 3 && <div style={beigeStyle}>{singleWord.word}</div>}
-
-      {value === 0 && <div style={blackStyle}>{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 1 && <div className="redRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 2 && <div className="blueRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 3 && <div className="beigeRevealed">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 0 && <div className="blackRevealed">{singleWord.word}</div>}
     </>
   );
 };

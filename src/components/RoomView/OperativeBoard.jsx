@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Card from './Card.jsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { ref, update, onValue, get } from 'firebase/database';
+import { useSelector } from 'react-redux';
+import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
-import { setWordsInGame } from '../../store/wordsInGameSlice';
 
 const OperativeBoard = () => {
   const words = useSelector((state) => state.wordsInGame);
@@ -13,10 +12,9 @@ const OperativeBoard = () => {
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
+  const { teamOneOperatives } = useSelector((state) => state.teamOne);
+  const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -32,27 +30,6 @@ const OperativeBoard = () => {
     gap: '2%',
     justifyContent: 'center',
     alightItems: 'center',
-  };
-
-  // only spymaster whos turn it is should see the button that triggers this fxn
-  // when the spymaster submits the clue, the operatives gets to guess next
-  const submitClue = () => {
-    console.log('submitting clue');
-    // make sure clue is valid and doesnt contain any of the words on the board
-    // clue number should not exceed cards remaining for that team
-    // store the clue in clueHistory and as current clue
-    // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
-    let nextGameStatus;
-    // if its team1spy submission, team1Ops goes next
-    if (gameStatus === 'team1SpyTurn') {
-      nextGameStatus = 'team1OpsTurn';
-      update(gameRef, { gameStatus: nextGameStatus });
-    }
-    // if its team2spy submission, team2Ops goes next
-    if (gameStatus === 'team2SpyTurn') {
-      nextGameStatus = 'team2OpsTurn';
-      update(gameRef, { gameStatus: nextGameStatus });
-    }
   };
 
   const endTurn = () => {

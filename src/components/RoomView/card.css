@@ -6,7 +6,7 @@
   align-content: 'center';
   display: 'grid';
 }
-.red {
+.redRevealed {
   width: 120px;
   height: 150px;
   background-color: #800000;
@@ -16,7 +16,7 @@
   display: 'grid';
 }
 
-.blue {
+.blueRevealed {
   width: 120px;
   height: 150px;
   background-color: #000066;
@@ -26,7 +26,7 @@
   display: 'grid';
 }
 
-.beige {
+.beigeRevealed {
   width: 120px;
   height: 150px;
   background-color: #cc6600;
@@ -36,7 +36,7 @@
   display: 'grid';
 }
 
-.black {
+.blackRevealed {
   width: 120px;
   height: 150px;
   background-color: black;
