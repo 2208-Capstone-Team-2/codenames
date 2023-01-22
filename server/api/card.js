@@ -38,10 +38,8 @@ function createRandomLayout(team1id, team2id, team3id, team4id) {
 
   let randomLayout = [];
   while (randomLayout.length < 25) {
-    console.log(randomLayout.length);
     // get a int from 1, 2, 3, 4
     const randomInt = getRndInteger(1, 4);
-    console.log(randomInt);
     // Make sure that the pile isn't empty!
     if (mapping[randomInt] === team1id && team1Pile > 0) {
       team1Pile--;
@@ -95,7 +93,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
 
     const layout = createRandomLayout(team1id, team2id, team3id, team4id);
-    console.log(layout);
 
     const cards = [];
     //loop through the random index array
