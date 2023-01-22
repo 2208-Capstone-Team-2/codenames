@@ -36,11 +36,20 @@ const Board = () => {
     alightItems: 'center',
   };
 
+  // const getCardData = async () => {
+  //   setIsLoading(true);
+  //   const { data } = await axios.get('/api/wordpack');
+  //   setWordpacks(data);
+  //   setIsLoading(false);
+  // };
+
   const submitAnswer = async (e) => {
     e.preventDefault();
 
     // need axios to check value of card
-
+    // useEffect(() => {
+    //   fetchWordPacks();
+    // }, []);
     // let cardId = e.target.value
     // let {data} = await axios.post('/api/cards/cardId', auth stuff)
     // let cardBelongsTo = data.teamId

@@ -20,6 +20,7 @@ import Board from './Board.jsx';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
+import axios from 'axios';
 
 const RoomView = () => {
   // for room nav
@@ -62,6 +63,7 @@ const RoomView = () => {
         console.log('room does not exist...yet! Creating it now...');
 
         // TODO for now: this is where we do /api/makeRoom to create a room
+        axios.post(`/api/room/create/${roomId}`);
 
         // Creating room in firebase:
         // create the room, (nested) players, and host.

@@ -70,6 +70,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const { roomId } = req.params;
     const { selectedWordPackId } = req.body;
 
+    console.log(req.body);
     // Create a new board to put the 25 cards into
     const board = await Board.create({ roomId });
 
@@ -133,6 +134,8 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       return card;
     });
 
+    console.log(cardsWithTeamIdDeleted);
+
     res.send(cardsWithTeamIdDeleted);
   } catch (err) {
     next(err);
@@ -145,6 +148,12 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 router.put('/:cardId', async (req, res, next) => {
   try {
     // TODO!!!!!!!
+    // const { cardId } = req.params;
+    // const revealedCard = await Card.findOne({
+    //   where: { cardId },
+    //   include: [Word],
+    // });
+    // console.log(revealedCard);
   } catch (err) {
     next(err);
   }
