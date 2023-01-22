@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
 import { useState } from 'react';
-import { ref, update } from 'firebase/database';
+import { ref, update, get } from 'firebase/database';
 import { database } from '../../utils/firebase';
 
 const Card = ({ singleWord, value }) => {
@@ -15,7 +15,9 @@ const Card = ({ singleWord, value }) => {
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${singleWord.id}`);
 
+  console.log({ singleWord });
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });
@@ -45,7 +47,15 @@ const Card = ({ singleWord, value }) => {
     if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
       // reveal card
       // instead of 'revealing', set 'isvisibletoall' to true
-      singleWord.word.isVisibleToAll = true;
+      get(singleCardRef).then((snapshot) => {
+        const doesCardExist = snapshot.exists();
+        if (doesCardExist) {
+          update(singleCardRef, { isVisibleToAll: true });
+          console.log(snapshot.val());
+        } else {
+          console.log('no card');
+        }
+      });
       // setRevealed(true);
 
       if (cardBelongsTo === '0') {
@@ -73,7 +83,7 @@ const Card = ({ singleWord, value }) => {
       }
     } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
       // instead of 'revealing', set 'isvisibletoall' to true
-      singleWord.word.isVisibleToAll = true;
+      update(singleCardRef, { isVisibleToAll: true });
 
       // reveal card
       if (cardBelongsTo === '0') {
@@ -122,15 +132,15 @@ const Card = ({ singleWord, value }) => {
 
   return (
     <>
-      {!singleWord.word.isVisibleToAll && (
+      {!singleWord.isVisibleToAll && (
         <button className="notYetRevealed" value={value} onClick={submitAnswer}>
           {singleWord.word}
         </button>
       )}
-      {singleWord.word.isVisibleToAll && value === 1 && <div className="red">{singleWord.word}</div>}
-      {singleWord.word.isVisibleToAll && value === 2 && <div className="blue">{singleWord.word}</div>}
-      {singleWord.word.isVisibleToAll && value === 3 && <div className="beige">{singleWord.word}</div>}
-      {singleWord.word.isVisibleToAll && value === 0 && <div className="black">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 1 && <div className="red">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 2 && <div className="blue">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 3 && <div className="beige">{singleWord.word}</div>}
+      {singleWord.isVisibleToAll && value === 0 && <div className="black">{singleWord.word}</div>}
     </>
   );
 };
