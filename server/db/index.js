@@ -6,6 +6,7 @@ const Card = require('./models/card');
 const Team = require('./models/team');
 const Word = require('./models/Word');
 const Wordpack = require('./models/wordpack');
+const Player = require('./models/player');
 
 // Model Associations go here
 
@@ -37,11 +38,15 @@ Team.belongsTo(Room);
 // A pack has many words in it.
 Word.belongsTo(Wordpack);
 Wordpack.hasMany(Word);
+// **** Player/Team Associations: **** //
+Player.belongsTo(Team);
+Team.hasMany(Player);
 
 module.exports = {
   db,
   Board,
   Card,
+  Player,
   Room,
   Team,
   Word,

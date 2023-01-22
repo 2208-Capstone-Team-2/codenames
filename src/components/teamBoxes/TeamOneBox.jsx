@@ -7,20 +7,15 @@ import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSl
 
 const TeamOneBox = () => {
   const { playerId, roomId, username } = useSelector((state) => state.player);
-  const playerOnTeamOneOperativesRef = ref(
-    database,
-    `rooms/${roomId}/team-1/operatives/${playerId}`
-  );
-  const playerOnTeamOneSpymasterRef = ref(
-    database,
-    `rooms/${roomId}/team-1/spymaster/${playerId}`
-  );
+  const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
+  const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
   const dispatch = useDispatch();
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
+  // eslint-disable-next-line no-unused-vars
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
 
   // On click event for a player to be able to join team-1 team as a operative
