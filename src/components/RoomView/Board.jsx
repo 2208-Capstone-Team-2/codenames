@@ -128,38 +128,24 @@ const Board = () => {
 
   // only spymaster whos turn it is should see the button that triggers this fxn
   // when the spymaster submits the clue, the operatives gets to guess next
-  const submitClue = () => {
-    console.log('submitting clue');
-    // make sure clue is valid and doesnt contain any of the words on the board
-    // clue number should not exceed cards remaining for that team
-    // store the clue in clueHistory and as current clue
-    // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
-    let nextGameStatus;
-    // if its team1spy submission, team1Ops goes next
-    if (gameStatus === 'team1SpyTurn') {
-      nextGameStatus = 'team1OpsTurn';
-      update(gameRef, { gameStatus: nextGameStatus });
-    }
-    // if its team2spy submission, team2Ops goes next
-    if (gameStatus === 'team2SpyTurn') {
-      nextGameStatus = 'team2OpsTurn';
-      update(gameRef, { gameStatus: nextGameStatus });
-    }
-  };
-
-  // // On load...
-  // useEffect(() => {
-  //   // Look to see if there are cards already loaded for the room
-  //   onValue(cardsRef, (snapshot) => {
-  //     // If there are cards in /room/roomId/cards
-  //     if (snapshot.exists()) {
-  //       //update our redux to reflect that
-  //       const cardsFromSnapshot = snapshot.val();
-  //       const values = Object.values(cardsFromSnapshot);
-  //       dispatch(setWordsInGame(values));
-  //     }
-  //   });
-  // }, []);
+  // const submitClue = () => {
+  //   console.log('submitting clue');
+  //   // make sure clue is valid and doesnt contain any of the words on the board
+  //   // clue number should not exceed cards remaining for that team
+  //   // store the clue in clueHistory and as current clue
+  //   // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
+  //   let nextGameStatus;
+  //   // if its team1spy submission, team1Ops goes next
+  //   if (gameStatus === 'team1SpyTurn') {
+  //     nextGameStatus = 'team1OpsTurn';
+  //     update(gameRef, { gameStatus: nextGameStatus });
+  //   }
+  //   // if its team2spy submission, team2Ops goes next
+  //   if (gameStatus === 'team2SpyTurn') {
+  //     nextGameStatus = 'team2OpsTurn';
+  //     update(gameRef, { gameStatus: nextGameStatus });
+  //   }
+  // };
 
   return (
     <div style={style}>
@@ -180,7 +166,7 @@ const Board = () => {
         </Button>
       )}
 
-      {/* is team 1 spy's turn and player is team1spymaster */}
+      {/* is team 1 spy's turn and player is team1spymaster
       {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
         <Button variant="contained" onClick={submitClue}>
           submit clue
@@ -188,11 +174,11 @@ const Board = () => {
       )}
 
       {/* is team 2 spy's turn and player is team2spymaster */}
-      {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+      {/* {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
         <Button variant="contained" onClick={submitClue}>
           submit clue
         </Button>
-      )}
+      )}  */} 
     </div>
   );
 };
