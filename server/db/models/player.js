@@ -20,7 +20,7 @@ const Player = db.define('player', {
   },
   //
   role: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM('operative', 'spymaster'),
     allowNull: true,
     unique: false,
   },
