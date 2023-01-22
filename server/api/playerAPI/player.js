@@ -2,7 +2,7 @@ const express = require('express');
 // eslint-disable-next-line no-unused-vars
 const router = express.Router();
 // eslint-disable-next-line no-unused-vars
-const { Player, Team, Room } = require('../db');
+const { Player, Team, Room } = require('../../db');
 // GET --- get all players within a role on each team within a room
 //✔ works
 router.get('/allPlayers/:roomId/:teamId/:role', async (req, res, next) => {
