@@ -14,3 +14,5 @@ router.post('/addToRoom', async (req, res, next) => {
     next(error);
   }
 });
+
+module.exports = router;
