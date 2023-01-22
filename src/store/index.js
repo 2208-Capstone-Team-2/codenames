@@ -5,8 +5,7 @@ import wordsInGameReducer from './wordsInGameSlice';
 import teamOneReducer from './teamOneSlice';
 import teamTwoReducer from './teamTwoSlice';
 import clueReducer from './clueSlice';
-import teamTwoReducer from './teamTwoSlice';
-
+import gameReducer from './gameSlice';
 const store = configureStore({
   reducer: {
     player: playerReducer,
