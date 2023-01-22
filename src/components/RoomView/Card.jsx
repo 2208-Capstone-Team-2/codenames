@@ -27,12 +27,12 @@ const Card = ({ singleWord, value }) => {
   const submitAnswer = async (e) => {
     e.preventDefault();
 
-    // need axios to check value of card
+    // axios.get -- get which team the card belongs to
+    // check against the team ids in redux store
+    // validate guess in below logic
 
-    // let cardId = e.target.value
     // let {data} = await axios.post('/api/answerKey/cardId', auth stuff)
     // let cardBelongsTo = data.teamId
-
     // reveal card color and disable clicking the card
 
     // values:
@@ -40,12 +40,11 @@ const Card = ({ singleWord, value }) => {
     // 1 = team 1
     // 2 = team 2
     // 3 = bystander
+
     let cardBelongsTo = e.target.value;
 
     //  if its team 1 ops turn and they are the one who clicked on the card...
     if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
-      // reveal card
-      // instead of 'revealing', set 'isvisibletoall' to true
       get(singleCardRef).then((snapshot) => {
         const doesCardExist = snapshot.exists();
         if (doesCardExist) {
@@ -55,7 +54,6 @@ const Card = ({ singleWord, value }) => {
           console.log('no card');
         }
       });
-      // setRevealed(true);
 
       if (cardBelongsTo === '0') {
         console.log('you hit the assassin! you lose.');

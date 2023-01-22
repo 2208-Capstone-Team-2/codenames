@@ -29,7 +29,7 @@
 .beigeRevealed {
   width: 120px;
   height: 150px;
-  background-color: #cc6600;
+  background-color: #f39537;
   color: white;
   text-align: 'center';
   align-content: 'center';
@@ -41,6 +41,39 @@
   height: 150px;
   background-color: black;
   color: white;
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
+
+.redStyle {
+  width: 120px;
+  height: 150px;
+  background-color: rgb(240, 142, 142);
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
+.blueStyle {
+  width: 120px;
+  height: 150px;
+  background-color: rgb(116, 116, 247);
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
+.beigeStyle {
+  width: 120px;
+  height: 150px;
+  background-color: beige;
+  text-align: 'center';
+  align-content: 'center';
+  display: 'grid';
+}
+.blackStyle {
+  width: 120px;
+  height: 150px;
+  background-color: rgb(0, 0, 0);
   text-align: 'center';
   align-content: 'center';
   display: 'grid';

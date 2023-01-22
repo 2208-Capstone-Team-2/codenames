@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from './Card.jsx';
 import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
