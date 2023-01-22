@@ -34,7 +34,6 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const [loading, setLoading] = useState(false);
   let gameStatus = useSelector((state) => state.game.status);
   // firebase room  & players reference
   let roomRef = ref(database, 'rooms/' + roomId);
@@ -59,6 +58,8 @@ const RoomView = () => {
         console.log('room already created, just add the player!');
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
+
+        // axios add player to room
       } else {
         console.log('room does not exist...yet! Creating it now...');
 

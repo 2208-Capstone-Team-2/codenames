@@ -18,8 +18,6 @@ const Board = () => {
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
-  const dispatch = useDispatch();
-
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });

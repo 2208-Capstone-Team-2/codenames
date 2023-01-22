@@ -70,9 +70,8 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const { roomId } = req.params;
     const { selectedWordPackId } = req.body;
 
-    console.log(req.body);
     // Create a new board to put the 25 cards into
-    const board = await Board.create({ roomId });
+    const board = await Board.create();
 
     // Find which pack users select and put all the candidate words in an array
     const allWords = await Word.findAll({
@@ -86,7 +85,12 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const randomWordsIds = getRandomIntArray(25, allWords.length);
 
     // Get the teamIds that we will need to seed our cards
-    const room = await Room.findByPk(roomId);
+    // changed to findOneWhere because 'roomId' is a n
+    const room = await Room.findOne({
+      where: { name: roomId },
+    });
+
+    room.setBoard(board);
 
     const { team1id, team2id, team3id, team4id } = room;
 
@@ -133,8 +137,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       card.teamId = null;
       return card;
     });
-
-    console.log(cardsWithTeamIdDeleted);
 
     res.send(cardsWithTeamIdDeleted);
   } catch (err) {

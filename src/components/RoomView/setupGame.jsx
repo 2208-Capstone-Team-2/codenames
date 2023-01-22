@@ -17,6 +17,7 @@ const SetupGame = () => {
   const fetchWordPacks = async () => {
     setIsLoading(true);
     const { data } = await axios.get('/api/wordpack');
+    console.log(typeof data[0].id);
     setWordpacks(data);
     setIsLoading(false);
   };
@@ -34,7 +35,6 @@ const SetupGame = () => {
     if (selectedWordPackId.includes(idInteractedWith)) {
       // This creates a new array where each element is NOT the id interacted with.
       const filtered = selectedWordPackId.filter((element) => element !== idInteractedWith);
-
       setSelectedWordPackId(filtered);
     }
     // if idInteractedWithis not in the array, we add it in
@@ -44,29 +44,23 @@ const SetupGame = () => {
   };
 
   //-------------get the res.send data from the backend and set it up in the store
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
-    axios
-      .post('/api/cards/make25', { selectedWordPackId })
-      .then((response) => {
-        return response;
-      })
-      .then((result) => {
-        const updates = {};
-        result.data.forEach(
-          (card) =>
-            (updates[card.id] = {
-              id: card.id,
-              isVisibleToAll: card.isVisibleToAll,
-              teamNumber: card.teamNumber,
-              word: card.word,
-            }),
-        );
-        update(ref(database, 'rooms/' + roomId), {
-          gameboard: updates,
-        });
-      });
+    const response = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackId });
+    console.log(response);
+    const updates = {};
+    response.data.forEach(
+      (card) =>
+        (updates[card.id] = {
+          id: card.id,
+          isVisibleToAll: card.isVisibleToAll,
+          word: card.word.word,
+        }),
+    );
+    update(ref(database, 'rooms/' + roomId), {
+      gameboard: updates,
+    });
   };
 
   const startGame = () => {
