@@ -23,5 +23,17 @@ router.post('/addToRoom', async (req, res, next) => {
     next(error);
   }
 });
+// PUT --- once a player has decided their team and role, we can add them here
+router.put('/update/teamAndRole', async (req, res, next) => {
+  try {
+    //Grab players uid and roomId off the req.body
+    const playerId = req.body.playerId;
+    const roomId = req.body.roomId;
+    //Query for that player
+    const playerToUpdate = await Player.findAll({});
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
