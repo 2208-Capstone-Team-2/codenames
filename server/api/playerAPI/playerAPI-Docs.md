@@ -12,4 +12,4 @@
 
 ## PUT /remove/player/teamAndRole: Removes a player from a team and sets their role to 'unassigned' in the database. Pass in the playerId and roomId as properties on the req.body. Returns a 'player removed from team and role' message.
 
-PUT /remove/player/room: Removes a player from a room, team, and sets their role to 'unassigned' in the database. Pass in the playerId and roomId as properties on the req.body. Returns a 'player removed from room' message.
+## PUT /remove/player/room: Removes a player from a room, team, and sets their role to 'unassigned' in the database. Pass in the playerId and roomId as properties on the req.body. Returns a 'player removed from room' message.
