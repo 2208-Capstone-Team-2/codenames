@@ -48,13 +48,23 @@ const SetupGame = () => {
     event.preventDefault();
 
     axios
-      .post('/api/25words', { selectedWordPackId })
+      .post('/api/cards/make25', { selectedWordPackId })
       .then((response) => {
         return response;
       })
       .then((result) => {
+        const updates = {};
+        result.data.forEach(
+          (card) =>
+            (updates[card.id] = {
+              id: card.id,
+              isVisibleToAll: card.isVisibleToAll,
+              teamNumber: card.teamNumber,
+              word: card.word,
+            }),
+        );
         update(ref(database, 'rooms/' + roomId), {
-          gameboard: result.data,
+          gameboard: updates,
         });
       });
   };
