@@ -36,16 +36,22 @@ const Board = () => {
     // need axios to check value of card
 
     // let cardId = e.target.value
-    // let {data} = await axios.post('/api/answerKey/cardId', auth stuff)
+    // let {data} = await axios.post('/api/cards/cardId', auth stuff)
     // let cardBelongsTo = data.teamId
 
     // reveal card color and disable clicking the card
+    // card
+    // query backend for team ids
+    // set team ids to variable
+    // team1Id = whatever number
 
+    // put in redux store
     // values:
-    // 0 = assassin
+    // assassin = team4.id
     // 1 = team 1
     // 2 = team 2
     // 3 = bystander
+
     let cardBelongsTo = e.target.value;
 
     const teamOneOpsIds = [];

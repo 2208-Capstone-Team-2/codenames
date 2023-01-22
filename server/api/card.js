@@ -28,26 +28,36 @@ function createRandomLayout(team1id, team2id, team3id, team4id) {
   let team2Pile = 8; // 8 '2' --> blue card
   let team3Pile = 7; // 7 '3' --> white card
   let team4Pile = 1; // 1 '0' --> black card
+
+  const mapping = {
+    1: team1id,
+    2: team2id,
+    3: team3id,
+    4: team4id,
+  };
+
   let randomLayout = [];
   while (randomLayout.length < 25) {
-    // find 1 int from 0 1 2 3
+    console.log(randomLayout.length);
+    // get a int from 1, 2, 3, 4
     const randomInt = getRndInteger(1, 4);
+    console.log(randomInt);
     // Make sure that the pile isn't empty!
-    if (randomInt === team1id && team1Pile > 0) {
+    if (mapping[randomInt] === team1id && team1Pile > 0) {
       team1Pile--;
-      randomLayout.push(randomInt);
+      randomLayout.push(team1id);
     }
-    if (randomInt === team2id && team2Pile > 0) {
+    if (mapping[randomInt] === team2id && team2Pile > 0) {
       team2Pile--;
-      randomLayout.push(randomInt);
+      randomLayout.push(team2id);
     }
-    if (randomInt === team3id && team3Pile > 0) {
+    if (mapping[randomInt] === team3id && team3Pile > 0) {
       team3Pile--;
-      randomLayout.push(randomInt);
+      randomLayout.push(team3id);
     }
-    if (randomInt === team4id && team4Pile > 0) {
+    if (mapping[randomInt] === team4id && team4Pile > 0) {
       team4Pile--;
-      randomLayout.push(randomInt);
+      randomLayout.push(team4id);
     }
   }
   return randomLayout;
@@ -78,17 +88,20 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 
     // Get the teamIds that we will need to seed our cards
     const room = await Room.findByPk(roomId);
+
     const { team1id, team2id, team3id, team4id } = room;
 
     // If any of teamIds are falsey, immediately kick.
     if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
 
     const layout = createRandomLayout(team1id, team2id, team3id, team4id);
+    console.log(layout);
 
     const cards = [];
     //loop through the random index array
     for (let i = 0; i < 25; i++) {
       // Get a random teamId and wordId from our random arrays
+      // layout: [33, 22, 22, 55, 54, 22, 33, 55 ....]
       const teamId = layout.pop();
       const wordId = randomWordsIds.pop();
 
