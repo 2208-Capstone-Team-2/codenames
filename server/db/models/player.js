@@ -25,9 +25,10 @@ const Player = db.define('player', {
     type: Sequelize.STRING,
     allowNull: true,
     unique: false,
+    defaultValue: 'unassigned',
     validate: {
       customValidator: (value) => {
-        const enums = ['operative', 'spymaster'];
+        const enums = ['operative', 'spymaster', 'unassigned'];
         if (!enums.includes(value)) {
           throw new Error('not a valid option');
         }
