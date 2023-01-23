@@ -25,6 +25,8 @@ import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
+import { setSpymasterWords } from '../../store/spymasterWordsSlice';
+
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -47,6 +49,7 @@ const RoomView = () => {
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+  let spymasterCardsRef = ref(database, `rooms/${roomId}/spymasterGameboard`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -174,13 +177,24 @@ const RoomView = () => {
     });
 
     // Look to see if there are cards already loaded for the room
-    onValue(cardsRef, (snapshot) => {
+    onValue(cardsRef, async (snapshot) => {
       // If there are cards in /room/roomId/cards
       if (snapshot.exists()) {
         //update our redux to reflect that
         const cardsFromSnapshot = snapshot.val();
         const values = Object.values(cardsFromSnapshot);
         dispatch(setWordsInGame(values));
+      }
+    });
+
+    // Look to see if there are cards already loaded for the room
+    onValue(spymasterCardsRef, async (snapshot) => {
+      // If there are cards in /room/roomId/cards
+      if (snapshot.exists()) {
+        //update our redux to reflect that
+        const cardsFromSnapshot = snapshot.val();
+        const values = Object.values(cardsFromSnapshot);
+        dispatch(setSpymasterWords(values));
       }
     });
   }, []);

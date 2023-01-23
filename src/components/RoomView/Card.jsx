@@ -4,6 +4,7 @@ import './card.css';
 import { ref, update, get } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
+import { useState } from 'react';
 
 const Card = ({ word }) => {
   const { playerId, roomId } = useSelector((state) => state.player);
@@ -14,6 +15,7 @@ const Card = ({ word }) => {
   const gameStatus = useSelector((state) => state.game.status);
   const assassinTeamId = useSelector((state) => state.spymasterWords.assassinTeamId);
   const bystanderTeamId = useSelector((state) => state.spymasterWords.bystanderTeamId);
+  const [teamsCard, setTeamsCard] = useState(0);
 
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -30,20 +32,20 @@ const Card = ({ word }) => {
     e.preventDefault();
 
     let wordId = Number(e.target.value);
+    // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
-    // send back wordId && boardId
     let revealedCard = cardToReveal.data;
     let cardBelongsTo = revealedCard.teamId;
 
-    console.log({ cardBelongsTo });
-    console.log({ team1Id });
-    console.log({ team2Id });
+    setTeamsCard(cardBelongsTo);
+
     //  if its team 1 ops turn and they are the one who clicked on the card...
     if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
+      // update word to visible on FIREBASE
       get(singleCardRef).then((snapshot) => {
         const doesCardExist = snapshot.exists();
         if (doesCardExist) {
-          update(singleCardRef, { isVisibleToAll: true });
+          update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
         } else {
           console.log('no card');
         }
@@ -61,7 +63,7 @@ const Card = ({ word }) => {
       }
       if (cardBelongsTo === team1Id) {
         console.log('thats correct!');
-        await update(gameRef, {
+        update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
         // decrement from guesses remaining from spymasters clue
@@ -73,10 +75,8 @@ const Card = ({ word }) => {
         endTurn();
       }
     } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
-      // instead of 'revealing', set 'isvisibletoall' to true
-      update(singleCardRef, { isVisibleToAll: true });
+      update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
 
-      // reveal card
       if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
         // set winner = other team

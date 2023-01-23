@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
-import { setSpymasterWords } from '../../store/spymasterWordsSlice';
 import { useDispatch } from 'react-redux';
 
 const SetupGame = () => {
@@ -13,7 +12,6 @@ const SetupGame = () => {
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
 
-  const dispatch = useDispatch();
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   //----------------fetch all packs for users to select from-----------------//
@@ -79,11 +77,12 @@ const SetupGame = () => {
           teamId: card.teamId,
         }),
     );
-    const spymasterWords = Object.values(wordsWithTeamIds);
-    dispatch(setSpymasterWords(spymasterWords));
+    update(ref(database, 'rooms/' + roomId), {
+      spymasterGameboard: wordsWithTeamIds,
+    });
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     console.log('startingGame');
     // gamestatus default value in firebase is 'not playing'.
     // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
