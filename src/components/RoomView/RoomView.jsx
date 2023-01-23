@@ -57,6 +57,12 @@ const RoomView = () => {
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
     return operative.playerId;
   });
+  const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
+    return spy.playerId;
+  });
+  const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
+    return spy.playerId;
+  });
 
   // determines if there is at least one player in each 'role' and then shows the button for start game
   // not uncommenting code in the return until we're done testing, but it works :)
@@ -282,11 +288,7 @@ const RoomView = () => {
       {/* player is operative && show operative board, otherwise theyre a spymaster*/}
       {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-      {teamOneOperativesIds.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (
-        <OperativeBoard />
-      ) : (
-        <SpyMasterBoard />
-      )}
+      {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
     </>
   );
 };
