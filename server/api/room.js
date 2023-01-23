@@ -37,7 +37,6 @@ router.post('/create/:roomId', async (req, res, next) => {
       team4id: team4.id,
     });
 
-    console.log(updatedRoom);
     res.send(updatedRoom);
   } catch (err) {
     next(err);
@@ -50,7 +49,6 @@ router.get('/:roomId', async (req, res, next) => {
   try {
     const { roomId } = req.params;
     const room = await Room.findOne({ where: { name: roomId } });
-    console.log('singleroom', room);
     res.send(room);
   } catch (err) {
     next(err);

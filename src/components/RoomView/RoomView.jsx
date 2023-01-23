@@ -24,6 +24,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
+import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -36,7 +37,7 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const { team1Id, teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
 
@@ -109,6 +110,8 @@ const RoomView = () => {
         let room = await axios.get(`/api/room/${roomId}`);
         dispatch(setTeam1Id(room.data.team1id));
         dispatch(setTeam2Id(room.data.team2id));
+        dispatch(setBystanderTeamId(room.data.team3id));
+        dispatch(setAssassinTeamId(room.data.team4id));
       }
     });
 

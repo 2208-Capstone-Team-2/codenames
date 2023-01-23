@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   spymasterWords: [],
+  assassinTeamId: [],
+  bystanderTeamId: [],
 };
 
 export const spymasterWordsSlice = createSlice({
@@ -11,8 +13,14 @@ export const spymasterWordsSlice = createSlice({
     setSpymasterWords: (state, action) => {
       state.spymasterWords = action.payload;
     },
+    setAssassinTeamId: (state, action) => {
+      state.assassinTeamId = action.payload;
+    },
+    setBystanderTeamId: (state, action) => {
+      state.bystanderTeamId = action.payload;
+    },
   },
 });
 
-export const { setSpymasterWords } = spymasterWordsSlice.actions;
+export const { setSpymasterWords, setAssassinTeamId, setBystanderTeamId } = spymasterWordsSlice.actions;
 export default spymasterWordsSlice.reducer;
