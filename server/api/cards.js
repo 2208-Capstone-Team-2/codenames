@@ -85,7 +85,6 @@ router.post('/make25', async (req, res, next) => {
       //push the word object to the array and send to the front
       finalWords.push(word);
     }
-    console.log(finalWords);
     res.send(finalWords);
   } catch (err) {
     next(err);

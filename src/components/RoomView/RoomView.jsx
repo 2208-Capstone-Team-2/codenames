@@ -86,6 +86,11 @@ const RoomView = () => {
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
 
+        let room = await axios.get(`/api/room/${roomId}`);
+        dispatch(setTeam1Id(room.data.team1id));
+        dispatch(setTeam2Id(room.data.team2id));
+        dispatch(setBystanderTeamId(room.data.team3id));
+        dispatch(setAssassinTeamId(room.data.team4id));
         // axios add player to room
       } else {
         console.log('room does not exist...yet! Creating it now...');

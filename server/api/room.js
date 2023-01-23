@@ -44,7 +44,7 @@ router.post('/create/:roomId', async (req, res, next) => {
 });
 
 // /api/room/:roomId/
-
+// this route is being used to send back team ids for individual rooms
 router.get('/:roomId', async (req, res, next) => {
   try {
     const { roomId } = req.params;

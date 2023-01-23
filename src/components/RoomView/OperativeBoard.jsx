@@ -22,7 +22,6 @@ const OperativeBoard = () => {
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
     return operative.playerId;
   });
-  console.log(words);
 
   const style = {
     display: 'grid',

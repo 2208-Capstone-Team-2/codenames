@@ -20,7 +20,6 @@ const SetupGame = () => {
   const fetchWordPacks = async () => {
     setIsLoading(true);
     const { data } = await axios.get('/api/wordpack');
-    console.log(typeof data[0].id);
     setWordpacks(data);
     setIsLoading(false);
   };
@@ -66,8 +65,7 @@ const SetupGame = () => {
       gameboard: updates,
     });
 
-    console.log({ updates });
-
+    /**------NEEDS TO BE VALIDATED SO THAT ONLY SPYMASTERS CAN MAKE THIS GET REQ----- */
     let wordsWithTeamIds = {};
     let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
     spyWords.data.forEach(

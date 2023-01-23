@@ -144,15 +144,10 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
   }
 });
 // get cards for spymaster
+// needs to be validated with jwt?
 router.get('/get25/forRoom/:roomId', async (req, res, next) => {
-  console.log('helloooo');
   try {
-    // TODO!!!!!!!
-    console.log('hello');
     const { roomId } = req.params;
-
-    console.log(' in get 25');
-
     const room = await Room.findOne({
       where: { name: roomId },
     });
@@ -166,7 +161,6 @@ router.get('/get25/forRoom/:roomId', async (req, res, next) => {
       include: [Word],
     });
 
-    console.log(cardsWithTeamIds);
     res.send(cardsWithTeamIds);
   } catch (err) {
     next(err);
@@ -176,24 +170,28 @@ router.get('/get25/forRoom/:roomId', async (req, res, next) => {
 // PUT localhost:3000/api/card/make25/forRoom/:roomId
 // Updates a card, given its cardID
 // probably used for toggling isVisibleToAll
-router.put('/:cardId', async (req, res, next) => {
+router.put('/:wordId', async (req, res, next) => {
   try {
     // TODO!!!!!!!
-    const { roomId, wordId } = req.params;
+    const { wordId } = req.params;
+    const { roomId } = req.body;
 
-    const board = await Board.findOne({
+    const room = await Room.findOne({
       where: { name: roomId },
     });
 
+    const board = await Board.findOne({
+      where: { roomId: room.id },
+    });
+
     const cardToUpdate = await Card.findOne({
-      where: { wordId, boardId: board.id },
+      where: { id: wordId, boardId: board.id },
       include: [Word],
     });
 
-    await cardToUpdate.update({ isVisibleToAll: true });
+    let cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
 
-    console.log(cardToUpdate);
-    // res.send(cardToUpdate);
+    res.send(cardRevealed);
   } catch (err) {
     next(err);
   }
