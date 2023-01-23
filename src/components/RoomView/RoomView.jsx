@@ -21,7 +21,8 @@ import Board from './Board.jsx';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
-
+import ClueHistory from "./ClueHistory";
+import { setClueHistory } from "../../store/clueSlice";
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -34,10 +35,8 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-
   const currentClue = useSelector((state) => state.clues.currentClue);
-  console.log(currentClue);
-
+  const clueHistory=useSelector((state)=>state.clues.clueHistory)
   const [loading, setLoading] = useState(false);
   let gameStatus = useSelector((state) => state.game.status);
   // firebase room  & players reference
@@ -46,7 +45,8 @@ const RoomView = () => {
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-
+  let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
+  let previousData
   console.log(gameStatus);
 
   useEffect(() => {
@@ -87,6 +87,7 @@ const RoomView = () => {
         const players = snapshot.val();
         const values = Object.values(players);
         dispatch(setAllPlayers(values));
+   
       } else {
         console.log('no players in room yet!');
       }
@@ -143,8 +144,20 @@ const RoomView = () => {
         const cardsFromSnapshot = snapshot.val();
         const values = Object.values(cardsFromSnapshot);
         dispatch(setWordsInGame(values));
-      }
+      } 
+     
     });
+    onValue(clueHistoryRef, (snapshot) => {
+      if (snapshot.exists()) {
+        //update our redux to reflect that
+        const clues = snapshot.val();
+        let history=[]
+        for(let clueKey in clues){history.push(clues[clueKey])}
+        dispatch(setClueHistory(history));
+      } 
+     console.log(clueHistory)
+    });
+
   }, []);
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -180,7 +193,7 @@ const RoomView = () => {
             <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <Item>Game History</Item>
+            <ClueHistory />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamTwoBox />

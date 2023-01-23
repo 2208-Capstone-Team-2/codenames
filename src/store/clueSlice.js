@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentClue: {},
@@ -6,14 +6,13 @@ const initialState = {
 };
 
 export const clueSlice = createSlice({
-  name: "clues",
+  name: 'clues',
   initialState,
   reducers: {
     setCurrentClue: (state, action) => {
       state.currentClue = action.payload;
     },
     setClueHistory: (state, action) => {
-      // placeholder
       state.clueHistory = action.payload;
     },
   },
