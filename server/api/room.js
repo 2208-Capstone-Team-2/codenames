@@ -30,20 +30,31 @@ router.post('/create/:roomId', async (req, res, next) => {
     // Update the room object to have the ids of the teams we created
     // These are needed for creating the board layout, as:
     // team1 is team red, who will be the team that goes first, meaning they has 9 cards
-    room.update({
+    let updatedRoom = await room.update({
       team1id: team1.id,
       team2id: team2.id,
       team3id: team3.id,
       team4id: team4.id,
     });
 
-    console.log('created');
-    res.send(room);
+    console.log(updatedRoom);
+    res.send(updatedRoom);
   } catch (err) {
     next(err);
   }
 });
 
 // /api/room/:roomId/
+
+router.get('/:roomId', async (req, res, next) => {
+  try {
+    const { roomId } = req.params;
+    const room = await Room.findOne({ where: { name: roomId } });
+    console.log('singleroom', room);
+    res.send(room);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

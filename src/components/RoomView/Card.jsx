@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { ref, update, get } from 'firebase/database';
 import { database } from '../../utils/firebase';
 
-const Card = ({ singleWord, value }) => {
+const Card = ({ word }) => {
   const { playerId, roomId } = useSelector((state) => state.player);
   const { teamOneOperatives } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
@@ -13,9 +13,10 @@ const Card = ({ singleWord, value }) => {
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   let gameStatus = useSelector((state) => state.game.status);
 
+  console.log('in card', word);
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${singleWord.id}`);
+  let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -27,7 +28,10 @@ const Card = ({ singleWord, value }) => {
   const submitAnswer = async (e) => {
     e.preventDefault();
 
-    // axios.get -- get which team the card belongs to
+    // await axios.put(`/api/card/${}`)
+    // send back wordId && boardId
+
+    // -- get which team the card belongs to
     // check against the team ids in redux store
     // validate guess in below logic
 
@@ -130,17 +134,17 @@ const Card = ({ singleWord, value }) => {
   return (
     <>
       {/* if card hasnt been revealed, show this beige version and submit answer on click */}
-      {!singleWord.isVisibleToAll && (
-        <button className="notYetRevealed" value={value} onClick={submitAnswer}>
-          {singleWord.word}
+      {!word.isVisibleToAll && (
+        <button className="notYetRevealed" value={word} onClick={submitAnswer}>
+          {word.word}
         </button>
       )}
       {/* if it is visible, show the color for the team, and make it not clickable 
       (buttons made them more visually appealing for the time being but we can edit css obviously) */}
-      {singleWord.isVisibleToAll && value === 1 && <button className="redRevealed">{singleWord.word}</button>}
-      {singleWord.isVisibleToAll && value === 2 && <button className="blueRevealed">{singleWord.word}</button>}
-      {singleWord.isVisibleToAll && value === 3 && <button className="beigeRevealed">{singleWord.word}</button>}
-      {singleWord.isVisibleToAll && value === 0 && <button className="blackRevealed">{singleWord.word}</button>}
+      {/* {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.word}</button>}
+      {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.word}</button>}
+      {word.isVisibleToAll && word.teamId === 3 && <button className="beigeRevealed">{word.word}</button>}
+      {word.isVisibleToAll && word.teamId === 4 && <button className="blackRevealed">{word.word}</button>} */}
     </>
   );
 };

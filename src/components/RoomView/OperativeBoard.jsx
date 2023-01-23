@@ -6,7 +6,7 @@ import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
 
 const OperativeBoard = () => {
-  const words = useSelector((state) => state.wordsInGame);
+  const words = useSelector((state) => state.wordsInGame.wordsInGame);
   const roomId = useSelector((state) => state.player.roomId);
   const playerId = useSelector((state) => state.player.playerId);
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
@@ -22,6 +22,7 @@ const OperativeBoard = () => {
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
     return operative.playerId;
   });
+  console.log(words);
 
   const style = {
     display: 'grid',
@@ -50,8 +51,8 @@ const OperativeBoard = () => {
 
   return (
     <div style={style}>
-      {words.wordsInGame.map((singleWord) => {
-        return <Card key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} />;
+      {words.map((word) => {
+        return <Card key={word.id} word={word} />;
       })}
 
       {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (

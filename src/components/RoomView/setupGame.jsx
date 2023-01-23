@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
+import { setSpymasterWords } from '../../store/spymasterWordsSlice';
+import { useDispatch } from 'react-redux';
 
 const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState([]);
@@ -11,6 +13,7 @@ const SetupGame = () => {
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
 
+  const dispatch = useDispatch();
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   //----------------fetch all packs for users to select from-----------------//
@@ -48,7 +51,6 @@ const SetupGame = () => {
     event.preventDefault();
 
     const response = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackId });
-    console.log(response);
     const updates = {};
     response.data.forEach(
       (card) =>
@@ -56,11 +58,31 @@ const SetupGame = () => {
           id: card.id,
           isVisibleToAll: card.isVisibleToAll,
           word: card.word.word,
+          wordId: card.wordId,
+          boardId: card.boardId,
         }),
     );
     update(ref(database, 'rooms/' + roomId), {
       gameboard: updates,
     });
+
+    console.log({ updates });
+
+    let wordsWithTeamIds = {};
+    let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+    spyWords.data.forEach(
+      (card) =>
+        (wordsWithTeamIds[card.id] = {
+          id: card.id,
+          isVisibleToAll: card.isVisibleToAll,
+          word: card.word.word,
+          wordId: card.wordId,
+          boardId: card.boardId,
+          teamId: card.teamId,
+        }),
+    );
+    const spymasterWords = Object.values(wordsWithTeamIds);
+    dispatch(setSpymasterWords(spymasterWords));
   };
 
   const startGame = () => {

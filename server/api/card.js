@@ -143,6 +143,35 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     next(err);
   }
 });
+// get cards for spymaster
+router.get('/get25/forRoom/:roomId', async (req, res, next) => {
+  console.log('helloooo');
+  try {
+    // TODO!!!!!!!
+    console.log('hello');
+    const { roomId } = req.params;
+
+    console.log(' in get 25');
+
+    const room = await Room.findOne({
+      where: { name: roomId },
+    });
+
+    const board = await Board.findOne({
+      where: { roomId: room.id },
+    });
+
+    const cardsWithTeamIds = await Card.findAll({
+      where: { boardId: board.id },
+      include: [Word],
+    });
+
+    console.log(cardsWithTeamIds);
+    res.send(cardsWithTeamIds);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // PUT localhost:3000/api/card/make25/forRoom/:roomId
 // Updates a card, given its cardID
@@ -150,14 +179,24 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 router.put('/:cardId', async (req, res, next) => {
   try {
     // TODO!!!!!!!
-    // const { cardId } = req.params;
-    // const revealedCard = await Card.findOne({
-    //   where: { cardId },
-    //   include: [Word],
-    // });
-    // console.log(revealedCard);
+    const { roomId, wordId } = req.params;
+
+    const board = await Board.findOne({
+      where: { name: roomId },
+    });
+
+    const cardToUpdate = await Card.findOne({
+      where: { wordId, boardId: board.id },
+      include: [Word],
+    });
+
+    await cardToUpdate.update({ isVisibleToAll: true });
+
+    console.log(cardToUpdate);
+    // res.send(cardToUpdate);
   } catch (err) {
     next(err);
   }
 });
+
 module.exports = router;

@@ -22,7 +22,8 @@ import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
 import axios from 'axios';
-
+import { setTeam1Id } from '../../store/teamOneSlice';
+import { setTeam2Id } from '../../store/teamTwoSlice';
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -35,7 +36,7 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { team1Id, teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
 
@@ -77,7 +78,7 @@ const RoomView = () => {
     }
 
     //when a user joins room, this checks to see if it exists
-    get(roomRef).then((snapshot) => {
+    get(roomRef).then(async (snapshot) => {
       const doesRoomExist = snapshot.exists();
       if (doesRoomExist) {
         console.log('room already created, just add the player!');
@@ -88,8 +89,8 @@ const RoomView = () => {
       } else {
         console.log('room does not exist...yet! Creating it now...');
 
-        // TODO for now: this is where we do /api/makeRoom to create a room
-        axios.post(`/api/room/create/${roomId}`);
+        // creating room on backend
+        await axios.post(`/api/room/create/${roomId}`);
 
         // Creating room in firebase:
         // create the room, (nested) players, and host.
@@ -105,6 +106,9 @@ const RoomView = () => {
         });
         // Set our state for if the player is the host or not.
         dispatch(setIsHost(true));
+        let room = await axios.get(`/api/room/${roomId}`);
+        dispatch(setTeam1Id(room.data.team1id));
+        dispatch(setTeam2Id(room.data.team2id));
       }
     });
 
