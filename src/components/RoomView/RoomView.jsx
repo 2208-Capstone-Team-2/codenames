@@ -149,9 +149,10 @@ const RoomView = () => {
     });
     onValue(clueHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
-        //update our redux to reflect that
+        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
         const clues = snapshot.val();
         let history=[]
+        //this is to access the data under random firebase key and put them in an iterable array
         for(let clueKey in clues){history.push(clues[clueKey])}
         dispatch(setClueHistory(history));
       } 
@@ -193,6 +194,7 @@ const RoomView = () => {
             <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
+           {/* import clueHistory component */}
             <ClueHistory />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
