@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
 import SpyCard from './SpyCard';
-
 const SpyMasterBoard = () => {
-  const words = useSelector((state) => state.wordsInGame);
+  const spyWords = useSelector((state) => state.spymasterWords.spymasterWords);
   const roomId = useSelector((state) => state.player.roomId);
   const playerId = useSelector((state) => state.player.playerId);
   const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
+  const { teamOneSpymaster } = useSelector((state) => state.teamOne);
+  const { teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-
   const teamOneSpymasterId = Object.values(teamOneSpymaster).map((spy) => {
     return spy.playerId;
   });
@@ -53,8 +51,8 @@ const SpyMasterBoard = () => {
 
   return (
     <div style={style}>
-      {words.wordsInGame.map((singleWord) => {
-        return <SpyCard key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} />;
+      {spyWords.map((word) => {
+        return <SpyCard key={word.id} word={word} teamId={word.teamId} />;
       })}
 
       {/* is team 1 spy's turn and player is team1spymaster */}

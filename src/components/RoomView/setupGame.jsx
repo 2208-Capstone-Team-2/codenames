@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
+import { useDispatch } from 'react-redux';
 
 const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState([]);
@@ -34,7 +35,6 @@ const SetupGame = () => {
     if (selectedWordPackId.includes(idInteractedWith)) {
       // This creates a new array where each element is NOT the id interacted with.
       const filtered = selectedWordPackId.filter((element) => element !== idInteractedWith);
-
       setSelectedWordPackId(filtered);
     }
     // if idInteractedWithis not in the array, we add it in
@@ -44,32 +44,45 @@ const SetupGame = () => {
   };
 
   //-------------get the res.send data from the backend and set it up in the store
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
-    axios
-      .post('/api/cards/make25', { selectedWordPackId })
-      .then((response) => {
-        return response;
-      })
-      .then((result) => {
-        const updates = {};
-        result.data.forEach(
-          (card) =>
-            (updates[card.id] = {
-              id: card.id,
-              isVisibleToAll: card.isVisibleToAll,
-              teamNumber: card.teamNumber,
-              word: card.word,
-            }),
-        );
-        update(ref(database, 'rooms/' + roomId), {
-          gameboard: updates,
-        });
-      });
+    const response = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackId });
+    const updates = {};
+    response.data.forEach(
+      (card) =>
+        (updates[card.id] = {
+          id: card.id,
+          isVisibleToAll: card.isVisibleToAll,
+          word: card.word.word,
+          wordId: card.wordId,
+          boardId: card.boardId,
+        }),
+    );
+    update(ref(database, 'rooms/' + roomId), {
+      gameboard: updates,
+    });
+
+    /**------NEEDS TO BE VALIDATED SO THAT ONLY SPYMASTERS CAN MAKE THIS GET REQ----- */
+    let wordsWithTeamIds = {};
+    let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+    spyWords.data.forEach(
+      (card) =>
+        (wordsWithTeamIds[card.id] = {
+          id: card.id,
+          isVisibleToAll: card.isVisibleToAll,
+          word: card.word.word,
+          wordId: card.wordId,
+          boardId: card.boardId,
+          teamId: card.teamId,
+        }),
+    );
+    update(ref(database, 'rooms/' + roomId), {
+      spymasterGameboard: wordsWithTeamIds,
+    });
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     console.log('startingGame');
     // gamestatus default value in firebase is 'not playing'.
     // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'

@@ -16,9 +16,10 @@ router.get('/', async (req, res, next) => {
 // GET - /api/room/create/
 // Makes a new room and returns it
 // Maybe change to POST if we want the firebase room name on the room
-router.get('/create', async (req, res, next) => {
+router.post('/create/:roomId', async (req, res, next) => {
   try {
-    const room = await Room.create({});
+    const { roomId } = req.params;
+    const room = await Room.create({ name: roomId });
 
     // Creates four teams models (aka the 4 card colors)
     const team1 = await Team.create({ name: 'team red', roomId: room.id });
@@ -29,19 +30,29 @@ router.get('/create', async (req, res, next) => {
     // Update the room object to have the ids of the teams we created
     // These are needed for creating the board layout, as:
     // team1 is team red, who will be the team that goes first, meaning they has 9 cards
-    room.update({
+    let updatedRoom = await room.update({
       team1id: team1.id,
       team2id: team2.id,
       team3id: team3.id,
       team4id: team4.id,
     });
 
-    res.send(room);
+    res.send(updatedRoom);
   } catch (err) {
     next(err);
   }
 });
 
 // /api/room/:roomId/
+// this route is being used to send back team ids for individual rooms
+router.get('/:roomId', async (req, res, next) => {
+  try {
+    const { roomId } = req.params;
+    const room = await Room.findOne({ where: { name: roomId } });
+    res.send(room);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;
