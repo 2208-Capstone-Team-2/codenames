@@ -41,7 +41,9 @@ Wordpack.hasMany(Word);
 // **** Player/Team Associations: **** //
 Player.belongsTo(Team);
 Team.hasMany(Player);
-
+// **** Player/Room Associations: **** //
+Player.belongsTo(Room);
+Room.hasMany(Player);
 module.exports = {
   db,
   Board,
