@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
-import { useState } from 'react';
 import { ref, update, get } from 'firebase/database';
 import { database } from '../../utils/firebase';
 

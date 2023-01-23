@@ -1,4 +1,4 @@
-import Clue from "./Clue";
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
@@ -22,8 +22,8 @@ import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
-import ClueHistory from "./ClueHistory";
-import { setClueHistory } from "../../store/clueSlice";
+import ClueHistory from './ClueHistory.jsx';
+import { setClueHistory } from '../../store/clueSlice.js';
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -37,7 +37,7 @@ const RoomView = () => {
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const currentClue = useSelector((state) => state.clues.currentClue);
-  const clueHistory=useSelector((state)=>state.clues.clueHistory)
+  const clueHistory = useSelector((state) => state.clues.clueHistory);
   const [loading, setLoading] = useState(false);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
@@ -50,7 +50,6 @@ const RoomView = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-  let previousData
   console.log(gameStatus);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
@@ -118,7 +117,6 @@ const RoomView = () => {
         const players = snapshot.val();
         const values = Object.values(players);
         dispatch(setAllPlayers(values));
-   
       } else {
         console.log('no players in room yet!');
       }
@@ -174,21 +172,20 @@ const RoomView = () => {
         const cardsFromSnapshot = snapshot.val();
         const values = Object.values(cardsFromSnapshot);
         dispatch(setWordsInGame(values));
-      } 
-     
+      }
     });
     onValue(clueHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
         //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
         const clues = snapshot.val();
-        let history=[]
+        let history = [];
         //this is to access the data under random firebase key and put them in an iterable array
-        for(let clueKey in clues){history.push(clues[clueKey])}
+        for (let clueKey in clues) {
+          history.push(clues[clueKey]);
+        }
         dispatch(setClueHistory(history));
-      } 
-     console.log(clueHistory)
+      }
     });
-
   }, []);
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -224,7 +221,7 @@ const RoomView = () => {
             <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-           {/* import clueHistory component */}
+            {/* import clueHistory component */}
             <ClueHistory />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
@@ -271,7 +268,6 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )} */}
-      <Clue />
       {/* player is operative && show operative board, otherwise theyre a spymaster*/}
       {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
