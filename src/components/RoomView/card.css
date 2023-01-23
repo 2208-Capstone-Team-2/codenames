@@ -1,0 +1,112 @@
+.notYetRevealed {
+  width: 120px;
+  height: 150px;
+  background-color: beige;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+.redRevealed {
+  width: 120px;
+  height: 150px;
+  background-color: #800000;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.blueRevealed {
+  width: 120px;
+  height: 150px;
+  background-color: #000066;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.beigeRevealed {
+  width: 120px;
+  height: 150px;
+  background-color: #f39537;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.blackRevealed {
+  width: 120px;
+  height: 150px;
+  background-color: black;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.redStyle {
+  background-color: rgb(240, 142, 142);
+  width: 120px;
+  height: 150px;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+.blueStyle {
+  background-color: rgb(119, 119, 174);
+  width: 120px;
+  height: 150px;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+.beigeStyle {
+  width: 120px;
+  height: 150px;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: beige;
+}
+.blackStyle {
+  width: 120px;
+  height: 150px;
+  text-align: 'center';
+  align-content: 'center';
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
