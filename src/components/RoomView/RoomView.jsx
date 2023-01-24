@@ -179,20 +179,16 @@ const RoomView = () => {
 
     // Look to see if there are cards already loaded for the room
     onValue(cardsRef, async (cardSnapshot) => {
-      // If there are cards in /room/roomId/cards
-      console.log({ teamOneOperatives });
-      console.log({ teamOneSpymaster });
-
       // for some reason, i'm having trouble accessing the redux teams
       //  data even though it exists on firebase and redux
       // tried a few diff ways and this is what i could get to work. bulky :(
-      get(teamOneSpymasterRef).then(async (snapshot) => {
-        if (snapshot.exists()) {
-          let spymaster = snapshot.val();
-          let spymasterId = Object.keys(spymaster);
-          if (spymasterId.includes(playerId)) {
-            console.log('setting spy board...');
-            if (cardSnapshot.exists()) {
+      if (cardSnapshot.exists()) {
+        get(teamOneSpymasterRef).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            let spymaster = snapshot.val();
+            let spymasterId = Object.keys(spymaster);
+            if (spymasterId.includes(playerId)) {
+              console.log('setting spy board...');
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {};
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -211,15 +207,14 @@ const RoomView = () => {
               dispatch(setWordsInGame(values));
             }
           }
-        }
-      });
-      get(teamTwoSpymasterRef).then(async (snapshot) => {
-        if (snapshot.exists()) {
-          let spymaster = snapshot.val();
-          let spymasterId = Object.keys(spymaster);
-          if (spymasterId.includes(playerId)) {
-            console.log('setting spy board...');
-            if (cardSnapshot.exists()) {
+        });
+        get(teamTwoSpymasterRef).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            let spymaster = snapshot.val();
+            let spymasterId = Object.keys(spymaster);
+            if (spymasterId.includes(playerId)) {
+              console.log('setting spy board...');
+
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {};
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -238,38 +233,34 @@ const RoomView = () => {
               dispatch(setWordsInGame(values));
             }
           }
-        }
-      });
-      get(teamOneOperativesRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          let operatives = snapshot.val();
-          let operativesIds = Object.keys(operatives);
-          if (operativesIds.includes(playerId)) {
-            console.log('setting opertive board...');
-            if (cardSnapshot.exists()) {
+        });
+        get(teamOneOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
               //update our redux to reflect that
               const cardsFromSnapshot = cardSnapshot.val();
               const values = Object.values(cardsFromSnapshot);
               dispatch(setWordsInGame(values));
             }
           }
-        }
-      });
-      get(teamTwoOperativesRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          let operatives = snapshot.val();
-          let operativesIds = Object.keys(operatives);
-          if (operativesIds.includes(playerId)) {
-            console.log('setting opertive board...');
-            if (cardSnapshot.exists()) {
+        });
+        get(teamTwoOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
               //update our redux to reflect that
               const cardsFromSnapshot = cardSnapshot.val();
               const values = Object.values(cardsFromSnapshot);
               dispatch(setWordsInGame(values));
             }
           }
-        }
-      });
+        });
+      }
     });
   }, []);
 
