@@ -98,7 +98,9 @@ const RoomView = () => {
         set(child(playersInRoomRef, playerId), { playerId, username });
 
         // Find the room model in our db that has this roomName.
-        let room = await axios.get(`/api/room/${roomName}`);
+        const room = await axios.get(`/api/room/${roomName}`);
+        console.log('room from searching backend req');
+        console.log(room);
         dispatch(setTeam1Id(room.data.team1id));
         dispatch(setTeam2Id(room.data.team2id));
         dispatch(setBystanderTeamId(room.data.team3id));
@@ -108,12 +110,15 @@ const RoomView = () => {
         console.log('room does not exist...yet! Creating it now...');
 
         // creating room on backend, giving it the name from firebase for its name field.
-        const room = await axios.post(`/api/room/create`, { roomName });
-
+        const room = await axios.post(`/api/room`, { roomName });
+        console.log('room from POST req');
+        console.log(room);
         // Creating room in firebase:
         // create the room, (nested) players, and host.
+
+        console.log(roomRef);
         set(roomRef, {
-          roomId: room.id, // this is the id of the room model!
+          roomId: room.data.id, // this is the id of the room model!
           host: { playerId, username },
           players: { [playerId]: { playerId, username } },
           game: {
