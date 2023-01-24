@@ -6,13 +6,14 @@ import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const TeamTwoBox = () => {
   const { playerId, roomId, username } = useSelector((state) => state.player);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
+  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
+
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
   const playerOnTeamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/${playerId}`);
-  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
 
   const dispatch = useDispatch();
 
@@ -141,6 +142,7 @@ const TeamTwoBox = () => {
       }
     });
   }, []);
+
   return (
     <div className="blueBoxCard">
       <div>Team 2</div>
