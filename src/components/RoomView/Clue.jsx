@@ -34,12 +34,8 @@ const Clue = () => {
 
   //please also help me rephrase all these alert messages
   const handleNumberChange = (event) => {
-    //this is to prevent users from submitting 'select a number'
-    if (event.target.value.length > 1) {
-      alert('please select a valid number');
-    } else setClueNumber(Number(event.target.value));
+    Number(event.target.value);
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const regex = /[\s-]+/g;
@@ -55,6 +51,9 @@ const Clue = () => {
     // i.e "New York" or 'mother-in-law'
     else if (clueString.match(regex) && clueString.match(regex).length > 2) {
       return alert('you can only use a compound word that is made of less than 3 words');
+    } //this is to prevent users from submitting 'select a number'
+    else if (clueNumber === null || clueNumber.length > 1) {
+      return alert('please select a valid number');
     } else {
       const clueData = {
         clueString,
