@@ -71,7 +71,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const { selectedWordPackId } = req.body;
 
     // Create a new board to put the 25 cards into
-    const board = await Board.create({ roomId });
+    const board = await Board.create();
 
     // Find which pack users select and put all the candidate words in an array
     const allWords = await Word.findAll({
@@ -85,7 +85,12 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const randomWordsIds = getRandomIntArray(25, allWords.length);
 
     // Get the teamIds that we will need to seed our cards
-    const room = await Room.findByPk(roomId);
+    // changed to findOneWhere because 'roomId' is a n
+    const room = await Room.findOne({
+      where: { name: roomId },
+    });
+
+    room.setBoard(board);
 
     const { team1id, team2id, team3id, team4id } = room;
 
@@ -138,15 +143,58 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     next(err);
   }
 });
-
-// PUT localhost:3000/api/card/make25/forRoom/:roomId
-// Updates a card, given its cardID
-// probably used for toggling isVisibleToAll
-router.put('/:cardId', async (req, res, next) => {
+// get cards for spymaster
+// needs to be validated with jwt?
+router.get('/get25/forRoom/:roomId', async (req, res, next) => {
   try {
-    // TODO!!!!!!!
+    const { roomId } = req.params;
+    const room = await Room.findOne({
+      where: { name: roomId },
+    });
+
+    const board = await Board.findOne({
+      where: { roomId: room.id },
+    });
+
+    const cardsWithTeamIds = await Card.findAll({
+      where: { boardId: board.id },
+      include: [Word],
+    });
+
+    res.send(cardsWithTeamIds);
   } catch (err) {
     next(err);
   }
 });
+
+// PUT localhost:3000/api/card/make25/forRoom/:roomId
+// Updates a card, given its cardID
+// probably used for toggling isVisibleToAll
+router.put('/:wordId', async (req, res, next) => {
+  try {
+    // TODO!!!!!!!
+    const { wordId } = req.params;
+    const { roomId } = req.body;
+
+    const room = await Room.findOne({
+      where: { name: roomId },
+    });
+
+    const board = await Board.findOne({
+      where: { roomId: room.id },
+    });
+
+    const cardToUpdate = await Card.findOne({
+      where: { id: wordId, boardId: board.id },
+      include: [Word],
+    });
+
+    let cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
+
+    res.send(cardRevealed);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

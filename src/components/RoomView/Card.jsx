@@ -3,18 +3,24 @@ import { useSelector } from 'react-redux';
 import './card.css';
 import { ref, update, get } from 'firebase/database';
 import { database } from '../../utils/firebase';
+import axios from 'axios';
+import { useState } from 'react';
 
-const Card = ({ singleWord, value }) => {
+const Card = ({ word }) => {
   const { playerId, roomId } = useSelector((state) => state.player);
-  const { teamOneOperatives } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
+  const { team1Id, teamOneOperatives } = useSelector((state) => state.teamOne);
+  const { team2Id, teamTwoOperatives } = useSelector((state) => state.teamTwo);
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
-  let gameStatus = useSelector((state) => state.game.status);
+  const gameStatus = useSelector((state) => state.game.status);
+  const assassinTeamId = useSelector((state) => state.spymasterWords.assassinTeamId);
+  const bystanderTeamId = useSelector((state) => state.spymasterWords.bystanderTeamId);
+  const [teamsCard, setTeamsCard] = useState(0);
 
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${singleWord.id}`);
+  let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
+  let spymasterCardRef = ref(database, `rooms/${roomId}/spymasterGameboard/${word.id}`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -26,79 +32,71 @@ const Card = ({ singleWord, value }) => {
   const submitAnswer = async (e) => {
     e.preventDefault();
 
-    // axios.get -- get which team the card belongs to
-    // check against the team ids in redux store
-    // validate guess in below logic
+    let wordId = Number(e.target.value);
+    // update word to visible on BACKEND
+    let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
+    let revealedCard = cardToReveal.data;
+    let cardBelongsTo = revealedCard.teamId;
 
-    // let {data} = await axios.post('/api/answerKey/cardId', auth stuff)
-    // let cardBelongsTo = data.teamId
-    // reveal card color and disable clicking the card
-
-    // values:
-    // 0 = assassin
-    // 1 = team 1
-    // 2 = team 2
-    // 3 = bystander
-
-    let cardBelongsTo = e.target.value;
+    setTeamsCard(cardBelongsTo);
 
     //  if its team 1 ops turn and they are the one who clicked on the card...
     if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
+      // update word to visible on FIREBASE
       get(singleCardRef).then((snapshot) => {
         const doesCardExist = snapshot.exists();
         if (doesCardExist) {
-          update(singleCardRef, { isVisibleToAll: true });
-          console.log(snapshot.val());
+          update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
+          update(spymasterCardRef, { isVisibleToAll: true });
         } else {
           console.log('no card');
         }
       });
 
-      if (cardBelongsTo === '0') {
+      if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
         // set winner = other team
         // do other celebratory stuff
         // show reset game button
       }
-      if (cardBelongsTo === '3') {
+      if (cardBelongsTo === bystanderTeamId) {
         console.log('you hit a bystander!');
         endTurn();
       }
-      if (cardBelongsTo === '1') {
+      if (cardBelongsTo === team1Id) {
         console.log('thats correct!');
-        await update(gameRef, {
+        update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
         // decrement from guesses remaining from spymasters clue
         // if guesses remaining === 0, endTurn()
       }
-      if (cardBelongsTo === '2') {
+      if (cardBelongsTo === team2Id) {
         console.log('thats the other teams card! turn is over');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
       }
     } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
-      // instead of 'revealing', set 'isvisibletoall' to true
-      update(singleCardRef, { isVisibleToAll: true });
+      update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
+      update(spymasterCardRef, { isVisibleToAll: true });
 
-      // reveal card
-      if (cardBelongsTo === '0') {
+      if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
         // set winner = other team
         // do other celebratory stuff
         // show reset game button
       }
-      if (cardBelongsTo === '3') {
+      if (cardBelongsTo === bystanderTeamId) {
         console.log('you hit a bystander!');
         endTurn();
       }
-      if (cardBelongsTo === '2') {
+      if (cardBelongsTo === team2Id) {
         console.log('thats correct!');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         // decrement from guesses remaining from spymasters clue
         // if guesses remaining === 0, endTurn()
       }
-      if (cardBelongsTo === '1') {
+      if (cardBelongsTo === team1Id) {
         console.log('thats the other teams card! turn is over');
         update(gameRef, { team1RemainingCards: teamOneRemainingCards - 1 });
         endTurn();
@@ -129,17 +127,17 @@ const Card = ({ singleWord, value }) => {
   return (
     <>
       {/* if card hasnt been revealed, show this beige version and submit answer on click */}
-      {!singleWord.isVisibleToAll && (
-        <button className="notYetRevealed" value={value} onClick={submitAnswer}>
-          {singleWord.word}
+      {!word.isVisibleToAll && (
+        <button className="notYetRevealed" value={word.id} onClick={submitAnswer}>
+          {word.word}
         </button>
       )}
       {/* if it is visible, show the color for the team, and make it not clickable 
       (buttons made them more visually appealing for the time being but we can edit css obviously) */}
-      {singleWord.isVisibleToAll && value === 1 && <button className="redRevealed">{singleWord.word}</button>}
-      {singleWord.isVisibleToAll && value === 2 && <button className="blueRevealed">{singleWord.word}</button>}
-      {singleWord.isVisibleToAll && value === 3 && <button className="beigeRevealed">{singleWord.word}</button>}
-      {singleWord.isVisibleToAll && value === 0 && <button className="blackRevealed">{singleWord.word}</button>}
+      {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.word}</button>}
+      {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.word}</button>}
+      {word.isVisibleToAll && word.teamId === bystanderTeamId && <button className="beigeRevealed">{word.word}</button>}
+      {word.isVisibleToAll && word.teamId === assassinTeamId && <button className="blackRevealed">{word.word}</button>}
     </>
   );
 };
