@@ -50,8 +50,9 @@ router.post('/', async (req, res, next) => {
 // this route is being used to send back team ids for individual rooms
 router.get('/:roomName', async (req, res, next) => {
   try {
-    console.log('Looking for a room in our db with the name:', roomName);
     const { roomName } = req.params;
+    console.log('Looking for a room in our db with the name:', roomName);
+
     const room = await Room.findOne({ where: { name: roomName } });
     res.send(room);
   } catch (err) {

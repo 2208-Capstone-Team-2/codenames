@@ -10,9 +10,9 @@ const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const roomId = useSelector((state) => state.player.roomId);
+  const { roomId, roomName } = useSelector((state) => state.game);
 
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  let gameRef = ref(database, 'rooms/' + roomName + '/game/');
 
   //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
@@ -59,7 +59,11 @@ const SetupGame = () => {
           boardId: card.boardId,
         }),
     );
-    update(ref(database, 'rooms/' + roomId), {
+
+    console.log('updates:');
+
+    console.log(updates);
+    update(ref(database, 'rooms/' + roomName), {
       gameboard: updates,
     });
 
@@ -77,7 +81,7 @@ const SetupGame = () => {
           teamId: card.teamId,
         }),
     );
-    update(ref(database, 'rooms/' + roomId), {
+    update(ref(database, 'rooms/' + roomName), {
       spymasterGameboard: wordsWithTeamIds,
     });
   };
@@ -89,6 +93,7 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
+  console.log('roomId from redux, in setupgame is:', roomId);
   if (isLoading) return <p>Loading...</p>;
   else
     return (

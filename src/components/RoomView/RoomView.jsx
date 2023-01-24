@@ -15,7 +15,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsHost } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setRoomName } from '../../store/gameSlice';
+import {
+  setTeam1RemainingCards,
+  setTeam2RemainingCards,
+  setStatus,
+  setRoomName,
+  setRoomId,
+} from '../../store/gameSlice';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
@@ -91,32 +97,26 @@ const RoomView = () => {
 
     //when a user joins room, this checks to see if it exists
     get(roomRef).then(async (snapshot) => {
+      let room = null; //this will get overwritten. placed outside the if else so we have access to it later
       const doesRoomExist = snapshot.exists();
+
       if (doesRoomExist) {
-        console.log('room already created, just add the player!');
+        console.log('room in firebase with this name already exists, just add the player!');
         // playerId is key in the room/roomName/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
 
         // Find the room model in our db that has this roomName.
-        const room = await axios.get(`/api/room/${roomName}`);
-        console.log('room from searching backend req');
-        console.log(room);
-        dispatch(setTeam1Id(room.data.team1id));
-        dispatch(setTeam2Id(room.data.team2id));
-        dispatch(setBystanderTeamId(room.data.team3id));
-        dispatch(setAssassinTeamId(room.data.team4id));
-        // axios add player to room
+        room = await axios.get(`/api/room/${roomName}`);
+
+        // ********TODO: axios add player to room
       } else {
         console.log('room does not exist...yet! Creating it now...');
-
         // creating room on backend, giving it the name from firebase for its name field.
-        const room = await axios.post(`/api/room`, { roomName });
+        room = await axios.post(`/api/room`, { roomName });
         console.log('room from POST req');
         console.log(room);
-        // Creating room in firebase:
-        // create the room, (nested) players, and host.
 
-        console.log(roomRef);
+        // Creating room in firebase: create the room, (nested) players, and host.
         set(roomRef, {
           roomId: room.data.id, // this is the id of the room model!
           host: { playerId, username },
@@ -127,14 +127,17 @@ const RoomView = () => {
             team2RemainingCards: 8,
           },
         });
-        // Set our state for if the player is the host or not.
+        // Set our Redux state for this player being the host.
         dispatch(setIsHost(true));
-        // let room = await axios.get(`/api/room/${roomId}`);
-        dispatch(setTeam1Id(room.data.team1id));
-        dispatch(setTeam2Id(room.data.team2id));
-        dispatch(setBystanderTeamId(room.data.team3id));
-        dispatch(setAssassinTeamId(room.data.team4id));
       }
+
+      // Regardless of if this player created or found the backend room,
+      // Update our redux with its info.
+      dispatch(setRoomId(room.data.id));
+      dispatch(setTeam1Id(room.data.team1id));
+      dispatch(setTeam2Id(room.data.team2id));
+      dispatch(setBystanderTeamId(room.data.team3id));
+      dispatch(setAssassinTeamId(room.data.team4id));
     });
 
     // whenever users are added to specific room, update frontend redux store

@@ -70,9 +70,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const { roomId } = req.params;
     const { selectedWordPackId } = req.body;
 
-    // Create a new board to put the 25 cards into
-    const board = await Board.create();
-
     // Find which pack users select and put all the candidate words in an array
     const allWords = await Word.findAll({
       where: {
@@ -81,18 +78,24 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       },
     });
 
+    // Sanity check that the POSSIBLE words we will pull from were
+    if (!allWords) return res.sendStatus(404);
+
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWords.length);
 
+    // Get the room for which we are making cards for (need its teams)
+    const room = await Room.findByPk(roomId);
+    // Sanity check the room being found
+    if (!room) return res.sendStatus(404);
     // Get the teamIds that we will need to seed our cards
-    // changed to findOneWhere because 'roomId' is a n
-    const room = await Room.findOne({
-      where: { name: roomId },
-    });
-
-    room.setBoard(board);
-
     const { team1id, team2id, team3id, team4id } = room;
+
+    // Create a new board to put the 25 cards into
+    // & Associate the board with the room
+    const board = await Board.create({ roomId: room.id });
+
+    console.log(board);
 
     // If any of teamIds are falsey, immediately kick.
     if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
@@ -130,7 +133,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       include: [Word],
     });
 
-    // remove the teamId property using delete keyword
     const cardsWithTeamIdDeleted = queriedCards.map((card) => {
       // Note: I tried using the delete keyword but it didn't work. So just assigning it to null.
       // delete card.teamId // didnt work....
@@ -143,18 +145,21 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     next(err);
   }
 });
+
 // get cards for spymaster
 // needs to be validated with jwt?
 router.get('/get25/forRoom/:roomId', async (req, res, next) => {
   try {
     const { roomId } = req.params;
-    const room = await Room.findOne({
-      where: { name: roomId },
-    });
+    console.log('inside api/card/get25/forRoom/' + roomId);
+
+    const room = await Room.findByPk(roomId);
+    if (!room) return res.sendStatus(404);
 
     const board = await Board.findOne({
       where: { roomId: room.id },
     });
+    if (!board) return res.sendStatus(404);
 
     const cardsWithTeamIds = await Card.findAll({
       where: { boardId: board.id },
