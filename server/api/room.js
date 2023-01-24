@@ -16,10 +16,10 @@ router.get('/', async (req, res, next) => {
 // GET - /api/room/create/
 // Makes a new room and returns it
 // Maybe change to POST if we want the firebase room name on the room
-router.post('/create/:roomId', async (req, res, next) => {
+router.post('/create', async (req, res, next) => {
   try {
-    const { roomId } = req.params;
-    const room = await Room.create({ name: roomId });
+    const { roomName } = req.body;
+    const room = await Room.create({ name: roomName });
 
     // Creates four teams models (aka the 4 card colors)
     const team1 = await Team.create({ name: 'team red', roomId: room.id });
@@ -37,6 +37,7 @@ router.post('/create/:roomId', async (req, res, next) => {
       team4id: team4.id,
     });
 
+    console.log(roomName);
     res.send(updatedRoom);
   } catch (err) {
     next(err);

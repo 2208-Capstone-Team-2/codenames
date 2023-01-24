@@ -8,9 +8,7 @@ const RouterComponent = () => {
       {/*-------------------- home page---------------------*/}
       <Route path="/" element={<Login />} />
       {/*--------------------a page for room initialization---------------------*/}
-      <Route path="/room/:id" element={<RoomView />} />
-      {/*-------------------- a page for where the game actually takes place---------------------*/}
-      <Route path="/room/:id/playing" />
+      <Route path="/room/:roomName" element={<RoomView />} />
       {/*-------------------- about us--------------------*/}
       <Route path="/about" element={<About />} />
     </Routes>

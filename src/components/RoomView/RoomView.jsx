@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsHost } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setRoomId } from '../../store/gameSlice';
+import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setRoomName } from '../../store/gameSlice';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
@@ -32,27 +32,26 @@ import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 
 const RoomView = () => {
   // for room nav
-  const params = useParams('');
-  const roomIdFromParams = params.id;
-  setRoomId(roomIdFromParams);
+  const { roomName } = useParams();
+  setRoomName(roomName);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // frontend state
-  const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
+  const { playerId, username, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
 
   // firebase room  & players reference
-  let roomRef = ref(database, 'rooms/' + roomId);
-  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
-  let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-  let spymasterCardsRef = ref(database, `rooms/${roomId}/spymasterGameboard`);
+  let roomRef = ref(database, 'rooms/' + roomName);
+  let playersInRoomRef = ref(database, 'rooms/' + roomName + '/players/');
+  let playerNestedInRoomRef = ref(database, 'rooms/' + roomName + '/players/' + playerId);
+  let gameRef = ref(database, 'rooms/' + roomName + '/game/');
+  let cardsRef = ref(database, `rooms/${roomName}/gameboard`);
+  let spymasterCardsRef = ref(database, `rooms/${roomName}/spymasterGameboard`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -85,7 +84,7 @@ const RoomView = () => {
 
   useEffect(() => {
     // on loading page if no room or name, send back to join page
-    if (roomId === '' || username === '') {
+    if (roomName === '' || username === '') {
       navigate('/');
       return; // immediately kick them!
     }
@@ -95,10 +94,11 @@ const RoomView = () => {
       const doesRoomExist = snapshot.exists();
       if (doesRoomExist) {
         console.log('room already created, just add the player!');
-        // playerId is key in the room/roomId/players/playerId, so we creating new player obj
+        // playerId is key in the room/roomName/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
 
-        let room = await axios.get(`/api/room/${roomId}`);
+        // Find the room model in our db that has this roomName.
+        let room = await axios.get(`/api/room/${roomName}`);
         dispatch(setTeam1Id(room.data.team1id));
         dispatch(setTeam2Id(room.data.team2id));
         dispatch(setBystanderTeamId(room.data.team3id));
@@ -107,13 +107,13 @@ const RoomView = () => {
       } else {
         console.log('room does not exist...yet! Creating it now...');
 
-        // creating room on backend
-        await axios.post(`/api/room/create/${roomId}`);
+        // creating room on backend, giving it the name from firebase for its name field.
+        const room = await axios.post(`/api/room/create`, { roomName });
 
         // Creating room in firebase:
         // create the room, (nested) players, and host.
         set(roomRef, {
-          roomId: roomId,
+          roomId: room.id, // this is the id of the room model!
           host: { playerId, username },
           players: { [playerId]: { playerId, username } },
           game: {
@@ -124,7 +124,7 @@ const RoomView = () => {
         });
         // Set our state for if the player is the host or not.
         dispatch(setIsHost(true));
-        let room = await axios.get(`/api/room/${roomId}`);
+        // let room = await axios.get(`/api/room/${roomId}`);
         dispatch(setTeam1Id(room.data.team1id));
         dispatch(setTeam2Id(room.data.team2id));
         dispatch(setBystanderTeamId(room.data.team3id));
@@ -223,7 +223,7 @@ const RoomView = () => {
         <Grid container spacing={2} style={styles.sx.RoomGrid}>
           <Grid item xs={12} style={styles.sx.RoomAndPlayers}>
             <Item style={styles.sx.PlayerContainer}>Welcome, {username}</Item>
-            <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
+            <Item style={styles.sx.PlayerContainer}>Room Name: {roomName}</Item>
             <Item style={styles.sx.PlayerContainer}>
               Players:
               {allPlayers?.map((player) => (
