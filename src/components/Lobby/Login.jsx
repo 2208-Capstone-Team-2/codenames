@@ -1,31 +1,36 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUsername, setRoomId } from '../../store/playerSlice';
+//mui imports:
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+//firebase:
 import { database, auth } from '../../utils/firebase';
-import { useEffect } from 'react';
+import { ref, update, set, onDisconnect } from 'firebase/database';
 import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
-import { setPlayerId } from '../../store/playerSlice';
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+import { setRoomName } from '../../store/gameSlice';
+import { setUsername, setPlayerId } from '../../store/playerSlice';
+// css and other components
 import styles from './Lobby.styles';
 import logo from '../../static/images/logoLight.png'; // Tell Webpack this JS file uses this image
 import HowToPlay from './HowToPlay.jsx';
 import FAQ from './FAQ.jsx';
-import { ref, update, set, onDisconnect } from 'firebase/database';
 
 const Login = () => {
   const navigate = useNavigate();
-  const roomId = useSelector((state) => state.player.roomId);
-  const username = useSelector((state) => state.player.username);
   const dispatch = useDispatch();
+  // Redux
+  const { roomName } = useSelector((state) => state.game);
+  const { username } = useSelector((state) => state.player);
   let playerId = useSelector((state) => state.player.playerId);
-  // references to firebase data
+  // Firebase
   let playerRef = ref(database, 'players/' + playerId);
 
   // setting user room and name on frontend
   const handleRoom = (event) => {
-    dispatch(setRoomId(event.target.value));
+    dispatch(setRoomName(event.target.value));
   };
   const handleName = (event) => {
     dispatch(setUsername(event.target.value));
@@ -37,9 +42,9 @@ const Login = () => {
     // axios post request to create player
 
     // update player with name and room id
-    update(playerRef, { id: playerId, username, roomId });
+    update(playerRef, { id: playerId, username, roomName });
     // room will be updated with player on 'roomview' component
-    navigate(`/room/${roomId}`);
+    navigate(`/room/${roomName}`);
   };
 
   useEffect(() => {
@@ -88,9 +93,9 @@ const Login = () => {
           />
           <TextField
             id="outlined-basic"
-            label="room id"
+            label="room name"
             variant="outlined"
-            placeholder="room number"
+            placeholder="room name"
             onChange={handleRoom}
           />
           <Button type="submit" variant="contained">

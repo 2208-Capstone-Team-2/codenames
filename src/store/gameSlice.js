@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  roomId: '',
+  roomId: '', // This is the ID for the room model in our backend
+  roomName: '', // this is the name of the room in our firebase
   status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
@@ -13,6 +14,9 @@ export const gameSlice = createSlice({
   reducers: {
     setRoomId: (state, action) => {
       state.roomId = action.payload;
+    },
+    setRoomName: (state, action) => {
+      state.roomName = action.payload;
     },
     setStatus: (state, action) => {
       state.status = action.payload;
@@ -26,5 +30,5 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setRoomId, setStatus, setTeam1RemainingCards, setTeam2RemainingCards } = gameSlice.actions;
+export const { setRoomId, setRoomName, setStatus, setTeam1RemainingCards, setTeam2RemainingCards } = gameSlice.actions;
 export default gameSlice.reducer;

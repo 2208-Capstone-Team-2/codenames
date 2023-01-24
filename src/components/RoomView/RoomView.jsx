@@ -1,31 +1,34 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setRoomId, setIsHost } from '../../store/playerSlice';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
-import { database } from '../../utils/firebase';
-import { setAllPlayers } from '../../store/allPlayersSlice';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+//mui imports
+import { Button } from '@mui/material';
 import { Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import Popup from 'reactjs-popup';
-import SetupGame from './setupGame.jsx';
+//firebase
+import { database } from '../../utils/firebase';
+import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsHost } from '../../store/playerSlice';
+import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
-import styles from './Room.styles';
-import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
-import OperativeBoard from './OperativeBoard.jsx';
-import SpyMasterBoard from './SpyMasterBoard';
-import TeamOneBox from '../teamBoxes/TeamOneBox';
-import TeamTwoBox from '../teamBoxes/TeamTwoBox';
-import { Button } from '@mui/material';
-import axios from 'axios';
+import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setRoomId } from '../../store/gameSlice';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
 import { setSpymasterWords } from '../../store/spymasterWordsSlice';
+// css and other components
+import Popup from 'reactjs-popup';
+import SetupGame from './setupGame.jsx';
+import styles from './Room.styles';
+import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
+import OperativeBoard from './OperativeBoard.jsx';
+import SpyMasterBoard from './SpyMasterBoard';
+import TeamOneBox from '../teamBoxes/TeamOneBox';
+import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 
 const RoomView = () => {
   // for room nav
