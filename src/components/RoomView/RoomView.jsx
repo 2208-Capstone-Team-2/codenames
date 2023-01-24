@@ -24,6 +24,12 @@ import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
 import { setClueHistory } from '../../store/clueSlice.js';
+import axios from 'axios';
+import { setTeam1Id } from '../../store/teamOneSlice';
+import { setTeam2Id } from '../../store/teamTwoSlice';
+import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
+import { setSpymasterWords } from '../../store/spymasterWordsSlice';
+import Clue from './Clue';
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -51,12 +57,19 @@ const RoomView = () => {
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
   console.log(gameStatus);
+  let spymasterCardsRef = ref(database, `rooms/${roomId}/spymasterGameboard`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
     return operative.playerId;
+  });
+  const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
+    return spy.playerId;
+  });
+  const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
+    return spy.playerId;
   });
 
   // determines if there is at least one player in each 'role' and then shows the button for start game
@@ -83,16 +96,24 @@ const RoomView = () => {
     }
 
     //when a user joins room, this checks to see if it exists
-    get(roomRef).then((snapshot) => {
+    get(roomRef).then(async (snapshot) => {
       const doesRoomExist = snapshot.exists();
       if (doesRoomExist) {
         console.log('room already created, just add the player!');
         // playerId is key in the room/roomId/players/playerId, so we creating new player obj
         set(child(playersInRoomRef, playerId), { playerId, username });
+
+        let room = await axios.get(`/api/room/${roomId}`);
+        dispatch(setTeam1Id(room.data.team1id));
+        dispatch(setTeam2Id(room.data.team2id));
+        dispatch(setBystanderTeamId(room.data.team3id));
+        dispatch(setAssassinTeamId(room.data.team4id));
+        // axios add player to room
       } else {
         console.log('room does not exist...yet! Creating it now...');
 
-        // TODO for now: this is where we do /api/makeRoom to create a room
+        // creating room on backend
+        await axios.post(`/api/room/create/${roomId}`);
 
         // Creating room in firebase:
         // create the room, (nested) players, and host.
@@ -108,6 +129,11 @@ const RoomView = () => {
         });
         // Set our state for if the player is the host or not.
         dispatch(setIsHost(true));
+        let room = await axios.get(`/api/room/${roomId}`);
+        dispatch(setTeam1Id(room.data.team1id));
+        dispatch(setTeam2Id(room.data.team2id));
+        dispatch(setBystanderTeamId(room.data.team3id));
+        dispatch(setAssassinTeamId(room.data.team4id));
       }
     });
 
@@ -165,7 +191,7 @@ const RoomView = () => {
     });
 
     // Look to see if there are cards already loaded for the room
-    onValue(cardsRef, (snapshot) => {
+    onValue(cardsRef, async (snapshot) => {
       // If there are cards in /room/roomId/cards
       if (snapshot.exists()) {
         //update our redux to reflect that
@@ -184,6 +210,17 @@ const RoomView = () => {
           history.push(clues[clueKey]);
         }
         dispatch(setClueHistory(history));
+      }
+    });
+
+    // Look to see if there are cards already loaded for the room
+    onValue(spymasterCardsRef, async (snapshot) => {
+      // If there are cards in /room/roomId/cards
+      if (snapshot.exists()) {
+        //update our redux to reflect that
+        const cardsFromSnapshot = snapshot.val();
+        const values = Object.values(cardsFromSnapshot);
+        dispatch(setSpymasterWords(values));
       }
     });
   }, []);
@@ -223,6 +260,7 @@ const RoomView = () => {
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             {/* import clueHistory component */}
             <ClueHistory />
+            <Clue />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamTwoBox />
@@ -271,11 +309,7 @@ const RoomView = () => {
       {/* player is operative && show operative board, otherwise theyre a spymaster*/}
       {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-      {teamOneOperativesIds.includes(playerId) || teamTwoOperativesIds.includes(playerId) ? (
-        <OperativeBoard />
-      ) : (
-        <SpyMasterBoard />
-      )}
+      {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
     </>
   );
 };

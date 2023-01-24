@@ -6,20 +6,7 @@ import { database } from '../../utils/firebase';
 import SpyCard from './SpyCard';
 import Clue from './Clue.jsx';
 const SpyMasterBoard = () => {
-  const words = useSelector((state) => state.wordsInGame);
-  const roomId = useSelector((state) => state.player.roomId);
-  const playerId = useSelector((state) => state.player.playerId);
-  const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-
-  const teamOneSpymasterId = Object.values(teamOneSpymaster).map((spy) => {
-    return spy.playerId;
-  });
-  const teamTwoSpymasterId = Object.values(teamTwoSpymaster).map((spy) => {
-    return spy.playerId;
-  });
+  const spyWords = useSelector((state) => state.spymasterWords.spymasterWords);
 
   const style = {
     display: 'grid',
@@ -31,14 +18,11 @@ const SpyMasterBoard = () => {
   };
 
   return (
-    <>
-      <div style={style}>
-        {words.wordsInGame.map((singleWord) => {
-          return <SpyCard key={singleWord.id} singleWord={singleWord} value={singleWord.teamNumber} />;
-        })}
-      </div>
-      <Clue />
-    </>
+    <div style={style}>
+      {spyWords.map((word) => {
+        return <SpyCard key={word.id} word={word} teamId={word.teamId} />;
+      })}
+    </div>
   );
 };
 
