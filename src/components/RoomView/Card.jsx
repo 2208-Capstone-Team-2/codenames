@@ -13,8 +13,8 @@ const Card = ({ word }) => {
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   const gameStatus = useSelector((state) => state.game.status);
-  const assassinTeamId = useSelector((state) => state.spymasterWords.assassinTeamId);
-  const bystanderTeamId = useSelector((state) => state.spymasterWords.bystanderTeamId);
+  const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
+  const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
   const [teamsCard, setTeamsCard] = useState(0);
 
   // firebase room  & players reference

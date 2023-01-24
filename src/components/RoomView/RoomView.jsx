@@ -24,7 +24,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
-import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
+import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBystanderSlice';
 
 const RoomView = () => {
   // for room nav
