@@ -50,6 +50,8 @@ const RoomView = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let spymasterCardsRef = ref(database, `rooms/${roomId}/spymasterGameboard`);
+  const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
+  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -183,26 +185,65 @@ const RoomView = () => {
     });
 
     // Look to see if there are cards already loaded for the room
-    onValue(cardsRef, async (snapshot) => {
+    onValue(cardsRef, async (cardSnapshot) => {
       // If there are cards in /room/roomId/cards
-      if (snapshot.exists()) {
-        //update our redux to reflect that
-        const cardsFromSnapshot = snapshot.val();
-        const values = Object.values(cardsFromSnapshot);
-        dispatch(setWordsInGame(values));
-      }
+      console.log({ teamOneOperatives });
+      console.log({ teamOneSpymaster });
+
+      get(teamOneSpymasterRef).then(async (snapshot) => {
+        if (snapshot.exists()) {
+          let spymaster = snapshot.val();
+          let spymasterId = Object.keys(spymaster);
+          if (spymasterId.includes(playerId)) {
+            console.log('setting spy board...');
+            if (cardSnapshot.exists()) {
+              //get set of cards with team ids from backend and set spymaster words
+              let wordsWithTeamIds = {};
+              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+              spyWords.data.forEach(
+                (card) =>
+                  (wordsWithTeamIds[card.id] = {
+                    id: card.id,
+                    isVisibleToAll: card.isVisibleToAll,
+                    word: card.word.word,
+                    wordId: card.wordId,
+                    boardId: card.boardId,
+                    teamId: card.teamId,
+                  }),
+              );
+              const values = Object.values(wordsWithTeamIds);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        }
+      });
+      get(teamOneOperativesRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          let operatives = snapshot.val();
+          let operativesIds = Object.keys(operatives);
+          if (operativesIds.includes(playerId)) {
+            console.log('setting opertive board...');
+            if (cardSnapshot.exists()) {
+              //update our redux to reflect that
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        }
+      });
     });
 
     // Look to see if there are cards already loaded for the room
-    onValue(spymasterCardsRef, async (snapshot) => {
-      // If there are cards in /room/roomId/cards
-      if (snapshot.exists()) {
-        //update our redux to reflect that
-        const cardsFromSnapshot = snapshot.val();
-        const values = Object.values(cardsFromSnapshot);
-        dispatch(setSpymasterWords(values));
-      }
-    });
+    // onValue(spymasterCardsRef, async (snapshot) => {
+    //   // If there are cards in /room/roomId/cards
+    //   if (snapshot.exists()) {
+    //     //update our redux to reflect that
+    //     const cardsFromSnapshot = snapshot.val();
+    //     const values = Object.values(cardsFromSnapshot);
+    //     dispatch(setSpymasterWords(values));
+    //   }
+    // });
   }, []);
 
   const Item = styled(Paper)(({ theme }) => ({

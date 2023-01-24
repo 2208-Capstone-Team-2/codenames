@@ -64,22 +64,22 @@ const SetupGame = () => {
     });
 
     /**------NEEDS TO BE VALIDATED SO THAT ONLY SPYMASTERS CAN MAKE THIS GET REQ----- */
-    let wordsWithTeamIds = {};
-    let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
-    spyWords.data.forEach(
-      (card) =>
-        (wordsWithTeamIds[card.id] = {
-          id: card.id,
-          isVisibleToAll: card.isVisibleToAll,
-          word: card.word.word,
-          wordId: card.wordId,
-          boardId: card.boardId,
-          teamId: card.teamId,
-        }),
-    );
-    update(ref(database, 'rooms/' + roomId), {
-      spymasterGameboard: wordsWithTeamIds,
-    });
+    // let wordsWithTeamIds = {};
+    // let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+    // spyWords.data.forEach(
+    //   (card) =>
+    //     (wordsWithTeamIds[card.id] = {
+    //       id: card.id,
+    //       isVisibleToAll: card.isVisibleToAll,
+    //       word: card.word.word,
+    //       wordId: card.wordId,
+    //       boardId: card.boardId,
+    //       teamId: card.teamId,
+    //     }),
+    // );
+    // update(ref(database, 'rooms/' + roomId), {
+    //   spymasterGameboard: wordsWithTeamIds,
+    // });
   };
 
   const startGame = async () => {

@@ -5,7 +5,7 @@ import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
 import SpyCard from './SpyCard';
 const SpyMasterBoard = () => {
-  const spyWords = useSelector((state) => state.spymasterWords.spymasterWords);
+  const words = useSelector((state) => state.wordsInGame.wordsInGame);
   const roomId = useSelector((state) => state.player.roomId);
   const playerId = useSelector((state) => state.player.playerId);
   const gameStatus = useSelector((state) => state.game.status);
@@ -51,7 +51,7 @@ const SpyMasterBoard = () => {
 
   return (
     <div style={style}>
-      {spyWords.map((word) => {
+      {words.map((word) => {
         return <SpyCard key={word.id} word={word} teamId={word.teamId} />;
       })}
 
