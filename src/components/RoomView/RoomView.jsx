@@ -182,10 +182,22 @@ const RoomView = () => {
         }
         // update cards remaining in redux and firebase
         if (game.team1RemainingCards === 0) {
-          console.log('team 1 wins!');
+          //First we hit firebase's game status
+          //------Set firebases game status to 'complete' or something to that effect
+          //Set redux status to whatever team won
+          //------dispatch(setStatus('team1Win'));
+          // Set the winner and loser
+          //------dispatch(setWinner('team1'));
+          //------dispatch(setLoser('team2'));
         }
         if (game.team2RemainingCards === 0) {
-          console.log('team 2 wins!');
+          //First we hit firebase's game status
+          //------Set firebases game status to 'complete' or something to that effect
+          //Set redux status to whatever team won
+          //------dispatch(setStatus('team2Win'));
+          // Set the winner and loser
+          //------dispatch(setWinner('team2'));
+          //------dispatch(setLoser('team1'));
         }
       }
     });
