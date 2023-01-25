@@ -47,8 +47,9 @@ const SetupGame = () => {
     event.preventDefault();
 
     const response = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackId });
+    // console.log({ response });
     const updates = {};
-    response.data.forEach(
+    await response.data.forEach(
       (card) =>
         (updates[card.id] = {
           id: card.id,
