@@ -90,16 +90,14 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     if (!room) return res.sendStatus(404);
     // Get the teamIds that we will need to seed our cards
     const { team1id, team2id, team3id, team4id } = room;
+    // If any of teamIds are falsey, immediately kick.
+    if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
 
     // Create a new board to put the 25 cards into
     // & Associate the board with the room
     const board = await Board.create({ roomId: room.id });
 
-    console.log(board);
-
-    // If any of teamIds are falsey, immediately kick.
-    if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
-
+    // Use these teamids instead of '0, 1, 2, 3' for deciding what cards belong to who.
     const layout = createRandomLayout(team1id, team2id, team3id, team4id);
 
     const cards = [];
