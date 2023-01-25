@@ -41,7 +41,7 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link href="/">
-            <Box component="img" sx={{ height: 54 }} alt="Logo" src={'http://localhost:3000/images/logoCircle.png'} />
+            <Box component="img" sx={{ height: 54 }} alt="Logo" src={'/images/logoCircle.png'} />
           </Link>
           <Typography
             variant="h6"
