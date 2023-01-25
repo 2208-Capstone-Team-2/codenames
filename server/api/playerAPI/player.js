@@ -67,6 +67,19 @@ router.get('/allPlayers/:roomId', async (req, res, next) => {
     next(error);
   }
 });
+router.get('`/:playerId`', async (req, res, next) => {
+  try {
+    const playerId = req.params.playerId;
+    const playerToFind = await Player.findByPk(playerId);
+    if (playerToFind) {
+      res.send(playerToFind).status(202);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 //GET --- gets all players
 //✔ works
 router.get('/allPlayers', async (req, res, next) => {
@@ -95,6 +108,17 @@ router.post('/addPlayerToRoom', async (req, res, next) => {
     });
     //3. res.send status and maybe some info
     res.send(newPlayer);
+  } catch (error) {
+    next(error);
+  }
+});
+router.post('/', async (req, res, next) => {
+  try {
+    const playerId = req.body.id;
+    const playerToAdd = await Player.create({
+      id: playerId,
+    });
+    res.send(playerToAdd).status(202);
   } catch (error) {
     next(error);
   }
