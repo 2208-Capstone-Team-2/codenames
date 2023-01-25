@@ -16,20 +16,22 @@ import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
+import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setShowResetButton } from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
-import { setClueHistory } from '../../store/clueSlice.js';
+import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
 import { setSpymasterWords } from '../../store/spymasterWordsSlice';
 import Clue from './Clue';
+import ResetGame from './ResetGame';
+
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -164,6 +166,22 @@ const RoomView = () => {
         dispatch(setTeam1RemainingCards(team1RemainingCards));
         dispatch(setTeam2RemainingCards(team2RemainingCards));
 
+        /* when game is 'reset' it sets the firebase game status 
+        to 'ready' which triggers the redux cleanup below */
+        if (game.gameStatus === 'ready') {
+          dispatch(setStatus('ready'));
+          dispatch(setTeam1RemainingCards(9));
+          dispatch(setTeam2RemainingCards(8));
+          dispatch(setWordsInGame([]));
+          dispatch(setSpymasterWords([]));
+          dispatch(setCurrentClue({}));
+          dispatch(setClueHistory([]));
+          dispatch(setShowResetButton(false));
+        }
+
+        /* while game is ongoing, the gamestatus triggers whos 
+        'turn' it is on the frontend which determines what is 
+        rendered to users of varying roles  */
         if (game.team1RemainingCards && game.team2RemainingCards) {
           if (game.gameStatus === 'team1SpyTurn') {
             dispatch(setStatus('team1SpyTurn'));
@@ -173,33 +191,35 @@ const RoomView = () => {
             dispatch(setStatus('team1OpsTurn'));
           } else if (game.gameStatus === 'team2OpsTurn') {
             dispatch(setStatus('team2OpsTurn'));
-          } else if (game.gameStatus === 'gameOver') {
-            // havent gotten here yet really, but presumably we'd want to:
-            // dispatch(setStatus('')) --> its no ones turn anymore
-            // set and get winning team from firebase so that we can...
-            // dispatch(setWinner(teamThatWon))
           }
         }
-        // update cards remaining in redux and firebase
+
+        // josh's pseudocode:
+        // if game status === 'complete' --->
         if (game.team1RemainingCards === 0) {
+          // set firebase gameStatus to 'complete'
+          // set winner / set loser to redux
           console.log('team 1 wins!');
+          dispatch(setShowResetButton(true));
         }
         if (game.team2RemainingCards === 0) {
+          // set firebase gameStatus to 'complete'
+          // set winner / set loser to redux
           console.log('team 2 wins!');
+          dispatch(setShowResetButton(true));
         }
       }
     });
 
-    // Look to see if there are cards already loaded for the room
+    // whenever card values are updated in firebase, update redux
     onValue(cardsRef, async (snapshot) => {
-      // If there are cards in /room/roomId/cards
       if (snapshot.exists()) {
-        //update our redux to reflect that
         const cardsFromSnapshot = snapshot.val();
         const values = Object.values(cardsFromSnapshot);
         dispatch(setWordsInGame(values));
       }
     });
+
     onValue(clueHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
         //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
@@ -253,6 +273,10 @@ const RoomView = () => {
                 {gameStatus}
               </Item>
             )}
+
+            <Item style={styles.sx.PlayerContainer}>
+              <ResetGame />
+            </Item>
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamOneBox />
