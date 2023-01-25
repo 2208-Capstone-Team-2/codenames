@@ -6,13 +6,9 @@ const RouterComponent = () => {
   return (
     <Routes>
       {/*-------------------- home page---------------------*/}
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<SimpleLogin />} />
       {/*--------------------a page for room initialization---------------------*/}
-      <Route path="/room/:id" element={<RoomView />} />
-      {/*-------------------- a page for where the game actually takes place---------------------*/}
-      <Route path="/room/:id/playing" />
-      {/*-------------------- about us--------------------*/}
-      <Route path="/about" element={<About />} />
+      <Route path="/room/:roomName" element={<SimpleRoom />} />
     </Routes>
   );
 };
