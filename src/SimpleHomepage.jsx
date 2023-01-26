@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setIsHost } from './store/playerSlice';
 //firebase imports
 import { database } from './utils/firebase';
-import { onDisconnect, ref, set } from 'firebase/database';
+import { ref, set } from 'firebase/database';
 
 function SimpleHomepage() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ function SimpleHomepage() {
     // create room references on firebase
     const roomRef = ref(database, `rooms/${roomName}`);
     set(roomRef, {
-      roomName,
+      roomId: roomName, // i want to change this key to roomname
       // can't set host yet because player not yet created/looked for
       // can't set players yet for same reason as above
       game: {
@@ -33,8 +33,6 @@ function SimpleHomepage() {
 
     // Since we are the ones that made the room, make us the host in our redux.
     dispatch(setIsHost(true));
-    // *** TODO: create room's host iud entry on firebase here!
-    // Can't do that yet because we don't have the uid. But we do have the redux state, so we can look to that later.
 
     return navigate(`/room/${roomName}`);
   };

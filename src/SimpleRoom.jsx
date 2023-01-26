@@ -28,6 +28,7 @@ function SimpleRoom() {
     setLoading(true);
     try {
       const room = await axios.get(`/api/room/${roomName}`);
+      console.log(room);
       setLoading(false);
 
       // Now that we have room from backend, set all the redux pieces relevant to it.
@@ -58,7 +59,7 @@ function SimpleRoom() {
         // eslint-disable-next-line no-unused-vars
         const errorMessage = error.message;
         // If for some reason we can't sign them in, navigate them to 404.
-        return navigate('/404');
+        console.log('signed out on signInAnon?!');
       });
   }, []);
 
@@ -92,7 +93,7 @@ function SimpleRoom() {
       } else {
         // User is signed out
         // The should never be signed out, let's just navigate to 404 if this happens.
-        return navigate('/404');
+        console.log('signed out from on authstate changes?!');
       }
     });
   }, []);
@@ -147,20 +148,35 @@ function SimpleRoom() {
     dispatch(setUsername(trimmedInputtedUsername));
 
     // Update firebase
-    // Todo!
-
-    // Update the 'outer' player ref
+    //// Update the 'outer' player ref
     const playerRef = ref(database, `players/${playerId}`);
-    update(playerRef, { username: trimmedInputtedUsername, roomId });
+    update(playerRef, { username: trimmedInputtedUsername, roomId, id: playerId });
 
-    // Update the nested-in-room player
-    let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
-    set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
+    //// Update the nested-in-room player
+    const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
+    update(nestedPlayerRef, { playerId, username: trimmedInputtedUsername });
+    // other way of doing it:
+    // let playersInRoomRef = ref(database, `rooms/${roomId}/players`);
+    // set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
+
+    //// If they're the host, put that info there too.
+    if (isHost) {
+      let hostRef = ref(database, `rooms/${roomId}/host`);
+      set(hostRef, { playerId, username: trimmedInputtedUsername });
+    }
+
+    //// Set what to do on disconnect from firebase:
+    ////// When player DCs, remove the nestedPlayer (the one inside the room).
+    onDisconnect(nestedPlayerRef).remove();
+
+    //// remove the outer player ref
+    onDisconnect(playerRef).remove();
 
     // Todo: something to trigger hiding this popup
+    setUsernameSubmissionDone(true);
   };
   const [inputtedUsername, setInputtedUsername] = useState('');
-
+  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
   // these are ugly and placeholder
   const popupStyles = {
     backgroundColor: 'yellow',
@@ -173,22 +189,26 @@ function SimpleRoom() {
       {!playerId ? (
         <p>loading user form popup...</p>
       ) : (
-        <div className="username-form-popup" style={popupStyles}>
-          <p>Welcome to the room!</p>
-          <p>Enter a username...</p>
-          <form>
-            <input
-              value={inputtedUsername}
-              onChange={(event) => {
-                setInputtedUsername(event.target.value);
-              }}
-              placeholder="username"
-              autoFocus
-            ></input>
-            <button type="submit" onClick={submitHandler}>
-              continue
-            </button>
-          </form>
+        <div>
+          {!usernameSubmissionDone && (
+            <div className="username-form-popup" style={popupStyles}>
+              <p>Welcome to the room!</p>
+              <p>Enter a username...</p>
+              <form>
+                <input
+                  value={inputtedUsername}
+                  onChange={(event) => {
+                    setInputtedUsername(event.target.value);
+                  }}
+                  placeholder="username"
+                  autoFocus
+                ></input>
+                <button type="submit" onClick={submitHandler}>
+                  continue
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       )}
       <p>Rest of room is here....</p>
