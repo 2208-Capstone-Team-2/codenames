@@ -25,7 +25,7 @@ export const gameSlice = createSlice({
       state.winner = action.payload;
     },
     setLoser: (state, action) => {
-      state.winner = action.payload;
+      state.loser = action.payload;
     },
   },
 });

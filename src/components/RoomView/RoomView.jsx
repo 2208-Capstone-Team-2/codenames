@@ -190,6 +190,7 @@ const RoomView = () => {
           set(child(gameRef, 'loser'), 'team-2');
         }
         if (game.team2RemainingCards === 0) {
+          console.log('this should not get hit at all');
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
