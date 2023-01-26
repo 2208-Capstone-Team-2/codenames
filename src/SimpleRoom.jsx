@@ -80,9 +80,11 @@ function SimpleRoom() {
     // tie the player in our redux
     e.preventDefault();
     console.log('continue button clicked!');
+    //PUT api/player/
   };
   console.log(playerId);
   const [inputtedUsername, setInputtedUsername] = useState('');
+
   if (loading) return <p>loading...</p>;
   return (
     <div>
