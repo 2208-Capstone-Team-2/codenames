@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
-import { useDispatch } from 'react-redux';
 
 const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState([]);
@@ -48,8 +47,9 @@ const SetupGame = () => {
     event.preventDefault();
 
     const response = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackId });
+    // console.log({ response });
     const updates = {};
-    response.data.forEach(
+    await response.data.forEach(
       (card) =>
         (updates[card.id] = {
           id: card.id,
@@ -61,24 +61,6 @@ const SetupGame = () => {
     );
     update(ref(database, 'rooms/' + roomId), {
       gameboard: updates,
-    });
-
-    /**------NEEDS TO BE VALIDATED SO THAT ONLY SPYMASTERS CAN MAKE THIS GET REQ----- */
-    let wordsWithTeamIds = {};
-    let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
-    spyWords.data.forEach(
-      (card) =>
-        (wordsWithTeamIds[card.id] = {
-          id: card.id,
-          isVisibleToAll: card.isVisibleToAll,
-          word: card.word.word,
-          wordId: card.wordId,
-          boardId: card.boardId,
-          teamId: card.teamId,
-        }),
-    );
-    update(ref(database, 'rooms/' + roomId), {
-      spymasterGameboard: wordsWithTeamIds,
     });
   };
 
