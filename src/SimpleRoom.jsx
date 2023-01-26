@@ -24,7 +24,7 @@ function SimpleRoom() {
   const { playerId, roomId, isHost } = useSelector((state) => state.player);
 
   const fetchRoom = async () => {
-    console.log('inside fetchroom, room created looks like: ');
+    console.log('inside fetchroom');
     setLoading(true);
     try {
       const room = await axios.get(`/api/room/${roomName}`);
@@ -45,7 +45,6 @@ function SimpleRoom() {
     }
   };
 
-  console.log(roomId);
   useEffect(() => {
     fetchRoom();
     // at this point we need to sign them in anonymously to get their browser's uid
@@ -89,21 +88,10 @@ function SimpleRoom() {
         dispatch(setUsername(player.username));
 
         // Update firebase references
-        console.log(roomId);
-        const roomRef = ref(database, `rooms/${roomId}`);
-        console.log(roomRef);
-        const playerRef = ref(database, `players/${player.id}`);
-        console.log(roomRef);
+        const playerRef = ref(database, `players/${playerId}`);
+        set(playerRef, { id: player.id });
 
-        set(playerRef, { id: player.id, roomId });
-        onDisconnect(playerRef).remove(roomRef + `/${player.id}`); // When I disconnect, remove me from firebase/players
-        onDisconnect(playerRef).remove(); // Aslo remove me from the current room.
-
-        // FOR NOW... if the host leaves, disconnect the room from fb
-        if (isHost) {
-          // if host dc's, delete the room
-          onDisconnect(playerRef).remove(roomRef);
-        }
+        // The rest are --> in a different useEffect!
       } else {
         // User is signed out
         // The should never be signed out, let's just navigate to 404 if this happens.
@@ -111,6 +99,34 @@ function SimpleRoom() {
       }
     });
   }, []);
+
+  // useEffect for updating firebase references once the roomId has been loaded.
+  useEffect(() => {
+    // Update firebase references once the state on redux has been updated.
+    if (!roomId || !playerId) return;
+
+    // Axios - tie the player to the room
+
+    console.log('roomId: ', roomId);
+    console.log('playerId: ', playerId);
+    const roomRef = ref(database, `rooms/${roomId}`);
+    const playerRef = ref(database, `players/${playerId}`);
+    const nestedPlayer = ref(database, `rooms/${roomId}/players/${playerId}`);
+    // update our outer player fb into to have this roomId on it.
+
+    update(playerRef, { roomId: roomId });
+    set(nestedPlayer, { id: playerId });
+    onDisconnect(playerRef).remove(roomRef + `/${playerId}`); // When I disconnect, remove me from firebase/players
+    onDisconnect(playerRef).remove(); // Also remove me from the current room.
+
+    // FOR NOW... if the host leaves, disconnect the room from fb
+    if (isHost) {
+      update(playerRef, { isHost: true });
+      update(roomRef, { hostId: playerId });
+      // if host dc's, delete the room
+      onDisconnect(playerRef).remove(roomRef);
+    }
+  }, [roomId, playerId]);
 
   const submitHandler = async (e) => {
     // tie the player in our redux
