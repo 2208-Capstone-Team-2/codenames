@@ -65,6 +65,7 @@ const RoomView = () => {
   const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
     return spy.playerId;
   });
+
   // determines if there is at least one player in each 'role' and then shows the button for start game
   // not uncommenting code in the return until we're done testing, but it works :)
   const isEveryRoleFilled = () => {
@@ -182,9 +183,11 @@ const RoomView = () => {
           dispatch(setStatus('complete'));
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
+          set(child(gameRef, 'winner'), 'team-1');
           //Should we set a winner in firebase? Probably...
           //Set redux loser to team 2
           dispatch(setLoser('team-2'));
+          set(child(gameRef, 'loser'), 'team-2');
         }
         if (game.team2RemainingCards === 0) {
           // Update game state to "complete" in firebase
@@ -193,9 +196,11 @@ const RoomView = () => {
           dispatch(setStatus('complete'));
           //Set redux winner to team 2
           dispatch(setWinner('team-2'));
+          set(child(gameRef, 'winner'), 'team-2');
           //Should we set a winner in firebase? Probably...
           //Set redux loser to team 1
           dispatch(setLoser('team-1'));
+          set(child(gameRef, 'loser'), 'team-1');
         }
       }
     });
