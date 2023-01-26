@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
+import { onValue, ref, set, get, child, onDisconnect, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { Container } from '@mui/material';
@@ -16,7 +16,7 @@ import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
+import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setWinner, setLoser } from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
@@ -34,7 +34,6 @@ const RoomView = () => {
   const params = useParams('');
   const roomIdFromParams = params.id;
   setRoomId(roomIdFromParams);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -66,7 +65,6 @@ const RoomView = () => {
   const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
     return spy.playerId;
   });
-
   // determines if there is at least one player in each 'role' and then shows the button for start game
   // not uncommenting code in the return until we're done testing, but it works :)
   const isEveryRoleFilled = () => {
@@ -175,24 +173,29 @@ const RoomView = () => {
             // dispatch(setWinner(teamThatWon))
           }
         }
+
         // update cards remaining in redux and firebase
         if (game.team1RemainingCards === 0) {
-          //First we hit firebase's game status
-          //------Set firebases game status to 'complete' or something to that effect
-          //Set redux status to whatever team won
-          //------dispatch(setStatus('team1Win'));
-          // Set the winner and loser
-          //------dispatch(setWinner('team1'));
-          //------dispatch(setLoser('team2'));
+          // Update game state to "complete" in firebase
+          update(gameRef, { gameStatus: 'complete' });
+          // Update game state to "complete" in redux
+          dispatch(setStatus('complete'));
+          //Set redux winner to team 1
+          dispatch(setWinner('team-1'));
+          //Should we set a winner in firebase? Probably...
+          //Set redux loser to team 2
+          dispatch(setLoser('team-2'));
         }
         if (game.team2RemainingCards === 0) {
-          //First we hit firebase's game status
-          //------Set firebases game status to 'complete' or something to that effect
-          //Set redux status to whatever team won
-          //------dispatch(setStatus('team2Win'));
-          // Set the winner and loser
-          //------dispatch(setWinner('team2'));
-          //------dispatch(setLoser('team1'));
+          // Update game state to "complete" in firebase
+          update(gameRef, { gameStatus: 'complete' });
+          // Update game state to "complete" in redux
+          dispatch(setStatus('complete'));
+          //Set redux winner to team 2
+          dispatch(setWinner('team-2'));
+          //Should we set a winner in firebase? Probably...
+          //Set redux loser to team 1
+          dispatch(setLoser('team-1'));
         }
       }
     });
