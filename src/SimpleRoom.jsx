@@ -5,7 +5,7 @@ import { database, auth } from './utils/firebase';
 
 import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPlayerId, setRoomId, setUsername, isHost } from './store/playerSlice';
+import { setPlayerId, setRoomId, setUsername } from './store/playerSlice';
 
 function SimpleRoom() {
   // optimize if this is the person that just created the room??
@@ -49,23 +49,24 @@ function SimpleRoom() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const playerId = user.uid;
-        // query backend player model to see if one exists with this uid
-        const foundPlayer = await axios.get(`/api/players/${playerId}`);
-        console.log('foundplayer:');
-        console.log(foundPlayer);
+        try {
+          // query backend player model to see if one exists with this uid
+          const foundPlayer = await axios.get(`/api/player/${playerId}`);
+          console.log('We found the player in the backend with your firebase uid!');
+          console.log(foundPlayer);
 
-        // if player doesn't exist in db...
-        if (foundPlayer.status === 404) {
+          // if they do exist in our db already, just load that into into our redux.
+          dispatch(setPlayerId(foundPlayer.data.id));
+          dispatch(setUsername(foundPlayer.data.username));
+        } catch (err) {
+          console.log('did not find player in the backend for this firebase uid');
+          // if player doesn't exist in db...
           // create one right now!
-          const createdPlayer = await axios.post(`/api/player`, { id: playerId });
+          const createdPlayer = await axios.post(`/api/player`, { playerId });
 
           // dispatch this info!
           dispatch(setPlayerId(createdPlayer.data.id));
           dispatch(setUsername(createdPlayer.data.username));
-        } else {
-          // if they do exist in our db already, just load that into into our redux.
-          dispatch(setPlayerId(foundPlayer.data.id));
-          dispatch(setUsername(foundPlayer.data.username));
         }
 
         // ...
@@ -80,10 +81,31 @@ function SimpleRoom() {
     // tie the player in our redux
     e.preventDefault();
     console.log('continue button clicked!');
-    //PUT api/player/
+
+    // Todo: Validation - may want to use formik/yup?
+    // Make sure the username they gave isn't empty / made of only white spaces
+    const trimmedInputtedUsername = inputtedUsername.trim();
+    if (trimmedInputtedUsername === '') {
+      // stop now! and display error. user needs to resubmit. - Or use formik/yup
+    }
+
+    // Update our player's model with this new username
+    const bodyToSubmit = { username: trimmedInputtedUsername };
+    axios.put(`/api/player/${playerId}`, bodyToSubmit);
+
+    // Update the firebase player refs to have this username.
+    // Todo!
+
+    // dispatch to redux
+    dispatch(setUsername(trimmedInputtedUsername));
   };
-  console.log(playerId);
-  const [inputtedUsername, setInputtedUsername] = useState('');
+  const [inputtedUsername, setInputtedUsername] = useState(username ? username : '');
+
+  // these are ugly and placeholder
+  const popupStyles = {
+    backgroundColor: 'yellow',
+    border: '2px black dashed',
+  };
 
   if (loading) return <p>loading...</p>;
   return (
@@ -91,7 +113,7 @@ function SimpleRoom() {
       {!playerId ? (
         <p>loading user form popup...</p>
       ) : (
-        <div className="username-form-popup">
+        <div className="username-form-popup" style={popupStyles}>
           <p>Welcome to the room!</p>
           <p>Enter a username...</p>
           <form>
@@ -100,7 +122,7 @@ function SimpleRoom() {
               onChange={(event) => {
                 setInputtedUsername(event.target.value);
               }}
-              placeholder={username ? username : ''}
+              placeholder="username"
             ></input>
             <button type="submit" onClick={submitHandler}>
               continue

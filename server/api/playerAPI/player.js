@@ -67,15 +67,44 @@ router.get('/allPlayers/:roomId', async (req, res, next) => {
     next(error);
   }
 });
-router.get('`/:playerId`', async (req, res, next) => {
+// ********** this should be used with jolly panda
+router.get('/:playerId', async (req, res, next) => {
   try {
+    console.log('inside /api/player/${playerId}');
     const playerId = req.params.playerId;
     const playerToFind = await Player.findByPk(playerId);
+    console.log(playerToFind);
     if (playerToFind) {
       res.send(playerToFind).status(202);
     } else {
       res.sendStatus(404);
     }
+  } catch (error) {
+    next(error);
+  }
+});
+// ********** this should be used with jolly panda
+router.post('/', async (req, res, next) => {
+  try {
+    console.log('inside POST /api/player');
+    const { playerId } = req.body;
+    const playerToAdd = await Player.create({ id: playerId });
+    res.send(playerToAdd).status(202);
+  } catch (error) {
+    next(error);
+  }
+});
+// ********** this should be used with jolly panda
+router.put('/:playerId', async (req, res, next) => {
+  try {
+    console.log('inside PUT /api/player/:playerId');
+    const { playerId } = req.params;
+    const { username } = req.body; // get the new username they want from the passed up body
+
+    const player = await Player.findByPk(playerId);
+    if (!player) return res.sendStatus(404); // sanity check
+    const updatedPlayer = await player.update({ username });
+    res.send(updatedPlayer);
   } catch (error) {
     next(error);
   }
@@ -92,6 +121,7 @@ router.get('/allPlayers', async (req, res, next) => {
     next(error);
   }
 });
+
 // POST --- once a player 'logins' we post their username, uid, and room to the db
 //✔ works
 router.post('/addPlayerToRoom', async (req, res, next) => {
@@ -112,17 +142,7 @@ router.post('/addPlayerToRoom', async (req, res, next) => {
     next(error);
   }
 });
-router.post('/', async (req, res, next) => {
-  try {
-    const playerId = req.body.id;
-    const playerToAdd = await Player.create({
-      id: playerId,
-    });
-    res.send(playerToAdd).status(202);
-  } catch (error) {
-    next(error);
-  }
-});
+
 // PUT --- once a player has decided their team and role, we can add them here
 //✔ works
 router.put('/update/player/teamAndRole', async (req, res, next) => {

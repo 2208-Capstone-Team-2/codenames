@@ -1,19 +1,24 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setIsHost } from './store/playerSlice';
 
 function SimpleHomepage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const clickHandler = async () => {
     // create room in backend
-
     const { data } = await axios.post(`/api/room/`);
-    // set isHost!!!
 
-    console.log(data);
-    // inside this route , generate the randomWords
-    // if a room with that name already exists, generative randomWords again and try that
+    // get the roomName so we can navigate to that room's page.
     const roomName = data.name;
+    // *** TODO: create room on firebase here!
+
+    // Since we are the ones that made the room, make us the host in our redux.
+    dispatch(setIsHost(true));
+    // *** TODO: create room's host iud entry on firebase here!
+
     return navigate(`/room/${roomName}`);
   };
 

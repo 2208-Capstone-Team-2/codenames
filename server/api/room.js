@@ -63,8 +63,11 @@ router.get('/:roomId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     console.log('jolly panda route');
-    const slug = randomWords({ exactly: 3, join: '-' });
+    const slug = randomWords({ exactly: 3, join: '-' }); // happy-knight-work
     console.log(slug);
+
+    // the chance of this is rare, but make sure a room with this slug doesn't exist yet:
+    // todo!
 
     const randomName = 'jolly-panda'; // this is where we use the library
     const room = await Room.create({ name: randomName });
