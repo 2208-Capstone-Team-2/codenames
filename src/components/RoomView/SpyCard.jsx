@@ -7,8 +7,8 @@ const SpyCard = ({ word, teamId }) => {
   // we'll likely use images or something for css but this was helpful for testing purposes
   const team1Id = useSelector((state) => state.teamOne.team1Id);
   const team2Id = useSelector((state) => state.teamTwo.team2Id);
-  const assassinTeamId = useSelector((state) => state.spymasterWords.assassinTeamId);
-  const bystanderTeamId = useSelector((state) => state.spymasterWords.bystanderTeamId);
+  const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
+  const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
 
   return (
     <>
