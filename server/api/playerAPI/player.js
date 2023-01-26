@@ -94,21 +94,35 @@ router.post('/', async (req, res, next) => {
     next(error);
   }
 });
+//PUT - updates the player
 // ********** this should be used with jolly panda
 router.put('/:playerId', async (req, res, next) => {
   try {
     console.log('inside PUT /api/player/:playerId');
     const { playerId } = req.params;
-    const { username } = req.body; // get the new username they want from the passed up body
+    const { username, roomName } = req.body; // get the new username they want from the passed up body
 
     const player = await Player.findByPk(playerId);
     if (!player) return res.sendStatus(404); // sanity check
-    const updatedPlayer = await player.update({ username });
+
+    // update the found player.
+    let updatedPlayer = await player.update({ username });
+
+    // if they passed in a roomName, find that room, and associate the player with that.
+    if (roomName) {
+      const room = await Room.findOne({ where: { name: roomName } });
+      if (!room) res.sendStatus(404); // sanity check
+      const roomId = room.id;
+      updatedPlayer = await player.update({ roomId });
+    }
+    // send back the updated player
     res.send(updatedPlayer);
   } catch (error) {
     next(error);
   }
 });
+
+/// ********************** WRITTEN BY JOSH ********************** ///
 //GET --- gets all players
 //✔ works
 router.get('/allPlayers', async (req, res, next) => {

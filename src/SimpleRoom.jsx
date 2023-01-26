@@ -83,15 +83,12 @@ function SimpleRoom() {
           player = createdPlayer.data;
         }
 
-        // Dispatch our player model's info to redux
+        // Update redux:
         dispatch(setPlayerId(player.id));
         dispatch(setUsername(player.username));
 
-        // Update firebase references
-        const playerRef = ref(database, `players/${playerId}`);
-        set(playerRef, { id: player.id });
-
-        // The rest are --> in a different useEffect!
+        // Update firebase:
+        // This will come once they submit their username!
       } else {
         // User is signed out
         // The should never be signed out, let's just navigate to 404 if this happens.
@@ -101,37 +98,37 @@ function SimpleRoom() {
   }, []);
 
   // useEffect for updating firebase references once the roomId has been loaded.
-  useEffect(() => {
-    // Update firebase references once the state on redux has been updated.
-    if (!roomId || !playerId) return;
+  // useEffect(() => {
+  //   // Update firebase references once the state on redux has been updated.
+  //   if (!roomId || !playerId) return;
 
-    // Axios - tie the player to the room
+  //   // Axios - tie the player to the room
 
-    console.log('roomId: ', roomId);
-    console.log('playerId: ', playerId);
-    const roomRef = ref(database, `rooms/${roomId}`);
-    const playerRef = ref(database, `players/${playerId}`);
-    const nestedPlayer = ref(database, `rooms/${roomId}/players/${playerId}`);
-    // update our outer player fb into to have this roomId on it.
+  //   console.log('roomId: ', roomId);
+  //   console.log('playerId: ', playerId);
+  //   const roomRef = ref(database, `rooms/${roomId}`);
+  //   const playerRef = ref(database, `players/${playerId}`);
+  //   const nestedPlayer = ref(database, `rooms/${roomId}/players/${playerId}`);
+  //   // update our outer player fb into to have this roomId on it.
 
-    update(playerRef, { roomId: roomId });
-    set(nestedPlayer, { id: playerId });
-    onDisconnect(playerRef).remove(roomRef + `/${playerId}`); // When I disconnect, remove me from firebase/players
-    onDisconnect(playerRef).remove(); // Also remove me from the current room.
+  //   update(playerRef, { roomId: roomId });
+  //   set(nestedPlayer, { id: playerId });
+  //   onDisconnect(playerRef).remove(roomRef + `/${playerId}`); // When I disconnect, remove me from firebase/players
+  //   onDisconnect(playerRef).remove(); // Also remove me from the current room.
 
-    // FOR NOW... if the host leaves, disconnect the room from fb
-    if (isHost) {
-      update(playerRef, { isHost: true });
-      update(roomRef, { hostId: playerId });
-      // if host dc's, delete the room
-      onDisconnect(playerRef).remove(roomRef);
-    }
-  }, [roomId, playerId]);
+  //   // FOR NOW... if the host leaves, disconnect the room from fb
+  //   if (isHost) {
+  //     update(playerRef, { isHost: true });
+  //     update(roomRef, { hostId: playerId });
+  //     // if host dc's, delete the room
+  //     onDisconnect(playerRef).remove(roomRef);
+  //   }
+  // }, [roomId, playerId]);
 
   const submitHandler = async (e) => {
     // tie the player in our redux
     e.preventDefault();
-    console.log('continue button clicked!');
+    console.log('Continue button clicked!');
 
     // Todo: Validation - may want to use formik/yup?
     // Make sure the username they gave isn't empty / made of only white spaces
@@ -139,23 +136,26 @@ function SimpleRoom() {
     if (trimmedInputtedUsername === '') {
       // stop now! and display error. user needs to resubmit. - Or use formik/yup
     }
-
+    console.log(roomId, playerId);
     // Update our player's model with this new username
-    const bodyToSubmit = { username: trimmedInputtedUsername };
+    const bodyToSubmit = { username: trimmedInputtedUsername, roomName };
     const updatedPlayer = await axios.put(`/api/player/${playerId}`, bodyToSubmit);
     console.log('player in backend now looks like:');
     console.log(updatedPlayer.data);
 
-    // Update the firebase player refs to have this username.
+    // Update redux
+    dispatch(setUsername(trimmedInputtedUsername));
+
+    // Update firebase
     // Todo!
+
+    // Update the 'outer' player ref
     const playerRef = ref(database, `players/${playerId}`);
-    update(playerRef, { username: trimmedInputtedUsername });
+    update(playerRef, { username: trimmedInputtedUsername, roomId });
+
     // Update the nested-in-room player
     let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
     set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
-
-    // dispatch to redux
-    dispatch(setUsername(trimmedInputtedUsername));
 
     // Todo: something to trigger hiding this popup
   };
