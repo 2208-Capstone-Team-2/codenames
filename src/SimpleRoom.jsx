@@ -17,7 +17,7 @@ function SimpleRoom() {
   const { playerId, username } = useSelector((state) => state.player);
 
   const fetchRoom = async () => {
-    console.log('inside fetchroom)');
+    console.log('inside fetchroom, room created looks like: ');
     setLoading(true);
     try {
       const room = await axios.get(`/api/room/${roomName}`);
@@ -26,6 +26,7 @@ function SimpleRoom() {
       // set room redux
       dispatch(setRoomId(room.data.name));
     } catch (err) {
+      setLoading(false);
       // if we didn't find a room in the backend with this name, or something else went wrong,
       // give them a 404
       console.log(err);
@@ -58,6 +59,9 @@ function SimpleRoom() {
           // if they do exist in our db already, just load that into into our redux.
           dispatch(setPlayerId(foundPlayer.data.id));
           dispatch(setUsername(foundPlayer.data.username));
+
+          // Use the found player's username in the backend to pre-fill our form's text input
+          setInputtedUsername(foundPlayer.data.username);
         } catch (err) {
           console.log('did not find player in the backend for this firebase uid');
           // if player doesn't exist in db...
@@ -77,7 +81,7 @@ function SimpleRoom() {
     });
   }, []);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     // tie the player in our redux
     e.preventDefault();
     console.log('continue button clicked!');
@@ -91,15 +95,18 @@ function SimpleRoom() {
 
     // Update our player's model with this new username
     const bodyToSubmit = { username: trimmedInputtedUsername };
-    axios.put(`/api/player/${playerId}`, bodyToSubmit);
-
+    const updatedPlayer = await axios.put(`/api/player/${playerId}`, bodyToSubmit);
+    console.log('player in backend now looks like:');
+    console.log(updatedPlayer.data);
     // Update the firebase player refs to have this username.
     // Todo!
 
     // dispatch to redux
     dispatch(setUsername(trimmedInputtedUsername));
+
+    // Todo: something to trigger hiding this popup
   };
-  const [inputtedUsername, setInputtedUsername] = useState(username ? username : '');
+  const [inputtedUsername, setInputtedUsername] = useState('');
 
   // these are ugly and placeholder
   const popupStyles = {
@@ -123,6 +130,7 @@ function SimpleRoom() {
                 setInputtedUsername(event.target.value);
               }}
               placeholder="username"
+              autoFocus
             ></input>
             <button type="submit" onClick={submitHandler}>
               continue
@@ -130,6 +138,7 @@ function SimpleRoom() {
           </form>
         </div>
       )}
+      <p>Rest of room is here....</p>
     </div>
   );
 }

@@ -69,8 +69,8 @@ router.post('/', async (req, res, next) => {
     // the chance of this is rare, but make sure a room with this slug doesn't exist yet:
     // todo!
 
-    const randomName = 'jolly-panda'; // this is where we use the library
-    const room = await Room.create({ name: randomName });
+    // const slug = 'jolly-panda'; // this is where we use the library
+    const room = await Room.create({ name: slug });
 
     // Creates four teams models (aka the 4 card colors)
     const team1 = await Team.create({ name: 'team red', roomId: room.id });
