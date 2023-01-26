@@ -1,0 +1,10 @@
+table {
+    border: 1px solid black;
+  }
+
+  table{
+    width: 400px;
+  }
+  td{
+    border: 1px solid black;
+  }
