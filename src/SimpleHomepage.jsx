@@ -1,8 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+// redux imports:
 import { useDispatch } from 'react-redux';
 import { setIsHost } from './store/playerSlice';
+//firebase imports
+import { database } from '../../utils/firebase';
+import { ref, set } from 'firebase/database';
 
 function SimpleHomepage() {
   const navigate = useNavigate();
@@ -13,11 +17,24 @@ function SimpleHomepage() {
 
     // get the roomName so we can navigate to that room's page.
     const roomName = data.name;
-    // *** TODO: create room on firebase here!
+
+    // create room references on firebase
+    const roomRef = ref(database, `rooms/${roomName}`);
+    set(roomRef, {
+      roomName,
+      // can't set host yet because player not yet created/looked for
+      // can't set players yet for same reason as above
+      game: {
+        gameStatus: 'ready',
+        team1RemainingCards: 9,
+        team2RemainingCards: 8,
+      },
+    });
 
     // Since we are the ones that made the room, make us the host in our redux.
     dispatch(setIsHost(true));
     // *** TODO: create room's host iud entry on firebase here!
+    // Can't do that yet because we don't have the uid. But we do have the redux state, so we can look to that later.
 
     return navigate(`/room/${roomName}`);
   };
