@@ -84,54 +84,6 @@ const RoomView = () => {
   const everyonesHere = isEveryRoleFilled();
 
   useEffect(() => {
-    // on loading page if no room or name, send back to join page
-    if (roomId === '' || username === '') {
-      navigate('/');
-      return; // immediately kick them!
-    }
-
-    //when a user joins room, this checks to see if it exists
-    get(roomRef).then(async (snapshot) => {
-      const doesRoomExist = snapshot.exists();
-      if (doesRoomExist) {
-        console.log('room already created, just add the player!');
-        // playerId is key in the room/roomId/players/playerId, so we creating new player obj
-        set(child(playersInRoomRef, playerId), { playerId, username });
-
-        let room = await axios.get(`/api/room/${roomId}`);
-        dispatch(setTeam1Id(room.data.team1id));
-        dispatch(setTeam2Id(room.data.team2id));
-        dispatch(setBystanderTeamId(room.data.team3id));
-        dispatch(setAssassinTeamId(room.data.team4id));
-        // axios add player to room
-      } else {
-        console.log('room does not exist...yet! Creating it now...');
-
-        // creating room on backend
-        await axios.post(`/api/room/create/${roomId}`);
-
-        // Creating room in firebase:
-        // create the room, (nested) players, and host.
-        set(roomRef, {
-          roomId: roomId,
-          host: { playerId, username },
-          players: { [playerId]: { playerId, username } },
-          game: {
-            gameStatus: 'ready',
-            team1RemainingCards: 9,
-            team2RemainingCards: 8,
-          },
-        });
-        // Set our state for if the player is the host or not.
-        dispatch(setIsHost(true));
-        let room = await axios.get(`/api/room/${roomId}`);
-        dispatch(setTeam1Id(room.data.team1id));
-        dispatch(setTeam2Id(room.data.team2id));
-        dispatch(setBystanderTeamId(room.data.team3id));
-        dispatch(setAssassinTeamId(room.data.team4id));
-      }
-    });
-
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
@@ -143,11 +95,12 @@ const RoomView = () => {
       }
     });
 
-    onValue(playerNestedInRoomRef, (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
-      }
-    });
+    // rose - i'm pretty sure i have thiis dc rule set elsewhere
+    // onValue(playerNestedInRoomRef, (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
+    //   }
+    // });
 
     // setting the 'turn' on the frontend will help determine what users are seeing depending on their role
     // for example, if its team1spymasters turn, they'll see the input clue box and number dropdown
@@ -294,7 +247,6 @@ const RoomView = () => {
 
   return (
     <>
-      <ResponsiveAppBar />
       <Container style={styles.sx.RoomContainer}>
         <Grid container spacing={2} style={styles.sx.RoomGrid}>
           <Grid item xs={12} style={styles.sx.RoomAndPlayers}>

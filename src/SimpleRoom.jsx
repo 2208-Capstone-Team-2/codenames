@@ -98,34 +98,6 @@ function SimpleRoom() {
     });
   }, []);
 
-  // useEffect for updating firebase references once the roomId has been loaded.
-  // useEffect(() => {
-  //   // Update firebase references once the state on redux has been updated.
-  //   if (!roomId || !playerId) return;
-
-  //   // Axios - tie the player to the room
-
-  //   console.log('roomId: ', roomId);
-  //   console.log('playerId: ', playerId);
-  //   const roomRef = ref(database, `rooms/${roomId}`);
-  //   const playerRef = ref(database, `players/${playerId}`);
-  //   const nestedPlayer = ref(database, `rooms/${roomId}/players/${playerId}`);
-  //   // update our outer player fb into to have this roomId on it.
-
-  //   update(playerRef, { roomId: roomId });
-  //   set(nestedPlayer, { id: playerId });
-  //   onDisconnect(playerRef).remove(roomRef + `/${playerId}`); // When I disconnect, remove me from firebase/players
-  //   onDisconnect(playerRef).remove(); // Also remove me from the current room.
-
-  //   // FOR NOW... if the host leaves, disconnect the room from fb
-  //   if (isHost) {
-  //     update(playerRef, { isHost: true });
-  //     update(roomRef, { hostId: playerId });
-  //     // if host dc's, delete the room
-  //     onDisconnect(playerRef).remove(roomRef);
-  //   }
-  // }, [roomId, playerId]);
-
   const submitHandler = async (e) => {
     // tie the player in our redux
     e.preventDefault();
@@ -183,6 +155,7 @@ function SimpleRoom() {
     border: '2px black dashed',
   };
 
+  console.log('inside simple room!');
   if (loading) return <p>loading...</p>;
   return (
     <div>
