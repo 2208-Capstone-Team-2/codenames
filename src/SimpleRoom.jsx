@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+
 // Firebase:
 import { database, auth } from './utils/firebase';
 import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { ref, update, set, child, onDisconnect } from 'firebase/database';
+
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlayerId, setRoomId, setUsername } from './store/playerSlice';
@@ -18,7 +21,7 @@ function SimpleRoom() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { playerId } = useSelector((state) => state.player);
+  const { playerId, roomId, isHost } = useSelector((state) => state.player);
 
   const fetchRoom = async () => {
     console.log('inside fetchroom, room created looks like: ');
@@ -42,16 +45,21 @@ function SimpleRoom() {
     }
   };
 
+  console.log(roomId);
   useEffect(() => {
     fetchRoom();
     // at this point we need to sign them in anonymously to get their browser's uid
     signInAnonymously(auth)
-      .then(() => {})
+      .then(() => {
+        // ******* set ondisconnect rules here?
+      })
       .catch((error) => {
         // eslint-disable-next-line no-unused-vars
         const errorCode = error.code;
         // eslint-disable-next-line no-unused-vars
         const errorMessage = error.message;
+        // If for some reason we can't sign them in, navigate them to 404.
+        return navigate('/404');
       });
   }, []);
 
@@ -66,27 +74,40 @@ function SimpleRoom() {
           const foundPlayer = await axios.get(`/api/player/${playerId}`);
           console.log('We found the player in the backend with your firebase uid!');
           console.log(foundPlayer);
-
-          // dispatch to redux
-          dispatch(setPlayerId(foundPlayer.data.id));
-          dispatch(setUsername(foundPlayer.data.username));
-
+          player = foundPlayer.data;
           // Use the found player's username in the backend to pre-fill our form's text input
           setInputtedUsername(foundPlayer.data.username);
         } catch (err) {
           console.log('did not find player in the backend for this firebase uid');
           // if player doesn't exist in db... create one right now!
           const createdPlayer = await axios.post(`/api/player`, { playerId });
-
-          // dispatch to redux
-          dispatch(setPlayerId(createdPlayer.data.id));
-          dispatch(setUsername(createdPlayer.data.username));
+          player = createdPlayer.data;
         }
 
-        // ...
+        // Dispatch our player model's info to redux
+        dispatch(setPlayerId(player.id));
+        dispatch(setUsername(player.username));
+
+        // Update firebase references
+        console.log(roomId);
+        const roomRef = ref(database, `rooms/${roomId}`);
+        console.log(roomRef);
+        const playerRef = ref(database, `players/${player.id}`);
+        console.log(roomRef);
+
+        set(playerRef, { id: player.id, roomId });
+        onDisconnect(playerRef).remove(roomRef + `/${player.id}`); // When I disconnect, remove me from firebase/players
+        onDisconnect(playerRef).remove(); // Aslo remove me from the current room.
+
+        // FOR NOW... if the host leaves, disconnect the room from fb
+        if (isHost) {
+          // if host dc's, delete the room
+          onDisconnect(playerRef).remove(roomRef);
+        }
       } else {
         // User is signed out
-        // ...
+        // The should never be signed out, let's just navigate to 404 if this happens.
+        return navigate('/404');
       }
     });
   }, []);
@@ -108,8 +129,14 @@ function SimpleRoom() {
     const updatedPlayer = await axios.put(`/api/player/${playerId}`, bodyToSubmit);
     console.log('player in backend now looks like:');
     console.log(updatedPlayer.data);
+
     // Update the firebase player refs to have this username.
     // Todo!
+    const playerRef = ref(database, `players/${playerId}`);
+    update(playerRef, { username: trimmedInputtedUsername });
+    // Update the nested-in-room player
+    let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
+    set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
 
     // dispatch to redux
     dispatch(setUsername(trimmedInputtedUsername));
