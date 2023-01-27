@@ -6,6 +6,7 @@ const Player = require('./models/player');
 const Room = require('./models/room');
 // eslint-disable-next-line no-unused-vars
 const Team = require('./models/team');
+const playerSeed = require('./seeds/playerSeeds');
 
 // Import the smaller seeding functions that we'll use:
 const seedDefaultWordpack = require('./seeds/seedDefaultWordpack');
@@ -16,6 +17,7 @@ const seed = async () => {
 
   await seedDefaultWordpack();
   await seedDuetWordpack();
+  await playerSeed();
 
   console.log('DONE RUNNING SEED...');
 };
