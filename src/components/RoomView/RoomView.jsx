@@ -306,16 +306,12 @@ const RoomView = () => {
       }
     });
     onValue(guessesRemainingRef, (snapshot) => {
-      console.log('hitting guesses remaining');
       if (snapshot.exists()) {
         //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
         const guessesRemaining = snapshot.val();
-        console.log('in roomView before dispatch', guessesRemaining);
+        //   players get one extra guess than the spymaster allows
         dispatch(setGuessesRemaining(guessesRemaining));
-        console.log('guesses remaining in onValue after dispatch', guessesRemaining);
         if (guessesRemaining <= 0) {
-          console.log('hitting end turn');
-          console.log('status inside guessesRemaining', { gameStatus });
           endTurn();
         }
       }
@@ -325,7 +321,6 @@ const RoomView = () => {
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
   const endTurn = () => {
-    console.log('ending turn');
     let nextStatus;
     // get gameref
     get(gameRef).then((snapshot) => {
