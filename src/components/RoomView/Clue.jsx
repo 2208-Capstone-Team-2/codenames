@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { setCurrentClue } from '../../store/clueSlice';
+import { setCurrentClue, setGuessesRemaining } from '../../store/clueSlice';
 import { useDispatch } from 'react-redux';
 import { database } from '../../utils/firebase';
-import { ref, child, push, update } from 'firebase/database';
+import { ref, child, push, update, set } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import pluralize from 'pluralize';
 import { Button } from '@mui/material';
@@ -23,6 +23,7 @@ const Clue = () => {
     arrayToCheck.push(gameboard[i].word.toUpperCase());
   }
   let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
+  let guessesRemainingRef = ref(database, 'rooms/' + roomId + '/guessesRemaining/');
 
   const dispatch = useDispatch();
 
@@ -70,7 +71,7 @@ const Clue = () => {
 
       dispatch(setCurrentClue(clueData));
       update(cluesRef, updates);
-      console.log('submitting clue');
+      set(guessesRemainingRef, clueNumber);
       // store the clue in clueHistory and as current clue
       // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
       let nextGameStatus;

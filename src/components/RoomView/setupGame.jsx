@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
-
+import { setStatus } from '../../store/gameSlice';
+import { useDispatch } from 'react-redux';
 const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState([]);
   const [selectedWordPackId, setSelectedWordPackId] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const roomId = useSelector((state) => state.player.roomId);
-
+  const dispatch = useDispatch();
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   //----------------fetch all packs for users to select from-----------------//

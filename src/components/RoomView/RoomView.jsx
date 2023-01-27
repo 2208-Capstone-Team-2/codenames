@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
@@ -30,6 +30,7 @@ import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBystanderSlice';
 import Clue from './Clue';
 import GuessesRemaining from './GuessesRemaining';
+import { setGuessesRemaining } from '../../store/clueSlice';
 
 const RoomView = () => {
   // for room nav
@@ -42,9 +43,6 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const currentClue = useSelector((state) => state.clues.currentClue);
-  const clueHistory = useSelector((state) => state.clues.clueHistory);
-  const [loading, setLoading] = useState(false);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
@@ -56,11 +54,12 @@ const RoomView = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-  console.log(gameStatus);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+  let guessesRemainingRef = ref(database, 'rooms/' + roomId + '/guessesRemaining');
+
   const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
     return spy.playerId;
   });
@@ -160,6 +159,8 @@ const RoomView = () => {
         dispatch(setTeam1RemainingCards(team1RemainingCards));
         dispatch(setTeam2RemainingCards(team2RemainingCards));
 
+        // i think we can prob change the bottom 10 lines into just this...
+        // dispatch(setStatus(game.gameStatus));
         if (game.team1RemainingCards && game.team2RemainingCards) {
           if (game.gameStatus === 'team1SpyTurn') {
             dispatch(setStatus('team1SpyTurn'));
@@ -219,7 +220,6 @@ const RoomView = () => {
             let spymaster = snapshot.val();
             let spymasterId = Object.keys(spymaster);
             if (spymasterId.includes(playerId)) {
-              console.log('setting spy board...');
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {};
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -305,7 +305,50 @@ const RoomView = () => {
         });
       }
     });
+    onValue(guessesRemainingRef, (snapshot) => {
+      console.log('hitting guesses remaining');
+      if (snapshot.exists()) {
+        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
+        const guessesRemaining = snapshot.val();
+        console.log('in roomView before dispatch', guessesRemaining);
+        dispatch(setGuessesRemaining(guessesRemaining));
+        console.log('guesses remaining in onValue after dispatch', guessesRemaining);
+        if (guessesRemaining <= 0) {
+          console.log('hitting end turn');
+          console.log('status inside guessesRemaining', { gameStatus });
+          endTurn();
+        }
+      }
+    });
   }, []);
+
+  // this function works everywhere else without having to 'get' the gamestatus from firebase
+  // it would NOT cooperate or pull accurate game status from redux. :|
+  const endTurn = () => {
+    console.log('ending turn');
+    let nextStatus;
+    // get gameref
+    get(gameRef).then((snapshot) => {
+      const doesGameExist = snapshot.exists();
+      if (doesGameExist) {
+        let game = snapshot.val();
+        if (game.team1RemainingCards && game.team2RemainingCards) {
+          if (game.gameStatus === 'ready') {
+            console.log('why is it still ready?');
+          }
+          if (game.gameStatus === 'team1OpsTurn') {
+            console.log('hitting next status');
+            nextStatus = 'team2SpyTurn';
+            update(gameRef, { gameStatus: nextStatus });
+          }
+          if (game.gameStatus === 'team2OpsTurn') {
+            nextStatus = 'team1SpyTurn';
+            update(gameRef, { gameStatus: nextStatus });
+          }
+        }
+      }
+    });
+  };
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

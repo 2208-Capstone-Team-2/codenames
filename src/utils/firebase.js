@@ -19,19 +19,12 @@ export const firebaseConfig = {
   // measurementId: 'G-9YXEWYWX70',
 
   apiKey: 'AIzaSyCRAgTs-YufUrv7XCFiQ3DRZ1_fcjBZgkc',
-
   authDomain: 'oliviascodenames.firebaseapp.com',
-
   databaseURL: 'https://oliviascodenames-default-rtdb.firebaseio.com',
-
   projectId: 'oliviascodenames',
-
   storageBucket: 'oliviascodenames.appspot.com',
-
   messagingSenderId: '1036661737403',
-
   appId: '1:1036661737403:web:e7a9538466919200b5669e',
-
   measurementId: 'G-LCWXM3Y6F3',
 };
 

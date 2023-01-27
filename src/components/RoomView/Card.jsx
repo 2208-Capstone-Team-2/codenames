@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get } from 'firebase/database';
+import { ref, update, get, set } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
-
+import { setGuessesRemaining } from '../../store/clueSlice';
+import { useDispatch } from 'react-redux';
 const Card = ({ word }) => {
   const { playerId, roomId } = useSelector((state) => state.player);
   const { team1Id, teamOneOperatives } = useSelector((state) => state.teamOne);
@@ -16,11 +17,11 @@ const Card = ({ word }) => {
   const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
   const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
   const [teamsCard, setTeamsCard] = useState(0);
-
+  const guessesRemaining = useSelector((state) => state.clues.guessesRemaining);
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
-  let spymasterCardRef = ref(database, `rooms/${roomId}/spymasterGameboard/${word.id}`);
+  let guessesRemainingRef = ref(database, 'rooms/' + roomId + '/guessesRemaining');
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -47,7 +48,6 @@ const Card = ({ word }) => {
         const doesCardExist = snapshot.exists();
         if (doesCardExist) {
           update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-          update(spymasterCardRef, { isVisibleToAll: true });
         } else {
           console.log('no card');
         }
@@ -68,7 +68,8 @@ const Card = ({ word }) => {
         update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
-        // decrement from guesses remaining from spymasters clue
+        set(guessesRemainingRef, guessesRemaining - 1);
+
         // if guesses remaining === 0, endTurn()
       }
       if (cardBelongsTo === team2Id) {
@@ -78,7 +79,6 @@ const Card = ({ word }) => {
       }
     } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
       update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-      update(spymasterCardRef, { isVisibleToAll: true });
 
       if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
@@ -93,7 +93,8 @@ const Card = ({ word }) => {
       if (cardBelongsTo === team2Id) {
         console.log('thats correct!');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
-        // decrement from guesses remaining from spymasters clue
+        set(guessesRemainingRef, guessesRemaining - 1);
+
         // if guesses remaining === 0, endTurn()
       }
       if (cardBelongsTo === team1Id) {
