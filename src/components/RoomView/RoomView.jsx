@@ -32,6 +32,8 @@ const RoomView = () => {
 
   // frontend state
   const { playerId, username, isHost } = useSelector((state) => state.player);
+  console.log('playerId:', playerId);
+
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
@@ -73,7 +75,6 @@ const RoomView = () => {
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
-      console.log(`inside the onValue for playersInRoomRef`);
       if (snapshot.exists()) {
         const players = snapshot.val();
         const values = Object.values(players);
@@ -125,13 +126,20 @@ const RoomView = () => {
         }
       }
     });
+  }, []);
 
+  useEffect(() => {
     // Look to see if there are cards already loaded for the room
     onValue(cardsRef, async (cardSnapshot) => {
       // for some reason, i'm having trouble accessing the redux teams
       //  data even though it exists on firebase and redux
       // tried a few diff ways and this is what i could get to work. bulky :(
+      console.log('Inside cardsRef, where the ref looks like:', cardsRef['_path']);
+
       if (cardSnapshot.exists()) {
+        console.log('thinks cardref snapshot exists!');
+        console.log('playerId inside cardSnapshot.exists is:', playerId);
+
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
@@ -184,9 +192,12 @@ const RoomView = () => {
           }
         });
         get(teamOneOperativesRef).then((snapshot) => {
+          console.log('GETTING teamOneOperativesRef...');
           if (snapshot.exists()) {
+            console.log('thinks snapshot exists');
             let operatives = snapshot.val();
             let operativesIds = Object.keys(operatives);
+            console.log('operative ids from firebase:', operativesIds);
             if (operativesIds.includes(playerId)) {
               console.log('setting opertive board...');
               //update our redux to reflect that
@@ -221,10 +232,11 @@ const RoomView = () => {
             }
           }
         });
+      } else {
+        console.log('does NOT think cardref snapshot exists!');
       }
     });
-  }, []);
-
+  }, [playerId]);
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,

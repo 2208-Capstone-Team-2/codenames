@@ -4,10 +4,12 @@ import './teamOneBox.css';
 import { get, ref, set, child, onValue, onDisconnect } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
+import { useParams } from 'react-router-dom';
 
 const TeamOneBox = () => {
-  const { playerId, roomId, username } = useSelector((state) => state.player);
-  console.log('roomId in TeamOneBox:', roomId);
+  const { roomId } = useParams();
+
+  const { playerId, username } = useSelector((state) => state.player);
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
   const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
   const dispatch = useDispatch();
@@ -116,6 +118,7 @@ const TeamOneBox = () => {
       });
     }
   };
+
   useEffect(() => {
     onValue(teamOneOperativesRef, async (snapshot) => {
       // if operatives exist
@@ -129,11 +132,13 @@ const TeamOneBox = () => {
         dispatch(setTeamOneOperatives([]));
       }
     });
+
     onValue(playerOnTeamOneOperativesRef, async (snapshot) => {
       if (snapshot.exists()) {
         onDisconnect(playerOnTeamOneOperativesRef).remove(playerOnTeamOneOperativesRef);
       }
     });
+
     onValue(teamOneSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
         const teamOneSpymasterFirebase = snapshot.val();
@@ -143,12 +148,14 @@ const TeamOneBox = () => {
         dispatch(setTeamOneSpymaster([]));
       }
     });
+
     onValue(playerOnTeamOneSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
         onDisconnect(playerOnTeamOneSpymasterRef).remove(playerOnTeamOneSpymasterRef);
       }
     });
   }, []);
+
   return (
     <div className="redBoxCard">
       <div>Team 1</div>

@@ -69,13 +69,10 @@ function SimpleRoom() {
         try {
           // query backend player model to see if one exists with this uid
           const foundPlayer = await axios.get(`/api/player/${playerId}`);
-          console.log('We found the player in the backend with your firebase uid!');
-          console.log(foundPlayer);
           player = foundPlayer.data;
           // Use the found player's username in the backend to pre-fill our form's text input
           setInputtedUsername(foundPlayer.data.username);
         } catch (err) {
-          console.log('did not find player in the backend for this firebase uid');
           // if player doesn't exist in db... create one right now!
           const createdPlayer = await axios.post(`/api/player`, { playerId });
           player = createdPlayer.data;
@@ -106,12 +103,9 @@ function SimpleRoom() {
     if (trimmedInputtedUsername === '') {
       // stop now! and display error. user needs to resubmit. - Or use formik/yup
     }
-    console.log(roomId, playerId);
     // Update our player's model with this new username
     const bodyToSubmit = { username: trimmedInputtedUsername, roomId };
-    const updatedPlayer = await axios.put(`/api/player/${playerId}`, bodyToSubmit);
-    console.log('player in backend now looks like:');
-    console.log(updatedPlayer.data);
+    await axios.put(`/api/player/${playerId}`, bodyToSubmit);
 
     // Update redux
     dispatch(setUsername(trimmedInputtedUsername));
@@ -125,7 +119,7 @@ function SimpleRoom() {
     const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
     // update(nestedPlayerRef, { playerId, username: trimmedInputtedUsername });
     // other way of doing it:
-    let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
+    const playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
     set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
 
     //// If they're the host, put that info there too.
@@ -141,7 +135,7 @@ function SimpleRoom() {
     //// remove the outer player ref
     onDisconnect(playerRef).remove();
 
-    // Todo: something to trigger hiding this popup
+    // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);
   };
   const [inputtedUsername, setInputtedUsername] = useState('');

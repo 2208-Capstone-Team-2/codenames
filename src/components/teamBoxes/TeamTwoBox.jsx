@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { child, get, onDisconnect, onValue, ref, set } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
+import { useParams } from 'react-router-dom';
 const TeamTwoBox = () => {
-  const { playerId, roomId, username } = useSelector((state) => state.player);
-  console.log('roomId in TeamTwoBox:', roomId);
+  const { roomId } = useParams();
+
+  const { playerId, username } = useSelector((state) => state.player);
 
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
