@@ -29,6 +29,8 @@ import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBystanderSlice';
 import Clue from './Clue';
+import GuessesRemaining from './GuessesRemaining';
+
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -331,6 +333,7 @@ const RoomView = () => {
               <Item style={styles.sx.PlayerContainer}>
                 Turn:
                 {gameStatus}
+                <GuessesRemaining />
               </Item>
             )}
           </Grid>
