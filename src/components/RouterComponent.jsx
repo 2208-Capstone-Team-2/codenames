@@ -11,7 +11,7 @@ const RouterComponent = () => {
       {/*-------------------- home page---------------------*/}
       <Route path="/" element={<SimpleHomepage />} />
       {/*--------------------a page for room initialization---------------------*/}
-      <Route path="/room/:roomName" element={<RoomContainer />} />
+      <Route path="/room/:roomId" element={<RoomContainer />} />
       <Route path="/404" element={<Error />} />
     </Routes>
   );

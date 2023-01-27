@@ -26,21 +26,19 @@ import axios from 'axios';
 import Clue from './Clue';
 const RoomView = () => {
   // for room nav
-  const { roomName } = useParams('');
-  setRoomId(roomName);
+  const { roomId } = useParams();
+  setRoomId(roomId);
   const dispatch = useDispatch();
 
-  console.log(`roomId: `, roomId);
-  console.log(`roomName: `, roomName);
   // frontend state
-  const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
+  const { playerId, username, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
 
   // firebase room  & players reference
-  let playersInRoomRef = ref(database, 'rooms/' + roomName + '/players/');
+  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
@@ -73,19 +71,6 @@ const RoomView = () => {
   const everyonesHere = isEveryRoleFilled();
 
   useEffect(() => {
-    //when a user joins room, this checks to see if it exists
-    let roomRef = ref(database, 'rooms/' + roomName);
-
-    get(roomRef).then((snapshot) => {
-      console.log('hitting room ref');
-      const doesRoomExist = snapshot.exists();
-      if (doesRoomExist) {
-        console.log(snapshot.val());
-      } else {
-        console.log('nothing here');
-      }
-    });
-
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
       console.log(`inside the onValue for playersInRoomRef`);

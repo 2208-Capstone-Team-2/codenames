@@ -11,18 +11,17 @@ import { ref, set } from 'firebase/database';
 function SimpleHomepage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let roomRef;
   const clickHandler = async () => {
     // create room in backend
     const { data } = await axios.post(`/api/room/`);
 
     // get the roomName so we can navigate to that room's page.
-    const roomName = data.name;
+    const roomId = data.name;
 
-    const roomRef = ref(database, `rooms/${roomName}`);
+    const roomRef = ref(database, `rooms/${roomId}`);
     // create room references on firebase
     set(roomRef, {
-      roomId: roomName, // i want to change this key to roomname
+      roomId, // i want to change this key to roomname
       // can't set host yet because player not yet created/looked for
       // can't set players yet for same reason as above
       game: {
@@ -35,7 +34,7 @@ function SimpleHomepage() {
     // Since we are the ones that made the room, make us the host in our redux.
     dispatch(setIsHost(true));
 
-    return navigate(`/room/${roomName}`);
+    return navigate(`/room/${roomId}`);
   };
 
   return (

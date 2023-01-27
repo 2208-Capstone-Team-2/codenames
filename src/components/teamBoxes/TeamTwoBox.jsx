@@ -6,6 +6,8 @@ import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 const TeamTwoBox = () => {
   const { playerId, roomId, username } = useSelector((state) => state.player);
+  console.log('roomId in TeamTwoBox:', roomId);
+
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);

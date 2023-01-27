@@ -7,6 +7,7 @@ import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSl
 
 const TeamOneBox = () => {
   const { playerId, roomId, username } = useSelector((state) => state.player);
+  console.log('roomId in TeamOneBox:', roomId);
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
   const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
   const dispatch = useDispatch();

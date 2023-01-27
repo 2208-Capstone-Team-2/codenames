@@ -16,17 +16,16 @@ import { setBystanderTeamId, setAssassinTeamId } from './store/assassinAndBystan
 
 function SimpleRoom() {
   // todo: optimize if this is the person that just created the room??
-  const { roomName } = useParams();
+  const { roomId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { playerId, roomId, isHost } = useSelector((state) => state.player);
+  const { playerId, isHost } = useSelector((state) => state.player);
 
   const fetchRoom = async () => {
     setLoading(true);
     try {
-      const room = await axios.get(`/api/room/${roomName}`);
-      console.log(room);
+      const room = await axios.get(`/api/room/${roomId}`);
       setLoading(false);
 
       // Now that we have room from backend, set all the redux pieces relevant to it.
@@ -65,7 +64,6 @@ function SimpleRoom() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const playerId = user.uid;
-        console.log(user.uid);
         let player = null;
 
         try {
@@ -110,7 +108,7 @@ function SimpleRoom() {
     }
     console.log(roomId, playerId);
     // Update our player's model with this new username
-    const bodyToSubmit = { username: trimmedInputtedUsername, roomName };
+    const bodyToSubmit = { username: trimmedInputtedUsername, roomId };
     const updatedPlayer = await axios.put(`/api/player/${playerId}`, bodyToSubmit);
     console.log('player in backend now looks like:');
     console.log(updatedPlayer.data);
