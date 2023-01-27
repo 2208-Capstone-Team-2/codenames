@@ -1,29 +1,24 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './leaderboard.css';
-const dummyData = [
-  {
-    username: 'Ben',
-    wins: 112,
-  },
-  {
-    username: 'Louis',
-    wins: 52,
-  },
-  {
-    username: 'Rue',
-    wins: 56,
-  },
-  {
-    username: 'Abby',
-    wins: 56,
-  },
-  {
-    username: 'Karat',
-    wins: 72,
-  },
-];
 const Leaderboard = () => {
-  dummyData.sort((a, b) => b.wins - a.wins);
+  const [allPlayers, setAllPlayers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const getPlayers = async () => {
+    setLoading(true);
+    // Grabbing players from the backend, later we could make this a little different
+    //--- Maybe we wouldn't want to get players who have 0 wins, or you have to gave a certain number
+    //--- of wins to be on the leaderboard?
+    const { data } = await axios.get('/api/player/allPlayers');
+    // Sort in place based on wins, then set it to local state, although this can later be redux state
+    data.sort((a, b) => b.wins - a.wins);
+    setAllPlayers(data);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getPlayers();
+  }, []);
+  if (loading) return 'Loading...';
   return (
     <div>
       LEADERBOARD
@@ -35,7 +30,7 @@ const Leaderboard = () => {
           </tr>
         </thead>
         <tbody>
-          {dummyData.map((player, index) => (
+          {allPlayers.map((player, index) => (
             <tr key={index}>
               <td>{player.username}</td>
               <td>{player.wins}</td>
