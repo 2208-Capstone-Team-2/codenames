@@ -11,6 +11,7 @@ import { ref, set } from 'firebase/database';
 function SimpleHomepage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  let roomRef;
   const clickHandler = async () => {
     // create room in backend
     const { data } = await axios.post(`/api/room/`);
@@ -18,8 +19,8 @@ function SimpleHomepage() {
     // get the roomName so we can navigate to that room's page.
     const roomName = data.name;
 
-    // create room references on firebase
     const roomRef = ref(database, `rooms/${roomName}`);
+    // create room references on firebase
     set(roomRef, {
       roomId: roomName, // i want to change this key to roomname
       // can't set host yet because player not yet created/looked for

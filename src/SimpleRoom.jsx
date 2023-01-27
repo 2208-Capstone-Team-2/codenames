@@ -16,7 +16,6 @@ import { setBystanderTeamId, setAssassinTeamId } from './store/assassinAndBystan
 
 function SimpleRoom() {
   // todo: optimize if this is the person that just created the room??
-
   const { roomName } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ function SimpleRoom() {
   const { playerId, roomId, isHost } = useSelector((state) => state.player);
 
   const fetchRoom = async () => {
-    console.log('inside fetchroom');
     setLoading(true);
     try {
       const room = await axios.get(`/api/room/${roomName}`);
@@ -67,6 +65,7 @@ function SimpleRoom() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const playerId = user.uid;
+        console.log(user.uid);
         let player = null;
 
         try {
@@ -126,10 +125,10 @@ function SimpleRoom() {
 
     //// Update the nested-in-room player
     const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
-    update(nestedPlayerRef, { playerId, username: trimmedInputtedUsername });
+    // update(nestedPlayerRef, { playerId, username: trimmedInputtedUsername });
     // other way of doing it:
-    // let playersInRoomRef = ref(database, `rooms/${roomId}/players`);
-    // set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
+    let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
+    set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
 
     //// If they're the host, put that info there too.
     if (isHost) {
@@ -155,8 +154,8 @@ function SimpleRoom() {
     border: '2px black dashed',
   };
 
-  console.log('inside simple room!');
   if (loading) return <p>loading...</p>;
+
   return (
     <div>
       {!playerId ? (

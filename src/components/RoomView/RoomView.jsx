@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRoomId, setIsHost } from '../../store/playerSlice';
+import { setRoomId } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
+import { onValue, ref, get } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { Container } from '@mui/material';
@@ -15,7 +13,6 @@ import Popup from 'reactjs-popup';
 import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
-import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
 import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
@@ -25,37 +22,29 @@ import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
 import { setClueHistory } from '../../store/clueSlice.js';
 import axios from 'axios';
-import { setTeam1Id } from '../../store/teamOneSlice';
-import { setTeam2Id } from '../../store/teamTwoSlice';
-import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBystanderSlice';
+
 import Clue from './Clue';
 const RoomView = () => {
   // for room nav
-  const params = useParams('');
-  const roomIdFromParams = params.id;
-  setRoomId(roomIdFromParams);
-
+  const { roomName } = useParams('');
+  setRoomId(roomName);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
+  console.log(`roomId: `, roomId);
+  console.log(`roomName: `, roomName);
   // frontend state
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
   const { allPlayers } = useSelector((state) => state.allPlayers);
-  const currentClue = useSelector((state) => state.clues.currentClue);
-  const clueHistory = useSelector((state) => state.clues.clueHistory);
-  const [loading, setLoading] = useState(false);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
 
   // firebase room  & players reference
-  let roomRef = ref(database, 'rooms/' + roomId);
-  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
-  let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
+  let playersInRoomRef = ref(database, 'rooms/' + roomName + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-  console.log(gameStatus);
+
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
@@ -84,8 +73,22 @@ const RoomView = () => {
   const everyonesHere = isEveryRoleFilled();
 
   useEffect(() => {
+    //when a user joins room, this checks to see if it exists
+    let roomRef = ref(database, 'rooms/' + roomName);
+
+    get(roomRef).then((snapshot) => {
+      console.log('hitting room ref');
+      const doesRoomExist = snapshot.exists();
+      if (doesRoomExist) {
+        console.log(snapshot.val());
+      } else {
+        console.log('nothing here');
+      }
+    });
+
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
+      console.log(`inside the onValue for playersInRoomRef`);
       if (snapshot.exists()) {
         const players = snapshot.val();
         const values = Object.values(players);
