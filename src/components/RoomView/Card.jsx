@@ -20,7 +20,6 @@ const Card = ({ word }) => {
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
-  let spymasterCardRef = ref(database, `rooms/${roomId}/spymasterGameboard/${word.id}`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
@@ -47,7 +46,6 @@ const Card = ({ word }) => {
         const doesCardExist = snapshot.exists();
         if (doesCardExist) {
           update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-          update(spymasterCardRef, { isVisibleToAll: true });
         } else {
           console.log('no card');
         }
@@ -78,7 +76,6 @@ const Card = ({ word }) => {
       }
     } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
       update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-      update(spymasterCardRef, { isVisibleToAll: true });
 
       if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');

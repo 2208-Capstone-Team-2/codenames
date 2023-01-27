@@ -4,6 +4,9 @@ const initialState = {
   status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
+  showResetButton: false,
+  winner: '',
+  loser: '',
 };
 
 export const gameSlice = createSlice({
@@ -19,8 +22,18 @@ export const gameSlice = createSlice({
     setTeam2RemainingCards: (state, action) => {
       state.team2RemainingCards = action.payload;
     },
+    setShowResetButton: (state, action) => {
+      state.showResetButton = action.payload;
+    },
+    setWinner: (state, action) => {
+      state.winner = action.payload;
+    },
+    setLoser: (state, action) => {
+      state.loser = action.payload;
+    },
   },
 });
 
-export const { setStatus, setTeam1RemainingCards, setTeam2RemainingCards } = gameSlice.actions;
+export const { setStatus, setTeam1RemainingCards, setTeam2RemainingCards, setShowResetButton, setWinner, setLoser } =
+  gameSlice.actions;
 export default gameSlice.reducer;
