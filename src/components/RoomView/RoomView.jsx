@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { onValue, ref, set, get, child, onDisconnect } from 'firebase/database';
+import { onValue, ref, set, get, child, onDisconnect, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { Container } from '@mui/material';
@@ -16,7 +16,14 @@ import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setShowResetButton } from '../../store/gameSlice';
+import {
+  setTeam1RemainingCards,
+  setTeam2RemainingCards,
+  setStatus,
+  setShowResetButton,
+  setWinner,
+  setLoser,
+} from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
@@ -27,8 +34,7 @@ import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
-import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
-import { setSpymasterWords } from '../../store/spymasterWordsSlice';
+import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBystanderSlice';
 import Clue from './Clue';
 import ResetGame from './ResetGame';
 
@@ -37,7 +43,6 @@ const RoomView = () => {
   const params = useParams('');
   const roomIdFromParams = params.id;
   setRoomId(roomIdFromParams);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -59,14 +64,10 @@ const RoomView = () => {
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
   console.log(gameStatus);
-  let spymasterCardsRef = ref(database, `rooms/${roomId}/spymasterGameboard`);
-
-  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
-    return operative.playerId;
-  });
-  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
-    return operative.playerId;
-  });
+  const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
+  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
+  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
+  const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
     return spy.playerId;
   });
@@ -173,7 +174,6 @@ const RoomView = () => {
           dispatch(setTeam1RemainingCards(9));
           dispatch(setTeam2RemainingCards(8));
           dispatch(setWordsInGame([]));
-          dispatch(setSpymasterWords([]));
           dispatch(setCurrentClue({}));
           dispatch(setClueHistory([]));
           dispatch(setShowResetButton(false));
@@ -199,48 +199,134 @@ const RoomView = () => {
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
-          console.log('team 1 wins!');
+          // Update game state to "complete" in firebase
+          update(gameRef, { gameStatus: 'complete' });
+          // Update game state to "complete" in redux
+          dispatch(setStatus('complete'));
+          //Set redux winner to team 1
+          dispatch(setWinner('team-1'));
+          set(child(gameRef, 'winner'), 'team-1');
+          //Should we set a winner in firebase? Probably...
+          //Set redux loser to team 2
+          dispatch(setLoser('team-2'));
+          set(child(gameRef, 'loser'), 'team-2');
           dispatch(setShowResetButton(true));
         }
         if (game.team2RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
-          console.log('team 2 wins!');
+          console.log('this should not get hit at all');
+          // Update game state to "complete" in firebase
+          update(gameRef, { gameStatus: 'complete' });
+          // Update game state to "complete" in redux
+          dispatch(setStatus('complete'));
+          //Set redux winner to team 2
+          dispatch(setWinner('team-2'));
+          set(child(gameRef, 'winner'), 'team-2');
+          //Should we set a winner in firebase? Probably...
+          //Set redux loser to team 1
+          dispatch(setLoser('team-1'));
+          set(child(gameRef, 'loser'), 'team-1');
           dispatch(setShowResetButton(true));
         }
       }
     });
 
-    // whenever card values are updated in firebase, update redux
-    onValue(cardsRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        const cardsFromSnapshot = snapshot.val();
-        const values = Object.values(cardsFromSnapshot);
-        dispatch(setWordsInGame(values));
-      }
-    });
-
-    onValue(clueHistoryRef, (snapshot) => {
-      if (snapshot.exists()) {
-        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-        const clues = snapshot.val();
-        let history = [];
-        //this is to access the data under random firebase key and put them in an iterable array
-        for (let clueKey in clues) {
-          history.push(clues[clueKey]);
-        }
-        dispatch(setClueHistory(history));
-      }
-    });
-
     // Look to see if there are cards already loaded for the room
-    onValue(spymasterCardsRef, async (snapshot) => {
-      // If there are cards in /room/roomId/cards
-      if (snapshot.exists()) {
-        //update our redux to reflect that
-        const cardsFromSnapshot = snapshot.val();
-        const values = Object.values(cardsFromSnapshot);
-        dispatch(setSpymasterWords(values));
+    onValue(cardsRef, async (cardSnapshot) => {
+      // for some reason, i'm having trouble accessing the redux teams
+      //  data even though it exists on firebase and redux
+      // tried a few diff ways and this is what i could get to work. bulky :(
+      if (cardSnapshot.exists()) {
+        get(teamOneSpymasterRef).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            let spymaster = snapshot.val();
+            let spymasterId = Object.keys(spymaster);
+            if (spymasterId.includes(playerId)) {
+              console.log('setting spy board...');
+              //get set of cards with team ids from backend and set spymaster words
+              let wordsWithTeamIds = {};
+              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+              spyWords.data.forEach(
+                (card) =>
+                  (wordsWithTeamIds[card.id] = {
+                    id: card.id,
+                    isVisibleToAll: card.isVisibleToAll,
+                    word: card.word.word,
+                    wordId: card.wordId,
+                    boardId: card.boardId,
+                    teamId: card.teamId,
+                  }),
+              );
+              const values = Object.values(wordsWithTeamIds);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
+        get(teamTwoSpymasterRef).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            let spymaster = snapshot.val();
+            let spymasterId = Object.keys(spymaster);
+            if (spymasterId.includes(playerId)) {
+              console.log('setting spy board...');
+
+              //get set of cards with team ids from backend and set spymaster words
+              let wordsWithTeamIds = {};
+              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+              spyWords.data.forEach(
+                (card) =>
+                  (wordsWithTeamIds[card.id] = {
+                    id: card.id,
+                    isVisibleToAll: card.isVisibleToAll,
+                    word: card.word.word,
+                    wordId: card.wordId,
+                    boardId: card.boardId,
+                    teamId: card.teamId,
+                  }),
+              );
+              const values = Object.values(wordsWithTeamIds);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
+        get(teamOneOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
+              //update our redux to reflect that
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
+        onValue(clueHistoryRef, (snapshot) => {
+          if (snapshot.exists()) {
+            //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
+            const clues = snapshot.val();
+            let history = [];
+            //this is to access the data under random firebase key and put them in an iterable array
+            for (let clueKey in clues) {
+              history.push(clues[clueKey]);
+            }
+            dispatch(setClueHistory(history));
+          }
+        });
+        get(teamTwoOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
+              //update our redux to reflect that
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
       }
     });
   }, []);
