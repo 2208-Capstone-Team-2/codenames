@@ -58,9 +58,6 @@ const TeamTwoBox = () => {
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
         }
       });
-      get(teamTwoOperativesRef).then((snapshot) => {
-        dispatch(setTeamTwoOperatives(Object.values(snapshot.val())));
-      });
     }
   };
 
@@ -104,10 +101,6 @@ const TeamTwoBox = () => {
           // this code might be redundant, but I figured it could account for an edge case
           set(child(teamTwoSpymasterRef, playerId), { playerId, username });
         }
-      });
-      //Dispatch to redux
-      get(teamTwoSpymasterRef).then((snapshot) => {
-        dispatch(setTeamTwoSpymaster(Object.values(snapshot.val())));
       });
     }
   };
