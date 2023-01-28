@@ -4,7 +4,6 @@ const initialState = {
   status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
-  gameHistory: [],
   showResetButton: false,
   guessesRemaining: 0,
   winner: '',
@@ -43,6 +42,7 @@ export const gameSlice = createSlice({
     },
   },
 });
+
 export const {
   setStatus,
   setTeam1RemainingCards,

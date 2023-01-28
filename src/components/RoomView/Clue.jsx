@@ -22,7 +22,7 @@ const Clue = () => {
   for (let i = 0; i < gameboard.length; i++) {
     arrayToCheck.push(gameboard[i].word.toUpperCase());
   }
-  let gameHistoryRef = ref(database, 'rooms/' + roomId + '/game/' + 'history');
+  let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
 
   const dispatch = useDispatch();
 
@@ -69,8 +69,10 @@ const Clue = () => {
       updates[newClueKey] = clueData;
 
       dispatch(setCurrentClue(clueData));
-      update(gameHistoryRef, updates);
-      console.log('submitting clue');
+      update(cluesRef, updates);
+
+      // store the clue in clueHistory and as current clue
+      // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
       let nextGameStatus;
       // if its team1spy submission, team1Ops goes next
       if (gameStatus === 'team1SpyTurn') {
