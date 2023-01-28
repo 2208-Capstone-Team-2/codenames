@@ -22,7 +22,7 @@ import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
-import ClueHistory from './ClueHistory.jsx';
+import { setGameHistory } from '../../store/gameSlice';
 import { setClueHistory } from '../../store/clueSlice.js';
 import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
@@ -30,6 +30,7 @@ import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/spymasterWordsSlice';
 import { setSpymasterWords } from '../../store/spymasterWordsSlice';
 import Clue from './Clue';
+import GameLog from './gameLog';
 const RoomView = () => {
   // for room nav
   const params = useParams('');
@@ -44,6 +45,7 @@ const RoomView = () => {
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const currentClue = useSelector((state) => state.clues.currentClue);
   const clueHistory = useSelector((state) => state.clues.clueHistory);
+  const gameHistory = useSelector((state) => state.game.gameHistory);
   const [loading, setLoading] = useState(false);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
@@ -55,8 +57,7 @@ const RoomView = () => {
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-  let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-  console.log(gameStatus);
+  let gameHistoryRef = ref(database, 'rooms/' + roomId + '/game/' + 'history');
   let spymasterCardsRef = ref(database, `rooms/${roomId}/spymasterGameboard`);
 
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
@@ -200,7 +201,7 @@ const RoomView = () => {
         dispatch(setWordsInGame(values));
       }
     });
-    onValue(clueHistoryRef, (snapshot) => {
+    onValue(gameHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
         //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
         const clues = snapshot.val();
@@ -209,10 +210,21 @@ const RoomView = () => {
         for (let clueKey in clues) {
           history.push(clues[clueKey]);
         }
-        dispatch(setClueHistory(history));
+        dispatch(setGameHistory(history));
       }
     });
-
+    onValue(gameHistoryRef, (snapshot) => {
+      if (snapshot.exists()) {
+        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
+        const data = snapshot.val();
+        let history = [];
+        //this is to access the data under random firebase key and put them in an iterable array
+        for (let historyKey in data) {
+          history.push(data[historyKey]);
+        }
+        dispatch(setGameHistory(history));
+      }
+    });
     // Look to see if there are cards already loaded for the room
     onValue(spymasterCardsRef, async (snapshot) => {
       // If there are cards in /room/roomId/cards
@@ -247,20 +259,11 @@ const RoomView = () => {
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
-            {gameStatus !== 'ready' && (
-              <Item style={styles.sx.PlayerContainer}>
-                Turn:
-                {gameStatus}
-              </Item>
-            )}
+            <GameLog />
+            <Clue />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamOneBox />
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            {/* import clueHistory component */}
-            <ClueHistory />
-            <Clue />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamTwoBox />

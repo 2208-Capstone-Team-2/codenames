@@ -4,6 +4,7 @@ const initialState = {
   status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
+  gameHistory: [],
 };
 
 export const gameSlice = createSlice({
@@ -19,8 +20,11 @@ export const gameSlice = createSlice({
     setTeam2RemainingCards: (state, action) => {
       state.team2RemainingCards = action.payload;
     },
+    setGameHistory: (state, action) => {
+      state.gameHistory = action.payload;
+    },
   },
 });
 
-export const { setStatus, setTeam1RemainingCards, setTeam2RemainingCards } = gameSlice.actions;
+export const { setStatus, setTeam1RemainingCards, setTeam2RemainingCards, setGameHistory } = gameSlice.actions;
 export default gameSlice.reducer;
