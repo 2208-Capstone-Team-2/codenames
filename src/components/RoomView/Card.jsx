@@ -5,8 +5,7 @@ import { ref, update, get, set, child } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
-import { setGuessesRemaining } from '../../store/clueSlice';
-import { useDispatch } from 'react-redux';
+
 const Card = ({ word }) => {
   const { playerId, roomId } = useSelector((state) => state.player);
   const { team1Id, teamOneOperatives } = useSelector((state) => state.teamOne);

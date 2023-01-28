@@ -172,6 +172,19 @@ const RoomView = () => {
         if (guessesRemaining <= 0) {
           endTurn();
         }
+
+        /* when game is 'reset' it sets the firebase game status 
+        to 'ready' which triggers the redux cleanup below */
+        if (game.gameStatus === 'ready') {
+          dispatch(setStatus('ready'));
+          dispatch(setTeam1RemainingCards(9));
+          dispatch(setTeam2RemainingCards(8));
+          dispatch(setWordsInGame([]));
+          dispatch(setCurrentClue({}));
+          dispatch(setClueHistory([]));
+          dispatch(setGuessesRemaining(0));
+          dispatch(setShowResetButton(false));
+        }
         // i think we can prob change the bottom 10 lines into just this...
         // dispatch(setStatus(game.gameStatus));
         // if (game.team1RemainingCards && game.team2RemainingCards) {
@@ -200,6 +213,8 @@ const RoomView = () => {
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
           dispatch(setStatus('complete'));
+          dispatch(setGuessesRemaining(0));
+
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
@@ -220,6 +235,8 @@ const RoomView = () => {
           //Set redux winner to team 2
           dispatch(setWinner('team-2'));
           set(child(gameRef, 'winner'), 'team-2');
+          dispatch(setGuessesRemaining(0));
+
           //Should we set a winner in firebase? Probably...
           //Set redux loser to team 1
           dispatch(setLoser('team-1'));
