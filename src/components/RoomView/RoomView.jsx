@@ -16,14 +16,21 @@ import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus, setWinner, setLoser } from '../../store/gameSlice';
+import {
+  setTeam1RemainingCards,
+  setTeam2RemainingCards,
+  setStatus,
+  setShowResetButton,
+  setWinner,
+  setLoser,
+} from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
-import { setClueHistory } from '../../store/clueSlice.js';
+import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
@@ -31,6 +38,8 @@ import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBy
 import Clue from './Clue';
 import GuessesRemaining from './GuessesRemaining';
 import { setGuessesRemaining } from '../../store/clueSlice';
+
+import ResetGame from './ResetGame';
 
 const RoomView = () => {
   // for room nav
@@ -182,8 +191,11 @@ const RoomView = () => {
         //   }
         // }
 
-        // update cards remaining in redux and firebase
+        // josh's pseudocode:
+        // if game status === 'complete' --->
         if (game.team1RemainingCards === 0) {
+          // set firebase gameStatus to 'complete'
+          // set winner / set loser to redux
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
@@ -195,8 +207,11 @@ const RoomView = () => {
           //Set redux loser to team 2
           dispatch(setLoser('team-2'));
           set(child(gameRef, 'loser'), 'team-2');
+          dispatch(setShowResetButton(true));
         }
         if (game.team2RemainingCards === 0) {
+          // set firebase gameStatus to 'complete'
+          // set winner / set loser to redux
           console.log('this should not get hit at all');
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
@@ -209,6 +224,7 @@ const RoomView = () => {
           //Set redux loser to team 1
           dispatch(setLoser('team-1'));
           set(child(gameRef, 'loser'), 'team-1');
+          dispatch(setShowResetButton(true));
         }
       }
     });
@@ -364,6 +380,10 @@ const RoomView = () => {
                 <GuessesRemaining />
               </Item>
             )}
+
+            <Item style={styles.sx.PlayerContainer}>
+              <ResetGame />
+            </Item>
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamOneBox />

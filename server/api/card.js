@@ -66,6 +66,8 @@ function createRandomLayout(team1id, team2id, team3id, team4id) {
 // and array of workpack ids, creates 25 cards.
 router.post('/make25/forRoom/:roomId', async (req, res, next) => {
   try {
+    console.log('hitting make 25');
+
     // Get stuff out of req.body
     const { roomId } = req.params;
     const { selectedWordPackId } = req.body;
