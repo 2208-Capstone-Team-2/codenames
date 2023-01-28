@@ -3,9 +3,7 @@ import { useSelector } from 'react-redux';
 
 const GuessesRemaining = () => {
   const guessesRemaining = useSelector((state) => state.clues.guessesRemaining);
-  console.log(guessesRemaining);
-  if (guessesRemaining !== 0 && guessesRemaining !== undefined)
-    return <div>You have {guessesRemaining} guesses remaining</div>;
+  if (guessesRemaining) return <div>You have {guessesRemaining} guesses remaining</div>;
 };
 
 export default GuessesRemaining;

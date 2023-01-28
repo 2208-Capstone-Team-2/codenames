@@ -67,7 +67,6 @@ const Card = ({ word }) => {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
         set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
-        // set(guessesRemainingRef, guessesRemaining - 1);
       }
       if (cardBelongsTo === team2Id) {
         console.log('thats the other teams card! turn is over');
@@ -91,7 +90,6 @@ const Card = ({ word }) => {
         console.log('thats correct!');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
-        // set(guessesRemainingRef, guessesRemaining - 1);
       }
       if (cardBelongsTo === team1Id) {
         console.log('thats the other teams card! turn is over');
