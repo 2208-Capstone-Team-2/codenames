@@ -34,9 +34,15 @@ router.post('/', async (req, res, next) => {
   // Note: Even though this is a 'POST' we don't actually have a req.body that is needed.
   // I merely stuck to calling it 'post' because this route creates a new room.
   try {
-    const slug = randomWords({ exactly: 3, join: '-' }); // EG: happy-knight-work
-    // the chance of this is rare, but make sure a room with this slug doesn't exist yet:
-    // TODO!!
+    let slug = randomWords({ exactly: 3, join: '-' }); // EG: happy-knight-work
+
+    // the chance of this is VERY RARE, but make sure a room with this slug doesn't exist yet:
+    let roomWithThisSlug = await Room.findOne({ where: { name: slug } });
+    // If a room exists with this name,
+    while (roomWithThisSlug) {
+      slug = randomWords({ exactly: 3, join: '-' }); // Make another random slug
+      roomWithThisSlug = await Room.findOne({ where: { name: slug } }); // See if there's a room that exists with this name again.
+    }
 
     const room = await Room.create({ name: slug });
 

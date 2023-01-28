@@ -7,7 +7,7 @@ import FAQ from '../Lobby/FAQ';
 import HowToPlay from '../Lobby/HowToPlay';
 import CreateRoomButton from './CreateRoomButton';
 
-function SimpleHomepage() {
+function Home() {
   return (
     <div style={styles.sx.HomeContainer}>
       <div style={styles.sx.LoginContainer}>
@@ -20,4 +20,4 @@ function SimpleHomepage() {
   );
 }
 
-export default SimpleHomepage;
+export default Home;
