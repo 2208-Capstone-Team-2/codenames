@@ -83,13 +83,6 @@ const RoomView = () => {
       }
     });
 
-    // rose - i'm pretty sure i have thiis dc rule set elsewhere
-    // onValue(playerNestedInRoomRef, (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
-    //   }
-    // });
-
     // setting the 'turn' on the frontend will help determine what users are seeing depending on their role
     // for example, if its team1spymasters turn, they'll see the input clue box and number dropdown
     onValue(gameRef, (snapshot) => {

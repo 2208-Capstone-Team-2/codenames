@@ -1,46 +1,21 @@
 import React from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-// redux imports:
-import { useDispatch } from 'react-redux';
-import { setIsHost } from '../../store/playerSlice';
-//firebase imports
-import { database } from '../../utils/firebase';
-import { ref, set } from 'firebase/database';
+import styles from '../Lobby/Lobby.styles';
+import logo from '../../static/images/logoLight.png'; // Tell Webpack this JS file uses this image
+
+// Component Imports:
+import FAQ from '../Lobby/FAQ';
+import HowToPlay from '../Lobby/HowToPlay';
+import CreateRoomButton from './CreateRoomButton';
 
 function SimpleHomepage() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const clickHandler = async () => {
-    // create room in backend
-    const { data } = await axios.post(`/api/room/`);
-
-    // get the roomName so we can navigate to that room's page.
-    const roomId = data.name;
-
-    const roomRef = ref(database, `rooms/${roomId}`);
-    // create room references on firebase
-    set(roomRef, {
-      roomId, // i want to change this key to roomname
-      // can't set host yet because player not yet created/looked for
-      // can't set players yet for same reason as above
-      game: {
-        gameStatus: 'ready',
-        team1RemainingCards: 9,
-        team2RemainingCards: 8,
-      },
-    });
-
-    // Since we are the ones that made the room, make us the host in our redux.
-    dispatch(setIsHost(true));
-
-    return navigate(`/room/${roomId}`);
-  };
-
   return (
-    <div>
-      Welcome!
-      <button onClick={clickHandler}>Create Room</button>
+    <div style={styles.sx.HomeContainer}>
+      <div style={styles.sx.LoginContainer}>
+        <img src={logo} alt={''} width="50%" />
+        <CreateRoomButton />
+      </div>
+      <HowToPlay />
+      <FAQ />
     </div>
   );
 }
