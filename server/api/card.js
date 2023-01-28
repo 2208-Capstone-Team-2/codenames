@@ -95,7 +95,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     if (!room) return res.sendStatus(404); // Sanity check
 
     room.setBoard(board);
-    console.log('hit here');
 
     const { team1id, team2id, team3id, team4id } = room;
 
@@ -103,7 +102,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
 
     const layout = createRandomLayout(team1id, team2id, team3id, team4id);
-    console.log('made it here, past layout');
 
     const cards = [];
     //loop through the random index array
@@ -125,7 +123,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const cardPromises = cards.map((card) => Card.create(card));
     await Promise.all(cardPromises);
 
-    console.log('made it past card seeding here');
     /****** At this point the cards have been seeded!
     We just need to: 
      - query so we can get the word ON to the card, from the Word Model association

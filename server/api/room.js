@@ -14,37 +14,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// GET - /api/room/create/
-// Makes a new room and returns it
-// Maybe change to POST if we want the firebase room name on the room
-// router.post('/create/:roomId', async (req, res, next) => {
-//   try {
-//     const { roomId } = req.params;
-//     const room = await Room.create({ name: roomId });
-
-//     // Creates four teams models (aka the 4 card colors)
-//     const team1 = await Team.create({ name: 'team red', roomId: room.id });
-//     const team2 = await Team.create({ name: 'team blue', roomId: room.id });
-//     const team3 = await Team.create({ name: 'team white', roomId: room.id });
-//     const team4 = await Team.create({ name: 'team black', roomId: room.id });
-
-//     // Update the room object to have the ids of the teams we created
-//     // These are needed for creating the board layout, as:
-//     // team1 is team red, who will be the team that goes first, meaning they has 9 cards
-//     let updatedRoom = await room.update({
-//       team1id: team1.id,
-//       team2id: team2.id,
-//       team3id: team3.id,
-//       team4id: team4.id,
-//     });
-
-//     res.send(updatedRoom);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
-// /api/room/:roomId/
+// GET - api/room/:roomId/
 // this route is being used to send back team ids for individual rooms
 router.get('/:roomId', async (req, res, next) => {
   try {
@@ -59,17 +29,15 @@ router.get('/:roomId', async (req, res, next) => {
 });
 
 // POST - /api/room/
-// New route for creating jolly panda
+// Creates a new room with a randomly generated word slug
 router.post('/', async (req, res, next) => {
+  // Note: Even though this is a 'POST' we don't actually have a req.body that is needed.
+  // I merely stuck to calling it 'post' because this route creates a new room.
   try {
-    console.log('jolly panda route');
-    const slug = randomWords({ exactly: 3, join: '-' }); // happy-knight-work
-    console.log(slug);
-
+    const slug = randomWords({ exactly: 3, join: '-' }); // EG: happy-knight-work
     // the chance of this is rare, but make sure a room with this slug doesn't exist yet:
-    // todo!
+    // TODO!!
 
-    // const slug = 'jolly-panda'; // this is where we use the library
     const room = await Room.create({ name: slug });
 
     // Creates four teams models (aka the 4 card colors)

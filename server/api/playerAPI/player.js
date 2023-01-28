@@ -67,13 +67,13 @@ router.get('/allPlayers/:roomId', async (req, res, next) => {
     next(error);
   }
 });
-// ********** this should be used with jolly panda
+/// ********************** WRITTEN BY ROSE ********************** ///
+// GET - /api/player/:playerId
+// Looks for a player with the given Id. Returns it if found, else returns 404.
 router.get('/:playerId', async (req, res, next) => {
   try {
-    console.log('inside /api/player/${playerId}');
     const playerId = req.params.playerId;
     const playerToFind = await Player.findByPk(playerId);
-    console.log(playerToFind);
     if (playerToFind) {
       res.send(playerToFind).status(202);
     } else {
@@ -83,10 +83,11 @@ router.get('/:playerId', async (req, res, next) => {
     next(error);
   }
 });
-// ********** this should be used with jolly panda
+
+// POST - /api/player/
+// Looks for a player with the given Id. Returns it if found, else returns 404.
 router.post('/', async (req, res, next) => {
   try {
-    console.log('inside POST /api/player');
     const { playerId } = req.body;
     const playerToAdd = await Player.create({ id: playerId });
     res.send(playerToAdd).status(202);
@@ -94,11 +95,11 @@ router.post('/', async (req, res, next) => {
     next(error);
   }
 });
-//PUT - updates the player
-// ********** this should be used with jolly panda
+
+// PUT - /api/player/:playerId
+// Updates the player of playerId with the given 'username' and 'roomName'
 router.put('/:playerId', async (req, res, next) => {
   try {
-    console.log('inside PUT /api/player/:playerId');
     const { playerId } = req.params;
     const { username, roomName } = req.body; // get the new username they want from the passed up body
 
@@ -136,6 +137,7 @@ router.get('/allPlayers', async (req, res, next) => {
   }
 });
 
+// *Note: This route cannot get hit right now because of a POST route above it catching this url
 // POST --- once a player 'logins' we post their username, uid, and room to the db
 //✔ works
 router.post('/addPlayerToRoom', async (req, res, next) => {
