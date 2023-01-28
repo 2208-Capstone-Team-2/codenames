@@ -2,19 +2,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
 // Firebase:
 import { database } from '../../utils/firebase';
 import { ref, update, set, child, onDisconnect } from 'firebase/database';
-
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
 
 function SimpleRoom({ inputtedUsername, setInputtedUsername }) {
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
-
-  // todo: optimize if this is the person that just created the room??
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const { playerId, isHost } = useSelector((state) => state.player);
@@ -28,6 +24,7 @@ function SimpleRoom({ inputtedUsername, setInputtedUsername }) {
     if (trimmedInputtedUsername === '') {
       // stop now! and display error. user needs to resubmit. - Or use formik/yup
     }
+
     // Update our player's model with this new username
     const bodyToSubmit = { username: trimmedInputtedUsername, roomId };
     await axios.put(`/api/player/${playerId}`, bodyToSubmit);

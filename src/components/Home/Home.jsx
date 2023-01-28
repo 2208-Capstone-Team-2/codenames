@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from '../Lobby/Lobby.styles';
+import styles from './Home.styles';
 import logo from '../../static/images/logoLight.png'; // Tell Webpack this JS file uses this image
 
 // Component Imports:
-import FAQ from '../Lobby/FAQ';
+import FAQ from './FAQ';
 import HowToPlay from '../Lobby/HowToPlay';
 import CreateRoomButton from './CreateRoomButton';
 
