@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+
+import { useParams } from 'react-router-dom';
 
 // Firebase:
 import { database, auth } from '../../utils/firebase';
@@ -9,42 +10,15 @@ import { ref, update, set, child, onDisconnect } from 'firebase/database';
 
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
-import { setPlayerId, setRoomId, setUsername } from '../../store/playerSlice';
-import { setTeam1Id } from '../../store/teamOneSlice';
-import { setTeam2Id } from '../../store/teamTwoSlice';
-import { setBystanderTeamId, setAssassinTeamId } from '../../store/assassinAndBystanderSlice';
+import { setPlayerId, setUsername } from '../../store/playerSlice';
 
 function SimpleRoom() {
   // todo: optimize if this is the person that just created the room??
   const { roomId } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const { playerId, isHost } = useSelector((state) => state.player);
 
-  const fetchRoom = async () => {
-    setLoading(true);
-    try {
-      const room = await axios.get(`/api/room/${roomId}`);
-      setLoading(false);
-
-      // Now that we have room from backend, set all the redux pieces relevant to it.
-      dispatch(setRoomId(room.data.name)); //***** i still want to change this to roomname and have it not live on player slice */
-      dispatch(setTeam1Id(room.data.team1id));
-      dispatch(setTeam2Id(room.data.team2id));
-      dispatch(setBystanderTeamId(room.data.team3id));
-      dispatch(setAssassinTeamId(room.data.team4id));
-    } catch (err) {
-      setLoading(false);
-      // if we didn't find a room in the backend with this name, or something else went wrong,
-      // give them a 404
-      console.log(err);
-      return navigate('/404');
-    }
-  };
-
   useEffect(() => {
-    fetchRoom();
     // at this point we need to sign them in anonymously to get their browser's uid
     signInAnonymously(auth)
       .then(() => {
@@ -139,8 +113,6 @@ function SimpleRoom() {
     backgroundColor: 'yellow',
     border: '2px black dashed',
   };
-
-  if (loading) return <p>loading...</p>;
 
   return (
     <div>
