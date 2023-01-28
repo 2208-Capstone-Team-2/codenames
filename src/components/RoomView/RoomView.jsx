@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
@@ -30,7 +30,7 @@ import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
 import { setGameHistory } from '../../store/gameSlice';
-import {setCurrentClue } from '../../store/clueSlice.js';
+import { setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
 import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
@@ -184,31 +184,11 @@ const RoomView = () => {
           dispatch(setTeam2RemainingCards(8));
           dispatch(setWordsInGame([]));
           dispatch(setCurrentClue({}));
-          dispatch(setClueHistory([]));
+          dispatch(setGameHistory([]));
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
         }
-        // i think we can prob change the bottom 10 lines into just this...
-        // dispatch(setStatus(game.gameStatus));
-        // if (game.team1RemainingCards && game.team2RemainingCards) {
-        //   if (game.gameStatus === 'team1SpyTurn') {
-        //     dispatch(setStatus('team1SpyTurn'));
-        //   } else if (game.gameStatus === 'team2SpyTurn') {
-        //     dispatch(setStatus('team2SpyTurn'));
-        //   } else if (game.gameStatus === 'team1OpsTurn') {
-        //     dispatch(setStatus('team1OpsTurn'));
-        //   } else if (game.gameStatus === 'team2OpsTurn') {
-        //     dispatch(setStatus('team2OpsTurn'));
-        //   } else if (game.gameStatus === 'gameOver') {
-        //     // havent gotten here yet really, but presumably we'd want to:
-        //     // dispatch(setStatus('')) --> its no ones turn anymore
-        //     // set and get winning team from firebase so that we can...
-        //     // dispatch(setWinner(teamThatWon))
-        //   }
-        // }
 
-        // josh's pseudocode:
-        // if game status === 'complete' --->
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
@@ -261,18 +241,6 @@ const RoomView = () => {
     });
     onValue(gameHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
-        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-        const clues = snapshot.val();
-        let history = [];
-        //this is to access the data under random firebase key and put them in an iterable array
-        for (let clueKey in clues) {
-          history.push(clues[clueKey]);
-        }
-        dispatch(setGameHistory(history));
-      }
-    });
-    onValue(gameHistoryRef, (snapshot) => {
-      if (snapshot.exists()) {
         const data = snapshot.val();
         let history = [];
         //this is to access the data under random firebase key and put them in an iterable array
@@ -289,7 +257,9 @@ const RoomView = () => {
         //update our redux to reflect that
         const cardsFromSnapshot = snapshot.val();
         const values = Object.values(cardsFromSnapshot);
-        dispatch(setSpymasterWords(values));
+      }
+      dispatch(setSpymasterWords(values));
+    });
     onValue(cardsRef, async (cardSnapshot) => {
       // for some reason, i'm having trouble accessing the redux teams
       //  data even though it exists on firebase and redux
@@ -319,70 +289,59 @@ const RoomView = () => {
             }
           }
         });
-        get(teamTwoSpymasterRef).then(async (snapshot) => {
-          if (snapshot.exists()) {
-            let spymaster = snapshot.val();
-            let spymasterId = Object.keys(spymaster);
-            if (spymasterId.includes(playerId)) {
-              console.log('setting spy board...');
+      }
+    });
+    get(teamTwoSpymasterRef).then(async (snapshot) => {
+      if (snapshot.exists()) {
+        let spymaster = snapshot.val();
+        let spymasterId = Object.keys(spymaster);
+        if (spymasterId.includes(playerId)) {
+          console.log('setting spy board...');
 
-              //get set of cards with team ids from backend and set spymaster words
-              let wordsWithTeamIds = {};
-              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
-              spyWords.data.forEach(
-                (card) =>
-                  (wordsWithTeamIds[card.id] = {
-                    id: card.id,
-                    isVisibleToAll: card.isVisibleToAll,
-                    word: card.word.word,
-                    wordId: card.wordId,
-                    boardId: card.boardId,
-                    teamId: card.teamId,
-                  }),
-              );
-              const values = Object.values(wordsWithTeamIds);
-              dispatch(setWordsInGame(values));
-            }
-          }
-        });
-        get(teamOneOperativesRef).then((snapshot) => {
-          if (snapshot.exists()) {
-            let operatives = snapshot.val();
-            let operativesIds = Object.keys(operatives);
-            if (operativesIds.includes(playerId)) {
-              console.log('setting opertive board...');
-              //update our redux to reflect that
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
-            }
-          }
-        });
-        onValue(clueHistoryRef, (snapshot) => {
-          if (snapshot.exists()) {
-            //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-            const clues = snapshot.val();
-            let history = [];
-            //this is to access the data under random firebase key and put them in an iterable array
-            for (let clueKey in clues) {
-              history.push(clues[clueKey]);
-            }
-            dispatch(setClueHistory(history));
-          }
-        });
-        get(teamTwoOperativesRef).then((snapshot) => {
-          if (snapshot.exists()) {
-            let operatives = snapshot.val();
-            let operativesIds = Object.keys(operatives);
-            if (operativesIds.includes(playerId)) {
-              console.log('setting opertive board...');
-              //update our redux to reflect that
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
-            }
-          }
-        });
+          //get set of cards with team ids from backend and set spymaster words
+          let wordsWithTeamIds = {};
+          let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+          spyWords.data.forEach(
+            (card) =>
+              (wordsWithTeamIds[card.id] = {
+                id: card.id,
+                isVisibleToAll: card.isVisibleToAll,
+                word: card.word.word,
+                wordId: card.wordId,
+                boardId: card.boardId,
+                teamId: card.teamId,
+              }),
+          );
+          const values = Object.values(wordsWithTeamIds);
+          dispatch(setWordsInGame(values));
+        }
+      }
+    });
+    get(teamOneOperativesRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        let operatives = snapshot.val();
+        let operativesIds = Object.keys(operatives);
+        if (operativesIds.includes(playerId)) {
+          console.log('setting opertive board...');
+          //update our redux to reflect that
+          const cardsFromSnapshot = cardSnapshot.val();
+          const values = Object.values(cardsFromSnapshot);
+          dispatch(setWordsInGame(values));
+        }
+      }
+    });
+
+    get(teamTwoOperativesRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        let operatives = snapshot.val();
+        let operativesIds = Object.keys(operatives);
+        if (operativesIds.includes(playerId)) {
+          console.log('setting opertive board...');
+          //update our redux to reflect that
+          const cardsFromSnapshot = cardSnapshot.val();
+          const values = Object.values(cardsFromSnapshot);
+          dispatch(setWordsInGame(values));
+        }
       }
     });
   }, []);

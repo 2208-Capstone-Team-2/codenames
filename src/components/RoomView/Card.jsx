@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './card.css';
 import { ref, update, get, set, child, push } from 'firebase/database';
 import { database } from '../../utils/firebase';
@@ -24,7 +24,7 @@ const Card = ({ word }) => {
 
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let gameHistoryRef= ref(database, 'rooms/' + roomId + '/game/'+'history');
+  let gameHistoryRef = ref(database, 'rooms/' + roomId + '/game/' + 'history');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
   let spymasterCardRef = ref(database, `rooms/${roomId}/spymasterGameboard/${word.id}`);
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {

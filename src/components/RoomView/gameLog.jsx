@@ -9,6 +9,7 @@ const GameLog = () => {
     <div>
       <h3>Game Status</h3>
       <div>{gameStatus}</div>
+      <h3>Game History</h3>
       {gameHistory.map((singleHistory, index) => {
         if (typeof singleHistory === 'object')
           return (
