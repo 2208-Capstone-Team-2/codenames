@@ -55,8 +55,6 @@ function SimpleRoom() {
         const errorCode = error.code;
         // eslint-disable-next-line no-unused-vars
         const errorMessage = error.message;
-        // If for some reason we can't sign them in, navigate them to 404.
-        console.log('signed out on signInAnon?!');
       });
   }, []);
 
@@ -86,18 +84,14 @@ function SimpleRoom() {
         // This will come once they submit their username!
       } else {
         // User is signed out
-        // The should never be signed out, let's just navigate to 404 if this happens.
-        console.log('signed out from on authstate changes?!');
       }
     });
   }, []);
 
   const submitHandler = async (e) => {
-    // tie the player in our redux
     e.preventDefault();
-    console.log('Continue button clicked!');
 
-    // Todo: Validation - may want to use formik/yup?
+    // TODO: Validation - may want to use formik/yup?
     // Make sure the username they gave isn't empty / made of only white spaces
     const trimmedInputtedUsername = inputtedUsername.trim();
     if (trimmedInputtedUsername === '') {
