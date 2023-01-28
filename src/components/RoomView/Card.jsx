@@ -16,7 +16,7 @@ const Card = ({ word }) => {
   const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
   const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
   const [teamsCard, setTeamsCard] = useState(0);
-  const guessesRemaining = useSelector((state) => state.clues.guessesRemaining);
+  const guessesRemaining = useSelector((state) => state.game.guessesRemaining);
 
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');

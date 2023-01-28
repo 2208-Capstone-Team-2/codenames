@@ -37,7 +37,7 @@ import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBystanderSlice';
 import Clue from './Clue';
 import GuessesRemaining from './GuessesRemaining';
-import { setGuessesRemaining } from '../../store/clueSlice';
+import { setGuessesRemaining } from '../../store/gameSlice';
 
 import ResetGame from './ResetGame';
 
