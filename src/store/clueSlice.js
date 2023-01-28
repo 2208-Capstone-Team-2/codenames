@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   currentClue: {},
   clueHistory: [],
-  guessesRemaining: null,
+  guessesRemaining: 0,
 };
 
 export const clueSlice = createSlice({

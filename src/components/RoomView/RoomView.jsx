@@ -58,7 +58,6 @@ const RoomView = () => {
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
-  let guessesRemainingRef = ref(database, 'rooms/' + roomId + '/guessesRemaining');
 
   const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
     return spy.playerId;
@@ -156,27 +155,32 @@ const RoomView = () => {
         const game = snapshot.val();
         const team1RemainingCards = snapshot.val().team1RemainingCards;
         const team2RemainingCards = snapshot.val().team2RemainingCards;
+        const guessesRemaining = snapshot.val().guessesRemaining;
+        dispatch(setStatus(game.gameStatus));
         dispatch(setTeam1RemainingCards(team1RemainingCards));
         dispatch(setTeam2RemainingCards(team2RemainingCards));
-
+        dispatch(setGuessesRemaining(guessesRemaining));
+        if (guessesRemaining <= 0) {
+          endTurn();
+        }
         // i think we can prob change the bottom 10 lines into just this...
         // dispatch(setStatus(game.gameStatus));
-        if (game.team1RemainingCards && game.team2RemainingCards) {
-          if (game.gameStatus === 'team1SpyTurn') {
-            dispatch(setStatus('team1SpyTurn'));
-          } else if (game.gameStatus === 'team2SpyTurn') {
-            dispatch(setStatus('team2SpyTurn'));
-          } else if (game.gameStatus === 'team1OpsTurn') {
-            dispatch(setStatus('team1OpsTurn'));
-          } else if (game.gameStatus === 'team2OpsTurn') {
-            dispatch(setStatus('team2OpsTurn'));
-          } else if (game.gameStatus === 'gameOver') {
-            // havent gotten here yet really, but presumably we'd want to:
-            // dispatch(setStatus('')) --> its no ones turn anymore
-            // set and get winning team from firebase so that we can...
-            // dispatch(setWinner(teamThatWon))
-          }
-        }
+        // if (game.team1RemainingCards && game.team2RemainingCards) {
+        //   if (game.gameStatus === 'team1SpyTurn') {
+        //     dispatch(setStatus('team1SpyTurn'));
+        //   } else if (game.gameStatus === 'team2SpyTurn') {
+        //     dispatch(setStatus('team2SpyTurn'));
+        //   } else if (game.gameStatus === 'team1OpsTurn') {
+        //     dispatch(setStatus('team1OpsTurn'));
+        //   } else if (game.gameStatus === 'team2OpsTurn') {
+        //     dispatch(setStatus('team2OpsTurn'));
+        //   } else if (game.gameStatus === 'gameOver') {
+        //     // havent gotten here yet really, but presumably we'd want to:
+        //     // dispatch(setStatus('')) --> its no ones turn anymore
+        //     // set and get winning team from firebase so that we can...
+        //     // dispatch(setWinner(teamThatWon))
+        //   }
+        // }
 
         // update cards remaining in redux and firebase
         if (game.team1RemainingCards === 0) {
@@ -305,17 +309,18 @@ const RoomView = () => {
         });
       }
     });
-    onValue(guessesRemainingRef, (snapshot) => {
-      if (snapshot.exists()) {
-        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-        const guessesRemaining = snapshot.val();
-        //   players get one extra guess than the spymaster allows
-        dispatch(setGuessesRemaining(guessesRemaining));
-        if (guessesRemaining <= 0) {
-          endTurn();
-        }
-      }
-    });
+    // onValue(guessesRemainingRef, (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
+    //     const guessesRemaining = snapshot.val();
+    //     console.log('guesses in guess onvalue', guessesRemaining);
+    //     //   players get one extra guess than the spymaster allows
+    //     dispatch(setGuessesRemaining(guessesRemaining));
+    //     if (guessesRemaining <= 0) {
+    //       endTurn();
+    //     }
+    //   }
+    // });
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
@@ -328,9 +333,6 @@ const RoomView = () => {
       if (doesGameExist) {
         let game = snapshot.val();
         if (game.team1RemainingCards && game.team2RemainingCards) {
-          if (game.gameStatus === 'ready') {
-            console.log('why is it still ready?');
-          }
           if (game.gameStatus === 'team1OpsTurn') {
             console.log('hitting next status');
             nextStatus = 'team2SpyTurn';

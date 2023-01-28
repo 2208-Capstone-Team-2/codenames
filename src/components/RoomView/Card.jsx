@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get, set } from 'firebase/database';
+import { ref, update, get, set, child } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
@@ -18,11 +18,10 @@ const Card = ({ word }) => {
   const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
   const [teamsCard, setTeamsCard] = useState(0);
   const guessesRemaining = useSelector((state) => state.clues.guessesRemaining);
+
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
-  let guessesRemainingRef = ref(database, 'rooms/' + roomId + '/guessesRemaining');
-
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });
@@ -68,9 +67,8 @@ const Card = ({ word }) => {
         update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
-        set(guessesRemainingRef, guessesRemaining - 1);
-
-        // if guesses remaining === 0, endTurn()
+        set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
+        // set(guessesRemainingRef, guessesRemaining - 1);
       }
       if (cardBelongsTo === team2Id) {
         console.log('thats the other teams card! turn is over');
@@ -93,9 +91,8 @@ const Card = ({ word }) => {
       if (cardBelongsTo === team2Id) {
         console.log('thats correct!');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
-        set(guessesRemainingRef, guessesRemaining - 1);
-
-        // if guesses remaining === 0, endTurn()
+        set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
+        // set(guessesRemainingRef, guessesRemaining - 1);
       }
       if (cardBelongsTo === team1Id) {
         console.log('thats the other teams card! turn is over');
@@ -116,11 +113,11 @@ const Card = ({ word }) => {
     if (teamOneRemainingCards && teamTwoRemainingCards) {
       if (gameStatus === 'team1OpsTurn') {
         nextStatus = 'team2SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
+        update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
       if (gameStatus === 'team2OpsTurn') {
         nextStatus = 'team1SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
+        update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
     }
   };
