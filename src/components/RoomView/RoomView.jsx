@@ -7,15 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { onValue, ref, set, get, child, onDisconnect, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
-import { Container } from '@mui/material';
+import './roomView.css';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Popup from 'reactjs-popup';
 import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
-import styles from './Room.styles';
 import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
+import WelcomeBoard from './WelcomeBoard';
 import {
   setTeam1RemainingCards,
   setTeam2RemainingCards,
@@ -39,7 +39,6 @@ import Clue from './Clue';
 import GuessesRemaining from './GuessesRemaining';
 import { setGuessesRemaining } from '../../store/gameSlice';
 import GameLog from './gameLog';
-import ResetGame from './ResetGame';
 
 const RoomView = () => {
   // for room nav
@@ -361,37 +360,8 @@ const RoomView = () => {
   return (
     <>
       <ResponsiveAppBar />
-      <Container style={styles.sx.RoomContainer}>
-        <Grid container spacing={2} style={styles.sx.RoomGrid}>
-          <Grid item xs={12} style={styles.sx.RoomAndPlayers}>
-            <Item style={styles.sx.PlayerContainer}>Welcome, {username}</Item>
-            <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
-            <Item style={styles.sx.PlayerContainer}>
-              Players:
-              {allPlayers?.map((player) => (
-                <p key={player.playerId}>{player.username}</p>
-              ))}
-            </Item>
-  <GameLog />
-
-            <Item style={styles.sx.PlayerContainer}>
-              <ResetGame />
-            </Item>
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <TeamOneBox />
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <Clue />
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <TeamTwoBox />
-          </Grid>
-        </Grid>
-      </Container>
-
-      {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
-      {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
+       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
+       {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
         <Popup
@@ -410,6 +380,16 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )}
+      <div className="flexBox">
+        <WelcomeBoard />
+        <div className="boardContainer">
+          {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
+        </div>
+        <GameLog />
+      </div>
+      <TeamOneBox />
+        <TeamTwoBox />
+      <Clue />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup
@@ -431,7 +411,6 @@ const RoomView = () => {
       {/* player is operative && show operative board, otherwise theyre a spymaster*/}
       {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-      {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
     </>
   );
 };

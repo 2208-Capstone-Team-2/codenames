@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import './roomView.css';
 const GameLog = () => {
   // eslint-disable-next-line no-unused-vars
   let gameHistory = useSelector((state) => state.game.gameHistory);
   let gameStatus = useSelector((state) => state.game.status);
 console.log(gameHistory)
   return (
-    <div>
+    <div className='gameLog'>
       <h3>Game Status</h3>
       <div>{gameStatus}</div>
       <h3>Game History</h3>

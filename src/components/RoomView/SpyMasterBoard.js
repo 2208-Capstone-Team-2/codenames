@@ -20,17 +20,8 @@ const SpyMasterBoard = () => {
     return spy.playerId;
   });
 
-  const style = {
-    display: 'grid',
-    gridTemplateColumns: 'auto auto auto auto auto',
-    marginTop: '5%',
-    gap: '2%',
-    justifyContent: 'center',
-    alightItems: 'center',
-  };
-
   return (
-    <div style={style}>
+    <div className="board">
       {words.map((word) => {
         return <SpyCard key={word.id} word={word} teamId={word.teamId} />;
       })}

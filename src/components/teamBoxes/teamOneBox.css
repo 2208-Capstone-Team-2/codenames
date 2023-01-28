@@ -1,17 +1,14 @@
 .redBoxCard{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 300px;
-    width: 250px;
-    color: #e46d4d;
-    padding: 10px;
-    background-color:  #8f2a1c;
-    border-radius: 20px;
+    margin: -15% 6%;
+    height: fit-content;
+    width: 15%;
+    color: #e0620e;
+    padding: 15px;
+    background-color: #8c2a2a;
+    border-radius: 6px;
 }
 .redOpsAndSpys{
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
     width: 250px;
-    margin-top: 100px;
+    margin-top: 30px;
 }

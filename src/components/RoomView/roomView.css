@@ -1,0 +1,29 @@
+.flexBox{display: flex;
+justify-content: center;flex-wrap: wrap;}
+.boardContainer{width: 45%;
+  margin: 5% 0;
+  background-color: aliceblue;
+  height: 500px;
+
+}
+.board{display:grid;
+grid-template-columns: auto auto auto auto auto;
+
+gap: 2%;
+justify-content:center;
+align-items:center}
+.welcomeBoard{  margin: 5%;
+  height: fit-content;
+  width: 15%;
+  color: #242424;
+  padding: 15px;
+  background-color: gainsboro;
+  border-radius: 6px;}
+  .break{flex-basis: 100%;
+    height: 0;}
+.gameLog{float: left;
+      width: 15%;
+      height: fit-content;
+      margin: 5% 5%;
+      padding: 10px;
+      background-color: gainsboro;}
