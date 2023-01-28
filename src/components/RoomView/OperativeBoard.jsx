@@ -15,7 +15,7 @@ const OperativeBoard = () => {
   const { teamOneOperatives } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  const GameHistory=useSelector((state) => state.game.GameHistory);
+
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });

@@ -1,11 +1,10 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get, set, child, push } from 'firebase/database';
+import { ref, update, get, set, child } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
-import { setGameHistory } from '../../store/gameSlice';
 
 const Card = ({ word }) => {
   const { playerId, roomId } = useSelector((state) => state.player);
@@ -17,16 +16,11 @@ const Card = ({ word }) => {
   const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
   const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
   const [teamsCard, setTeamsCard] = useState(0);
-
-  const GameHistory=useSelector((state) => state.game.GameHistory);
-
   const guessesRemaining = useSelector((state) => state.game.guessesRemaining);
 
-
+  // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let gameHistoryRef= ref(database, 'rooms/' + roomId + '/game/'+'history');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
-  let spymasterCardRef = ref(database, `rooms/${roomId}/spymasterGameboard/${word.id}`);
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });
@@ -42,6 +36,7 @@ const Card = ({ word }) => {
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
     let revealedCard = cardToReveal.data;
     let cardBelongsTo = revealedCard.teamId;
+
     setTeamsCard(cardBelongsTo);
 
     //  if its team 1 ops turn and they are the one who clicked on the card...
@@ -55,41 +50,26 @@ const Card = ({ word }) => {
           console.log('no card');
         }
       });
+
       if (cardBelongsTo === assassinTeamId) {
-        const newGameHistory = 'Team 1 hits the assassin! team 1 lose.';
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('you hit the assassin! you lose.');
         // set winner = other team
         // do other celebratory stuff
         // show reset game button
       }
       if (cardBelongsTo === bystanderTeamId) {
-        const newGameHistory = 'Team 1 hits a bystander!';
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('you hit a bystander!');
         endTurn();
       }
       if (cardBelongsTo === team1Id) {
-        const newGameHistory = `Good job Team 1! ${revealedCard.word.word} is the correct codename!`;
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('thats correct!');
         update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
         set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
       }
       if (cardBelongsTo === team2Id) {
-        const newGameHistory = 'thats the other teams card! turn is over!';
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('thats the other teams card! turn is over');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
       }
@@ -97,40 +77,22 @@ const Card = ({ word }) => {
       update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
 
       if (cardBelongsTo === assassinTeamId) {
-        const newGameHistory = 'Team 2 hits the assassin! team 2 lose.';
-
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('you hit the assassin! you lose.');
         // set winner = other team
         // do other celebratory stuff
         // show reset game button
       }
       if (cardBelongsTo === bystanderTeamId) {
-        const newGameHistory = 'team 2 hits a bystander!';
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('you hit a bystander!');
         endTurn();
       }
       if (cardBelongsTo === team2Id) {
-        const newGameHistory = `Good job Team 2! ${revealedCard.word.word} is the correct codename!`;
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('thats correct!');
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
       }
       if (cardBelongsTo === team1Id) {
-        const newGameHistory = 'thats the other teams card! turn is over!';
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
-        update(gameHistoryRef, updates);
+        console.log('thats the other teams card! turn is over');
         update(gameRef, { team1RemainingCards: teamOneRemainingCards - 1 });
         endTurn();
       }
