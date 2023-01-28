@@ -1,51 +1,23 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 // Firebase:
-import { database, auth } from '../../utils/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { database } from '../../utils/firebase';
 import { ref, update, set, child, onDisconnect } from 'firebase/database';
 
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
-import { setPlayerId, setUsername } from '../../store/playerSlice';
+import { setUsername } from '../../store/playerSlice';
 
-function SimpleRoom() {
+function SimpleRoom({ inputtedUsername, setInputtedUsername }) {
+  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
+
   // todo: optimize if this is the person that just created the room??
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const { playerId, isHost } = useSelector((state) => state.player);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const playerId = user.uid;
-        let player = null;
-
-        try {
-          // query backend player model to see if one exists with this uid
-          const foundPlayer = await axios.get(`/api/player/${playerId}`);
-          player = foundPlayer.data;
-          // Use the found player's username in the backend to pre-fill our form's text input
-          setInputtedUsername(foundPlayer.data.username);
-        } catch (err) {
-          // if player doesn't exist in db... create one right now!
-          const createdPlayer = await axios.post(`/api/player`, { playerId });
-          player = createdPlayer.data;
-        }
-
-        // Update redux:
-        dispatch(setPlayerId(player.id));
-        dispatch(setUsername(player.username));
-
-        // Update firebase:
-        // This will come once they submit their username!
-      } else {
-        // User is signed out
-      }
-    });
-  }, []);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -91,42 +63,34 @@ function SimpleRoom() {
     // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);
   };
-  const [inputtedUsername, setInputtedUsername] = useState('');
-  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
   // these are ugly and placeholder
   const popupStyles = {
     backgroundColor: 'yellow',
     border: '2px black dashed',
   };
 
+  if (!playerId) return <p>loading user form popup...</p>;
   return (
     <div>
-      {!playerId ? (
-        <p>loading user form popup...</p>
-      ) : (
-        <div>
-          {!usernameSubmissionDone && (
-            <div className="username-form-popup" style={popupStyles}>
-              <p>Welcome to the room!</p>
-              <p>Enter a username...</p>
-              <form>
-                <input
-                  value={inputtedUsername}
-                  onChange={(event) => {
-                    setInputtedUsername(event.target.value);
-                  }}
-                  placeholder="username"
-                  autoFocus
-                ></input>
-                <button type="submit" onClick={submitHandler}>
-                  continue
-                </button>
-              </form>
-            </div>
-          )}
+      {!usernameSubmissionDone && (
+        <div className="username-form-popup" style={popupStyles}>
+          <p>Welcome to the room!</p>
+          <p>Enter a username...</p>
+          <form>
+            <input
+              value={inputtedUsername}
+              onChange={(event) => {
+                setInputtedUsername(event.target.value);
+              }}
+              placeholder="username"
+              autoFocus
+            ></input>
+            <button type="submit" onClick={submitHandler}>
+              continue
+            </button>
+          </form>
         </div>
       )}
-      <p>Rest of room is here....</p>
     </div>
   );
 }

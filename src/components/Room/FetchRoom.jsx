@@ -35,7 +35,7 @@ function FetchRoom() {
 
   useEffect(() => {
     fetchRoom();
-  });
+  }, []);
 
   if (loading) return <p>Loading room information...</p>;
   else return <div></div>;
