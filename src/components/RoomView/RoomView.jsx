@@ -38,7 +38,7 @@ import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBy
 import Clue from './Clue';
 import GuessesRemaining from './GuessesRemaining';
 import { setGuessesRemaining } from '../../store/gameSlice';
-
+import GameLog from './gameLog';
 import ResetGame from './ResetGame';
 
 const RoomView = () => {
@@ -62,7 +62,7 @@ const RoomView = () => {
   let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-  let gameHistory = ref(database, `rooms/${roomId}/game/history`);
+  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
@@ -372,13 +372,7 @@ const RoomView = () => {
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
-            {gameStatus !== 'ready' && (
-              <Item style={styles.sx.PlayerContainer}>
-                Turn:
-                {gameStatus}
-                <GuessesRemaining />
-              </Item>
-            )}
+  <GameLog />
 
             <Item style={styles.sx.PlayerContainer}>
               <ResetGame />
@@ -388,8 +382,6 @@ const RoomView = () => {
             <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            {/* import clueHistory component */}
-            <ClueHistory />
             <Clue />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>

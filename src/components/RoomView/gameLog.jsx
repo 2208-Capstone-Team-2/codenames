@@ -4,7 +4,7 @@ const GameLog = () => {
   // eslint-disable-next-line no-unused-vars
   let gameHistory = useSelector((state) => state.game.gameHistory);
   let gameStatus = useSelector((state) => state.game.status);
-  {console.log(gameHistory)}
+console.log(gameHistory)
   return (
     <div>
       <h3>Game Status</h3>

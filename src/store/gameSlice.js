@@ -8,6 +8,7 @@ const initialState = {
   guessesRemaining: 0,
   winner: '',
   loser: '',
+  gameHistory: [],
 };
 
 export const gameSlice = createSlice({
