@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import { useParams } from 'react-router-dom';
 
 // Firebase:
 import { database, auth } from '../../utils/firebase';
-import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { ref, update, set, child, onDisconnect } from 'firebase/database';
 
 // Redux:
@@ -17,20 +16,6 @@ function SimpleRoom() {
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const { playerId, isHost } = useSelector((state) => state.player);
-
-  useEffect(() => {
-    // at this point we need to sign them in anonymously to get their browser's uid
-    signInAnonymously(auth)
-      .then(() => {
-        // ******* set ondisconnect rules here?
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-unused-vars
-        const errorCode = error.code;
-        // eslint-disable-next-line no-unused-vars
-        const errorMessage = error.message;
-      });
-  }, []);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {

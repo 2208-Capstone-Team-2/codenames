@@ -28,8 +28,7 @@ function FetchRoom() {
     } catch (err) {
       setLoading(false);
       // if we didn't find a room in the backend with this name, or something else went wrong,
-      // give them a 404
-      console.log(err);
+      // redirect them to a 404 page
       return navigate('/404');
     }
   };
@@ -38,7 +37,7 @@ function FetchRoom() {
     fetchRoom();
   });
 
-  if (loading) return <p>loading room information...</p>;
+  if (loading) return <p>Loading room information...</p>;
   else return <div></div>;
 }
 
