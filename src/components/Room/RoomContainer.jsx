@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // Component Imports:
-import SimpleRoom from './SimpleRoom';
+import UsernameForm from './UsernameForm';
 import ResponsiveAppBar from '../ResponsiveAppBar';
 import RoomView from '../RoomView/RoomView';
 import FetchRoom from './FetchRoom';
@@ -16,7 +16,7 @@ function RoomContainer() {
       <FetchRoom />
       <SignInAnonymously />
       <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
-      <SimpleRoom inputtedUsername={inputtedUsername} setInputtedUsername={setInputtedUsername} />
+      <UsernameForm inputtedUsername={inputtedUsername} setInputtedUsername={setInputtedUsername} />
       <RoomView />
     </div>
   );

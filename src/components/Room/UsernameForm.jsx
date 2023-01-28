@@ -9,7 +9,7 @@ import { ref, update, set, child, onDisconnect } from 'firebase/database';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
 
-function SimpleRoom({ inputtedUsername, setInputtedUsername }) {
+function UsernameForm({ inputtedUsername, setInputtedUsername }) {
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
   const { roomId } = useParams();
   const dispatch = useDispatch();
@@ -92,4 +92,4 @@ function SimpleRoom({ inputtedUsername, setInputtedUsername }) {
   );
 }
 
-export default SimpleRoom;
+export default UsernameForm;

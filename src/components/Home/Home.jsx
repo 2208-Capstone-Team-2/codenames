@@ -4,7 +4,7 @@ import logo from '../../static/images/logoLight.png'; // Tell Webpack this JS fi
 
 // Component Imports:
 import FAQ from './FAQ';
-import HowToPlay from '../Lobby/HowToPlay';
+import HowToPlay from './HowToPlay';
 import CreateRoomButton from './CreateRoomButton';
 
 function Home() {
