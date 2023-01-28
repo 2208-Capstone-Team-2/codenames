@@ -6,6 +6,7 @@ import { ref, child, push, update } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import pluralize from 'pluralize';
 import { Button } from '@mui/material';
+
 const Clue = () => {
   const [clueString, setClueString] = useState('');
   const [clueNumber, setClueNumber] = useState(null);
@@ -14,9 +15,8 @@ const Clue = () => {
   const gameStatus = useSelector((state) => state.game.status);
   const { teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  //get all words in game
   const gameboard = useSelector((state) => state.wordsInGame.wordsInGame);
+  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let arrayToCheck = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
@@ -70,19 +70,19 @@ const Clue = () => {
 
       dispatch(setCurrentClue(clueData));
       update(cluesRef, updates);
-      console.log('submitting clue');
+
       // store the clue in clueHistory and as current clue
       // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
       let nextGameStatus;
       // if its team1spy submission, team1Ops goes next
       if (gameStatus === 'team1SpyTurn') {
         nextGameStatus = 'team1OpsTurn';
-        update(gameRef, { gameStatus: nextGameStatus });
+        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber });
       }
       // if its team2spy submission, team2Ops goes next
       if (gameStatus === 'team2SpyTurn') {
         nextGameStatus = 'team2OpsTurn';
-        update(gameRef, { gameStatus: nextGameStatus });
+        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber });
       }
     }
   };
