@@ -309,18 +309,6 @@ const RoomView = () => {
         });
       }
     });
-    // onValue(guessesRemainingRef, (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-    //     const guessesRemaining = snapshot.val();
-    //     console.log('guesses in guess onvalue', guessesRemaining);
-    //     //   players get one extra guess than the spymaster allows
-    //     dispatch(setGuessesRemaining(guessesRemaining));
-    //     if (guessesRemaining <= 0) {
-    //       endTurn();
-    //     }
-    //   }
-    // });
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
