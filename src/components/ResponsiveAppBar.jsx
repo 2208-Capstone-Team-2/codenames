@@ -12,8 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import logo from '../static/images/logoCircle.png';
 import { Link } from '@mui/material';
+
 const pages = ['How to play', 'Leaderboard'];
 const settings = ['Profile', 'Logout'];
 
@@ -41,7 +41,7 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link href="/">
-            <Box component="img" sx={{ height: 54 }} alt="Logo" src={logo} />
+            <Box component="img" sx={{ height: 54 }} alt="Logo" src={'/images/logoCircle.png'} />
           </Link>
           <Typography
             variant="h6"

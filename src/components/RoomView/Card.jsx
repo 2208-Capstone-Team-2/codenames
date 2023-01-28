@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get,push,child } from 'firebase/database';
+import { ref, update, get, set, child, push } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
@@ -14,16 +14,19 @@ const Card = ({ word }) => {
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
   const gameStatus = useSelector((state) => state.game.status);
-  const assassinTeamId = useSelector((state) => state.spymasterWords.assassinTeamId);
-  const bystanderTeamId = useSelector((state) => state.spymasterWords.bystanderTeamId);
+  const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
+  const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
   const [teamsCard, setTeamsCard] = useState(0);
+
   const GameHistory=useSelector((state) => state.game.GameHistory);
-  // firebase room  & players reference
+
+  const guessesRemaining = useSelector((state) => state.game.guessesRemaining);
+
+
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef= ref(database, 'rooms/' + roomId + '/game/'+'history');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
   let spymasterCardRef = ref(database, `rooms/${roomId}/spymasterGameboard/${word.id}`);
-  const dispatch = useDispatch();
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
     return operative.playerId;
   });
@@ -48,7 +51,6 @@ const Card = ({ word }) => {
         const doesCardExist = snapshot.exists();
         if (doesCardExist) {
           update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-          update(spymasterCardRef, { isVisibleToAll: true });
         } else {
           console.log('no card');
         }
@@ -80,8 +82,7 @@ const Card = ({ word }) => {
         update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
         });
-        // decrement from guesses remaining from spymasters clue
-        // if guesses remaining === 0, endTurn()
+        set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
       }
       if (cardBelongsTo === team2Id) {
         const newGameHistory = 'thats the other teams card! turn is over!';
@@ -94,7 +95,6 @@ const Card = ({ word }) => {
       }
     } else if (gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId)) {
       update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-      update(spymasterCardRef, { isVisibleToAll: true });
 
       if (cardBelongsTo === assassinTeamId) {
         const newGameHistory = 'Team 2 hits the assassin! team 2 lose.';
@@ -123,8 +123,7 @@ const Card = ({ word }) => {
         updates[newHistoryKey] = newGameHistory;
         update(gameHistoryRef, updates);
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
-        // decrement from guesses remaining from spymasters clue
-        // if guesses remaining === 0, endTurn()
+        set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
       }
       if (cardBelongsTo === team1Id) {
         const newGameHistory = 'thats the other teams card! turn is over!';
@@ -149,11 +148,11 @@ const Card = ({ word }) => {
     if (teamOneRemainingCards && teamTwoRemainingCards) {
       if (gameStatus === 'team1OpsTurn') {
         nextStatus = 'team2SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
+        update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
       if (gameStatus === 'team2OpsTurn') {
         nextStatus = 'team1SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
+        update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
     }
   };

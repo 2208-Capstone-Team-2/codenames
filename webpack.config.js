@@ -40,9 +40,22 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-react"],
+        },
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: "ts-loader",
+      },
     ],
   },
   resolve: {
-    extensions: [".js", ".jsx", ".html", ".css"],
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".html", ".css"],
   },
 };
