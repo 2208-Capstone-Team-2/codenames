@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 // redux imports:
 import { useDispatch } from 'react-redux';
-import { setIsHost } from './store/playerSlice';
+import { setIsHost } from '../../store/playerSlice';
 //firebase imports
-import { database } from './utils/firebase';
+import { database } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
 
 function SimpleHomepage() {

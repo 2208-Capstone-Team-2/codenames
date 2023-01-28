@@ -16,7 +16,7 @@ const Player = db.define('player', {
   //username will be coming from firebase
   username: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: false, // maybe we need to make this true
     defaultValue: '',
   },
 

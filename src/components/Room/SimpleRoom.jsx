@@ -3,16 +3,16 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // Firebase:
-import { database, auth } from './utils/firebase';
+import { database, auth } from '../../utils/firebase';
 import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import { ref, update, set, child, onDisconnect } from 'firebase/database';
 
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
-import { setPlayerId, setRoomId, setUsername } from './store/playerSlice';
-import { setTeam1Id } from './store/teamOneSlice';
-import { setTeam2Id } from './store/teamTwoSlice';
-import { setBystanderTeamId, setAssassinTeamId } from './store/assassinAndBystanderSlice';
+import { setPlayerId, setRoomId, setUsername } from '../../store/playerSlice';
+import { setTeam1Id } from '../../store/teamOneSlice';
+import { setTeam2Id } from '../../store/teamTwoSlice';
+import { setBystanderTeamId, setAssassinTeamId } from '../../store/assassinAndBystanderSlice';
 
 function SimpleRoom() {
   // todo: optimize if this is the person that just created the room??

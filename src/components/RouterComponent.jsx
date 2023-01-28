@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Login, RoomView, About } from '.';
-import SimpleHomepage from '../SimpleHomepage';
+import SimpleHomepage from './Home/SimpleHomepage';
 import Error from './Error';
-import RoomContainer from './RoomView/RoomContainer';
+import RoomContainer from './Room/RoomContainer';
 
 const RouterComponent = () => {
   return (

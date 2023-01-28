@@ -1,14 +1,12 @@
 import React from 'react';
-import SimpleRoom from '../../SimpleRoom';
+import SimpleRoom from './SimpleRoom';
 import ResponsiveAppBar from '../ResponsiveAppBar';
-import RoomView from './RoomView';
-import UsernameModal from './UsernameModal';
+import RoomView from '../RoomView/RoomView';
 
 function RoomContainer() {
   return (
     <div>
       <ResponsiveAppBar />
-      {/* <UsernameModal /> */}
       <SimpleRoom />
       <RoomView />
     </div>
