@@ -154,7 +154,7 @@ const TeamOneBox = () => {
         onDisconnect(playerOnTeamOneSpymasterRef).remove(playerOnTeamOneSpymasterRef);
       }
     });
-  }, []);
+  }, [playerId]);
 
   return (
     <div className="redBoxCard">

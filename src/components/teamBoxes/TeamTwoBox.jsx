@@ -144,7 +144,7 @@ const TeamTwoBox = () => {
         onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef);
       }
     });
-  }, []);
+  }, [playerId]);
   return (
     <div className="blueBoxCard">
       <div>Team 2</div>

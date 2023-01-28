@@ -70,6 +70,8 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const { roomId } = req.params;
     const { selectedWordPackId } = req.body;
 
+    console.log('inside post for make 25. roomId from params is: ', roomId);
+
     // Create a new board to put the 25 cards into
     const board = await Board.create();
 
@@ -120,6 +122,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       cards.push(card);
     }
 
+    // sometimes breaks on these promises and can't accurate figure out why or when.
     const cardPromises = cards.map((card) => Card.create(card));
     await Promise.all(cardPromises);
 
@@ -142,7 +145,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       return card;
     });
 
-    console.log(cardsWithTeamIdDeleted);
     res.send(cardsWithTeamIdDeleted);
   } catch (err) {
     next(err);
