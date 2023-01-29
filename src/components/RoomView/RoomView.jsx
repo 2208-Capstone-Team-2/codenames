@@ -30,6 +30,7 @@ import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
 import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
+import { testingFunction, isEveryRoleFilled } from '../../utils/Utils';
 
 import Clue from './Clue';
 import GameStatus from './GameStatus';
@@ -63,18 +64,22 @@ const RoomView = () => {
 
   // determines if there is at least one player in each 'role' and then shows the button for start game
   // not uncommenting code in the return until we're done testing, but it works :)
-  const isEveryRoleFilled = () => {
-    if (
-      teamOneOperatives.length > 0 &&
-      teamTwoOperatives.length > 0 &&
-      teamOneSpymaster.length > 0 &&
-      teamTwoSpymaster.length > 0
-    ) {
-      return true;
-    }
-    return false;
-  };
-  const everyonesHere = isEveryRoleFilled();
+  // const isEveryRoleFilled = () => {
+  //   if (
+  //     teamOneOperatives.length > 0 &&
+  //     teamTwoOperatives.length > 0 &&
+  //     teamOneSpymaster.length > 0 &&
+  //     teamTwoSpymaster.length > 0
+  //   ) {
+  //     return true;
+  //   }
+  //   return false;
+  // };
+  // below will be used once we allow host & everyones here to show button
+  // DO NOT DELETE
+  const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
+
+  testingFunction();
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
@@ -248,7 +253,6 @@ const RoomView = () => {
             <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            {/* import clueHistory component */}
             <ClueHistory />
             <Clue />
           </Grid>
@@ -259,7 +263,6 @@ const RoomView = () => {
       </Container>
 
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
-      {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
         <Popup

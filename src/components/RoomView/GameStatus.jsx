@@ -14,6 +14,7 @@ const GameStatus = () => {
           <GuessesRemaining />
         </>
       )}
+      {gameStatus === 'ready' && <p>Waiting to begin the game!</p>}
     </div>
   );
 };
