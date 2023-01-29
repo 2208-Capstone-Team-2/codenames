@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRoomId, setIsHost } from '../../store/playerSlice';
+import { setRoomId } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { onValue, ref, set, get, child, onDisconnect, update } from 'firebase/database';
+import { onValue, ref, set, get, child, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { Container } from '@mui/material';
@@ -15,7 +13,6 @@ import Popup from 'reactjs-popup';
 import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
-import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
 import {
   setTeam1RemainingCards,
   setTeam2RemainingCards,
@@ -32,9 +29,7 @@ import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
 import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
-import { setTeam1Id } from '../../store/teamOneSlice';
-import { setTeam2Id } from '../../store/teamTwoSlice';
-import { setAssassinTeamId, setBystanderTeamId } from '../../store/assassinAndBystanderSlice';
+
 import Clue from './Clue';
 import GuessesRemaining from './GuessesRemaining';
 import { setGuessesRemaining } from '../../store/gameSlice';
@@ -43,26 +38,25 @@ import ResetGame from './ResetGame';
 
 const RoomView = () => {
   // for room nav
-  const params = useParams('');
-  const roomIdFromParams = params.id;
-  setRoomId(roomIdFromParams);
+  const { roomId } = useParams();
+  setRoomId(roomId);
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   // frontend state
-  const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
+  const { playerId, username, isHost } = useSelector((state) => state.player);
+
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   let gameStatus = useSelector((state) => state.game.status);
 
   // firebase room  & players reference
-  let roomRef = ref(database, 'rooms/' + roomId);
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
-  let playerNestedInRoomRef = ref(database, 'rooms/' + roomId + '/players/' + playerId);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
+
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
@@ -92,54 +86,6 @@ const RoomView = () => {
   const everyonesHere = isEveryRoleFilled();
 
   useEffect(() => {
-    // on loading page if no room or name, send back to join page
-    if (roomId === '' || username === '') {
-      navigate('/');
-      return; // immediately kick them!
-    }
-
-    //when a user joins room, this checks to see if it exists
-    get(roomRef).then(async (snapshot) => {
-      const doesRoomExist = snapshot.exists();
-      if (doesRoomExist) {
-        console.log('room already created, just add the player!');
-        // playerId is key in the room/roomId/players/playerId, so we creating new player obj
-        set(child(playersInRoomRef, playerId), { playerId, username });
-
-        let room = await axios.get(`/api/room/${roomId}`);
-        dispatch(setTeam1Id(room.data.team1id));
-        dispatch(setTeam2Id(room.data.team2id));
-        dispatch(setBystanderTeamId(room.data.team3id));
-        dispatch(setAssassinTeamId(room.data.team4id));
-        // axios add player to room
-      } else {
-        console.log('room does not exist...yet! Creating it now...');
-
-        // creating room on backend
-        await axios.post(`/api/room/create/${roomId}`);
-
-        // Creating room in firebase:
-        // create the room, (nested) players, and host.
-        set(roomRef, {
-          roomId: roomId,
-          host: { playerId, username },
-          players: { [playerId]: { playerId, username } },
-          game: {
-            gameStatus: 'ready',
-            team1RemainingCards: 9,
-            team2RemainingCards: 8,
-          },
-        });
-        // Set our state for if the player is the host or not.
-        dispatch(setIsHost(true));
-        let room = await axios.get(`/api/room/${roomId}`);
-        dispatch(setTeam1Id(room.data.team1id));
-        dispatch(setTeam2Id(room.data.team2id));
-        dispatch(setBystanderTeamId(room.data.team3id));
-        dispatch(setAssassinTeamId(room.data.team4id));
-      }
-    });
-
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
@@ -148,12 +94,6 @@ const RoomView = () => {
         dispatch(setAllPlayers(values));
       } else {
         console.log('no players in room yet!');
-      }
-    });
-
-    onValue(playerNestedInRoomRef, (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerNestedInRoomRef).remove(playersInRoomRef + '/' + playerId);
       }
     });
 
@@ -185,24 +125,6 @@ const RoomView = () => {
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
         }
-        // i think we can prob change the bottom 10 lines into just this...
-        // dispatch(setStatus(game.gameStatus));
-        // if (game.team1RemainingCards && game.team2RemainingCards) {
-        //   if (game.gameStatus === 'team1SpyTurn') {
-        //     dispatch(setStatus('team1SpyTurn'));
-        //   } else if (game.gameStatus === 'team2SpyTurn') {
-        //     dispatch(setStatus('team2SpyTurn'));
-        //   } else if (game.gameStatus === 'team1OpsTurn') {
-        //     dispatch(setStatus('team1OpsTurn'));
-        //   } else if (game.gameStatus === 'team2OpsTurn') {
-        //     dispatch(setStatus('team2OpsTurn'));
-        //   } else if (game.gameStatus === 'gameOver') {
-        //     // havent gotten here yet really, but presumably we'd want to:
-        //     // dispatch(setStatus('')) --> its no ones turn anymore
-        //     // set and get winning team from firebase so that we can...
-        //     // dispatch(setWinner(teamThatWon))
-        //   }
-        // }
 
         // josh's pseudocode:
         // if game status === 'complete' --->
@@ -246,6 +168,21 @@ const RoomView = () => {
       }
     });
 
+    onValue(clueHistoryRef, (snapshot) => {
+      if (snapshot.exists()) {
+        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
+        const clues = snapshot.val();
+        let history = [];
+        //this is to access the data under random firebase key and put them in an iterable array
+        for (let clueKey in clues) {
+          history.push(clues[clueKey]);
+        }
+        dispatch(setClueHistory(history));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     // Look to see if there are cards already loaded for the room
     onValue(cardsRef, async (cardSnapshot) => {
       // for some reason, i'm having trouble accessing the redux teams
@@ -330,20 +267,7 @@ const RoomView = () => {
         });
       }
     });
-
-    onValue(clueHistoryRef, (snapshot) => {
-      if (snapshot.exists()) {
-        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-        const clues = snapshot.val();
-        let history = [];
-        //this is to access the data under random firebase key and put them in an iterable array
-        for (let clueKey in clues) {
-          history.push(clues[clueKey]);
-        }
-        dispatch(setClueHistory(history));
-      }
-    });
-  }, []);
+  }, [playerId]);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
@@ -379,7 +303,6 @@ const RoomView = () => {
 
   return (
     <>
-      <ResponsiveAppBar />
       <Container style={styles.sx.RoomContainer}>
         <Grid container spacing={2} style={styles.sx.RoomGrid}>
           <Grid item xs={12} style={styles.sx.RoomAndPlayers}>
