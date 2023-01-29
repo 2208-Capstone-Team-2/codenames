@@ -67,6 +67,63 @@ router.get('/allPlayers/:roomId', async (req, res, next) => {
     next(error);
   }
 });
+/// ********************** WRITTEN BY ROSE ********************** ///
+// GET - /api/player/:playerId
+// Looks for a player with the given Id. Returns it if found, else returns 404.
+router.get('/:playerId', async (req, res, next) => {
+  try {
+    const playerId = req.params.playerId;
+    const playerToFind = await Player.findByPk(playerId);
+    if (playerToFind) {
+      res.send(playerToFind).status(202);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST - /api/player/
+// Looks for a player with the given Id. Returns it if found, else returns 404.
+router.post('/', async (req, res, next) => {
+  try {
+    const { playerId } = req.body;
+    const playerToAdd = await Player.create({ id: playerId });
+    res.send(playerToAdd).status(202);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// PUT - /api/player/:playerId
+// Updates the player of playerId with the given 'username' and 'roomName'
+router.put('/:playerId', async (req, res, next) => {
+  try {
+    const { playerId } = req.params;
+    const { username, roomName } = req.body; // get the new username they want from the passed up body
+
+    const player = await Player.findByPk(playerId);
+    if (!player) return res.sendStatus(404); // sanity check
+
+    // update the found player.
+    let updatedPlayer = await player.update({ username });
+
+    // if they passed in a roomName, find that room, and associate the player with that.
+    if (roomName) {
+      const room = await Room.findOne({ where: { name: roomName } });
+      if (!room) res.sendStatus(404); // sanity check
+      const roomId = room.id;
+      updatedPlayer = await player.update({ roomId });
+    }
+    // send back the updated player
+    res.send(updatedPlayer);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/// ********************** WRITTEN BY JOSH ********************** ///
 //GET --- gets all players
 //✔ works
 router.get('/allPlayers', async (req, res, next) => {
@@ -79,6 +136,8 @@ router.get('/allPlayers', async (req, res, next) => {
     next(error);
   }
 });
+
+// *Note: This route cannot get hit right now because of a POST route above it catching this url
 // POST --- once a player 'logins' we post their username, uid, and room to the db
 //✔ works
 router.post('/addPlayerToRoom', async (req, res, next) => {
@@ -99,6 +158,7 @@ router.post('/addPlayerToRoom', async (req, res, next) => {
     next(error);
   }
 });
+
 // PUT --- once a player has decided their team and role, we can add them here
 //✔ works
 router.put('/update/player/teamAndRole', async (req, res, next) => {
