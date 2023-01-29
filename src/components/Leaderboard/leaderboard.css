@@ -1,10 +1,8 @@
-table {
-    border: 1px solid black;
-  }
-
-  table{
-    width: 400px;
-  }
-  td{
-    border: 1px solid black;
-  }
+.leaderboardContainer{
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+}
+.header{
+  border-bottom: 1px solid red;
+}

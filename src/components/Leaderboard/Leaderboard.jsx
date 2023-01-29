@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './leaderboard.css';
 const Leaderboard = () => {
+  // eslint-disable-next-line no-unused-vars
   const [allPlayers, setAllPlayers] = useState([]);
   const [loading, setLoading] = useState(false);
   const getPlayers = async () => {
@@ -20,24 +21,10 @@ const Leaderboard = () => {
   }, []);
   if (loading) return 'Loading...';
   return (
-    <div>
-      LEADERBOARD
-      <table>
-        <thead>
-          <tr>
-            <td>Username</td>
-            <td>Wins</td>
-          </tr>
-        </thead>
-        <tbody>
-          {allPlayers.map((player, index) => (
-            <tr key={index}>
-              <td>{player.username}</td>
-              <td>{player.wins}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="leaderboardContainer">
+      <div className="header">
+        <h1>LEADERBOARD</h1>
+      </div>
     </div>
   );
 };
