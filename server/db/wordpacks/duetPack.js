@@ -1,5 +1,4 @@
-const duetPackString = `
-Ace
+const duetPackString = `Ace
 Alaska
 Anchor
 Ant
