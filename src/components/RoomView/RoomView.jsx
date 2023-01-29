@@ -31,9 +31,8 @@ import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
 
 import Clue from './Clue';
-import GuessesRemaining from './GuessesRemaining';
 import { setGuessesRemaining } from '../../store/gameSlice';
-
+import GameStatus from './GameStatus';
 import ResetGame from './ResetGame';
 
 const RoomView = () => {
@@ -56,11 +55,6 @@ const RoomView = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-
-  const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
-  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
-  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
-  const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
 
   const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
     return spy.playerId;
@@ -246,13 +240,10 @@ const RoomView = () => {
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
-            {gameStatus !== 'ready' && (
-              <Item style={styles.sx.PlayerContainer}>
-                Turn:
-                {gameStatus}
-                <GuessesRemaining />
-              </Item>
-            )}
+
+            <Item style={styles.sx.PlayerContainer}>
+              <GameStatus />
+            </Item>
 
             <Item style={styles.sx.PlayerContainer}>
               <ResetGame />
