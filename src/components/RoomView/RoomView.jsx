@@ -126,21 +126,17 @@ const RoomView = () => {
           dispatch(setShowResetButton(false));
         }
 
-        // josh's pseudocode:
-        // if game status === 'complete' --->
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
-          dispatch(setStatus('complete'));
           dispatch(setGuessesRemaining(0));
 
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
-          //Should we set a winner in firebase? Probably...
           //Set redux loser to team 2
           dispatch(setLoser('team-2'));
           set(child(gameRef, 'loser'), 'team-2');
@@ -149,17 +145,13 @@ const RoomView = () => {
         if (game.team2RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
-          console.log('this should not get hit at all');
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
-          dispatch(setStatus('complete'));
           //Set redux winner to team 2
           dispatch(setWinner('team-2'));
           set(child(gameRef, 'winner'), 'team-2');
           dispatch(setGuessesRemaining(0));
-
-          //Should we set a winner in firebase? Probably...
           //Set redux loser to team 1
           dispatch(setLoser('team-1'));
           set(child(gameRef, 'loser'), 'team-1');
