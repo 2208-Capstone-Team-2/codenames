@@ -57,6 +57,26 @@ const playerSeed = async () => {
       username: 'Topher',
       wins: 80,
     },
+    {
+      id: 12,
+      username: 'Jacob',
+      wins: 12,
+    },
+    {
+      id: 13,
+      username: 'John',
+      wins: 5,
+    },
+    {
+      id: 14,
+      username: 'Maria',
+      wins: 1,
+    },
+    {
+      id: 15,
+      username: 'Tom',
+      wins: 19,
+    },
   ];
   await Promise.all(dummyData.map((player) => Player.create(player)));
   console.log('DONE SEEDING PLAYERS..');
