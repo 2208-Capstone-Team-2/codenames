@@ -63,9 +63,6 @@ const TeamOneBox = () => {
           set(child(teamOneOperativesRef, playerId), { playerId, username });
         }
       });
-      get(teamOneOperativesRef).then((snapshot) => {
-        dispatch(setTeamOneOperatives(Object.values(snapshot.val())));
-      });
     }
   };
 
@@ -108,12 +105,6 @@ const TeamOneBox = () => {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
           set(child(teamOneSpymasterRef, playerId), { playerId, username });
-        }
-      });
-      //Dispatch to redux
-      get(teamOneSpymasterRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          dispatch(setTeamOneSpymaster(Object.values(snapshot.val())));
         }
       });
     }

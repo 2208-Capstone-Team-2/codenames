@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
-import { onValue, ref, get } from 'firebase/database';
+import { onValue, ref, set, get, child, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { Container } from '@mui/material';
@@ -13,21 +13,34 @@ import Popup from 'reactjs-popup';
 import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import styles from './Room.styles';
-import { setTeam1RemainingCards, setTeam2RemainingCards, setStatus } from '../../store/gameSlice';
+import {
+  setTeam1RemainingCards,
+  setTeam2RemainingCards,
+  setStatus,
+  setShowResetButton,
+  setWinner,
+  setLoser,
+} from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
-import { setClueHistory } from '../../store/clueSlice.js';
+import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
 
 import Clue from './Clue';
+import GuessesRemaining from './GuessesRemaining';
+import { setGuessesRemaining } from '../../store/gameSlice';
+
+import ResetGame from './ResetGame';
+
 const RoomView = () => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
+
   const dispatch = useDispatch();
 
   // frontend state
@@ -48,6 +61,7 @@ const RoomView = () => {
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+
   const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
     return spy.playerId;
   });
@@ -90,31 +104,66 @@ const RoomView = () => {
         const game = snapshot.val();
         const team1RemainingCards = snapshot.val().team1RemainingCards;
         const team2RemainingCards = snapshot.val().team2RemainingCards;
+        const guessesRemaining = snapshot.val().guessesRemaining;
+        dispatch(setStatus(game.gameStatus));
         dispatch(setTeam1RemainingCards(team1RemainingCards));
         dispatch(setTeam2RemainingCards(team2RemainingCards));
-
-        if (game.team1RemainingCards && game.team2RemainingCards) {
-          if (game.gameStatus === 'team1SpyTurn') {
-            dispatch(setStatus('team1SpyTurn'));
-          } else if (game.gameStatus === 'team2SpyTurn') {
-            dispatch(setStatus('team2SpyTurn'));
-          } else if (game.gameStatus === 'team1OpsTurn') {
-            dispatch(setStatus('team1OpsTurn'));
-          } else if (game.gameStatus === 'team2OpsTurn') {
-            dispatch(setStatus('team2OpsTurn'));
-          } else if (game.gameStatus === 'gameOver') {
-            // havent gotten here yet really, but presumably we'd want to:
-            // dispatch(setStatus('')) --> its no ones turn anymore
-            // set and get winning team from firebase so that we can...
-            // dispatch(setWinner(teamThatWon))
-          }
+        dispatch(setGuessesRemaining(guessesRemaining));
+        if (guessesRemaining <= 0) {
+          endTurn();
         }
-        // update cards remaining in redux and firebase
+
+        /* when game is 'reset' it sets the firebase game status 
+        to 'ready' which triggers the redux cleanup below */
+        if (game.gameStatus === 'ready') {
+          dispatch(setStatus('ready'));
+          dispatch(setTeam1RemainingCards(9));
+          dispatch(setTeam2RemainingCards(8));
+          dispatch(setWordsInGame([]));
+          dispatch(setCurrentClue({}));
+          dispatch(setClueHistory([]));
+          dispatch(setGuessesRemaining(0));
+          dispatch(setShowResetButton(false));
+        }
+
+        // josh's pseudocode:
+        // if game status === 'complete' --->
         if (game.team1RemainingCards === 0) {
-          console.log('team 1 wins!');
+          // set firebase gameStatus to 'complete'
+          // set winner / set loser to redux
+          // Update game state to "complete" in firebase
+          update(gameRef, { gameStatus: 'complete' });
+          // Update game state to "complete" in redux
+          dispatch(setStatus('complete'));
+          dispatch(setGuessesRemaining(0));
+
+          //Set redux winner to team 1
+          dispatch(setWinner('team-1'));
+          set(child(gameRef, 'winner'), 'team-1');
+          //Should we set a winner in firebase? Probably...
+          //Set redux loser to team 2
+          dispatch(setLoser('team-2'));
+          set(child(gameRef, 'loser'), 'team-2');
+          dispatch(setShowResetButton(true));
         }
         if (game.team2RemainingCards === 0) {
-          console.log('team 2 wins!');
+          // set firebase gameStatus to 'complete'
+          // set winner / set loser to redux
+          console.log('this should not get hit at all');
+          // Update game state to "complete" in firebase
+          update(gameRef, { gameStatus: 'complete' });
+          // Update game state to "complete" in redux
+          dispatch(setStatus('complete'));
+          //Set redux winner to team 2
+          dispatch(setWinner('team-2'));
+          set(child(gameRef, 'winner'), 'team-2');
+          dispatch(setGuessesRemaining(0));
+
+          //Should we set a winner in firebase? Probably...
+          //Set redux loser to team 1
+          dispatch(setLoser('team-1'));
+          set(child(gameRef, 'loser'), 'team-1');
+          dispatch(setShowResetButton(true));
         }
       }
     });
@@ -145,7 +194,6 @@ const RoomView = () => {
             let spymaster = snapshot.val();
             let spymasterId = Object.keys(spymaster);
             if (spymasterId.includes(playerId)) {
-              console.log('setting spy board...');
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {};
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -221,6 +269,30 @@ const RoomView = () => {
     });
   }, [playerId]);
 
+  // this function works everywhere else without having to 'get' the gamestatus from firebase
+  // it would NOT cooperate or pull accurate game status from redux. :|
+  const endTurn = () => {
+    let nextStatus;
+    // get gameref
+    get(gameRef).then((snapshot) => {
+      const doesGameExist = snapshot.exists();
+      if (doesGameExist) {
+        let game = snapshot.val();
+        if (game.team1RemainingCards && game.team2RemainingCards) {
+          if (game.gameStatus === 'team1OpsTurn') {
+            console.log('hitting next status');
+            nextStatus = 'team2SpyTurn';
+            update(gameRef, { gameStatus: nextStatus });
+          }
+          if (game.gameStatus === 'team2OpsTurn') {
+            nextStatus = 'team1SpyTurn';
+            update(gameRef, { gameStatus: nextStatus });
+          }
+        }
+      }
+    });
+  };
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -246,8 +318,13 @@ const RoomView = () => {
               <Item style={styles.sx.PlayerContainer}>
                 Turn:
                 {gameStatus}
+                <GuessesRemaining />
               </Item>
             )}
+
+            <Item style={styles.sx.PlayerContainer}>
+              <ResetGame />
+            </Item>
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
             <TeamOneBox />
