@@ -72,6 +72,8 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const { roomId } = req.params;
     const { selectedWordPackId } = req.body;
 
+    console.log('inside post for make 25. roomId from params is: ', roomId);
+
     // Create a new board to put the 25 cards into
     const board = await Board.create();
 
@@ -83,6 +85,8 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       },
     });
 
+    if (!allWords) return res.sendStatus(404); // Sanity check
+
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWords.length);
 
@@ -91,6 +95,8 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const room = await Room.findOne({
       where: { name: roomId },
     });
+
+    if (!room) return res.sendStatus(404); // Sanity check
 
     room.setBoard(board);
 
@@ -118,6 +124,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
       cards.push(card);
     }
 
+    // sometimes breaks on these promises and can't accurate figure out why or when.
     const cardPromises = cards.map((card) => Card.create(card));
     await Promise.all(cardPromises);
 

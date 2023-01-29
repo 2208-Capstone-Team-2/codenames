@@ -78,12 +78,12 @@ const Clue = () => {
       // if its team1spy submission, team1Ops goes next
       if (gameStatus === 'team1SpyTurn') {
         nextGameStatus = 'team1OpsTurn';
-        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber });
+        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber + 1 });
       }
       // if its team2spy submission, team2Ops goes next
       if (gameStatus === 'team2SpyTurn') {
         nextGameStatus = 'team2OpsTurn';
-        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber });
+        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber + 1 });
       }
     }
   };
