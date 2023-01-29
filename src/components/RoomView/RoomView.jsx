@@ -20,6 +20,7 @@ import {
   setShowResetButton,
   setWinner,
   setLoser,
+  setGuessesRemaining,
 } from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
@@ -31,10 +32,9 @@ import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
 
 import Clue from './Clue';
-import { setGuessesRemaining } from '../../store/gameSlice';
 import GameStatus from './GameStatus';
 import ResetGame from './ResetGame';
-
+import AllPlayers from './AllPlayers';
 const RoomView = () => {
   // for room nav
   const { roomId } = useParams();
@@ -45,10 +45,8 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, isHost } = useSelector((state) => state.player);
 
-  const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  let gameStatus = useSelector((state) => state.game.status);
 
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
@@ -235,10 +233,7 @@ const RoomView = () => {
             <Item style={styles.sx.PlayerContainer}>Welcome, {username}</Item>
             <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
             <Item style={styles.sx.PlayerContainer}>
-              Players:
-              {allPlayers?.map((player) => (
-                <p key={player.playerId}>{player.username}</p>
-              ))}
+              <AllPlayers />
             </Item>
 
             <Item style={styles.sx.PlayerContainer}>
