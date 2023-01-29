@@ -16,7 +16,8 @@ const Player = db.define('player', {
   //username will be coming from firebase
   username: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: false, // maybe we need to make this true
+    defaultValue: '',
   },
 
   // Even though this is an enum, calling it an enum breaks psql for some weird reason,
