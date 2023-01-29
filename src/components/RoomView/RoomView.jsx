@@ -240,6 +240,7 @@ const RoomView = () => {
     });
     // Look to see if there are cards already loaded for the room
 
+    // Look to see if there are cards already loaded for the room
     onValue(cardsRef, async (cardSnapshot) => {
       // for some reason, i'm having trouble accessing the redux teams
       //  data even though it exists on firebase and redux
@@ -269,59 +270,58 @@ const RoomView = () => {
             }
           }
         });
-      }
-    });
-    get(teamTwoSpymasterRef).then(async (snapshot) => {
-      if (snapshot.exists()) {
-        let spymaster = snapshot.val();
-        let spymasterId = Object.keys(spymaster);
-        if (spymasterId.includes(playerId)) {
-          console.log('setting spy board...');
+        get(teamTwoSpymasterRef).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            let spymaster = snapshot.val();
+            let spymasterId = Object.keys(spymaster);
+            if (spymasterId.includes(playerId)) {
+              console.log('setting spy board...');
 
-          //get set of cards with team ids from backend and set spymaster words
-          let wordsWithTeamIds = {};
-          let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
-          spyWords.data.forEach(
-            (card) =>
-              (wordsWithTeamIds[card.id] = {
-                id: card.id,
-                isVisibleToAll: card.isVisibleToAll,
-                word: card.word.word,
-                wordId: card.wordId,
-                boardId: card.boardId,
-                teamId: card.teamId,
-              }),
-          );
-          const values = Object.values(wordsWithTeamIds);
-          dispatch(setWordsInGame(values));
-        }
-      }
-    });
-    get(teamOneOperativesRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        let operatives = snapshot.val();
-        let operativesIds = Object.keys(operatives);
-        if (operativesIds.includes(playerId)) {
-          console.log('setting opertive board...');
-          //update our redux to reflect that
-          const cardsFromSnapshot = cardSnapshot.val();
-          const values = Object.values(cardsFromSnapshot);
-          dispatch(setWordsInGame(values));
-        }
-      }
-    });
-
-    get(teamTwoOperativesRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        let operatives = snapshot.val();
-        let operativesIds = Object.keys(operatives);
-        if (operativesIds.includes(playerId)) {
-          console.log('setting opertive board...');
-          //update our redux to reflect that
-          const cardsFromSnapshot = cardSnapshot.val();
-          const values = Object.values(cardsFromSnapshot);
-          dispatch(setWordsInGame(values));
-        }
+              //get set of cards with team ids from backend and set spymaster words
+              let wordsWithTeamIds = {};
+              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+              spyWords.data.forEach(
+                (card) =>
+                  (wordsWithTeamIds[card.id] = {
+                    id: card.id,
+                    isVisibleToAll: card.isVisibleToAll,
+                    word: card.word.word,
+                    wordId: card.wordId,
+                    boardId: card.boardId,
+                    teamId: card.teamId,
+                  }),
+              );
+              const values = Object.values(wordsWithTeamIds);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
+        get(teamOneOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
+              //update our redux to reflect that
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
+        get(teamTwoOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
+              //update our redux to reflect that
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
       }
     });
   }, []);
@@ -372,7 +372,7 @@ const RoomView = () => {
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
-  <GameLog />
+            <GameLog />
 
             <Item style={styles.sx.PlayerContainer}>
               <ResetGame />
