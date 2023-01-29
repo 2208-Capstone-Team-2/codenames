@@ -72,14 +72,13 @@ const RoomView = () => {
   // determines if there is at least one player in each 'role' and then shows the button for start game
   // not uncommenting code in the return until we're done testing, but it works :)
   const isEveryRoleFilled = () => {
-    if (teamOneOperatives.length > 0) {
-      if (teamTwoOperatives.length > 0) {
-        if (teamOneSpymaster.length > 0) {
-          if (teamTwoSpymaster.length > 0) {
-            return true;
-          }
-        }
-      }
+    if (
+      teamOneOperatives.length > 0 &&
+      teamTwoOperatives.length > 0 &&
+      teamOneSpymaster.length > 0 &&
+      teamTwoSpymaster.length > 0
+    ) {
+      return true;
     }
     return false;
   };
@@ -102,14 +101,11 @@ const RoomView = () => {
     onValue(gameRef, (snapshot) => {
       if (snapshot.exists()) {
         const game = snapshot.val();
-        const team1RemainingCards = snapshot.val().team1RemainingCards;
-        const team2RemainingCards = snapshot.val().team2RemainingCards;
-        const guessesRemaining = snapshot.val().guessesRemaining;
         dispatch(setStatus(game.gameStatus));
-        dispatch(setTeam1RemainingCards(team1RemainingCards));
-        dispatch(setTeam2RemainingCards(team2RemainingCards));
-        dispatch(setGuessesRemaining(guessesRemaining));
-        if (guessesRemaining <= 0) {
+        dispatch(setTeam1RemainingCards(game.team1RemainingCards));
+        dispatch(setTeam2RemainingCards(game.team2RemainingCards));
+        dispatch(setGuessesRemaining(game.guessesRemaining));
+        if (game.guessesRemaining <= 0) {
           endTurn();
         }
 
@@ -177,12 +173,9 @@ const RoomView = () => {
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
     onValue(cardsRef, async (cardSnapshot) => {
-      // for some reason, i'm having trouble accessing the redux teams
-      //  data even though it exists on firebase and redux
-      // tried a few diff ways and this is what i could get to work. bulky :(
       if (cardSnapshot.exists()) {
+        // if player is spymaster, give them cards with 'answers'
         if (teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId) {
-          //get set of cards with team ids from backend and set spymaster words
           let wordsWithTeamIds = {};
           let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
           spyWords.data.forEach(
@@ -199,6 +192,7 @@ const RoomView = () => {
           const values = Object.values(wordsWithTeamIds);
           dispatch(setWordsInGame(values));
         } else {
+          // give operatives cards w/o answers
           const cardsFromSnapshot = cardSnapshot.val();
           const values = Object.values(cardsFromSnapshot);
           dispatch(setWordsInGame(values));
