@@ -10,7 +10,7 @@ import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import { setPlayerId } from '../../store/playerSlice';
 import styles from './Lobby.styles';
 import logo from '../../static/images/logoLight.png'; // Tell Webpack this JS file uses this image
-import HowToPlay from './HowToPlay.jsx';
+import HowToPlay from '../Home/HowToPlay.jsx';
 import FAQ from '../Home/FAQ.jsx';
 import { ref, update, set, onDisconnect } from 'firebase/database';
 
