@@ -4,22 +4,35 @@ import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
+import { RootState } from '../../store/index.js';
 
 const OperativeBoard = () => {
-  const words = useSelector((state) => state.wordsInGame.wordsInGame);
-  const roomId = useSelector((state) => state.player.roomId);
-  const playerId = useSelector((state) => state.player.playerId);
-  const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
-  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
-  const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneOperatives } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives } = useSelector((state) => state.teamTwo);
+  const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
+  const roomId = useSelector((state: RootState) => state.player.roomId);
+  const playerId = useSelector((state: RootState) => state.player.playerId);
+  const teamOneRemainingCards = useSelector((state: RootState) => state.game.team1RemainingCards);
+  const teamTwoRemainingCards = useSelector((state: RootState) => state.game.team2RemainingCards);
+  const gameStatus = useSelector((state: RootState) => state.game.status);
+  const { teamOneOperatives } = useSelector((state: RootState) => state.teamOne);
+  const { teamTwoOperatives } = useSelector((state: RootState) => state.teamTwo);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
-  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
+  interface PlayerObj {
+    playerId: number;
+  }
+
+  interface WordObj {
+    id: number;
+    isVisibleToAll: boolean;
+    word: string;
+    wordId: number;
+    boardId: number;
+  }
+
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative: PlayerObj) => {
     return operative.playerId;
   });
-  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: PlayerObj)  => {
     return operative.playerId;
   });
 
@@ -50,7 +63,7 @@ const OperativeBoard = () => {
 
   return (
     <div style={style}>
-      {words.map((word) => {
+      {words.map((word: WordObj) => {
         return <Card key={word.id} word={word} />;
       })}
 

@@ -21,7 +21,7 @@ import {
   setWinner,
   setLoser,
 } from '../../store/gameSlice';
-import OperativeBoard from './OperativeBoard.jsx';
+import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
