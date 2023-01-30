@@ -50,18 +50,22 @@
   .players{
     display: flex;
     flex-direction: column;
+    padding: 12px;
     align-items: center;
     border: 1px solid red;
   }
   .playerRow{
     display: flex;
     flex-direction: row;
+    border-bottom: 1px solid black;
   }
 .playerUsername{
-border: 1px solid blue;
-min-width: 200px;
+    display: flex;
+    justify-content: flex-start;
+    min-width: 200px;
 }
 .playerWins{
+    display: flex;
+    justify-content: flex-end;
     min-width: 80px;
-    border: 1px solid green;
 }
