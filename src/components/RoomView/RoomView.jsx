@@ -32,7 +32,7 @@ import GuessesRemaining from './GuessesRemaining';
 import { setGuessesRemaining } from '../../store/gameSlice';
 import GameLog from './gameLog';
 
-const RoomView = () => {
+const RoomView = (props ) => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
@@ -287,7 +287,8 @@ const RoomView = () => {
   };
 
   return (
-    <>
+    <div className={props.className}>
+<WelcomeBoard />
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
@@ -309,15 +310,16 @@ const RoomView = () => {
         </Popup>
       )}
       <div className="flexBox">
-        <WelcomeBoard />
+      <TeamOneBox />
         <div className="boardContainer">
           {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
         </div>
-        <GameLog />
+        <TeamTwoBox />
+  
       </div>
-      <TeamOneBox />
-      <TeamTwoBox />
+      <GameLog />
       <Clue />
+      <div className='chatBox'> this will be the chat box</div>
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup
@@ -339,7 +341,7 @@ const RoomView = () => {
       {/* player is operative && show operative board, otherwise theyre a spymaster*/}
       {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-    </>
+    </div>
   );
 };
 
