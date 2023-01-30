@@ -24,8 +24,8 @@ const Leaderboard = () => {
   // we would then could have state determine this.
   const PER_PAGE = 5;
   const offset = currentPage * PER_PAGE;
-  const currentPageData = allPlayers.slice(offset, offset + PER_PAGE);
-  const pageCount = Math.ceil(allPlayers.length / PER_PAGE);
+  const currentPageData = allPlayers.filter((player) => player.wins > 3).slice(offset, offset + PER_PAGE);
+  const pageCount = Math.ceil(allPlayers.filter((player) => player.wins > 3).length / PER_PAGE);
   //
   function handlePageClick({ selected: selectedPage }) {
     setCurrentPage(selectedPage);
