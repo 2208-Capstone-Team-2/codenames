@@ -7,6 +7,7 @@ import teamTwoReducer from './teamTwoSlice';
 import clueReducer from './clueSlice';
 import gameReducer from './gameSlice';
 import assassinAndBystanderReducer from './assassinAndBystanderSlice';
+import { useDispatch } from 'react-redux';
 
 const store = configureStore({
   reducer: {
@@ -20,5 +21,9 @@ const store = configureStore({
     assassinAndBystander: assassinAndBystanderReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
 
 export default store;
