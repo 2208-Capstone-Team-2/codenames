@@ -18,7 +18,7 @@ const OperativeBoard = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
 
   interface PlayerObj {
-    playerId: number;
+    playerId: string;
   }
 
   interface WordObj {
