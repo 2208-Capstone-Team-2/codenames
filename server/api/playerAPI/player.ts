@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import {Player, Team, Room } from '../../db';
+import {Player, Room } from '../../db';
 const router = express.Router();
 // GET --- get all players within a role on each team within a room
 //✔ works
