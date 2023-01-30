@@ -163,10 +163,6 @@ const RoomView = () => {
         }
       }
     });
-  }, []);
-
-  useEffect(() => {
-    // Look to see if there are cards already loaded for the room
     onValue(gameHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
@@ -178,8 +174,9 @@ const RoomView = () => {
         dispatch(setGameHistory(history));
       }
     });
-    // Look to see if there are cards already loaded for the room
+  }, []);
 
+  useEffect(() => {
     // Look to see if there are cards already loaded for the room
     onValue(cardsRef, async (cardSnapshot) => {
       // for some reason, i'm having trouble accessing the redux teams
