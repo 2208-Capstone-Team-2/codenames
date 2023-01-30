@@ -1,10 +1,8 @@
 /**
- *
  * @param {} quantity
  * @param {*} max
- * @returns an array of integers
+ * @returns an array of length 'quantity', made up of random, unique integers that range from 1 - 'max' inclusively.
  */
-//a function to get "quantity" of unique random interger, from 1 - max (inclusive)
 function getRandomIntArray(quantity, max) {
   const arr = [];
   while (arr.length < quantity) {

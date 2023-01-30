@@ -1,8 +1,79 @@
 const express = require('express');
-// eslint-disable-next-line no-unused-vars
 const router = express.Router();
-// eslint-disable-next-line no-unused-vars
-const { Player, Team, Room } = require('../../db');
+const { Player, Room } = require('../../db');
+
+/// ********************** WRITTEN BY ROSE ********************** ///
+// GET - /api/player/:playerId
+// Looks for a player with the given Id. Returns it if found, else returns 404.
+router.get('/:playerId', async (req, res, next) => {
+  try {
+    const playerId = req.params.playerId;
+    const playerToFind = await Player.findByPk(playerId);
+    if (playerToFind) {
+      res.send(playerToFind).status(202);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+/// ********************** WRITTEN BY JOSH ********************** ///
+//GET --- gets all players
+//✔ works
+router.get('/', async (req, res, next) => {
+  try {
+    const allPlayers = await Player.findAll();
+    if (allPlayers) {
+      res.send(allPlayers).status(201);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+/// ********************** WRITTEN BY ROSE ********************** ///
+// POST - /api/player/
+// Looks for a player with the given Id. Returns it if found, else returns 404.
+router.post('/', async (req, res, next) => {
+  try {
+    const { playerId } = req.body;
+    const playerToAdd = await Player.create({ id: playerId });
+    res.send(playerToAdd).status(202);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// PUT - /api/player/:playerId
+// Updates the player of playerId with the given 'username' and 'roomName'
+router.put('/:playerId', async (req, res, next) => {
+  try {
+    const { playerId } = req.params;
+    const { username, roomName } = req.body; // get the new username they want from the passed up body
+
+    const player = await Player.findByPk(playerId);
+    if (!player) return res.sendStatus(404); // sanity check
+
+    let updatedPlayer = await player.update({ username }); // update the found player.
+
+    // if they passed in a roomName, find that room, and associate the player with that.
+    if (roomName) {
+      const room = await Room.findOne({ where: { name: roomName } });
+      if (!room) res.sendStatus(404); // sanity check
+      const roomId = room.id;
+      updatedPlayer = await player.update({ roomId });
+    }
+
+    res.send(updatedPlayer); // send back the updated player
+  } catch (error) {
+    next(error);
+  }
+});
+
+/// ********************** These routes are currently not being used. ********************** ///
+// ********************** WRITTEN BY JOSH ********************** //
 // GET --- get all players within a role on each team within a room
 //✔ works
 router.get('/allPlayers/:roomId/:teamId/:role', async (req, res, next) => {
@@ -27,6 +98,7 @@ router.get('/allPlayers/:roomId/:teamId/:role', async (req, res, next) => {
     next(error);
   }
 });
+
 // GET --- get all players on a particular team within a room
 //✔ works
 router.get('/allPlayers/:roomId/:teamId', async (req, res, next) => {
@@ -48,6 +120,7 @@ router.get('/allPlayers/:roomId/:teamId', async (req, res, next) => {
     next(error);
   }
 });
+
 // GET --- get all players in a room
 //✔ works
 router.get('/allPlayers/:roomId', async (req, res, next) => {
@@ -63,74 +136,6 @@ router.get('/allPlayers/:roomId', async (req, res, next) => {
     } else {
       res.send('no players were found').status(404);
     }
-  } catch (error) {
-    next(error);
-  }
-});
-/// ********************** WRITTEN BY ROSE ********************** ///
-// GET - /api/player/:playerId
-// Looks for a player with the given Id. Returns it if found, else returns 404.
-router.get('/:playerId', async (req, res, next) => {
-  try {
-    const playerId = req.params.playerId;
-    const playerToFind = await Player.findByPk(playerId);
-    if (playerToFind) {
-      res.send(playerToFind).status(202);
-    } else {
-      res.sendStatus(404);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-/// ********************** WRITTEN BY JOSH ********************** ///
-//GET --- gets all players
-//✔ works
-router.get('/', async (req, res, next) => {
-  try {
-    const allPlayers = await Player.findAll();
-    if (allPlayers) {
-      res.send(allPlayers).status(201);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
-// POST - /api/player/
-// Looks for a player with the given Id. Returns it if found, else returns 404.
-router.post('/', async (req, res, next) => {
-  try {
-    const { playerId } = req.body;
-    const playerToAdd = await Player.create({ id: playerId });
-    res.send(playerToAdd).status(202);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// PUT - /api/player/:playerId
-// Updates the player of playerId with the given 'username' and 'roomName'
-router.put('/:playerId', async (req, res, next) => {
-  try {
-    const { playerId } = req.params;
-    const { username, roomName } = req.body; // get the new username they want from the passed up body
-
-    const player = await Player.findByPk(playerId);
-    if (!player) return res.sendStatus(404); // sanity check
-
-    // update the found player.
-    let updatedPlayer = await player.update({ username });
-
-    // if they passed in a roomName, find that room, and associate the player with that.
-    if (roomName) {
-      const room = await Room.findOne({ where: { name: roomName } });
-      if (!room) res.sendStatus(404); // sanity check
-      const roomId = room.id;
-      updatedPlayer = await player.update({ roomId });
-    }
-    // send back the updated player
-    res.send(updatedPlayer);
   } catch (error) {
     next(error);
   }
