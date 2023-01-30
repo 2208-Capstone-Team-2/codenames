@@ -12,7 +12,7 @@ const Leaderboard = () => {
     // Grabbing players from the backend, later we could make this a little different
     //--- Maybe we wouldn't want to get players who have 0 wins, or you have to gave a certain number
     //--- of wins to be on the leaderboard?
-    const { data } = await axios.get('/api/player/allPlayers');
+    const { data } = await axios.get('/api/player');
     console.log(data);
     // Sort in place based on wins, then set it to local state, although this can later be redux state
     data.sort((a, b) => b.wins - a.wins);
@@ -20,7 +20,7 @@ const Leaderboard = () => {
     setLoading(false);
   };
   // PAGINATION
-  // Hardcoded # of books per page, if in the future we wanted the user to be able to change the # of items per page
+  // Hardcoded # of results, if in the future we wanted the user to be able to change the # of items per page
   // we would then could have state determine this.
   const PER_PAGE = 5;
   const offset = currentPage * PER_PAGE;

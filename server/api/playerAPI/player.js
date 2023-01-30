@@ -67,19 +67,6 @@ router.get('/allPlayers/:roomId', async (req, res, next) => {
     next(error);
   }
 });
-/// ********************** WRITTEN BY JOSH ********************** ///
-//GET --- gets all players
-//✔ works
-router.get('/allPlayers', async (req, res, next) => {
-  try {
-    const allPlayers = await Player.findAll();
-    if (allPlayers) {
-      res.send(allPlayers).status(201);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
 /// ********************** WRITTEN BY ROSE ********************** ///
 // GET - /api/player/:playerId
 // Looks for a player with the given Id. Returns it if found, else returns 404.
@@ -91,6 +78,19 @@ router.get('/:playerId', async (req, res, next) => {
       res.send(playerToFind).status(202);
     } else {
       res.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+/// ********************** WRITTEN BY JOSH ********************** ///
+//GET --- gets all players
+//✔ works
+router.get('/', async (req, res, next) => {
+  try {
+    const allPlayers = await Player.findAll();
+    if (allPlayers) {
+      res.send(allPlayers).status(201);
     }
   } catch (error) {
     next(error);
