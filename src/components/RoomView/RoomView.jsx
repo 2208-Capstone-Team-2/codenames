@@ -284,9 +284,7 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )} */}
-      {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-      {/* this is working for now, but we probably need more protection to not display 
-      a spymaster board on someone who randomly joins room while game is 'in progress' */}
+      {/* player is spy && show spy board, otherwise theyre operative*/}
       {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
     </>
   );
