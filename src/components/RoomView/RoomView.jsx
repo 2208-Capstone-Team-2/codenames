@@ -6,12 +6,9 @@ import { onValue, ref, set, get, child, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import './roomView.css';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import Popup from 'reactjs-popup';
 import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
-import ResponsiveAppBar from '../ResponsiveAppBar.jsx';
 import WelcomeBoard from './WelcomeBoard';
 import {
   setTeam1RemainingCards,
@@ -289,17 +286,8 @@ const RoomView = () => {
     });
   };
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
   return (
     <>
-      <ResponsiveAppBar />
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
