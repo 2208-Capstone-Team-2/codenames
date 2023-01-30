@@ -44,9 +44,6 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const board = await Board.create(); // Create a new board to put the 25 cards into
     room.setBoard(board);
 
-    console.log(`layout.length: ${layout.length}`);
-    console.log(`randomWordsIds.length: ${randomWordsIds.length}`);
-
     // Make an array of 25 cards objects
     const cards = [];
     for (let i = 0; i < 25; i++) {

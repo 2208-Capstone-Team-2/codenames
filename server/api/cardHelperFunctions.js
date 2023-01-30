@@ -9,6 +9,8 @@ function getRandomIntArray(quantity, max) {
   const arr = [];
   while (arr.length < quantity) {
     let candidateInt = Math.floor(Math.random() * (max + 1));
+    if (candidateInt === 0) continue; // Quickfix to not let 0 get pushed on
+    // Only push onto the arr if the arr doesn't include that number already.
     if (arr.indexOf(candidateInt) === -1) arr.push(candidateInt);
   }
   return arr;
