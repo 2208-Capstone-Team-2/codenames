@@ -44,6 +44,9 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     const board = await Board.create(); // Create a new board to put the 25 cards into
     room.setBoard(board);
 
+    console.log(`layout.length: ${layout.length}`);
+    console.log(`randomWordsIds.length: ${randomWordsIds.length}`);
+
     // Make an array of 25 cards objects
     const cards = [];
     for (let i = 0; i < 25; i++) {
@@ -57,28 +60,21 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 
     // Let these 25 Card Model creations run async, and await for them ALL to finish.
     const cardPromises = cards.map((card) => Card.create(card));
+
+    console.log(cards);
     await Promise.all(cardPromises);
 
     /****** At this point the cards have been seeded!
     We just need to: 
      - query so we can get the word ON to the card, from the Word Model association
-     - make a copy of what we send back do that the field teamId is not on it (this is sensitive info)
+     - exclude the teamId, so teamId does not live on the cards we send back, else easy to cheat!
     */
-
     const queriedCards = await Card.findAll({
       where: { boardId: board.id },
       include: [Word],
+      attributes: { exclude: ['teamId'] },
     });
-
-    // remove the teamId property using delete keyword
-    const cardsWithTeamIdDeleted = queriedCards.map((card) => {
-      // Note: I tried using the delete keyword but it didn't work. So just assigning it to null.
-      // delete card.teamId // didnt work....
-      card.teamId = null;
-      return card;
-    });
-
-    res.send(cardsWithTeamIdDeleted);
+    res.send(queriedCards);
   } catch (err) {
     next(err);
   }
