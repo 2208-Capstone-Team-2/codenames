@@ -55,12 +55,12 @@ const RoomView = () => {
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
 
-  const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
-    return spy.playerId;
-  });
-  const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
-    return spy.playerId;
-  });
+  // const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
+  //   return spy.playerId;
+  // });
+  // const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
+  //   return spy.playerId;
+  // });
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -285,7 +285,11 @@ const RoomView = () => {
         </Popup>
       )} */}
       {/* player is spy && show spy board, otherwise theyre operative*/}
-      {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
+      {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+        <SpyMasterBoard />
+      ) : (
+        <OperativeBoard />
+      )}
     </>
   );
 };
