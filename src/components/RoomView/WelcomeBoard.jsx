@@ -12,9 +12,7 @@ const WelcomeBoard = () => {
         <h3>Room id: {roomId}</h3>
         <h3>
           Players:
-          {allPlayers?.map((player) => (
-            <p key={player.playerId}>{player.username}</p>
-          ))}
+          {allPlayers?.map((player) => ' ' + player.username + ',')}
         </h3>
         <ResetGame />
       </div>

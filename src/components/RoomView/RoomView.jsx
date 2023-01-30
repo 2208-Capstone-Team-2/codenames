@@ -286,7 +286,7 @@ const RoomView = (props) => {
 
   return (
     <div className={props.className}>
-              <WelcomeBoard />
+      <WelcomeBoard />
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
