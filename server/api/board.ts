@@ -1,11 +1,11 @@
-const express = require('express');
+import express, { NextFunction, Request, Response } from "express";
 const router = express.Router();
-const { Board } = require('../db');
+import { Board } from '../db';
 
 // DELETE - /api/board/:boardId
 // Given a boardId (via req.body),
 // deletes all the cards associated with it & then deletes the board itself
-router.get('/:boardId', async (req, res, next) => {
+router.get('/:boardId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { boardId } = req.params;
     // todo
@@ -14,4 +14,4 @@ router.get('/:boardId', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

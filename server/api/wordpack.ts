@@ -1,10 +1,10 @@
-const express = require('express');
+import express, { NextFunction, Request, Response } from 'express';
 const router = express.Router();
-const { Wordpack } = require('../db');
+import { Wordpack } from '../db';
 
 // GET - /api/wordpack/
 // Gets and returns all Wordpacks in the DB. Does not include the cards.
-router.get('/', async (req, res, next) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const wordpacks = await Wordpack.findAll();
     res.send(wordpacks);
@@ -13,4 +13,4 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

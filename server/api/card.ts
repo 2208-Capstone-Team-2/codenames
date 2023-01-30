@@ -1,9 +1,9 @@
-const express = require('express');
+import express, { NextFunction, Request, Response } from "express";
 const router = express.Router();
 const { Word, Card, Board, Room } = require('../db');
 
 //a function to get "quantity" of unique random interger, from 0 - max (inclusive)
-function getRandomIntArray(quantity, max) {
+function getRandomIntArray(quantity: number, max: number) {
   const arr = [];
   while (arr.length < quantity) {
     let candidateInt = Math.floor(Math.random() * (max + 1));
@@ -18,9 +18,9 @@ function getRandomIntArray(quantity, max) {
 // team3's id appears 7 times
 // team4's id appears once.
 // The order of these apperances are random
-function createRandomLayout(team1id, team2id, team3id, team4id) {
+function createRandomLayout(team1id: number, team2id: number, team3id: number, team4id: number) {
   // This JavaScript function always returns a random number between min and max (both included):
-  function getRndInteger(min, max) {
+  function getRndInteger(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
@@ -29,7 +29,15 @@ function createRandomLayout(team1id, team2id, team3id, team4id) {
   let team3Pile = 7; // 7 '3' --> white card
   let team4Pile = 1; // 1 '0' --> black card
 
-  const mapping = {
+  interface IMapping {
+    [index: number]: number;
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+  }
+  
+  const mapping: IMapping = {
     1: team1id,
     2: team2id,
     3: team3id,
@@ -64,7 +72,7 @@ function createRandomLayout(team1id, team2id, team3id, team4id) {
 // POST localhost:3000/api/card/make25/forRoom/:roomId
 // Given the boardId of the board to fill,
 // and array of workpack ids, creates 25 cards.
-router.post('/make25/forRoom/:roomId', async (req, res, next) => {
+router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log('hitting make 25');
 
@@ -140,7 +148,8 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     });
 
     // remove the teamId property using delete keyword
-    const cardsWithTeamIdDeleted = queriedCards.map((card) => {
+    // Card type set to ANY
+    const cardsWithTeamIdDeleted = queriedCards.map((card:any) => {
       // Note: I tried using the delete keyword but it didn't work. So just assigning it to null.
       // delete card.teamId // didnt work....
       card.teamId = null;
@@ -154,7 +163,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 });
 // get cards for spymaster
 // needs to be validated with jwt?
-router.get('/get25/forRoom/:roomId', async (req, res, next) => {
+router.get('/get25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { roomId } = req.params;
     const room = await Room.findOne({
@@ -179,7 +188,7 @@ router.get('/get25/forRoom/:roomId', async (req, res, next) => {
 // PUT localhost:3000/api/card/make25/forRoom/:roomId
 // Updates a card, given its cardID
 // probably used for toggling isVisibleToAll
-router.put('/:wordId', async (req, res, next) => {
+router.put('/:wordId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // TODO!!!!!!!
     const { wordId } = req.params;
@@ -206,4 +215,4 @@ router.put('/:wordId', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;
