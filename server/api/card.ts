@@ -1,12 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const { Word, Card, Board, Room } = require('../db');
-const { getRandomIntArray, createRandomLayout } = require('./cardHelperFunctions');
+import express, { NextFunction, Request, Response, Router } from "express";
+const router = Router();
+import { Word, Card, Board, Room } from '../db';
+import { getRandomIntArray, createRandomLayout } from './cardHelperFunctions';
 
 // POST localhost:3000/api/card/make25/forRoom/:roomId
 // Given the boardId of the board to fill,
 // and array of workpack ids, creates 25 cards.
-router.post('/make25/forRoom/:roomId', async (req, res, next) => {
+router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Get stuff out of req.body
     const { roomId } = req.params;
@@ -79,7 +79,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 });
 // get cards for spymaster
 // needs to be validated with jwt?
-router.get('/get25/forRoom/:roomId', async (req, res, next) => {
+router.get('/get25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { roomId } = req.params;
     const room = await Room.findOne({
@@ -104,7 +104,7 @@ router.get('/get25/forRoom/:roomId', async (req, res, next) => {
 // PUT localhost:3000/api/card/make25/forRoom/:roomId
 // Updates a card, given its cardID
 // probably used for toggling isVisibleToAll
-router.put('/:wordId', async (req, res, next) => {
+router.put('/:wordId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // TODO!!!!!!!
     const { wordId } = req.params;
@@ -131,4 +131,4 @@ router.put('/:wordId', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;
