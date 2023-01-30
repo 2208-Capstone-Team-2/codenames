@@ -55,7 +55,7 @@ const playerSeed = async () => {
     {
       id: 11,
       username: 'Topher',
-      wins: 80,
+      wins: 16,
     },
     {
       id: 12,

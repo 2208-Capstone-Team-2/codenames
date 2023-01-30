@@ -38,6 +38,9 @@ const Leaderboard = () => {
     <div className="leaderboardContainer">
       <h1>LEADERBOARD</h1>
       <div className="players">
+        <div id="headers">
+          <span>Username</span> <span>Wins</span>
+        </div>
         {currentPageData.map((player, index) => {
           return (
             <div key={index} className="playerRow">
