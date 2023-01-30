@@ -1,12 +1,12 @@
-.popup{
+.popup{    
     background-color: #365e7f;
     box-shadow: 10px 15px #8c2a2a;
     position: fixed;
-    width: 30vw;
-    height: 30vh;
+    width: 90vw;
+    height: 50vh;
     padding: 3%;
     display: flex;
-    margin: 10% auto;
+    margin: 0 auto;
     left: 0;
     right: 0;
     border-radius: 5px;

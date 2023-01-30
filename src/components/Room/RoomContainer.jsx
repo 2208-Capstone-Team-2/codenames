@@ -11,6 +11,7 @@ import OnAuthStateChanged from './OnAuthStateChanged';
 function RoomContainer() {
   const [inputtedUsername, setInputtedUsername] = useState('');
   const [timedPopup, setTimedPopup] = useState(false);
+  const [canBeClosed, setCanBeClosed] = useState(true);
   useEffect(() => {
     setTimeout(() => {
       setTimedPopup(true);
@@ -22,9 +23,9 @@ function RoomContainer() {
       <FetchRoom />
       <SignInAnonymously />
       <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
-      <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
-        <UsernameForm inputtedUsername={inputtedUsername} setInputtedUsername={setInputtedUsername} />
-      </Popup>
+        <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
+          <UsernameForm inputtedUsername={inputtedUsername} setInputtedUsername={setInputtedUsername} canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed}/>
+        </Popup>
       <RoomView />
     </div>
   );
