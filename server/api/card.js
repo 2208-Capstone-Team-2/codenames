@@ -8,16 +8,9 @@ const { getRandomIntArray, createRandomLayout } = require('./cardHelperFunctions
 // and array of workpack ids, creates 25 cards.
 router.post('/make25/forRoom/:roomId', async (req, res, next) => {
   try {
-    console.log('hitting make 25');
-
     // Get stuff out of req.body
     const { roomId } = req.params;
     const { selectedWordPackId } = req.body;
-
-    console.log('inside post for make 25. roomId from params is: ', roomId);
-
-    // Create a new board to put the 25 cards into
-    const board = await Board.create();
 
     // Find which pack users select and put all the candidate words in an array
     const allWords = await Word.findAll({
@@ -32,41 +25,37 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWords.length);
 
-    // Get the teamIds that we will need to seed our cards
-    // changed to findOneWhere because 'roomId' is a n
+    // We need the teamIds that we will need to seed our cards - these are on room.
+    // Find the room with this 'roomId' (is actually a name like jolly-panda)
     const room = await Room.findOne({
       where: { name: roomId },
     });
-
     if (!room) return res.sendStatus(404); // Sanity check
 
-    room.setBoard(board);
-
+    // Get the teamIds
     const { team1id, team2id, team3id, team4id } = room;
-
-    // If any of teamIds are falsey, immediately kick.
-    if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404);
+    if (!team1id || !team2id || !team3id || !team4id) res.sendStatus(404); // Sanity check
 
     const layout = createRandomLayout(team1id, team2id, team3id, team4id);
 
+    // Board and room are 1:1
+    // Overwrite the previous linking of this room to any other board,
+    // And give it the one we've just made and will soon make cards for.
+    const board = await Board.create(); // Create a new board to put the 25 cards into
+    room.setBoard(board);
+
+    // Make an array of 25 cards objects
     const cards = [];
-    //loop through the random index array
     for (let i = 0; i < 25; i++) {
       // Get a random teamId and wordId from our random arrays
       // layout: [33, 22, 22, 55, 54, 22, 33, 55 ....]
       const teamId = layout.pop();
       const wordId = randomWordsIds.pop();
-
-      // make will become a Card, and push it
-      const card = {
-        boardId: board.id,
-        wordId,
-        teamId,
-      };
+      const card = { boardId: board.id, wordId, teamId };
       cards.push(card);
     }
 
-    // sometimes breaks on these promises and can't accurate figure out why or when.
+    // Let these 25 Card Model creations run async, and await for them ALL to finish.
     const cardPromises = cards.map((card) => Card.create(card));
     await Promise.all(cardPromises);
 
