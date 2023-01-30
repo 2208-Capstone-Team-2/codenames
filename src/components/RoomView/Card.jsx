@@ -53,9 +53,12 @@ const Card = ({ word }) => {
 
       if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
+        update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
+        /* below sets the cards to 0 and declares opposing team as winner in 
+        roomview seems dishonest bc they dont actually have 0 remaining cards, 
+        but it'll  trigger code that is doing what we want it to in roomview 
+        instead of writing redundant logic*/
+        update(gameRef, { gameStatus: 'complete', team2RemainingCards: 0 });
       }
       if (cardBelongsTo === bystanderTeamId) {
         console.log('you hit a bystander!');
@@ -78,9 +81,9 @@ const Card = ({ word }) => {
 
       if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
+        update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
+        // team 1 wins if team 2 hits assassin. logic is triggered on roomview
+        update(gameRef, { gameStatus: 'complete', team1RemainingCards: 0 });
       }
       if (cardBelongsTo === bystanderTeamId) {
         console.log('you hit a bystander!');

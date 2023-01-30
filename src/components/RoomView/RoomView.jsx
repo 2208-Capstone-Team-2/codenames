@@ -30,7 +30,7 @@ import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
 import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
-import { isEveryRoleFilled } from '../../utils/Utils';
+import { isEveryRoleFilled } from '../../utils/utils';
 
 import Clue from './Clue';
 import GameStatus from './GameStatus';
@@ -54,13 +54,6 @@ const RoomView = () => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-
-  // const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
-  //   return spy.playerId;
-  // });
-  // const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
-  //   return spy.playerId;
-  // });
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE

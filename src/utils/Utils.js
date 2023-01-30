@@ -1,7 +1,3 @@
-export const testingFunction = () => {
-  console.log('it worked!');
-};
-
 export const isEveryRoleFilled = (teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster) => {
   if (
     teamOneOperatives.length > 0 &&
