@@ -41,3 +41,27 @@
       width: 800px;
       margin: 12px 0 48px 0;
   }
+  .leaderboardContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+  }
+  .players{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid red;
+  }
+  .playerRow{
+    display: flex;
+    flex-direction: row;
+  }
+.playerUsername{
+border: 1px solid blue;
+min-width: 200px;
+}
+.playerWins{
+    min-width: 80px;
+    border: 1px solid green;
+}

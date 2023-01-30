@@ -41,8 +41,8 @@ const Leaderboard = () => {
         {currentPageData.map((player, index) => {
           return (
             <div key={index} className="playerRow">
-              {player.username}
-              {player.wins}
+              <div className="playerUsername">{player.username}</div>
+              <div className="playerWins">{player.wins}</div>
             </div>
           );
         })}
