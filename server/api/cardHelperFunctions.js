@@ -4,13 +4,13 @@
  * @param {*} max
  * @returns an array of integers
  */
-//a function to get "quantity" of unique random interger, from 0 - max (inclusive)
+//a function to get "quantity" of unique random interger, from 1 - max (inclusive)
 function getRandomIntArray(quantity, max) {
   const arr = [];
   while (arr.length < quantity) {
-    let candidateInt = Math.floor(Math.random() * (max + 1));
-    if (candidateInt === 0) continue; // Quickfix to not let 0 get pushed on
-    // Only push onto the arr if the arr doesn't include that number already.
+    // A random integer from 1 to max, (both included)
+    const candidateInt = Math.floor(Math.random() * max) + 1;
+    // Only push this onto the arr if the arr doesn't include that number already.
     if (arr.indexOf(candidateInt) === -1) arr.push(candidateInt);
   }
   return arr;
