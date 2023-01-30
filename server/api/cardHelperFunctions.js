@@ -1,15 +1,15 @@
 /**
  * @param {} quantity
  * @param {*} max
- * @returns an array of length 'quantity', made up of random, unique integers that range from 1 - 'max' inclusively.
+ * @returns an array of length 'length', made up of randomly chosen elements from arrayOfIds
  */
-function getRandomIntArray(quantity, max) {
+function getRandomIntArray(length, arrayOfIds) {
   const arr = [];
-  while (arr.length < quantity) {
-    // A random integer from 1 to max, (both included)
-    const candidateInt = Math.floor(Math.random() * max) + 1;
+  while (arr.length < length) {
+    const randIndex = Math.floor(Math.random() * arrayOfIds.length);
+    const element = arrayOfIds[randIndex];
     // Only push this onto the arr if the arr doesn't include that number already.
-    if (arr.indexOf(candidateInt) === -1) arr.push(candidateInt);
+    if (!arr.includes(element)) arr.push(element);
   }
   return arr;
 }

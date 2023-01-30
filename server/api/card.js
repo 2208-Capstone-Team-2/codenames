@@ -22,8 +22,9 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 
     if (!allWords) return res.sendStatus(404); // Sanity check
 
+    const allWordsIds = allWords.map((word) => word.id);
     // This is an array of random word ids to pull from
-    const randomWordsIds = getRandomIntArray(25, allWords.length);
+    const randomWordsIds = getRandomIntArray(25, allWordsIds);
 
     // We need the teamIds that we will need to seed our cards - these are on room.
     // Find the room with this 'roomId' (is actually a name like jolly-panda)
