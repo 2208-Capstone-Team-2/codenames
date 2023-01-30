@@ -9,6 +9,7 @@ const GameStatus = () => {
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   const [playerNote, setPlayerNote] = useState('');
 
+  // will use below prior to user joining game && game being 'ready
   const joinTeamNote = 'Join a team to play the game';
 
   const otherTeamSpymasterNote = 'The opponent spymaster is playing...wait for your turn';
