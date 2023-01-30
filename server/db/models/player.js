@@ -36,6 +36,12 @@ const Player = db.define('player', {
       },
     },
   },
+  wins: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    unique: false,
+    defaultValue: 0,
+  },
 });
 
 module.exports = Player;

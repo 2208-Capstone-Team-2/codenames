@@ -83,6 +83,19 @@ router.get('/:playerId', async (req, res, next) => {
     next(error);
   }
 });
+/// ********************** WRITTEN BY JOSH ********************** ///
+//GET --- gets all players
+//✔ works
+router.get('/', async (req, res, next) => {
+  try {
+    const allPlayers = await Player.findAll();
+    if (allPlayers) {
+      res.send(allPlayers).status(201);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 // POST - /api/player/
 // Looks for a player with the given Id. Returns it if found, else returns 404.
@@ -118,20 +131,6 @@ router.put('/:playerId', async (req, res, next) => {
     }
     // send back the updated player
     res.send(updatedPlayer);
-  } catch (error) {
-    next(error);
-  }
-});
-
-/// ********************** WRITTEN BY JOSH ********************** ///
-//GET --- gets all players
-//✔ works
-router.get('/allPlayers', async (req, res, next) => {
-  try {
-    const allPlayers = await Player.findAll();
-    if (allPlayers) {
-      res.send(allPlayers).status(201);
-    }
   } catch (error) {
     next(error);
   }
