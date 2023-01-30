@@ -204,58 +204,58 @@ const RoomView = (props) => {
             }
           }
         });
-      }
-    });
-    get(teamTwoSpymasterRef).then(async (snapshot) => {
-      if (snapshot.exists()) {
-        let spymaster = snapshot.val();
-        let spymasterId = Object.keys(spymaster);
-        if (spymasterId.includes(playerId)) {
-          console.log('setting spy board...');
+        get(teamTwoSpymasterRef).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            let spymaster = snapshot.val();
+            let spymasterId = Object.keys(spymaster);
+            if (spymasterId.includes(playerId)) {
+              console.log('setting spy board...');
 
-          //get set of cards with team ids from backend and set spymaster words
-          let wordsWithTeamIds = {};
-          let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
-          spyWords.data.forEach(
-            (card) =>
-              (wordsWithTeamIds[card.id] = {
-                id: card.id,
-                isVisibleToAll: card.isVisibleToAll,
-                word: card.word.word,
-                wordId: card.wordId,
-                boardId: card.boardId,
-                teamId: card.teamId,
-              }),
-          );
-          const values = Object.values(wordsWithTeamIds);
-          dispatch(setWordsInGame(values));
-        }
-      }
-    });
-    get(teamOneOperativesRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        let operatives = snapshot.val();
-        let operativesIds = Object.keys(operatives);
-        if (operativesIds.includes(playerId)) {
-          console.log('setting opertive board...');
-          //update our redux to reflect that
-          const cardsFromSnapshot = cardSnapshot.val();
-          const values = Object.values(cardsFromSnapshot);
-          dispatch(setWordsInGame(values));
-        }
-      }
-    });
-    get(teamTwoOperativesRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        let operatives = snapshot.val();
-        let operativesIds = Object.keys(operatives);
-        if (operativesIds.includes(playerId)) {
-          console.log('setting opertive board...');
-          //update our redux to reflect that
-          const cardsFromSnapshot = cardSnapshot.val();
-          const values = Object.values(cardsFromSnapshot);
-          dispatch(setWordsInGame(values));
-        }
+              //get set of cards with team ids from backend and set spymaster words
+              let wordsWithTeamIds = {};
+              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+              spyWords.data.forEach(
+                (card) =>
+                  (wordsWithTeamIds[card.id] = {
+                    id: card.id,
+                    isVisibleToAll: card.isVisibleToAll,
+                    word: card.word.word,
+                    wordId: card.wordId,
+                    boardId: card.boardId,
+                    teamId: card.teamId,
+                  }),
+              );
+              const values = Object.values(wordsWithTeamIds);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
+        get(teamOneOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
+              //update our redux to reflect that
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
+        get(teamTwoOperativesRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let operatives = snapshot.val();
+            let operativesIds = Object.keys(operatives);
+            if (operativesIds.includes(playerId)) {
+              console.log('setting opertive board...');
+              //update our redux to reflect that
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+            }
+          }
+        });
       }
     });
   }, [playerId]);
@@ -286,7 +286,7 @@ const RoomView = (props) => {
 
   return (
     <div className={props.className}>
-      <WelcomeBoard />
+              <WelcomeBoard />
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
@@ -309,15 +309,20 @@ const RoomView = (props) => {
       )}
       <div className="flexBox">
         <TeamOneBox />
-        {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-        {/* this is working for now, but we probably need more protection to not display 
+        <div className="boardContainer">
+          {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+          {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-        {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
+          {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
+        </div>
         <TeamTwoBox />
+        <div className="break"></div>
+        <GameLog />
+        <div className="chatBox"> this will be the chat box</div>
+
       </div>
-      <GameLog />
       <Clue />
-      <div className="chatBox"> this will be the chat box</div>
+
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup

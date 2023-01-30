@@ -59,7 +59,7 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);
-    setCanBeClosed(false)
+    setCanBeClosed(false);
   };
   if (!playerId) return <p>loading user form popup...</p>;
   return (
