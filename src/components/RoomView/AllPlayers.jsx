@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { isEveryRoleFilled } from '../../utils/utils';
+import { isEveryRoleFilled } from '../../utils/Utils';
 const AllPlayers = () => {
   const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
