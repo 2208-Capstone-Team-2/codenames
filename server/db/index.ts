@@ -1,13 +1,11 @@
-const db = require('./db');
-// Import models:
-const Board = require('./models/board');
-const Room = require('./models/room');
-const Card = require('./models/card');
-const Team = require('./models/team');
-const Word = require('./models/word');
-const Wordpack = require('./models/wordpack');
-const Player = require('./models/player');
-
+import db from './db';
+import Board from './models/board';
+import Room from './models/room';
+import Card from './models/card';
+import Team from './models/team';
+import Word from './models/word';
+import Wordpack from './models/wordpack';
+import Player from './models/player';
 // Model Associations go here
 
 // **** Board Associations: **** //
@@ -44,7 +42,7 @@ Team.hasMany(Player);
 // **** Player/Room Associations: **** //
 Player.belongsTo(Room);
 Room.hasMany(Player);
-module.exports = {
+const data = {
   db,
   Board,
   Card,
@@ -54,3 +52,4 @@ module.exports = {
   Word,
   Wordpack,
 };
+export default data;

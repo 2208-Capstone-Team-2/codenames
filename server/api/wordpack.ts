@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response, Router } from "express";
 const router = Router();
-import { Wordpack } from '../db';
+import Wordpack from '../db';
 
 // GET - /api/wordpack/
 // Gets and returns all Wordpacks in the DB. Does not include the cards.
