@@ -4,7 +4,7 @@ const { Room, Team } = require('../db');
 const randomWords = require('random-words'); // used for room name generation
 
 // GET - /api/room/
-// gets all the rooms and returns them
+// gets all the rooms and returns them. Used for testing purposes
 router.get('/', async (req, res, next) => {
   try {
     const rooms = await Room.findAll();
