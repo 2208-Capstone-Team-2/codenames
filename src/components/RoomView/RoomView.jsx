@@ -43,10 +43,8 @@ const RoomView = (props) => {
 
   // frontend state
   const { playerId, username, isHost } = useSelector((state) => state.player);
-
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -257,6 +255,7 @@ const RoomView = (props) => {
 
   return (
     <div className={props.className}>
+      <GameStatus />
       <WelcomeBoard />
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
@@ -283,7 +282,11 @@ const RoomView = (props) => {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-    {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId}
+{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+            <SpyMasterBoard />
+          ) : (
+            <OperativeBoard />
+          )}
         </div>
         <TeamTwoBox />
         <div className="break"></div>
