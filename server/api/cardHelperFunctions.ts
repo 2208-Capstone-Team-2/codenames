@@ -76,4 +76,4 @@ function createRandomLayout(team1id: number, team2id: number, team3id: number, t
   return randomLayout;
 }
 
-export default { getRandomIntArray, createRandomLayout };
+export { getRandomIntArray, createRandomLayout };
