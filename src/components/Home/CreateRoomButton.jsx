@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // redux imports:
 import { useDispatch } from 'react-redux';
 import { setIsHost } from '../../store/playerSlice';
+import { setHost } from '../../store/gameSlice';
 //firebase imports
 
 import { database } from '../../utils/firebase';

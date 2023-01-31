@@ -32,6 +32,7 @@ import { isEveryRoleFilled } from '../../utils/Utils';
 import Clue from './Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
+import { setIsHost } from '../../store/playerSlice';
 
 const RoomView = (props) => {
   // for room nav
@@ -147,29 +148,31 @@ const RoomView = (props) => {
 
   useEffect(() => {
     onValue(hostRef, (snapshot) => {
-      console.log('hitting host listener');
       if (snapshot.exists()) {
         let firebaseHost = snapshot.val();
-        console.log({ firebaseHost });
         dispatch(setHost(firebaseHost));
         if (firebaseHost.playerId !== playerId) {
+          // playerId is null below, so its not making this connection
+          // why cant i access redux inside of onvalue
           update(playerRef, { isHost: false });
+          dispatch(setIsHost(false));
         }
         if (firebaseHost.playerId === playerId) {
-          // for soem reason this isnt updating
           update(playerRef, { isHost: true });
+          dispatch(setIsHost(true));
         }
       } else {
+        // ignore this for now. potential other way to solve host auto select
+        // getall players ref
+        // grab first player
+        // assign as host- update host ref
+        // update player ref
+        // update playersInRoomRef
         console.log('there is no host!');
         dispatch(setHost(null));
-        // get playersInRoomRef
-        // set hostref as first player in that array
-        // set player ref to isHost: true
-        // dispatch to isHost is true if host id === playerid
-        // set(hostRef, { playerId, username: trimmedInputtedUsername });
       }
     });
-  }, [isHost]);
+  }, [playerId]);
 
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
@@ -286,15 +289,22 @@ const RoomView = (props) => {
     set(hostRef, { playerId, username: username });
     // for soem reason this isnt updating/changing is host to true when clicked
     update(playerRef, { isHost: true });
+    update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   };
+  console.log({ isHost });
   console.log({ host });
 
   return (
     <div className={props.className}>
       <GameStatus />
       <WelcomeBoard />
-      {host && <h1>The game host is {host.username}</h1>}
-      {!host && <button onClick={claimHost}>click to claim host status!</button>}
+      {host !== {} && host !== null && <h3 style={{ color: 'green' }}>The game host is {host.username}</h3>}
+      {!isHost && !host && (
+        <>
+          <h3 style={{ color: 'red' }}>To play, the room needs a host.</h3>
+          <button onClick={claimHost}>click to claim host status!</button>
+        </>
+      )}
 
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
