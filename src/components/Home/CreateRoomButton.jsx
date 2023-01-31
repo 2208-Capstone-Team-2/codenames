@@ -7,7 +7,7 @@ import { setIsHost } from '../../store/playerSlice';
 import { setHost } from '../../store/gameSlice';
 //firebase imports
 
-import { database } from '../../utils/firebase';
+import { database, auth } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
 
 function CreateRoomButton() {
@@ -33,7 +33,10 @@ function CreateRoomButton() {
     });
 
     // Since we are the ones that made the room, make us the host in our redux.
+    let hostRef = ref(database, `rooms/${roomId}/host`);
     dispatch(setIsHost(true));
+    dispatch(setHost({ playerId: auth.currentUser.uid }));
+    set(hostRef, { playerId: auth.currentUser.uid });
 
     return navigate(`/room/${roomId}`);
   };

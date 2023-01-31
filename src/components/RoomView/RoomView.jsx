@@ -291,8 +291,6 @@ const RoomView = (props) => {
     update(playerRef, { isHost: true });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   };
-  console.log({ isHost });
-  console.log({ host });
 
   return (
     <div className={props.className}>
