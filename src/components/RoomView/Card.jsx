@@ -53,9 +53,7 @@ const Card = ({ word }) => {
 
       if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
+        update(gameRef, { gameStatus: 'complete', team2RemainingCards: 0 });
       }
       if (cardBelongsTo === bystanderTeamId) {
         console.log('you hit a bystander!');
@@ -78,9 +76,7 @@ const Card = ({ word }) => {
 
       if (cardBelongsTo === assassinTeamId) {
         console.log('you hit the assassin! you lose.');
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
+        update(gameRef, { gameStatus: 'complete', team1RemainingCards: 0 });
       }
       if (cardBelongsTo === bystanderTeamId) {
         console.log('you hit a bystander!');
