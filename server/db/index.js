@@ -4,7 +4,7 @@ const Board = require('./models/board');
 const Room = require('./models/room');
 const Card = require('./models/card');
 const Team = require('./models/team');
-const Word = require('./models/Word');
+const Word = require('./models/word');
 const Wordpack = require('./models/wordpack');
 const Player = require('./models/player');
 

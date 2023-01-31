@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { ref, update, set } from 'firebase/database';
+import { ref, set } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 
@@ -17,7 +17,6 @@ const ResetGame = () => {
     set(gameRef, { gameStatus: 'ready', team1RemainingCards: 9, team2RemainingCards: 8 });
     set(cluesRef, {});
     set(cardsRef, {});
-
     // make axios request to backend clearing out the board since 'isVisibleToAll' = true will remain on those cards
   };
 
