@@ -19,6 +19,7 @@ export interface RoomModel
     InferAttributes<RoomModel>,
     InferCreationAttributes<RoomModel>
   > {
+  id: number;
   name: CreationOptional<string>;
   team1id: CreationOptional<number>;
   team2id: CreationOptional<number>;
@@ -27,6 +28,11 @@ export interface RoomModel
 }
 
 const Room = db.define<RoomModel>('room', {
+  id: {
+    type: INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   name: {
     // eg: 123, myFavoriteRoom
     // Maybe this will be the roomId from firebase?

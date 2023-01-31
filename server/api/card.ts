@@ -26,11 +26,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     });
 
     if (!allWords) return res.sendStatus(404); // Sanity check
-    interface WordType {
-      id: number;
-      word: string;
-    }
-    const allWordsIds = allWords.map((word: WordType) => word.id);
+    const allWordsIds = allWords.map((word) => word.id);
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWordsIds);
 
