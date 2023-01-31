@@ -1,7 +1,12 @@
-const { Player } = require('../index');
+import Player  from '../index';
 
 const playerSeed = async () => {
-  const dummyData = [
+  interface User {
+    id: number;
+    username: string;
+    wins: number;
+  }
+  const dummyData: User[]= [
     {
       id: 1,
       username: 'Ben',
@@ -82,4 +87,4 @@ const playerSeed = async () => {
   console.log('DONE SEEDING PLAYERS..');
 };
 
-module.exports = playerSeed;
+export default playerSeed;
