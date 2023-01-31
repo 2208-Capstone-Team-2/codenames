@@ -74,7 +74,7 @@ const SetupGame = () => {
   if (isLoading) return <p>Loading...</p>;
   else
     return (
-      <div>
+      <div className='setUpGame'>
         <>
           Please select a pack of words
           <form onSubmit={submitHandler}>
