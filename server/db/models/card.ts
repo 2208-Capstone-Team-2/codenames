@@ -1,9 +1,26 @@
-import { Sequelize } from 'sequelize';
+import Sequelize from 'sequelize';
 import db from '../db';
+import {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
+const { BOOLEAN} = Sequelize;
+interface ResponseError extends Error {
+  status?: number;
+}
 
-const Card = db.define('card', {
+export interface CardModel
+  extends Model<
+    InferAttributes<CardModel>,
+    InferCreationAttributes<CardModel>
+  > {
+    isVisibleToAll: boolean;
+}
+const Card = db.define<CardModel>('card', {
   isVisibleToAll: {
-    type: Sequelize.BOOLEAN,
+    type: BOOLEAN,
     allowNull: false,
     defaultValue: false,
   },
