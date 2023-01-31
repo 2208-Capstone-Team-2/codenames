@@ -1,6 +1,10 @@
-import express, { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 const router = Router();
-// import { Word, Card, Board, Room } from '../db';
+import db from "../db";
+const Word = db.Word;
+const Card = db.Card;
+const Board = db.Board;
+const Room = db.Room;
 import { getRandomIntArray, createRandomLayout } from './cardHelperFunctions';
 
 

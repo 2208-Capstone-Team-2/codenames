@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response, Router } from "express";
-import Player from '../../db';
+import db from "../../db";
+const Player = db.Player;
 const router = Router();
 /// ********************** WRITTEN BY ROSE ********************** ///
 // GET - /api/player/:playerId

@@ -1,6 +1,8 @@
-import express, { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 const router = Router();
-import { Room, Team } from '../db';
+import db from "../db";
+const Room = db.Room;
+const Team = db.Team;
 import randomWords  from 'random-words';
 
 // const randomWords = require('random-words'); // used for room name generation
