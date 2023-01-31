@@ -26,14 +26,13 @@ import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
-import ClueHistory from './ClueHistory.jsx';
-import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
+import { setGameHistory } from '../../store/gameSlice';
+import { setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
-
 import Clue from './Clue';
 import GuessesRemaining from './GuessesRemaining';
 import { setGuessesRemaining } from '../../store/gameSlice';
-
+import GameLog from './gameLog';
 import ResetGame from './ResetGame';
 
 const RoomView = () => {
@@ -55,8 +54,7 @@ const RoomView = () => {
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-  let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-
+  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
@@ -121,13 +119,11 @@ const RoomView = () => {
           dispatch(setTeam2RemainingCards(8));
           dispatch(setWordsInGame([]));
           dispatch(setCurrentClue({}));
-          dispatch(setClueHistory([]));
+          dispatch(setGameHistory([]));
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
         }
 
-        // josh's pseudocode:
-        // if game status === 'complete' --->
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
@@ -167,17 +163,15 @@ const RoomView = () => {
         }
       }
     });
-
-    onValue(clueHistoryRef, (snapshot) => {
+    onValue(gameHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
-        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-        const clues = snapshot.val();
+        const data = snapshot.val();
         let history = [];
         //this is to access the data under random firebase key and put them in an iterable array
-        for (let clueKey in clues) {
-          history.push(clues[clueKey]);
+        for (let historyKey in data) {
+          history.push(data[historyKey]);
         }
-        dispatch(setClueHistory(history));
+        dispatch(setGameHistory(history));
       }
     });
   }, []);
@@ -314,13 +308,7 @@ const RoomView = () => {
                 <p key={player.playerId}>{player.username}</p>
               ))}
             </Item>
-            {gameStatus !== 'ready' && (
-              <Item style={styles.sx.PlayerContainer}>
-                Turn:
-                {gameStatus}
-                <GuessesRemaining />
-              </Item>
-            )}
+            <GameLog />
 
             <Item style={styles.sx.PlayerContainer}>
               <ResetGame />
@@ -330,8 +318,6 @@ const RoomView = () => {
             <TeamOneBox />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            {/* import clueHistory component */}
-            <ClueHistory />
             <Clue />
           </Grid>
           <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
