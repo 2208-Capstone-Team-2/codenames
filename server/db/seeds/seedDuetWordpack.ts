@@ -1,16 +1,17 @@
-const { Word, Wordpack } = require('../index');
-const duetPackString = require('../wordpacks/duetPack');
+// typescripted by rose!
+import duetPackString from '../wordpacks/duetPack';
+import data from '../index';
+const Word = data.Word;
+const Wordpack = data.Wordpack;
 
 const seedDuetWordpack = async () => {
-  const wordArray = duetPackString.split('\n'); // split the string on 'return' characters
+  // split the string on 'return' characters
+  const wordArray = duetPackString.split('\n');
 
   // First, create the Wordpack model
-  const duetPack = await Wordpack.create({
-    name: 'duet',
-  });
+  const duetPack = await Wordpack.create({ name: 'duet' });
 
-  // Create the 400 wordbanks.
-
+  // Create the 400 words:
   // Make array of promises
   const Promises = wordArray.map((str) => {
     return Word.create({
@@ -28,4 +29,4 @@ const seedDuetWordpack = async () => {
   console.log('DONE SEEDING DUET WORDPACK...');
 };
 
-module.exports = seedDuetWordpack;
+export default seedDuetWordpack;
