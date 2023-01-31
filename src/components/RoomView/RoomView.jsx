@@ -20,6 +20,7 @@ import {
   setShowResetButton,
   setWinner,
   setLoser,
+  setGuessesRemaining,
 } from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
@@ -29,12 +30,13 @@ import { Button } from '@mui/material';
 import { setGameHistory } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
+import { isEveryRoleFilled } from '../../utils/Utils';
 import Clue from './Clue';
-import GuessesRemaining from './GuessesRemaining';
-import { setGuessesRemaining } from '../../store/gameSlice';
 import GameLog from './gameLog';
-import ResetGame from './ResetGame';
+import GameStatus from './GameStatus';
 
+import ResetGame from './ResetGame';
+import AllPlayers from './AllPlayers';
 const RoomView = () => {
   // for room nav
   const { roomId } = useParams();
@@ -45,10 +47,8 @@ const RoomView = () => {
   // frontend state
   const { playerId, username, isHost } = useSelector((state) => state.player);
 
-  const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  let gameStatus = useSelector((state) => state.game.status);
 
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
@@ -59,29 +59,9 @@ const RoomView = () => {
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
-
-  const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
-    return spy.playerId;
-  });
-  const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
-    return spy.playerId;
-  });
-
-  // determines if there is at least one player in each 'role' and then shows the button for start game
-  // not uncommenting code in the return until we're done testing, but it works :)
-  const isEveryRoleFilled = () => {
-    if (teamOneOperatives.length > 0) {
-      if (teamTwoOperatives.length > 0) {
-        if (teamOneSpymaster.length > 0) {
-          if (teamTwoSpymaster.length > 0) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
-  const everyonesHere = isEveryRoleFilled();
+  // below will be used once we allow host & everyones here to show button
+  // DO NOT DELETE
+  const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
@@ -100,14 +80,11 @@ const RoomView = () => {
     onValue(gameRef, (snapshot) => {
       if (snapshot.exists()) {
         const game = snapshot.val();
-        const team1RemainingCards = snapshot.val().team1RemainingCards;
-        const team2RemainingCards = snapshot.val().team2RemainingCards;
-        const guessesRemaining = snapshot.val().guessesRemaining;
         dispatch(setStatus(game.gameStatus));
-        dispatch(setTeam1RemainingCards(team1RemainingCards));
-        dispatch(setTeam2RemainingCards(team2RemainingCards));
-        dispatch(setGuessesRemaining(guessesRemaining));
-        if (guessesRemaining <= 0) {
+        dispatch(setTeam1RemainingCards(game.team1RemainingCards));
+        dispatch(setTeam2RemainingCards(game.team2RemainingCards));
+        dispatch(setGuessesRemaining(game.guessesRemaining));
+        if (game.guessesRemaining <= 0) {
           endTurn();
         }
 
@@ -130,13 +107,11 @@ const RoomView = () => {
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
-          dispatch(setStatus('complete'));
           dispatch(setGuessesRemaining(0));
 
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
-          //Should we set a winner in firebase? Probably...
           //Set redux loser to team 2
           dispatch(setLoser('team-2'));
           set(child(gameRef, 'loser'), 'team-2');
@@ -145,17 +120,13 @@ const RoomView = () => {
         if (game.team2RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
-          console.log('this should not get hit at all');
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
-          dispatch(setStatus('complete'));
           //Set redux winner to team 2
           dispatch(setWinner('team-2'));
           set(child(gameRef, 'winner'), 'team-2');
           dispatch(setGuessesRemaining(0));
-
-          //Should we set a winner in firebase? Probably...
           //Set redux loser to team 1
           dispatch(setLoser('team-1'));
           set(child(gameRef, 'loser'), 'team-1');
@@ -303,13 +274,15 @@ const RoomView = () => {
             <Item style={styles.sx.PlayerContainer}>Welcome, {username}</Item>
             <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
             <Item style={styles.sx.PlayerContainer}>
-              Players:
-              {allPlayers?.map((player) => (
-                <p key={player.playerId}>{player.username}</p>
-              ))}
+              <AllPlayers />
             </Item>
-            <GameLog />
 
+            <Item style={styles.sx.PlayerContainer}>
+              <GameStatus />
+            </Item>
+            <Item style={styles.sx.PlayerContainer}>
+              <GameLog />
+            </Item>
             <Item style={styles.sx.PlayerContainer}>
               <ResetGame />
             </Item>
@@ -327,7 +300,6 @@ const RoomView = () => {
       </Container>
 
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
-      {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
         <Popup
@@ -364,10 +336,12 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )} */}
-      {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-      {/* this is working for now, but we probably need more protection to not display 
-      a spymaster board on someone who randomly joins room while game is 'in progress' */}
-      {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
+      {/* player is spy && show spy board, otherwise theyre operative*/}
+      {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+        <SpyMasterBoard />
+      ) : (
+        <OperativeBoard />
+      )}
     </>
   );
 };

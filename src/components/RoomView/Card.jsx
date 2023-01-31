@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get, set, child,push } from 'firebase/database';
+import { ref, update, get, set, child, push } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
@@ -58,9 +58,12 @@ const Card = ({ word }) => {
         const updates = {};
         updates[newHistoryKey] = newGameHistory;
         update(gameHistoryRef, updates);
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
+        update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
+        /* below sets the cards to 0 and declares opposing team as winner in 
+        roomview seems dishonest bc they dont actually have 0 remaining cards, 
+        but it'll  trigger code that is doing what we want it to in roomview 
+        instead of writing redundant logic*/
+        update(gameRef, { gameStatus: 'complete', team2RemainingCards: 0 });
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory = 'Team 1 hits a bystander! Turn is over!';
@@ -101,9 +104,9 @@ const Card = ({ word }) => {
         const updates = {};
         updates[newHistoryKey] = newGameHistory;
         update(gameHistoryRef, updates);
-        // set winner = other team
-        // do other celebratory stuff
-        // show reset game button
+        update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
+        // team 1 wins if team 2 hits assassin. logic is triggered on roomview
+        update(gameRef, { gameStatus: 'complete', team1RemainingCards: 0 });
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory = 'team 2 hits a bystander! Turn is over!';
