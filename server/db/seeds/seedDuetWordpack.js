@@ -1,3 +1,5 @@
+// typescripted by rose!
+
 const { Word, Wordpack } = require('../index');
 const duetPackString = require('../wordpacks/duetPack');
 

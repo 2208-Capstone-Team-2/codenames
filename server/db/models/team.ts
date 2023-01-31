@@ -1,3 +1,4 @@
+// typescripted by rose!
 import { Sequelize } from 'sequelize';
 import db from '../db';
 
