@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const db = require('../db');
+import { Sequelize } from 'sequelize';
+import db from '../db';
 
 const Wordpack = db.define('wordpack', {
   name: {
@@ -8,4 +8,4 @@ const Wordpack = db.define('wordpack', {
   },
 });
 
-module.exports = Wordpack;
+export default Wordpack;

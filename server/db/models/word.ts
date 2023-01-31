@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const db = require('../db');
+import { Sequelize } from 'sequelize';
+import db from '../db';
 
 const Word = db.define('word', {
   word: {
@@ -8,4 +8,4 @@ const Word = db.define('word', {
   },
 });
 
-module.exports = Word;
+export default Word;

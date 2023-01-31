@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const db = require('../db');
+import { Sequelize } from 'sequelize';
+import db from '../db';
 
 const Player = db.define('player', {
   //id will be coming from firebase
@@ -44,4 +44,4 @@ const Player = db.define('player', {
   },
 });
 
-module.exports = Player;
+export default Player;

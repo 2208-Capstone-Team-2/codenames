@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const db = require('../db');
+import { Sequelize } from 'sequelize';
+import db from '../db';
 
 const Card = db.define('card', {
   isVisibleToAll: {
@@ -15,4 +15,4 @@ const Card = db.define('card', {
   //isSuggested: {}
 });
 
-module.exports = Card;
+export default Card;
