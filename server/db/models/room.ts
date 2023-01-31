@@ -19,8 +19,8 @@ export interface RoomModel
     InferAttributes<RoomModel>,
     InferCreationAttributes<RoomModel>
   > {
-  id: number;
-  name: CreationOptional<string>;
+  id: CreationOptional<number>;
+  name: string;
   team1id: CreationOptional<number>;
   team2id: CreationOptional<number>;
   team3id: CreationOptional<number>;
@@ -76,4 +76,3 @@ const Room = db.define<RoomModel>('room', {
 });
 
 export default Room;
-
