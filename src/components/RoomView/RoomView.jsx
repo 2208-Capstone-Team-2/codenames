@@ -283,13 +283,12 @@ const RoomView = (props) => {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-          {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
+    {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId}
         </div>
         <TeamTwoBox />
         <div className="break"></div>
         <GameLog />
         <div className="chatBox"> this will be the chat box</div>
-
       </div>
       <Clue />
 
