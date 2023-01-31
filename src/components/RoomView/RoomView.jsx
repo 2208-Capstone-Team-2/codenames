@@ -31,8 +31,6 @@ import { isEveryRoleFilled } from '../../utils/Utils';
 import Clue from './Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
-import ResetGame from './ResetGame';
-import AllPlayers from './AllPlayers';
 
 const RoomView = (props) => {
   // for room nav

@@ -2,9 +2,9 @@ import React from 'react';
 import './card.css';
 import { useSelector } from 'react-redux';
 import ResetGame from './ResetGame';
+import AllPlayers from './AllPlayers'
 const WelcomeBoard = () => {
   const { playerId, username, roomId, isHost } = useSelector((state) => state.player);
-  const { allPlayers } = useSelector((state) => state.allPlayers);
   return (
     <>
       <div className="welcomeBoard">
@@ -12,7 +12,7 @@ const WelcomeBoard = () => {
         <h3>Room id: {roomId}</h3>
         <h3>
           Players:
-          {allPlayers?.map((player) => ' ' + player.username + ',')}
+          <AllPlayers />
         </h3>
         <ResetGame />
       </div>
