@@ -10,9 +10,15 @@ interface ResponseError extends Error {
 const { STRING, INTEGER } = Sequelize;
 
 export interface TeamModel extends Model<InferAttributes<TeamModel>, InferCreationAttributes<TeamModel>> {
+  id: CreationOptional<number>;
   name: string;
 }
-const Team = db.define('team', {
+const Team = db.define<TeamModel>('team', {
+  id: {
+    type: INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   name: {
     type: STRING,
     allowNull: true,
