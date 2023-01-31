@@ -283,7 +283,6 @@ const RoomView = () => {
             <Item style={styles.sx.PlayerContainer}>
               <GameLog />
             </Item>
-
             <Item style={styles.sx.PlayerContainer}>
               <ResetGame />
             </Item>
