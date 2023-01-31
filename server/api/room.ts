@@ -1,11 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const { Room, Team } = require('../db');
-const randomWords = require('random-words'); // used for room name generation
+import express, { NextFunction, Request, Response, Router } from "express";
+const router = Router();
+import { Room, Team } from '../db';
+import { randomWords } from 'random-words';
+
+// const randomWords = require('random-words'); // used for room name generation
 
 // GET - /api/room/
 // gets all the rooms and returns them. Used for testing purposes
-router.get('/', async (req, res, next) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rooms = await Room.findAll();
     res.send(rooms);
@@ -16,7 +18,7 @@ router.get('/', async (req, res, next) => {
 
 // GET - api/room/:roomId/
 // this route is being used to send back team ids for individual rooms
-router.get('/:roomId', async (req, res, next) => {
+router.get('/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { roomId } = req.params;
     console.log('looking for a room with name:', roomId);
@@ -30,7 +32,7 @@ router.get('/:roomId', async (req, res, next) => {
 
 // POST - /api/room/
 // Creates a new room with a randomly generated word slug
-router.post('/', async (req, res, next) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   // Note: Even though this is a 'POST' we don't actually have a req.body that is needed.
   // I merely stuck to calling it 'post' because this route creates a new room.
   try {

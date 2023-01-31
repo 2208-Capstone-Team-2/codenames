@@ -6,7 +6,7 @@ import morgan from "morgan";
 const app: Express = express();
 // static middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
-// body parsers!!!!
+// body parsers!!!! woohoooo!!!!!!
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -3,8 +3,8 @@
  * @param {*} max
  * @returns an array of length 'length', made up of randomly chosen elements from arrayOfIds
  */
-function getRandomIntArray(length, arrayOfIds) {
-  const arr = [];
+function getRandomIntArray(length: number, arrayOfIds: number[]) {
+  const arr: number[] = [];
   while (arr.length < length) {
     const randIndex = Math.floor(Math.random() * arrayOfIds.length);
     const element = arrayOfIds[randIndex];
@@ -27,9 +27,9 @@ The order of these apperances are random
  * @param {*} team4id 
  * @returns 
  */
-function createRandomLayout(team1id, team2id, team3id, team4id) {
+function createRandomLayout(team1id: number, team2id: number, team3id: number, team4id: number) {
   // This JavaScript function always returns a random number between min and max (both included):
-  function getRndInteger(min, max) {
+  function getRndInteger(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
@@ -37,8 +37,14 @@ function createRandomLayout(team1id, team2id, team3id, team4id) {
   let team2Pile = 8; // 8 '2' --> blue card
   let team3Pile = 7; // 7 '3' --> white card
   let team4Pile = 1; // 1 '0' --> black card
-
-  const mapping = {
+  interface TeamHash {
+    [key: number]: number;
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+  }
+  const mapping: TeamHash = {
     1: team1id,
     2: team2id,
     3: team3id,
@@ -70,4 +76,4 @@ function createRandomLayout(team1id, team2id, team3id, team4id) {
   return randomLayout;
 }
 
-module.exports = { getRandomIntArray, createRandomLayout };
+export default { getRandomIntArray, createRandomLayout };
