@@ -6,6 +6,7 @@ import roomRouter from './room';
 import teamRouter from './team';
 import wordPackRouter from './wordpack';
 import playerRouter from './playerAPI/player';
+
 router.use('/board', boardRouter);
 router.use('/card', cardRouter);
 router.use('/room', roomRouter);
