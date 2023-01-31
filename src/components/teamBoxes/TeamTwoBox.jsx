@@ -145,16 +145,18 @@ const TeamTwoBox = () => {
       <div className="blueOpsAndSpys">
         <div>
           <p>Operative(s)</p>
-          {teamTwoOperatives.map((player, index) => {
-            return <p key={index}>{player.username}</p>;
-          })}
+          {teamTwoOperatives.map((player) => {
+            return player.username + ', ';
+          })}{' '}
+          <br />
           <button onClick={joinTeamTwoOp}>Join as Operative</button>
         </div>
         <div>
           <p>Spymaster(s)</p>
-          {teamTwoSpymaster.map((player, index) => {
-            return <p key={index}>{player.username}</p>;
-          })}
+          {teamTwoSpymaster.map((player) => {
+            return player.username + ', ';
+          })}{' '}
+          <br />
           <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>
         </div>
       </div>

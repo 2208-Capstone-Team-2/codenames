@@ -154,16 +154,18 @@ const TeamOneBox = () => {
       <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>
-          {teamOneOperatives.map((player, index) => {
-            return <p key={index}>{player.username}</p>;
-          })}
+          {teamOneOperatives.map((player) => {
+            return player.username + ', ';
+          })}{' '}
+          <br />
           <button onClick={joinTeamOneOp}>Join as Operative</button>
         </div>
         <div>
           <p>Spymaster(s)</p>
-          {teamOneSpymaster.map((player, index) => {
-            return <p key={index}>{player.username}</p>;
+          {teamOneSpymaster.map((player) => {
+            return player.username + ', ';
           })}
+          <br />
           <button onClick={joinTeamOneSpy}>Join as Spymaster</button>
         </div>
       </div>

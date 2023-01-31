@@ -1,17 +1,14 @@
 .blueBoxCard{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 300px;
-    width: 250px;
-    color: white;
-    padding: 10px;
-    background-color: blue;
-    border-radius: 20px;
+    height: fit-content;
+    width: 15%;
+    color: #d2dcde;
+    padding: 15px;
+    background-color: #365e7f;
+    border-radius: 6px;
+    margin:0 5%;
 }
 .blueOpsAndSpys{
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
     width: 250px;
-    margin-top: 100px;
+    margin-top: 30px;
 }

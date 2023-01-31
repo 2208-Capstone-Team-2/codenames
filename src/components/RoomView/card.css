@@ -1,6 +1,6 @@
 .notYetRevealed {
   width: 120px;
-  height: 150px;
+  height: 90px;
   background-color: beige;
   text-align: 'center';
   align-content: 'center';
@@ -12,7 +12,7 @@
 }
 .redRevealed {
   width: 120px;
-  height: 150px;
+  height: 90px;
   background-color: #800000;
   text-align: 'center';
   align-content: 'center';
@@ -25,7 +25,7 @@
 
 .blueRevealed {
   width: 120px;
-  height: 150px;
+  height: 90px;
   background-color: #000066;
   text-align: 'center';
   align-content: 'center';
@@ -38,7 +38,7 @@
 
 .beigeRevealed {
   width: 120px;
-  height: 150px;
+  height: 90px;
   background-color: #f39537;
   text-align: 'center';
   align-content: 'center';
@@ -51,7 +51,7 @@
 
 .blackRevealed {
   width: 120px;
-  height: 150px;
+  height: 90px;
   background-color: black;
   text-align: 'center';
   align-content: 'center';
@@ -65,7 +65,7 @@
 .redStyle {
   background-color: rgb(240, 142, 142);
   width: 120px;
-  height: 150px;
+  height: 90px;
   text-align: 'center';
   align-content: 'center';
   margin: 0;
@@ -77,7 +77,7 @@
 .blueStyle {
   background-color: rgb(119, 119, 174);
   width: 120px;
-  height: 150px;
+  height: 90px;
   text-align: 'center';
   align-content: 'center';
   margin: 0;
@@ -88,7 +88,7 @@
 }
 .beigeStyle {
   width: 120px;
-  height: 150px;
+  height: 90px;
   text-align: 'center';
   align-content: 'center';
   margin: 0;
@@ -100,7 +100,7 @@
 }
 .blackStyle {
   width: 120px;
-  height: 150px;
+  height: 90px;
   text-align: 'center';
   align-content: 'center';
   margin: 0;

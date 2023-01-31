@@ -5,14 +5,11 @@ import { useParams } from 'react-router-dom';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
-import { Container } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import './roomView.css';
 import Popup from 'reactjs-popup';
 import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
-import styles from './Room.styles';
+import WelcomeBoard from './WelcomeBoard';
 import {
   setTeam1RemainingCards,
   setTeam2RemainingCards,
@@ -35,9 +32,7 @@ import Clue from './Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
 
-import ResetGame from './ResetGame';
-import AllPlayers from './AllPlayers';
-const RoomView = () => {
+const RoomView = (props) => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
@@ -46,10 +41,8 @@ const RoomView = () => {
 
   // frontend state
   const { playerId, username, isHost } = useSelector((state) => state.player);
-
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -258,47 +251,10 @@ const RoomView = () => {
     });
   };
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
   return (
-    <>
-      <Container style={styles.sx.RoomContainer}>
-        <Grid container spacing={2} style={styles.sx.RoomGrid}>
-          <Grid item xs={12} style={styles.sx.RoomAndPlayers}>
-            <Item style={styles.sx.PlayerContainer}>Welcome, {username}</Item>
-            <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
-            <Item style={styles.sx.PlayerContainer}>
-              <AllPlayers />
-            </Item>
-
-            <Item style={styles.sx.PlayerContainer}>
-              <GameStatus />
-            </Item>
-            <Item style={styles.sx.PlayerContainer}>
-              <GameLog />
-            </Item>
-            <Item style={styles.sx.PlayerContainer}>
-              <ResetGame />
-            </Item>
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <TeamOneBox />
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <Clue />
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <TeamTwoBox />
-          </Grid>
-        </Grid>
-      </Container>
-
+    <div className={props.className}>
+      <GameStatus />
+      <WelcomeBoard />
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
@@ -318,6 +274,25 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )}
+      <div className="flexBox">
+        <TeamOneBox />
+        <div className="boardContainer">
+          {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+          {/* this is working for now, but we probably need more protection to not display 
+      a spymaster board on someone who randomly joins room while game is 'in progress' */}
+{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+            <SpyMasterBoard />
+          ) : (
+            <OperativeBoard />
+          )}
+        </div>
+        <TeamTwoBox />
+        <div className="break"></div>
+        <GameLog />
+        <div className="chatBox"> this will be the chat box</div>
+      </div>
+      <Clue />
+
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup
@@ -336,13 +311,7 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )} */}
-      {/* player is spy && show spy board, otherwise theyre operative*/}
-      {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
-        <SpyMasterBoard />
-      ) : (
-        <OperativeBoard />
-      )}
-    </>
+    </div>
   );
 };
 

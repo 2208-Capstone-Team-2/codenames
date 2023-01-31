@@ -8,8 +8,8 @@ import { ref, update, set, child, onDisconnect } from 'firebase/database';
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
-
-function UsernameForm({ inputtedUsername, setInputtedUsername }) {
+import './userForm.css';
+function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }) {
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
   const { roomId } = useParams();
   const dispatch = useDispatch();
@@ -59,19 +59,14 @@ function UsernameForm({ inputtedUsername, setInputtedUsername }) {
 
     // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);
+    setCanBeClosed(false);
   };
-  // these are ugly and placeholder
-  const popupStyles = {
-    backgroundColor: 'yellow',
-    border: '2px black dashed',
-  };
-
   if (!playerId) return <p>loading user form popup...</p>;
   return (
-    <div>
+    <div className="wrapper">
       {!usernameSubmissionDone && (
-        <div className="username-form-popup" style={popupStyles}>
-          <p>Welcome to the room!</p>
+        <div className="popupContent">
+          <p>Welcome to room {roomId} !</p>
           <p>Enter a username...</p>
           <form>
             <input
@@ -88,6 +83,7 @@ function UsernameForm({ inputtedUsername, setInputtedUsername }) {
           </form>
         </div>
       )}
+      {usernameSubmissionDone && <div className="popupContent">Welcome, {inputtedUsername}</div>}
     </div>
   );
 }
