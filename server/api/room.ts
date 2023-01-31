@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response, Router } from "express";
 const router = Router();
 import { Room, Team } from '../db';
-import { randomWords } from 'random-words';
+import randomWords  from 'random-words';
 
 // const randomWords = require('random-words'); // used for room name generation
 
