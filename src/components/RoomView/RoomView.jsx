@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRoomId } from '../../store/playerSlice';
 import { useParams } from 'react-router-dom';
-import { onValue, ref, set, get, child, update } from 'firebase/database';
+import { onValue, ref, set, get, child, update, onDisconnect } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import './roomView.css';
@@ -18,6 +18,7 @@ import {
   setWinner,
   setLoser,
   setGuessesRemaining,
+  setHost,
 } from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard.jsx';
 import SpyMasterBoard from './SpyMasterBoard';
@@ -43,6 +44,7 @@ const RoomView = (props) => {
   const { playerId, username, isHost } = useSelector((state) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
+  const host = useSelector((state) => state.game.host);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -52,6 +54,9 @@ const RoomView = (props) => {
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+  let hostRef = ref(database, `rooms/${roomId}/host`);
+  const playerRef = ref(database, `players/${playerId}`);
+
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
@@ -139,6 +144,32 @@ const RoomView = (props) => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    onValue(hostRef, (snapshot) => {
+      console.log('hitting host listener');
+      if (snapshot.exists()) {
+        let firebaseHost = snapshot.val();
+        console.log({ firebaseHost });
+        dispatch(setHost(firebaseHost));
+        if (firebaseHost.playerId !== playerId) {
+          update(playerRef, { isHost: false });
+        }
+        if (firebaseHost.playerId === playerId) {
+          // for soem reason this isnt updating
+          update(playerRef, { isHost: true });
+        }
+      } else {
+        console.log('there is no host!');
+        dispatch(setHost(null));
+        // get playersInRoomRef
+        // set hostref as first player in that array
+        // set player ref to isHost: true
+        // dispatch to isHost is true if host id === playerid
+        // set(hostRef, { playerId, username: trimmedInputtedUsername });
+      }
+    });
+  }, [isHost]);
 
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
@@ -251,10 +282,20 @@ const RoomView = (props) => {
     });
   };
 
+  const claimHost = () => {
+    set(hostRef, { playerId, username: username });
+    // for soem reason this isnt updating/changing is host to true when clicked
+    update(playerRef, { isHost: true });
+  };
+  console.log({ host });
+
   return (
     <div className={props.className}>
       <GameStatus />
       <WelcomeBoard />
+      {host && <h1>The game host is {host.username}</h1>}
+      {!host && <button onClick={claimHost}>click to claim host status!</button>}
+
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
@@ -280,7 +321,7 @@ const RoomView = (props) => {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+          {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
             <SpyMasterBoard />
           ) : (
             <OperativeBoard />
@@ -292,7 +333,6 @@ const RoomView = (props) => {
         <div className="chatBox"> this will be the chat box</div>
       </div>
       <Clue />
-
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup
