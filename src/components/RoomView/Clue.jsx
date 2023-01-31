@@ -17,6 +17,7 @@ const Clue = () => {
   const { teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   const gameboard = useSelector((state) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  let gameHistoryRef=ref(database, `rooms/${roomId}/game/history`);
   let arrayToCheck = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
@@ -69,7 +70,7 @@ const Clue = () => {
       updates[newClueKey] = clueData;
 
       dispatch(setCurrentClue(clueData));
-      update(cluesRef, updates);
+      update(gameHistoryRef, updates);
 
       // store the clue in clueHistory and as current clue
       // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
@@ -77,12 +78,12 @@ const Clue = () => {
       // if its team1spy submission, team1Ops goes next
       if (gameStatus === 'team1SpyTurn') {
         nextGameStatus = 'team1OpsTurn';
-        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber });
+        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber + 1 });
       }
       // if its team2spy submission, team2Ops goes next
       if (gameStatus === 'team2SpyTurn') {
         nextGameStatus = 'team2OpsTurn';
-        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber });
+        update(gameRef, { gameStatus: nextGameStatus, guessesRemaining: clueNumber + 1 });
       }
     }
   };

@@ -1,0 +1,79 @@
+/* PAGINATION STYLES */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    cursor: pointer;
+    padding: 0;
+    background-color: white;
+  }
+  
+  .pagination a {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: 4px;
+    background-color: white;
+    font-family: 'Dogfish', sans-serif;
+    color: black;
+  }
+  
+  .pagination__link {
+    font-weight: bold;
+  }
+  
+  .pagination__link--active a {
+    color: #fff;
+    background-color: lightcoral;
+    color: black;
+  
+  }
+  
+  .pagination__link--disabled a {
+    color: rgb(198, 197, 202);
+    background-color: white;
+    border: 1px solid rgb(198, 197, 202);
+  }
+  
+  .paginateContainer{
+      display: flex;
+      justify-content: center;
+      width: 800px;
+      margin: 12px 0 48px 0;
+  }
+  .leaderboardContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .players{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    padding: 12px;
+    align-items: center;
+    border: 1px solid black;
+  }
+  .playerRow{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+  }
+.playerUsername{
+    display: flex;
+    justify-content: flex-start;
+    min-width: 200px;
+}
+.playerWins{
+    display: flex;
+    justify-content: flex-end;
+    min-width: 80px;
+}
+#headers{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 280px;
+    border-bottom: 1px solid black;
+}
