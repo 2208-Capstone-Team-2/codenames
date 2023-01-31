@@ -30,7 +30,7 @@ import { Button } from '@mui/material';
 import ClueHistory from './ClueHistory.jsx';
 import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
-import { isEveryRoleFilled } from '../../utils/utils';
+import { isEveryRoleFilled } from '../../utils/Utils';
 
 import Clue from './Clue';
 import GameStatus from './GameStatus';
