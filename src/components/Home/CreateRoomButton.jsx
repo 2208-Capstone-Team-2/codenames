@@ -34,8 +34,7 @@ function CreateRoomButton() {
 
     // Since we are the ones that made the room, make us the host in our redux.
     let hostRef = ref(database, `rooms/${roomId}/host`);
-    dispatch(setIsHost(true));
-    dispatch(setHost({ playerId: auth.currentUser.uid }));
+    // setting host here triggers hostRef in roomview and sets redux stores accordingly
     set(hostRef, { playerId: auth.currentUser.uid });
 
     return navigate(`/room/${roomId}`);

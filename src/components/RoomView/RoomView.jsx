@@ -151,9 +151,8 @@ const RoomView = (props) => {
       if (snapshot.exists()) {
         let firebaseHost = snapshot.val();
         dispatch(setHost(firebaseHost));
+        // setting isHost redux stores accordingly
         if (firebaseHost.playerId !== playerId) {
-          // playerId is null below, so its not making this connection
-          // why cant i access redux inside of onvalue
           update(playerRef, { isHost: false });
           dispatch(setIsHost(false));
         }
@@ -296,8 +295,9 @@ const RoomView = (props) => {
     <div className={props.className}>
       <GameStatus />
       <WelcomeBoard />
-      {host !== {} && host !== null && <h3 style={{ color: 'green' }}>The game host is {host.username}</h3>}
-      {!isHost && !host && (
+      {/* below ensures that this line only displays once the host enters with their username */}
+      {host?.username && <h3 style={{ color: 'green' }}>The game host is {host.username}</h3>}
+      {!host && (
         <>
           <h3 style={{ color: 'red' }}>To play, the room needs a host.</h3>
           <button onClick={claimHost}>click to claim host status!</button>
