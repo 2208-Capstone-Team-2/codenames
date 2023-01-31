@@ -1,6 +1,8 @@
 // typescripted by rose!
-import { Word, Wordpack } from '../index';
 import duetPackString from '../wordpacks/duetPack';
+import data from '../index';
+const Word = data.Word;
+const Wordpack = data.Wordpack;
 
 const seedDuetWordpack = async () => {
   // split the string on 'return' characters
