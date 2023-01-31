@@ -42,12 +42,13 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
     // update(nestedPlayerRef, { playerId, username: trimmedInputtedUsername });
     // other way of doing it:
     const playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
-    set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername });
-
     //// If they're the host, put that info there too.
     if (isHost) {
       let hostRef = ref(database, `rooms/${roomId}/host`);
       set(hostRef, { playerId, username: trimmedInputtedUsername });
+      set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: true });
+    } else {
+      set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: false });
     }
 
     //// Set what to do on disconnect from firebase:
