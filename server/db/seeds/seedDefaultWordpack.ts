@@ -3,7 +3,7 @@ const Word = data.Word;
 const Wordpack = data.Wordpack;
 import defaultPackString from '../wordpacks/defaultPack';
 
-const seedDefaultWordpack = async ():Promise<void> => {
+const seedDefaultWordpack = async () => {
   const wordArray: string[] = defaultPackString.split('\n'); // split the string on 'return' characters
 
   // First, create the Wordpack model
