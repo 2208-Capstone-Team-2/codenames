@@ -7,7 +7,7 @@ import { onValue, ref, set, get, child, update } from 'firebase/database';
 import './roomView.css';
 import Popup from 'reactjs-popup';
 import { Button } from '@mui/material';
-import { isEveryRoleFilled } from '../../utils/Utils';
+import { isEveryRoleFilled } from '../../utils/utilFunctions.js';
 import SetupGame from './setupGame.jsx';
 import WelcomeBoard from './WelcomeBoard';
 import OperativeBoard from './OperativeBoard.jsx';
