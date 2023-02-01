@@ -6,6 +6,15 @@ import Team from './models/team';
 import Word from './models/word';
 import Wordpack from './models/wordpack';
 import Player from './models/player';
+const data = {db,
+Board,
+Card,
+Player,
+Room,
+Team,
+Word,
+Wordpack,
+};
 // Model Associations go here
 
 // **** Board Associations: **** //
@@ -42,14 +51,5 @@ Team.hasMany(Player);
 // **** Player/Room Associations: **** //
 Player.belongsTo(Room);
 Room.hasMany(Player);
-const data = {
-  db,
-  Board,
-  Card,
-  Player,
-  Room,
-  Team,
-  Word,
-  Wordpack,
-};
+
 export default data;

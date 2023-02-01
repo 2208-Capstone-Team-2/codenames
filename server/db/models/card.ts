@@ -6,7 +6,7 @@ import {
   InferCreationAttributes,
   Model,
 } from "sequelize";
-const { BOOLEAN} = Sequelize;
+const { BOOLEAN, INTEGER} = Sequelize;
 interface ResponseError extends Error {
   status?: number;
 }
@@ -16,9 +16,15 @@ export interface CardModel
     InferAttributes<CardModel>,
     InferCreationAttributes<CardModel>
   > {
+    id: number;
     isVisibleToAll: boolean;
 }
 const Card = db.define<CardModel>('card', {
+  id: {
+    type: INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   isVisibleToAll: {
     type: BOOLEAN,
     allowNull: false,
