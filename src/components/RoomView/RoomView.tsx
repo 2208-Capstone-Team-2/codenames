@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 // component imports:
 import SetupGame from './SetupGame';
 import WelcomeBoard from './WelcomeBoard';
-import OperativeBoard from './OperativeBoard.jsx';
+import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
@@ -15,7 +15,11 @@ import GameLog from './GameLog';
 import GameStatus from './GameStatus';
 
 // redux imports:
+import { RootState } from '../../store/index.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { setRoomId } from '../../store/playerSlice';
+import { setAllPlayers } from '../../store/allPlayersSlice';
+import { setWordsInGame } from '../../store/wordsInGameSlice';
 import {
   setTeam1RemainingCards,
   setTeam2RemainingCards,
@@ -24,11 +28,8 @@ import {
   setWinner,
   setLoser,
   setGuessesRemaining,
+  setGameHistory,
 } from '../../store/gameSlice';
-import { setRoomId } from '../../store/playerSlice';
-import { setAllPlayers } from '../../store/allPlayersSlice';
-import { setWordsInGame } from '../../store/wordsInGameSlice';
-import { setGameHistory } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice.js';
 
 // firebase imports:
@@ -40,16 +41,37 @@ import Popup from 'reactjs-popup';
 import { Button } from '@mui/material';
 import './roomView.css';
 
-const RoomView = (props) => {
+//Interfaces for TS:
+interface ClassName {
+  className: string;
+}
+// this is from word assoc with id, etc.
+interface WordObj {
+  word: string;
+}
+interface CardObj {
+  id: number;
+  isVisibleToAll: boolean;
+  wordString: string;
+  word: WordObj;
+  wordId: number;
+  boardId: number;
+  teamId: number;
+}
+interface WordsWithTeamIdsObj {
+  [index: number]: CardObj;
+}
+
+const RoomView = (props: ClassName) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams();
   setRoomId(roomId);
 
   // frontend state
-  const { playerId, isHost } = useSelector((state) => state.player);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
+  const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -160,14 +182,15 @@ const RoomView = (props) => {
             let spymasterId = Object.keys(spymaster);
             if (spymasterId.includes(playerId)) {
               //get set of cards with team ids from backend and set spymaster words
-              let wordsWithTeamIds = {};
+              let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
-                (card) =>
+                (card: CardObj) =>
                   (wordsWithTeamIds[card.id] = {
                     id: card.id,
                     isVisibleToAll: card.isVisibleToAll,
-                    word: card.word.word,
+                    wordString: card.word.word,
+                    word: card.word,
                     wordId: card.wordId,
                     boardId: card.boardId,
                     teamId: card.teamId,
@@ -186,14 +209,15 @@ const RoomView = (props) => {
               console.log('setting spy board...');
 
               //get set of cards with team ids from backend and set spymaster words
-              let wordsWithTeamIds = {};
+              let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
-                (card) =>
+                (card: CardObj) =>
                   (wordsWithTeamIds[card.id] = {
                     id: card.id,
                     isVisibleToAll: card.isVisibleToAll,
-                    word: card.word.word,
+                    wordString: card.word.word,
+                    word: card.word,
                     wordId: card.wordId,
                     boardId: card.boardId,
                     teamId: card.teamId,

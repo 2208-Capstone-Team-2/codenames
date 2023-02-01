@@ -54,7 +54,7 @@ const SetupGame = () => {
         (updates[card.id] = {
           id: card.id,
           isVisibleToAll: card.isVisibleToAll,
-          word: card.word.word,
+          wordString: card.word.word,
           wordId: card.wordId,
           boardId: card.boardId,
         }),
