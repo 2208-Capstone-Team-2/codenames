@@ -18,6 +18,7 @@ const initialState: initialStateType = {
   guessesRemaining: 0,
   winner: '',
   loser: '',
+  gameHistory: [],
 };
 
 export const gameSlice = createSlice({
@@ -33,6 +34,11 @@ export const gameSlice = createSlice({
     setTeam2RemainingCards: (state, action) => {
       state.team2RemainingCards = action.payload;
     },
+
+    setGameHistory: (state, action) => {
+      state.gameHistory = action.payload;
+    },
+
     setShowResetButton: (state, action) => {
       state.showResetButton = action.payload;
     },
@@ -56,5 +62,6 @@ export const {
   setGuessesRemaining,
   setWinner,
   setLoser,
+  setGameHistory,
 } = gameSlice.actions;
 export default gameSlice.reducer;

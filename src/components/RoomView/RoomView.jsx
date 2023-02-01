@@ -5,14 +5,11 @@ import { useParams } from 'react-router-dom';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setAllPlayers } from '../../store/allPlayersSlice';
-import { Container } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import './roomView.css';
 import Popup from 'reactjs-popup';
 import SetupGame from './setupGame.jsx';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
-import styles from './Room.styles';
+import WelcomeBoard from './WelcomeBoard';
 import {
   setTeam1RemainingCards,
   setTeam2RemainingCards,
@@ -20,23 +17,22 @@ import {
   setShowResetButton,
   setWinner,
   setLoser,
+  setGuessesRemaining,
 } from '../../store/gameSlice';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import { Button } from '@mui/material';
-import ClueHistory from './ClueHistory.jsx';
-import { setClueHistory, setCurrentClue } from '../../store/clueSlice.js';
+import { setGameHistory } from '../../store/gameSlice';
+import { setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
-
+import { isEveryRoleFilled } from '../../utils/Utils';
 import Clue from './Clue';
-import GuessesRemaining from './GuessesRemaining';
-import { setGuessesRemaining } from '../../store/gameSlice';
+import GameLog from './gameLog';
+import GameStatus from './GameStatus';
 
-import ResetGame from './ResetGame';
-
-const RoomView = () => {
+const RoomView = (props) => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
@@ -45,45 +41,20 @@ const RoomView = () => {
 
   // frontend state
   const { playerId, username, isHost } = useSelector((state) => state.player);
-
-  const { allPlayers } = useSelector((state) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  let gameStatus = useSelector((state) => state.game.status);
-
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-  let clueHistoryRef = ref(database, `rooms/${roomId}/clues/`);
-
+  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
-
-  const teamOneSpyId = Object.values(teamOneSpymaster).map((spy) => {
-    return spy.playerId;
-  });
-  const teamTwoSpyId = Object.values(teamTwoSpymaster).map((spy) => {
-    return spy.playerId;
-  });
-
-  // determines if there is at least one player in each 'role' and then shows the button for start game
-  // not uncommenting code in the return until we're done testing, but it works :)
-  const isEveryRoleFilled = () => {
-    if (teamOneOperatives.length > 0) {
-      if (teamTwoOperatives.length > 0) {
-        if (teamOneSpymaster.length > 0) {
-          if (teamTwoSpymaster.length > 0) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
-  const everyonesHere = isEveryRoleFilled();
+  // below will be used once we allow host & everyones here to show button
+  // DO NOT DELETE
+  const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
@@ -102,14 +73,11 @@ const RoomView = () => {
     onValue(gameRef, (snapshot) => {
       if (snapshot.exists()) {
         const game = snapshot.val();
-        const team1RemainingCards = snapshot.val().team1RemainingCards;
-        const team2RemainingCards = snapshot.val().team2RemainingCards;
-        const guessesRemaining = snapshot.val().guessesRemaining;
         dispatch(setStatus(game.gameStatus));
-        dispatch(setTeam1RemainingCards(team1RemainingCards));
-        dispatch(setTeam2RemainingCards(team2RemainingCards));
-        dispatch(setGuessesRemaining(guessesRemaining));
-        if (guessesRemaining <= 0) {
+        dispatch(setTeam1RemainingCards(game.team1RemainingCards));
+        dispatch(setTeam2RemainingCards(game.team2RemainingCards));
+        dispatch(setGuessesRemaining(game.guessesRemaining));
+        if (game.guessesRemaining <= 0) {
           endTurn();
         }
 
@@ -121,26 +89,22 @@ const RoomView = () => {
           dispatch(setTeam2RemainingCards(8));
           dispatch(setWordsInGame([]));
           dispatch(setCurrentClue({}));
-          dispatch(setClueHistory([]));
+          dispatch(setGameHistory([]));
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
         }
 
-        // josh's pseudocode:
-        // if game status === 'complete' --->
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
-          dispatch(setStatus('complete'));
           dispatch(setGuessesRemaining(0));
 
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
-          //Should we set a winner in firebase? Probably...
           //Set redux loser to team 2
           dispatch(setLoser('team-2'));
           set(child(gameRef, 'loser'), 'team-2');
@@ -149,17 +113,13 @@ const RoomView = () => {
         if (game.team2RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
           // set winner / set loser to redux
-          console.log('this should not get hit at all');
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
-          dispatch(setStatus('complete'));
           //Set redux winner to team 2
           dispatch(setWinner('team-2'));
           set(child(gameRef, 'winner'), 'team-2');
           dispatch(setGuessesRemaining(0));
-
-          //Should we set a winner in firebase? Probably...
           //Set redux loser to team 1
           dispatch(setLoser('team-1'));
           set(child(gameRef, 'loser'), 'team-1');
@@ -167,17 +127,15 @@ const RoomView = () => {
         }
       }
     });
-
-    onValue(clueHistoryRef, (snapshot) => {
+    onValue(gameHistoryRef, (snapshot) => {
       if (snapshot.exists()) {
-        //below line will give us an object looking like this {firebaseRandomKey:{clueString:"clue",clueNumber:"4",playerSubmmiteed:"randomeKey"}}
-        const clues = snapshot.val();
+        const data = snapshot.val();
         let history = [];
         //this is to access the data under random firebase key and put them in an iterable array
-        for (let clueKey in clues) {
-          history.push(clues[clueKey]);
+        for (let historyKey in data) {
+          history.push(data[historyKey]);
         }
-        dispatch(setClueHistory(history));
+        dispatch(setGameHistory(history));
       }
     });
   }, []);
@@ -293,55 +251,11 @@ const RoomView = () => {
     });
   };
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
   return (
-    <>
-      <Container style={styles.sx.RoomContainer}>
-        <Grid container spacing={2} style={styles.sx.RoomGrid}>
-          <Grid item xs={12} style={styles.sx.RoomAndPlayers}>
-            <Item style={styles.sx.PlayerContainer}>Welcome, {username}</Item>
-            <Item style={styles.sx.PlayerContainer}>Room id: {roomId}</Item>
-            <Item style={styles.sx.PlayerContainer}>
-              Players:
-              {allPlayers?.map((player) => (
-                <p key={player.playerId}>{player.username}</p>
-              ))}
-            </Item>
-            {gameStatus !== 'ready' && (
-              <Item style={styles.sx.PlayerContainer}>
-                Turn:
-                {gameStatus}
-                <GuessesRemaining />
-              </Item>
-            )}
-
-            <Item style={styles.sx.PlayerContainer}>
-              <ResetGame />
-            </Item>
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <TeamOneBox />
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            {/* import clueHistory component */}
-            <ClueHistory />
-            <Clue />
-          </Grid>
-          <Grid item xs={3} md={4} style={styles.sx.BoardGrid}>
-            <TeamTwoBox />
-          </Grid>
-        </Grid>
-      </Container>
-
+    <div className={props.className}>
+      <GameStatus />
+      <WelcomeBoard />
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
-      {!everyonesHere && <p>Make sure there is at least one person in each role!</p>}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
         <Popup
@@ -360,6 +274,25 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )}
+      <div className="flexBox">
+        <TeamOneBox />
+        <div className="boardContainer">
+          {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+          {/* this is working for now, but we probably need more protection to not display 
+      a spymaster board on someone who randomly joins room while game is 'in progress' */}
+{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+            <SpyMasterBoard />
+          ) : (
+            <OperativeBoard />
+          )}
+        </div>
+        <TeamTwoBox />
+        <div className="break"></div>
+        <GameLog />
+        <div className="chatBox"> this will be the chat box</div>
+      </div>
+      <Clue />
+
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup
@@ -378,11 +311,7 @@ const RoomView = () => {
           <SetupGame />
         </Popup>
       )} */}
-      {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-      {/* this is working for now, but we probably need more protection to not display 
-      a spymaster board on someone who randomly joins room while game is 'in progress' */}
-      {teamOneSpyId.includes(playerId) || teamTwoSpyId.includes(playerId) ? <SpyMasterBoard /> : <OperativeBoard />}
-    </>
+    </div>
   );
 };
 

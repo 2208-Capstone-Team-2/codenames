@@ -1,0 +1,47 @@
+.flexBox{display: flex;
+justify-content: center;flex-wrap: wrap;}
+.break{ flex-basis: 100%;
+  height: 0;}
+.boardContainer{width:30vw;
+  height: 500px; 
+ }
+.board{display:grid;
+grid-template-columns: auto auto auto auto auto;
+gap: 2%;
+justify-content:center;
+align-items:center;
+}
+.welcomeBoard{
+  height: fit-content;
+  width: 80vw;
+  color: #242424;
+  padding: 15px;
+  background-color: gainsboro;
+  border-radius: 6px;
+  display: block;
+  margin:2% auto;
+}
+  .break{flex-basis: 100%;
+    height: 0;}
+.gameLog{float: left;
+      width: 15%;
+      height: fit-content;
+      margin: 5% 0 0 5%;
+      padding: 10px;
+      border-radius: 6px;
+      background-color: gainsboro;}
+.chatBox{float: left;
+  width: 50vw;
+  height: 200px;
+  margin: 5% 5% 0 5%;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: gainsboro;}
+  .MessageInput{
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+  }
+  .setUpGame{    display: flex;
+    justify-content: center;
+    margin-top: 2%;}

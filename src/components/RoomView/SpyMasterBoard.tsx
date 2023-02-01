@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import SpyCard from './SpyCard';
 const SpyMasterBoard = () => {
@@ -16,17 +16,9 @@ const SpyMasterBoard = () => {
     teamId: number;
   }
   
-  const style = {
-    display: 'grid',
-    gridTemplateColumns: 'auto auto auto auto auto',
-    marginTop: '5%',
-    gap: '2%',
-    justifyContent: 'center',
-    alightItems: 'center',
-  };
 
   return (
-    <div style={style}>
+    <div className="board">
       {words.map((word: WordObj) => {
         return <SpyCard key={word.id} word={word} teamId={word.teamId} />;
       })}
