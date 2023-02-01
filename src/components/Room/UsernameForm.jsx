@@ -9,7 +9,8 @@ import { ref, update, set, child, onDisconnect } from 'firebase/database';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
 import './userForm.css';
-function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }) {
+
+function UsernameForm({ inputtedUsername, setInputtedUsername, setCanBeClosed }) {
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
   const { roomId } = useParams();
   const dispatch = useDispatch();

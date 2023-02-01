@@ -1,5 +1,5 @@
-import { Check } from '@mui/icons-material';
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 
 function Popup(props) {
   return props.trigger ? (

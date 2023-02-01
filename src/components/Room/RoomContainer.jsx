@@ -7,16 +7,19 @@ import RoomView from '../RoomView/RoomView';
 import FetchRoom from './FetchRoom';
 import SignInAnonymously from './SignInAnonymously';
 import OnAuthStateChanged from './OnAuthStateChanged';
-import './userForm.css'
+import './userForm.css';
+
 function RoomContainer() {
   const [inputtedUsername, setInputtedUsername] = useState('');
   const [timedPopup, setTimedPopup] = useState(false);
   const [canBeClosed, setCanBeClosed] = useState(true);
+
   useEffect(() => {
     setTimeout(() => {
       setTimedPopup(true);
     }, 1000);
   }, []);
+
   return (
     <div>
       <ResponsiveAppBar />

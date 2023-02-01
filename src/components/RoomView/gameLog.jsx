@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './roomView.css';
 import GuessesRemaining from './GuessesRemaining';
 const GameLog = () => {
@@ -8,7 +8,7 @@ const GameLog = () => {
   let gameStatus = useSelector((state) => state.game.status);
 
   return (
-    <div className='gameLog'>
+    <div className="gameLog">
       <h3>Game Status</h3>
       <div>{gameStatus}</div>
       <GuessesRemaining />

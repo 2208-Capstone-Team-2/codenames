@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setRoomId } from '../../store/playerSlice';
+import axios from 'axios';
+import { isEveryRoleFilled } from '../../utils/Utils';
 import { useParams } from 'react-router-dom';
-import { onValue, ref, set, get, child, update } from 'firebase/database';
-import { database } from '../../utils/firebase';
-import { setAllPlayers } from '../../store/allPlayersSlice';
-import './roomView.css';
-import Popup from 'reactjs-popup';
-import SetupGame from './setupGame.jsx';
-import { setWordsInGame } from '../../store/wordsInGameSlice';
+
+// component imports:
+import SetupGame from './SetupGame';
 import WelcomeBoard from './WelcomeBoard';
+import OperativeBoard from './OperativeBoard.jsx';
+import SpyMasterBoard from './SpyMasterBoard';
+import TeamOneBox from '../teamBoxes/TeamOneBox';
+import TeamTwoBox from '../teamBoxes/TeamTwoBox';
+import Clue from './Clue';
+import GameLog from './GameLog';
+import GameStatus from './GameStatus';
+
+// redux imports:
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setTeam1RemainingCards,
   setTeam2RemainingCards,
@@ -19,28 +25,29 @@ import {
   setLoser,
   setGuessesRemaining,
 } from '../../store/gameSlice';
-import OperativeBoard from './OperativeBoard.jsx';
-import SpyMasterBoard from './SpyMasterBoard';
-import TeamOneBox from '../teamBoxes/TeamOneBox';
-import TeamTwoBox from '../teamBoxes/TeamTwoBox';
-import { Button } from '@mui/material';
+import { setRoomId } from '../../store/playerSlice';
+import { setAllPlayers } from '../../store/allPlayersSlice';
+import { setWordsInGame } from '../../store/wordsInGameSlice';
 import { setGameHistory } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice.js';
-import axios from 'axios';
-import { isEveryRoleFilled } from '../../utils/Utils';
-import Clue from './Clue';
-import GameLog from './gameLog';
-import GameStatus from './GameStatus';
+
+// firebase imports:
+import { onValue, ref, set, get, child, update } from 'firebase/database';
+import { database } from '../../utils/firebase';
+
+// styling imports:
+import Popup from 'reactjs-popup';
+import { Button } from '@mui/material';
+import './roomView.css';
 
 const RoomView = (props) => {
-  // for room nav
+  const dispatch = useDispatch();
+
   const { roomId } = useParams();
   setRoomId(roomId);
 
-  const dispatch = useDispatch();
-
   // frontend state
-  const { playerId, username, isHost } = useSelector((state) => state.player);
+  const { playerId, isHost } = useSelector((state) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   // firebase room  & players reference
@@ -280,7 +287,7 @@ const RoomView = (props) => {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+          {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
             <SpyMasterBoard />
           ) : (
             <OperativeBoard />

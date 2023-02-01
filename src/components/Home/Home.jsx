@@ -3,9 +3,13 @@ import styles from './Home.styles';
 import logo from '../../static/images/logoLight.png'; // Tell Webpack this JS file uses this image
 
 // Component Imports:
-import FAQ from './FAQ';
-import HowToPlay from './HowToPlay';
-import CreateRoomButton from './CreateRoomButton';
+// new way!
+import { FAQ, HowToPlay, CreateRoomButton } from '../index';
+
+// old way:
+// import FAQ from './FAQ';
+// import HowToPlay from './HowToPlay';
+// import CreateRoomButton from './CreateRoomButton';
 
 function Home() {
   return (
