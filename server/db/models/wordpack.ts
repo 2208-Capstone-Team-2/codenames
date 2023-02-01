@@ -1,9 +1,21 @@
-import { Sequelize } from 'sequelize';
+// typescripted by olivia!
+import  Sequelize  from 'sequelize';
 import db from '../db';
+import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
-const Wordpack = db.define('wordpack', {
+interface ResponseError extends Error {
+  status?: number;
+}
+
+const { STRING } = Sequelize;
+
+export interface WordPackModel extends Model<InferAttributes<WordPackModel>, InferCreationAttributes<WordPackModel>> {
+  name: string;
+}
+
+const Wordpack = db.define<WordPackModel>('wordpack', {
   name: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false,
   },
 });
