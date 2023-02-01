@@ -1,7 +1,23 @@
-import { Sequelize } from 'sequelize';
+import Sequelize from 'sequelize';
 import db from '../db';
-
-const Player = db.define('player', {
+import {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
+interface ResponseError extends Error {
+  status?: number;
+}
+const { STRING, INTEGER,ENUM } = Sequelize;
+export interface PlayerModel extends Model<    InferAttributes<PlayerModel>,
+InferCreationAttributes<PlayerModel>>{
+  id: CreationOptional<number>;
+  username:string
+  role:CreationOptional<string>;
+  wins:CreationOptional<number>;
+}
+const Player = db.define<PlayerModel>('player', {
   //id will be coming from firebase
   id: {
     type: Sequelize.STRING,
