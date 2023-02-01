@@ -1,6 +1,6 @@
 import data from '../index';
 const Player = data.Player;
-
+``
 
 const playerSeed = async () => {
   interface User {
