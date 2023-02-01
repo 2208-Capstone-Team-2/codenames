@@ -219,7 +219,6 @@ interface WordObj {
                     teamId: card.teamId,
                   }),
               );
-              console.log({wordsWithTeamIds})
               const values = Object.values(wordsWithTeamIds);
               dispatch(setWordsInGame(values));
             }
