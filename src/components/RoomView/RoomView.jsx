@@ -27,7 +27,7 @@ import { Button } from '@mui/material';
 import { setGameHistory } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice.js';
 import axios from 'axios';
-import { isEveryRoleFilled } from '../../utils/Utils';
+import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import Clue from './Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
@@ -280,7 +280,7 @@ const RoomView = (props) => {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+          {teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
             <SpyMasterBoard />
           ) : (
             <OperativeBoard />
