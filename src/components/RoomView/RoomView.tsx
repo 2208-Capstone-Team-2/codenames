@@ -4,14 +4,14 @@ import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import { useParams } from 'react-router-dom';
 
 // component imports:
-import SetupGame from './SetupGame';
+import SetupGame from './setupGame';
 import WelcomeBoard from './WelcomeBoard';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import Clue from './Clue';
-import GameLog from './GameLog';
+import GameLog from './gameLog';
 import GameStatus from './GameStatus';
 
 // redux imports:
