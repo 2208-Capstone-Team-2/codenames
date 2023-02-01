@@ -234,7 +234,6 @@ interface WordObj {
               //update our redux to reflect that
               const cardsFromSnapshot = cardSnapshot.val();
               const values = Object.values(cardsFromSnapshot);
-              console.log({cardsFromSnapshot})
               dispatch(setWordsInGame(values));
             }
           }

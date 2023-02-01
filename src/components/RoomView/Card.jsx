@@ -18,7 +18,6 @@ const Card = ({ word }) => {
   const [teamsCard, setTeamsCard] = useState(0);
   const guessesRemaining = useSelector((state) => state.game.guessesRemaining);
 
-  console.log({ word });
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef = ref(database, 'rooms/' + roomId + '/game/' + 'history');

@@ -21,7 +21,6 @@ const Clue = () => {
   let arrayToCheck = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
-    console.log(gameboard[i]);
     arrayToCheck.push(gameboard[i].wordString.toUpperCase());
   }
   let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
