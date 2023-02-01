@@ -8,6 +8,7 @@ import clueReducer from './clueSlice';
 import gameReducer from './gameSlice';
 import assassinAndBystanderReducer from './assassinAndBystanderSlice';
 import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const store = configureStore({
   reducer: {
