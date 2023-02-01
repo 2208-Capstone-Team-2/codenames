@@ -9,7 +9,7 @@ import {
 interface ResponseError extends Error {
   status?: number;
 }
-const { STRING, INTEGER,ENUM } = Sequelize;
+const { STRING } = Sequelize;
 export interface PlayerModel extends Model<    InferAttributes<PlayerModel>,
 InferCreationAttributes<PlayerModel>>{
   id: CreationOptional<number>;

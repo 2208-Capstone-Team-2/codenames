@@ -18,7 +18,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     const { selectedWordPackId } = req.body;
 
     // Find which pack users select and put all the candidate words in an array
-    const allWords = await Word.findAll({
+    const allWords = await (Word as any).findAll({
       where: {
         //findAll can work with an array
         wordpackId: selectedWordPackId,
@@ -26,13 +26,13 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     });
 
     if (!allWords) return res.sendStatus(404); // Sanity check
-    const allWordsIds = allWords.map((word) => word.id);
+    const allWordsIds = allWords.map((word: { id: number; }) => word.id);
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWordsIds);
 
     // We need the teamIds that we will need to seed our cards - these are on room.
     // Find the room with this 'roomId' (is actually a name like jolly-panda)
-    const room = await Room.findOne({
+    const room = await (Room as any).findOne({
       where: { name: roomId },
     });
     if (!room) return res.sendStatus(404); // Sanity check
@@ -46,7 +46,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     // Board and room are 1:1
     // Overwrite the previous linking of this room to any other board,
     // And give it the one we've just made and will soon make cards for.
-    const board = await Board.create(); // Create a new board to put the 25 cards into
+    const board = await (Board as any).create(); // Create a new board to put the 25 cards into
     room.setBoard(board);
 
     // Make an array of 25 cards objects
@@ -61,7 +61,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     }
 
     // Let these 25 Card Model creations run async, and await for them ALL to finish.
-    const cardPromises = cards.map((card) => Card.create(card));
+    const cardPromises = cards.map((card) => (Card as any).create(card));
 
     console.log(cards);
     await Promise.all(cardPromises);
@@ -71,7 +71,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
      - query so we can get the word ON to the card, from the Word Model association
      - exclude the teamId, so teamId does not live on the cards we send back, else easy to cheat!
     */
-    const queriedCards = await Card.findAll({
+    const queriedCards = await (Card as any).findAll({
       where: { boardId: board.id },
       include: [Word],
       attributes: { exclude: ['teamId'] },
@@ -86,15 +86,15 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
 router.get('/get25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { roomId } = req.params;
-    const room = await Room.findOne({
+    const room = await (Room as any).findOne({
       where: { name: roomId },
     });
 
-    const board = await Board.findOne({
+    const board = await (Board as any).findOne({
       where: { roomId: room.id },
     });
 
-    const cardsWithTeamIds = await Card.findAll({
+    const cardsWithTeamIds = await (Card as any).findAll({
       where: { boardId: board.id },
       include: [Word],
     });
@@ -114,15 +114,15 @@ router.put('/:wordId', async (req: Request, res: Response, next: NextFunction) =
     const { wordId } = req.params;
     const { roomId } = req.body;
 
-    const room = await Room.findOne({
+    const room = await (Room as any).findOne({
       where: { name: roomId },
     });
 
-    const board = await Board.findOne({
+    const board = await (Board as any).findOne({
       where: { roomId: room.id },
     });
 
-    const cardToUpdate = await Card.findOne({
+    const cardToUpdate = await (Card as any).findOne({
       where: { id: wordId, boardId: board.id },
       include: [Word],
     });
