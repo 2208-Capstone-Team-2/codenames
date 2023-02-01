@@ -17,11 +17,12 @@ const Clue = () => {
   const { teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   const gameboard = useSelector((state) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let gameHistoryRef=ref(database, `rooms/${roomId}/game/history`);
+  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
   let arrayToCheck = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
-    arrayToCheck.push(gameboard[i].word.toUpperCase());
+    console.log(gameboard[i]);
+    arrayToCheck.push(gameboard[i].wordString.toUpperCase());
   }
   let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
 

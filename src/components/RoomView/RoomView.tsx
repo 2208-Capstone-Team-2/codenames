@@ -32,6 +32,7 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice.js';
 import { RootState } from '../../store/index.js';
+import words from 'random-words';
 
 interface ClassName{
   className: string;
@@ -65,8 +66,6 @@ const RoomView = (props:ClassName) => {
 interface WordObj {
   word: string;
 }
-
-
 
   interface CardObj {
     id: number;
@@ -220,6 +219,7 @@ interface WordObj {
                     teamId: card.teamId,
                   }),
               );
+              console.log({wordsWithTeamIds})
               const values = Object.values(wordsWithTeamIds);
               dispatch(setWordsInGame(values));
             }
@@ -234,6 +234,7 @@ interface WordObj {
               //update our redux to reflect that
               const cardsFromSnapshot = cardSnapshot.val();
               const values = Object.values(cardsFromSnapshot);
+              console.log({cardsFromSnapshot})
               dispatch(setWordsInGame(values));
             }
           }

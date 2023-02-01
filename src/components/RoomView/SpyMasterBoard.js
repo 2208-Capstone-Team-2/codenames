@@ -19,6 +19,7 @@ const SpyMasterBoard = () => {
   const teamTwoSpymasterId = Object.values(teamTwoSpymaster).map((spy) => {
     return spy.playerId;
   });
+  console.log(words);
 
   return (
     <div className="board">
