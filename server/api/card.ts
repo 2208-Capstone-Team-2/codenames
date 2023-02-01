@@ -18,7 +18,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     const { selectedWordPackId } = req.body;
 
     // Find which pack users select and put all the candidate words in an array
-    const allWords = await (Word as any).findAll({
+    const allWords = await Word.findAll({
       where: {
         //findAll can work with an array
         wordpackId: selectedWordPackId,
@@ -32,7 +32,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
 
     // We need the teamIds that we will need to seed our cards - these are on room.
     // Find the room with this 'roomId' (is actually a name like jolly-panda)
-    const room = await (Room as any).findOne({
+    const room = await Room.findOne({
       where: { name: roomId },
     });
     if (!room) return res.sendStatus(404); // Sanity check
@@ -46,7 +46,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     // Board and room are 1:1
     // Overwrite the previous linking of this room to any other board,
     // And give it the one we've just made and will soon make cards for.
-    const board = await (Board as any).create(); // Create a new board to put the 25 cards into
+    const board = await Board.create(); // Create a new board to put the 25 cards into
     room.setBoard(board);
 
     // Make an array of 25 cards objects
