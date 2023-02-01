@@ -48,13 +48,13 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       roomWithThisSlug = await Room.findOne({ where: { name: slug } }); // See if there's a room that exists with this name again.
     }
     
-    const room = await (Room as any).create({ name: slug });
+    const room = await Room.create({ name: slug });
     
     // Creates four teams models (aka the 4 card colors)
-    const team1 = await (Team as any).create({ name: 'team red', roomId: room.id });
-    const team2 = await (Team as any).create({ name: 'team blue', roomId: room.id });
-    const team3 = await (Team as any).create({ name: 'team white', roomId: room.id });
-    const team4 = await (Team as any).create({ name: 'team black', roomId: room.id });
+    const team1 = await Team.create({ name: 'team red', roomId: room.id });
+    const team2 = await Team.create({ name: 'team blue', roomId: room.id });
+    const team3 = await Team.create({ name: 'team white', roomId: room.id });
+    const team4 = await Team.create({ name: 'team black', roomId: room.id });
     
     // Update the room object to have the ids of the teams we created
     // These are needed for creating the board layout, as:

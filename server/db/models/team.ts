@@ -12,6 +12,7 @@ const { STRING, INTEGER } = Sequelize;
 export interface TeamModel extends Model<InferAttributes<TeamModel>, InferCreationAttributes<TeamModel>> {
   id: CreationOptional<number>;
   name: string;
+  roomId: number;
 }
 const Team = db.define<TeamModel>('team', {
   id: {
@@ -23,6 +24,9 @@ const Team = db.define<TeamModel>('team', {
     type: STRING,
     allowNull: true,
   },
+  roomId:{
+    type: INTEGER
+  }
 });
 
 export default Team;
