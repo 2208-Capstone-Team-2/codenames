@@ -1,15 +1,15 @@
-const db = require('./db');
-
+// const db = require('./db');
+import db from './db';
+import Player from './models/player';
 // eslint-disable-next-line no-unused-vars
-const Player = require('./models/player');
+import Room from './models/room';
 // eslint-disable-next-line no-unused-vars
-const Room = require('./models/room');
+import Team from './models/team';
 // eslint-disable-next-line no-unused-vars
-const Team = require('./models/team');
-const playerSeed = require('./seeds/playerSeeds');
+import playerSeed from './seeds/playerSeeds';
 // Import the smaller seeding functions that we'll use:
-const seedDefaultWordpack = require('./seeds/seedDefaultWordpack');
-const seedDuetWordpack = require('./seeds/seedDuetWordpack');
+import seedDefaultWordpack from './seeds/seedDefaultWordpack';
+import seedDuetWordpack from './seeds/seedDuetWordpack';
 
 const seed = async () => {
   await db.sync({ force: true }); // Clear out any old data
