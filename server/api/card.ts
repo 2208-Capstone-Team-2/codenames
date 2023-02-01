@@ -86,20 +86,19 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
 router.get('/get25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { roomId } = req.params;
-    const room = await (Room as any).findOne({
+    const room = await Room.findOne({
       where: { name: roomId },
     });
-
-    const board = await (Board as any).findOne({
+    if(!room) return res.sendStatus(404);
+    const board = await Board.findOne({
       where: { roomId: room.id },
     });
-
-    const cardsWithTeamIds = await (Card as any).findAll({
+    if(!board) return res.sendStatus(404);
+    const cardsWithTeamIds = await Card.findAll({
       where: { boardId: board.id },
       include: [Word],
     });
-
-    res.send(cardsWithTeamIds);
+    !cardsWithTeamIds ? res.sendStatus(404) : res.send(cardsWithTeamIds);
   } catch (err) {
     next(err);
   }
@@ -114,22 +113,21 @@ router.put('/:wordId', async (req: Request, res: Response, next: NextFunction) =
     const { wordId } = req.params;
     const { roomId } = req.body;
 
-    const room = await (Room as any).findOne({
+    const room = await Room.findOne({
       where: { name: roomId },
     });
-
-    const board = await (Board as any).findOne({
+    if(!room) return res.sendStatus(404);
+    const board = await Board.findOne({
       where: { roomId: room.id },
     });
-
-    const cardToUpdate = await (Card as any).findOne({
+    if(!board) return res.sendStatus(404);
+    const cardToUpdate = await Card.findOne({
       where: { id: wordId, boardId: board.id },
       include: [Word],
     });
-
-    let cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
-
-    res.send(cardRevealed);
+    if(!cardToUpdate) return res.sendStatus(404);
+    const cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
+    !cardRevealed ? res.sendStatus(404) : res.send(cardRevealed);
   } catch (err) {
     next(err);
   }
