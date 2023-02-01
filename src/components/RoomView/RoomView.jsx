@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { isEveryRoleFilled } from '../../utils/Utils';
+import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import { useParams } from 'react-router-dom';
 
 // component imports:
