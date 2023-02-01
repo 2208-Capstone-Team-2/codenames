@@ -16,8 +16,11 @@ export interface CardModel
     InferAttributes<CardModel>,
     InferCreationAttributes<CardModel>
   > {
-    id: number;
-    isVisibleToAll: boolean;
+    id: CreationOptional<number>;
+    isVisibleToAll:CreationOptional<boolean>;
+    boardId: CreationOptional<number>
+    wordId: CreationOptional<number>
+    teamId: CreationOptional<number>
 }
 const Card = db.define<CardModel>('card', {
   id: {
@@ -30,6 +33,16 @@ const Card = db.define<CardModel>('card', {
     allowNull: false,
     defaultValue: false,
   },
+  boardId:{
+    type: INTEGER,
+    allowNull: true,
+  },
+  wordId: {    
+    type: INTEGER,
+    allowNull: true,},
+  teamId: {    
+    type: INTEGER,
+    allowNull: true,},
   // tier 2
   // Todo: Need to decide if this will be a simple bool or
   // if we want the player's name associated with it -

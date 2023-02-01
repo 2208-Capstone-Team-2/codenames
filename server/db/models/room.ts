@@ -7,6 +7,7 @@ import {
   InferCreationAttributes,
   Model,
 } from "sequelize";
+import { BoardModel } from './board';
 
 interface ResponseError extends Error {
   status?: number;
@@ -19,6 +20,7 @@ export interface RoomModel
     InferAttributes<RoomModel>,
     InferCreationAttributes<RoomModel>
   > {
+  setBoard(board: BoardModel): unknown;
   id: CreationOptional<number>;
   name: string;
   team1id: CreationOptional<number>;

@@ -61,7 +61,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     }
 
     // Let these 25 Card Model creations run async, and await for them ALL to finish.
-    const cardPromises = cards.map((card) => (Card as any).create(card));
+    const cardPromises = cards.map((card) => Card.create(card));
 
     console.log(cards);
     await Promise.all(cardPromises);
@@ -71,7 +71,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
      - query so we can get the word ON to the card, from the Word Model association
      - exclude the teamId, so teamId does not live on the cards we send back, else easy to cheat!
     */
-    const queriedCards = await (Card as any).findAll({
+    const queriedCards = await Card.findAll({
       where: { boardId: board.id },
       include: [Word],
       attributes: { exclude: ['teamId'] },
