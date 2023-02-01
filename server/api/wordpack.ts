@@ -7,7 +7,7 @@ const Wordpack = db.Wordpack;
 // Gets and returns all Wordpacks in the DB. Does not include the cards.
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const wordpacks = await Wordpack.findAll();
+    const wordpacks = await (Wordpack as any).findAll();
     res.send(wordpacks);
   } catch (err) {
     next(err);
