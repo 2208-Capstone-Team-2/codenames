@@ -41,7 +41,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { playerId } = req.body;
-    const playerToAdd = await (Player as any).create({ id: playerId });
+    const playerToAdd = await Player.create({ id: playerId });
     res.send(playerToAdd).status(202);
   } catch (error) {
     next(error);
@@ -55,15 +55,15 @@ router.put('/:playerId', async (req: Request, res: Response, next: NextFunction)
     const { playerId } = req.params;
     const { username, roomName } = req.body; // get the new username they want from the passed up body
 
-    const player = await (Player as any).findByPk(playerId);
+    const player = await Player.findByPk(playerId);
     if (!player) return res.sendStatus(404); // sanity check
 
     let updatedPlayer = await player.update({ username }); // update the found player.
 
     // if they passed in a roomName, find that room, and associate the player with that.
     if (roomName) {
-      const room = await (Room as any).findOne({ where: { name: roomName } });
-      if (!room) res.sendStatus(404); // sanity check
+      const room = await Room.findOne({ where: { name: roomName }});
+      if (!room) return res.sendStatus(404); // sanity check
       const roomId = room.id;
       updatedPlayer = await player.update({ roomId });
     }
@@ -84,7 +84,7 @@ router.get('/allPlayers/:roomId/:teamId/:role', async (req: Request, res: Respon
     const teamId = req.params.teamId;
     const roleToFind = req.params.role;
     console.log(roomId, teamId, roleToFind);
-    const allPlayersInARoleOnATeam = await (Player as any).findAll({
+    const allPlayersInARoleOnATeam = await Player.findAll({
       where: {
         roomId: roomId,
         teamId: teamId,
@@ -107,7 +107,7 @@ router.get('/allPlayers/:roomId/:teamId', async (req: Request, res: Response, ne
   try {
     const roomId = req.params.roomId;
     const teamId = req.params.teamId;
-    const allPlayersOnATeam = await (Player as any).findAll({
+    const allPlayersOnATeam = await Player.findAll({
       where: {
         roomId: roomId,
         teamId: teamId,
@@ -128,7 +128,7 @@ router.get('/allPlayers/:roomId/:teamId', async (req: Request, res: Response, ne
 router.get('/allPlayers/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const roomId = req.params.roomId;
-    const allPlayersInARoom = await (Player as any).findAll({
+    const allPlayersInARoom = await Player.findAll({
       where: {
         roomId: roomId,
       },
@@ -153,7 +153,7 @@ router.post('/addPlayerToRoom', async (req: Request, res: Response, next: NextFu
     const playersUsername = req.body.username;
     const roomId = req.body.roomId;
     //2. Put player in db, associate their UID to the PK, and them to the room
-    const newPlayer = await (Player as any).create({
+    const newPlayer = await Player.create({
       id: playerId,
       username: playersUsername,
       roomId: roomId,
@@ -175,7 +175,7 @@ router.put('/update/player/teamAndRole', async (req: Request, res: Response, nex
     const teamToJoin = req.body.teamId;
     const roleToGivePlayer = req.body.role;
     //Query for that player
-    const playerToUpdate = await (Player as any).findOne({
+    const playerToUpdate = await Player.findOne({
       where: {
         id: playerId,
         roomId: roomId,
@@ -202,7 +202,7 @@ router.put('/remove/player/teamAndRole', async (req: Request, res: Response, nex
   const playerId = req.body.playerId;
   const roomId = req.body.roomId;
   try {
-    const playerToRemoveFromTeam = await (Player as any).findOne({
+    const playerToRemoveFromTeam = await Player.findOne({
       where: {
         id: playerId,
         roomId: roomId,
@@ -226,9 +226,9 @@ router.put('/remove/player/teamAndRole', async (req: Request, res: Response, nex
 //✔ works
 router.put('/remove/player/room', async (req: Request, res: Response, next: NextFunction) => {
   const playerId = req.body.playerId;
-  const roomId = req.body.roomId;
+  const roomId = req.body.roomId
   try {
-    const playerToRemoveFromRoom = await (Player as any).findOne({
+    const playerToRemoveFromRoom = await Player.findOne({
       where: {
         id: playerId,
         roomId: roomId,
