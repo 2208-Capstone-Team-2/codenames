@@ -91,7 +91,7 @@ const Clue = () => {
   return (
     <div className="MessageInput">
       <form>
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
           <>
             <input
               type="text"
@@ -118,7 +118,7 @@ const Clue = () => {
             </select>
           </>
         )}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
           <>
             <input
               type="text"
@@ -146,14 +146,14 @@ const Clue = () => {
           </>
         )}
         {/* is team 1 spy's turn and player is team1spymaster */}
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
           <Button variant="contained" onClick={handleSubmit}>
             submit clue
           </Button>
         )}
 
         {/* is team 2 spy's turn and player is team2spymaster */}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
           <Button variant="contained" onClick={handleSubmit}>
             submit clue
           </Button>

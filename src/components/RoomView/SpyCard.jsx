@@ -9,7 +9,6 @@ const SpyCard = ({ word, teamId }) => {
   const team2Id = useSelector((state) => state.teamTwo.team2Id);
   const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
   const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
-
   return (
     <>
       {!word.isVisibleToAll && teamId === team1Id && <button className="redStyle">{word.wordString}</button>}

@@ -179,8 +179,8 @@ interface WordObj {
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
-            let spymasterId = Object.keys(spymaster);
-            if (spymasterId.includes(playerId)) {
+            
+            if (spymaster.playerId === playerId) {
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -204,10 +204,8 @@ interface WordObj {
         get(teamTwoSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
-            let spymasterId = Object.keys(spymaster);
-            if (spymasterId.includes(playerId)) {
+            if (spymaster.playerId === playerId) {
               console.log('setting spy board...');
-
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);

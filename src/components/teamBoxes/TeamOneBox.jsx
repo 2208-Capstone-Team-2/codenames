@@ -30,7 +30,7 @@ const TeamOneBox = () => {
     let teamTwoOperatives;
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.spymaster) {
-      teamTwoSpymaster = Object.keys(teamTwoOpsAndSpys.spymaster);
+      teamTwoSpymaster = teamTwoOpsAndSpys.spymaster;
     }
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
@@ -38,7 +38,7 @@ const TeamOneBox = () => {
     }
     //If a player is on team 2, they cannot join this team
     if (
-      (teamTwoSpymaster && teamTwoSpymaster.includes(playerId)) ||
+      (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
       console.log('Cannot join the other team!');
@@ -48,9 +48,9 @@ const TeamOneBox = () => {
         //If players already exist as team one spymasters:
         if (snapshot.exists()) {
           //'teamOneSpymasters' sets the spymasers id's to an array
-          const teamOneSpymaster = Object.keys(snapshot.val());
+          const teamOneSpymaster = snapshot.val();
           //Now we can check if the player is a spymaster, if they are, for now we just console log
-          if (teamOneSpymaster.includes(playerId)) {
+          if (teamOneSpymaster.playerId === playerId) {
             // later we should probably refactor this so that something on the UI is triggered
             console.log('cannot join both the spymasters and the operatives');
           } else {
@@ -75,7 +75,8 @@ const TeamOneBox = () => {
     let teamTwoOperatives;
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.spymaster) {
-      teamTwoSpymaster = Object.keys(teamTwoOpsAndSpys.spymaster);
+      teamTwoSpymaster = teamTwoOpsAndSpys.spymaster;
+      console.log({ teamTwoSpymaster });
     }
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
@@ -83,7 +84,7 @@ const TeamOneBox = () => {
     }
     //If a player is on team 2, they cannot join this team
     if (
-      (teamTwoSpymaster && teamTwoSpymaster.includes(playerId)) ||
+      (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
       console.log('Cannot join the other team!');
@@ -132,9 +133,7 @@ const TeamOneBox = () => {
 
     onValue(teamOneSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
-        console.log('hitting spy ref');
         const teamOneSpymasterFirebase = snapshot.val();
-        const teamOneSpymaster = Object.values(teamOneSpymasterFirebase);
         dispatch(
           setTeamOneSpymaster({
             playerId: teamOneSpymasterFirebase.playerId,
@@ -152,25 +151,6 @@ const TeamOneBox = () => {
       }
     });
   }, [playerId]);
-
-  useEffect(() => {
-    onValue(teamOneSpymasterRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        console.log('hitting spy ref');
-        const teamOneSpymasterFirebase = snapshot.val();
-        const teamOneSpymaster = Object.values(teamOneSpymasterFirebase);
-        console.log({ teamOneSpymasterFirebase });
-        dispatch(
-          setTeamOneSpymaster({
-            playerId: teamOneSpymasterFirebase.playerId,
-            username: teamOneSpymasterFirebase.username,
-          }),
-        );
-      } else {
-        dispatch(setTeamOneSpymaster(null));
-      }
-    });
-  }, []);
 
   return (
     <div className="redBoxCard">

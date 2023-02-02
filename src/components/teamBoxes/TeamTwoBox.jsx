@@ -29,7 +29,7 @@ const TeamTwoBox = () => {
     let teamOneOperatives;
     //Grabbing team ones info
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster) {
-      teamOneSpymaster = Object.keys(teamOneOpsAndSpys.spymaster);
+      teamOneSpymaster = teamOneOpsAndSpys.spymaster;
     }
     //Grabbing team ones info
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.operatives) {
@@ -37,7 +37,7 @@ const TeamTwoBox = () => {
     }
     //If a player is on team 1, they cannot join this team
     if (
-      (teamOneSpymaster && teamOneSpymaster.includes(playerId)) ||
+      (teamOneSpymaster && teamOneSpymaster.playerId === playerId) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
       console.log('Cannot join the other team!');
@@ -47,9 +47,9 @@ const TeamTwoBox = () => {
         //If players already exist as team one spymasters:
         if (snapshot.exists()) {
           //'teamTwoSpymasters' sets the spymasers id's to an array
-          const teamTwoSpymaster = Object.keys(snapshot.val());
+          const teamTwoSpymaster = snapshot.val();
           //Now we can check if the player is a spymaster, if they are, for now we just console log
-          if (teamTwoSpymaster.includes(playerId)) {
+          if (teamTwoSpymaster.playerId === playerId) {
             // later we should probably refactor this so that something on the UI is triggered
             console.log('cannot join both the spymasters and the operatives');
           } else {
@@ -74,7 +74,7 @@ const TeamTwoBox = () => {
     let teamOneOperatives;
     //Grabbing team ones info
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster) {
-      teamOneSpymaster = Object.keys(teamOneOpsAndSpys.spymaster);
+      teamOneSpymaster = teamOneOpsAndSpys.spymaster;
     }
     //Grabbing team ones info
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.operatives) {
@@ -82,7 +82,7 @@ const TeamTwoBox = () => {
     }
     //If a player is on team 1, they cannot join this team
     if (
-      (teamOneSpymaster && teamOneSpymaster.includes(playerId)) ||
+      (teamOneSpymaster && teamOneSpymaster.playerId === playerId) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
       console.log('Cannot join the other team!');
@@ -98,12 +98,12 @@ const TeamTwoBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
-            set(child(teamTwoSpymasterRef, playerId), { playerId, username });
+            set(teamTwoSpymasterRef, { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
-          set(child(teamTwoSpymasterRef, playerId), { playerId, username });
+          set(teamTwoSpymasterRef, { playerId, username });
         }
       });
     }
@@ -126,10 +126,14 @@ const TeamTwoBox = () => {
     onValue(teamTwoSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
         const teamTwoSpymasterFirebase = snapshot.val();
-        const teamTwoSpymaster = Object.values(teamTwoSpymasterFirebase);
-        dispatch(setTeamTwoSpymaster(teamTwoSpymaster));
+        dispatch(
+          setTeamTwoSpymaster({
+            playerId: teamTwoSpymasterFirebase.playerId,
+            username: teamTwoSpymasterFirebase.username,
+          }),
+        );
       } else {
-        dispatch(setTeamTwoSpymaster({}));
+        dispatch(setTeamTwoSpymaster(null));
       }
     });
     onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
