@@ -47,14 +47,13 @@ const SetupGame = () => {
     event.preventDefault();
 
     const response = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackId });
-    // console.log({ response });
     const updates = {};
     await response.data.forEach(
       (card) =>
         (updates[card.id] = {
           id: card.id,
           isVisibleToAll: card.isVisibleToAll,
-          word: card.word.word,
+          wordString: card.word.word,
           wordId: card.wordId,
           boardId: card.boardId,
         }),
@@ -74,7 +73,7 @@ const SetupGame = () => {
   if (isLoading) return <p>Loading...</p>;
   else
     return (
-      <div className='setUpGame'>
+      <div className="setUpGame">
         <>
           Please select a pack of words
           <form onSubmit={submitHandler}>

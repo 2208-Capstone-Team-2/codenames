@@ -48,6 +48,7 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     let hostRef = ref(database, `rooms/${roomId}/host`);
     if (isHost) {
+      console.log('is host hit');
       update(hostRef, { playerId, username: trimmedInputtedUsername });
       dispatch(setHost({ playerId, username: trimmedInputtedUsername }));
       set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: true });

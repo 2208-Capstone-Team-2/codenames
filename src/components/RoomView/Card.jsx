@@ -162,15 +162,19 @@ const Card = ({ word }) => {
       {/* if card hasnt been revealed, show this beige version and submit answer on click */}
       {!word.isVisibleToAll && (
         <button className="notYetRevealed" value={word.id} onClick={submitAnswer}>
-          {word.word}
+          {word.wordString}
         </button>
       )}
       {/* if it is visible, show the color for the team, and make it not clickable 
       (buttons made them more visually appealing for the time being but we can edit css obviously) */}
-      {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.word}</button>}
-      {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.word}</button>}
-      {word.isVisibleToAll && word.teamId === bystanderTeamId && <button className="beigeRevealed">{word.word}</button>}
-      {word.isVisibleToAll && word.teamId === assassinTeamId && <button className="blackRevealed">{word.word}</button>}
+      {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.wordString}</button>}
+      {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.wordString}</button>}
+      {word.isVisibleToAll && word.teamId === bystanderTeamId && (
+        <button className="beigeRevealed">{word.wordString}</button>
+      )}
+      {word.isVisibleToAll && word.teamId === assassinTeamId && (
+        <button className="blackRevealed">{word.wordString}</button>
+      )}
     </>
   );
 };
