@@ -11,7 +11,6 @@ const TeamOneBox = () => {
 
   const { playerId, username } = useSelector((state) => state.player);
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
-  const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
   const dispatch = useDispatch();
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
@@ -99,11 +98,13 @@ const TeamOneBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
+            onDisconnect(teamOneSpymasterRef).remove();
             set(teamOneSpymasterRef, { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
+          onDisconnect(teamOneSpymasterRef).remove();
           set(teamOneSpymasterRef, { playerId, username });
         }
       });
@@ -124,11 +125,15 @@ const TeamOneBox = () => {
       }
     });
 
-    onValue(playerOnTeamOneOperativesRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerOnTeamOneOperativesRef).remove(playerOnTeamOneOperativesRef);
-      }
-    });
+    // onValue(playerOnTeamOneOperativesRef, async (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     // when a spy leaves, it disconnects the operative
+    //     // when operative leaves, it doesnt touch spy
+    //     // onDisconnect(playerOnTeamOneOperativesRef).remove(playerOnTeamOneOperativesRef);
+    //     // onDisconnect(teamOneOperativesRef).remove(playerOnTeamOneOperativesRef);
+    //     // onDisconnect(playerOnTeamOneOperativesRef).remove();
+    //   }
+    // });
 
     onValue(teamOneSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
@@ -141,12 +146,6 @@ const TeamOneBox = () => {
         );
       } else {
         dispatch(setTeamOneSpymaster(null));
-      }
-    });
-
-    onValue(playerOnTeamOneSpymasterRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerOnTeamOneSpymasterRef).remove(playerOnTeamOneSpymasterRef);
       }
     });
   }, [playerId]);

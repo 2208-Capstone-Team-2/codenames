@@ -15,7 +15,6 @@ const TeamTwoBox = () => {
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
-  const playerOnTeamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/${playerId}`);
   const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
 
   const dispatch = useDispatch();
@@ -73,6 +72,7 @@ const TeamTwoBox = () => {
     let teamOneSpymaster;
     let teamOneOperatives;
     //Grabbing team ones info
+    console.log({ teamOneOpsAndSpys });
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster) {
       teamOneSpymaster = teamOneOpsAndSpys.spymaster;
     }
@@ -98,11 +98,13 @@ const TeamTwoBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
+            onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
+          onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
         }
       });
@@ -118,11 +120,11 @@ const TeamTwoBox = () => {
         dispatch(setTeamTwoOperatives([]));
       }
     });
-    onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef);
-      }
-    });
+    // onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     // onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef);
+    //   }
+    // });
     onValue(teamTwoSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
         const teamTwoSpymasterFirebase = snapshot.val();
@@ -136,11 +138,11 @@ const TeamTwoBox = () => {
         dispatch(setTeamTwoSpymaster(null));
       }
     });
-    onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef);
-      }
-    });
+    // onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     // onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef);
+    //   }
+    // });
   }, [playerId]);
   return (
     <div className="blueBoxCard">

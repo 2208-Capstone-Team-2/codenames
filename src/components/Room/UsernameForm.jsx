@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 // Firebase:
 import { database } from '../../utils/firebase';
-import { ref, update, set, child, onDisconnect } from 'firebase/database';
+import { ref, update, set, child, onDisconnect, get } from 'firebase/database';
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
@@ -57,6 +57,11 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     //// remove the outer player ref
     onDisconnect(playerRef).remove();
+    const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
+    const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
+
+    onDisconnect(playerOnTeamOneOperativesRef).remove();
+    onDisconnect(playerOnTeamTwoOperativesRef).remove();
 
     // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);

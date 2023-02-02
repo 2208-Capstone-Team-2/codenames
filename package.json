@@ -4,11 +4,12 @@
   "description": "A review time project",
   "main": "index.js",
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
     "build": "webpack",
-    "start-dev": "nodemon --watch server -e js,html server/index.ts",
-    "seed": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
-    "build-dev": "webpack -w"
+    "build:dev": "npm run build -- --watch --mode=development",
+    "seed": "DATABASE_URL=postgres://localhost/codenames node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
+    "seed:dev": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
+    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
+    "start:dev": "nodemon server/index.ts --ignore dist/ --ignore src/ & npm run build:dev"
   },
   "keywords": [],
   "author": "",

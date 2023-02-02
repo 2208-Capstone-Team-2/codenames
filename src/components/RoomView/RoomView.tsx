@@ -86,6 +86,7 @@ interface WordObj {
   }
 
   useEffect(() => {
+    console.log('hiiii')
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
