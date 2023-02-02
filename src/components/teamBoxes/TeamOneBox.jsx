@@ -99,12 +99,12 @@ const TeamOneBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
-            set(child(teamOneSpymasterRef, playerId), { playerId, username });
+            set(teamOneSpymasterRef, { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
-          set(child(teamOneSpymasterRef, playerId), { playerId, username });
+          set(teamOneSpymasterRef, { playerId, username });
         }
       });
     }
@@ -135,7 +135,12 @@ const TeamOneBox = () => {
         console.log('hitting spy ref');
         const teamOneSpymasterFirebase = snapshot.val();
         const teamOneSpymaster = Object.values(teamOneSpymasterFirebase);
-        dispatch(setTeamOneSpymaster(teamOneSpymaster));
+        dispatch(
+          setTeamOneSpymaster({
+            playerId: teamOneSpymasterFirebase.playerId,
+            username: teamOneSpymasterFirebase.username,
+          }),
+        );
       } else {
         dispatch(setTeamOneSpymaster(null));
       }
@@ -154,12 +159,18 @@ const TeamOneBox = () => {
         console.log('hitting spy ref');
         const teamOneSpymasterFirebase = snapshot.val();
         const teamOneSpymaster = Object.values(teamOneSpymasterFirebase);
-        dispatch(setTeamOneSpymaster(teamOneSpymaster));
+        console.log({ teamOneSpymasterFirebase });
+        dispatch(
+          setTeamOneSpymaster({
+            playerId: teamOneSpymasterFirebase.playerId,
+            username: teamOneSpymasterFirebase.username,
+          }),
+        );
       } else {
         dispatch(setTeamOneSpymaster(null));
       }
     });
-  }, [teamOneSpymaster]);
+  }, []);
 
   return (
     <div className="redBoxCard">
