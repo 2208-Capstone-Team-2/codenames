@@ -18,7 +18,8 @@ const Clue:React.FC<ClueType> = () => {
   const roomId = useSelector((state:any) => state.player.roomId);
   const gameStatus = useSelector((state:any) => state.game.status);
   const { teamOneSpymaster } = useSelector((state:any) => state.teamOne);
-  const { teamTwoSpymaster } = useSelector((state:any) => state.teamTwo);
+  const { teamTwoSpymaster } = useSelector((state:any)=> state.teamTwo);
+  console.log(teamOneSpymaster)
   const gameboard = useSelector((state:any) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef=ref(database, `rooms/${roomId}/game/history`);
@@ -97,7 +98,7 @@ const Clue:React.FC<ClueType> = () => {
   return (
     <div className="MessageInput">
       <form>
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
           <>
             <input
               type="text"
@@ -124,7 +125,7 @@ const Clue:React.FC<ClueType> = () => {
             </select>
           </>
         )}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
           <>
             <input
               type="text"
@@ -152,14 +153,14 @@ const Clue:React.FC<ClueType> = () => {
           </>
         )}
         {/* is team 1 spy's turn and player is team1spymaster */}
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
           <button onClick={handleSubmit}>
             submit clue
           </button>
         )}
 
         {/* is team 2 spy's turn and player is team2spymaster */}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
           <Button variant="contained" onClick={handleSubmit}>
             submit clue
           </Button>
