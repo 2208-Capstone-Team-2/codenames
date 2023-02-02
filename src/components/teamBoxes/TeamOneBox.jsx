@@ -17,8 +17,6 @@ const TeamOneBox = () => {
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
-  // eslint-disable-next-line no-unused-vars
-  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
 
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {
@@ -54,11 +52,13 @@ const TeamOneBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not a spymaster, then we allow them to join as an operative
+            onDisconnect(playerOnTeamOneOperativesRef).remove();
             set(child(teamOneOperativesRef, playerId), { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
+          onDisconnect(playerOnTeamOneOperativesRef).remove();
           set(child(teamOneOperativesRef, playerId), { playerId, username });
         }
       });
@@ -98,6 +98,7 @@ const TeamOneBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
+            // onDisconnect needs to be placed before the ref is set to avoid race condition
             onDisconnect(teamOneSpymasterRef).remove();
             set(teamOneSpymasterRef, { playerId, username });
           }
@@ -124,16 +125,6 @@ const TeamOneBox = () => {
         dispatch(setTeamOneOperatives([]));
       }
     });
-
-    // onValue(playerOnTeamOneOperativesRef, async (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     // when a spy leaves, it disconnects the operative
-    //     // when operative leaves, it doesnt touch spy
-    //     // onDisconnect(playerOnTeamOneOperativesRef).remove(playerOnTeamOneOperativesRef);
-    //     // onDisconnect(teamOneOperativesRef).remove(playerOnTeamOneOperativesRef);
-    //     // onDisconnect(playerOnTeamOneOperativesRef).remove();
-    //   }
-    // });
 
     onValue(teamOneSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {

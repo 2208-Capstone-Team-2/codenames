@@ -9,7 +9,6 @@ const TeamTwoBox = () => {
   const { roomId } = useParams();
 
   const { playerId, username } = useSelector((state) => state.player);
-
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
@@ -53,11 +52,14 @@ const TeamTwoBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not a spymaster, then we allow them to join as an operative
+            // onDisconnect needs to be placed before 'set' to avoid race condition
+            onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
+          onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
         }
       });
@@ -120,11 +122,7 @@ const TeamTwoBox = () => {
         dispatch(setTeamTwoOperatives([]));
       }
     });
-    // onValue(playerOnTeamTwoOperativesRef, async (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     // onDisconnect(playerOnTeamTwoOperativesRef).remove(playerOnTeamTwoOperativesRef);
-    //   }
-    // });
+
     onValue(teamTwoSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
         const teamTwoSpymasterFirebase = snapshot.val();
@@ -138,12 +136,8 @@ const TeamTwoBox = () => {
         dispatch(setTeamTwoSpymaster(null));
       }
     });
-    // onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     // onDisconnect(playerOnTeamTwoSpymasterRef).remove(playerOnTeamTwoSpymasterRef);
-    //   }
-    // });
   }, [playerId]);
+
   return (
     <div className="blueBoxCard">
       <div>Team 2</div>
