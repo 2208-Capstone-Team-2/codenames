@@ -56,6 +56,7 @@ const SetupGame = () => {
           wordString: card.word.word,
           wordId: card.wordId,
           boardId: card.boardId,
+          teamId: null,
         }),
     );
     update(ref(database, 'rooms/' + roomId), {

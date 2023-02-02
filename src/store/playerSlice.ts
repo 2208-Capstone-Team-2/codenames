@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PlayerType } from '../utils/interfaces';
 
-const initialState = {
+const playerInitialState: PlayerType = {
   playerId: '',
   username: '',
   roomId: '',
@@ -9,7 +10,7 @@ const initialState = {
 
 export const playerSlice = createSlice({
   name: 'player',
-  initialState,
+  initialState: playerInitialState,
   reducers: {
     setPlayerId: (state, action) => {
       state.playerId = action.payload;
@@ -25,6 +26,8 @@ export const playerSlice = createSlice({
     },
   },
 });
+
+// export the playerinterface for allPlayers to use
 
 export const { setUsername, setRoomId, setPlayerId, setIsHost } = playerSlice.actions;
 export default playerSlice.reducer;
