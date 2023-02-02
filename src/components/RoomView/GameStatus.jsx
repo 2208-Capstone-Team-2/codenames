@@ -24,7 +24,7 @@ const GameStatus = () => {
     const isPlayerTeamOneOperative = teamOneOperatives.map((operative) => operative.playerId).includes(playerId);
     const isPlayerTeamTwoOperative = teamTwoOperatives.map((operative) => operative.playerId).includes(playerId);
 
-    if (teamOneSpymaster[0]?.playerId === playerId) {
+    if (teamOneSpymaster?.playerId === playerId) {
       switch (gameStatus) {
         case 'team1SpyTurn':
           setPlayerNote(spyGivingClueNote);
@@ -40,7 +40,7 @@ const GameStatus = () => {
           break;
       }
     }
-    if (teamTwoSpymaster[0]?.playerId === playerId) {
+    if (teamTwoSpymaster?.playerId === playerId) {
       switch (gameStatus) {
         case 'team1SpyTurn':
           setPlayerNote(otherTeamSpymasterNote);

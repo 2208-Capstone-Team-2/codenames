@@ -76,6 +76,10 @@ interface WordObj {
     boardId: number;
     teamId: number;
   }
+  interface SpymasterObj {
+    playerId: string;
+    username: string;
+  }
 
   interface WordsWithTeamIdsObj {
     [index:number] : CardObj;
@@ -307,7 +311,7 @@ interface WordObj {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+{teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
             <SpyMasterBoard />
           ) : (
             <OperativeBoard />

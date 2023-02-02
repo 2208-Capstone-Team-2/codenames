@@ -129,7 +129,7 @@ const TeamTwoBox = () => {
         const teamTwoSpymaster = Object.values(teamTwoSpymasterFirebase);
         dispatch(setTeamTwoSpymaster(teamTwoSpymaster));
       } else {
-        dispatch(setTeamTwoSpymaster([]));
+        dispatch(setTeamTwoSpymaster({}));
       }
     });
     onValue(playerOnTeamTwoSpymasterRef, async (snapshot) => {
@@ -145,7 +145,7 @@ const TeamTwoBox = () => {
       <div className="blueOpsAndSpys">
         <div>
           <p>Operative(s)</p>
-          {teamTwoOperatives.map((player) => {
+          {teamTwoOperatives?.map((player) => {
             return player.username + ', ';
           })}{' '}
           <br />
@@ -153,9 +153,8 @@ const TeamTwoBox = () => {
         </div>
         <div>
           <p>Spymaster(s)</p>
-          {teamTwoSpymaster.map((player) => {
-            return player.username + ', ';
-          })}{' '}
+          {teamTwoSpymaster && teamTwoSpymaster.username}
+
           <br />
           <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>
         </div>

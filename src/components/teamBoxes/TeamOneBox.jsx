@@ -132,11 +132,12 @@ const TeamOneBox = () => {
 
     onValue(teamOneSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
+        console.log('hitting spy ref');
         const teamOneSpymasterFirebase = snapshot.val();
         const teamOneSpymaster = Object.values(teamOneSpymasterFirebase);
         dispatch(setTeamOneSpymaster(teamOneSpymaster));
       } else {
-        dispatch(setTeamOneSpymaster([]));
+        dispatch(setTeamOneSpymaster(null));
       }
     });
 
@@ -147,6 +148,19 @@ const TeamOneBox = () => {
     });
   }, [playerId]);
 
+  useEffect(() => {
+    onValue(teamOneSpymasterRef, async (snapshot) => {
+      if (snapshot.exists()) {
+        console.log('hitting spy ref');
+        const teamOneSpymasterFirebase = snapshot.val();
+        const teamOneSpymaster = Object.values(teamOneSpymasterFirebase);
+        dispatch(setTeamOneSpymaster(teamOneSpymaster));
+      } else {
+        dispatch(setTeamOneSpymaster(null));
+      }
+    });
+  }, [teamOneSpymaster]);
+
   return (
     <div className="redBoxCard">
       <div>Team 1</div>
@@ -154,7 +168,7 @@ const TeamOneBox = () => {
       <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>
-          {teamOneOperatives.map((player) => {
+          {teamOneOperatives?.map((player) => {
             return player.username + ', ';
           })}{' '}
           <br />
@@ -162,9 +176,7 @@ const TeamOneBox = () => {
         </div>
         <div>
           <p>Spymaster(s)</p>
-          {teamOneSpymaster.map((player) => {
-            return player.username + ', ';
-          })}
+          {teamOneSpymaster && teamOneSpymaster.username}
           <br />
           <button onClick={joinTeamOneSpy}>Join as Spymaster</button>
         </div>
