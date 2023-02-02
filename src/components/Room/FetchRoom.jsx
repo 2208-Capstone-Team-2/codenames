@@ -19,8 +19,6 @@ function FetchRoom() {
       const room = await axios.get(`/api/room/${roomId}`);
       setLoading(false);
 
-      console.log(`room.data.team4id: ${room.data.team4id}`);
-
       // Now that we have room from backend, set all the redux pieces relevant to it.
       dispatch(setRoomId(room.data.name)); //***** i still want to change this to roomname and have it not live on player slice */
       dispatch(setTeam1Id(room.data.team1id));
