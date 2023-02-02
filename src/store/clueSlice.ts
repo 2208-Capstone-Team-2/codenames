@@ -1,12 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ClueType } from '../utils/interfaces';
 
-interface CurrentClueType {
+interface InitialStateType {
   currentClue: ClueType;
 }
 
-const initialState = {
-  currentClue: {},
+const initialState: InitialStateType = {
+  currentClue: {
+    clueString: '',
+    clueNumber: null,
+    playerSubmitting: '',
+  },
 };
 
 export const clueSlice = createSlice({
