@@ -24,7 +24,7 @@ return (
 <div className='gameLog'>
 <h3>Game Status</h3>
 <div>{gameStatus}</div>
-{/* <GuessesRemaining /> */}
+<GuessesRemaining />
 <h3>Game History</h3>
 {gameHistory.map((singleHistory, index) => {
 if (typeof singleHistory === 'object') {
