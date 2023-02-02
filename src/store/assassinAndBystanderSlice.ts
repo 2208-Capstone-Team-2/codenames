@@ -1,4 +1,8 @@
+//TODO!!!!!!!!
+
 import { createSlice } from '@reduxjs/toolkit';
+
+//const initialStateType: {};
 
 const initialState = {
   assassinTeamId: [],

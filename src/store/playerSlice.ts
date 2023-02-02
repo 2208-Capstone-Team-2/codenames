@@ -7,7 +7,7 @@ interface playerInitialStateType {
   isHost: boolean;
 }
 
-const playerInitialState = {
+const playerInitialState: playerInitialStateType = {
   playerId: '',
   username: '',
   roomId: '',
@@ -35,5 +35,6 @@ export const playerSlice = createSlice({
 
 // export the playerinterface for allPlayers to use
 export { playerInitialStateType, playerInitialState };
+
 export const { setUsername, setRoomId, setPlayerId, setIsHost } = playerSlice.actions;
 export default playerSlice.reducer;

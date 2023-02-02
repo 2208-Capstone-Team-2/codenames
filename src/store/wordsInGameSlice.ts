@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
+// Todo: make more specific?
 interface initialStateType {
-  wordsInGame: []
+  wordsInGame: [];
 }
-
 
 const initialState: initialStateType = {
   wordsInGame: [],

@@ -1,5 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+interface currentClueType {
+  clueString: string;
+  clueNumber: number;
+  playerSubmitting: string; // this is the player's ID (which is a string)
+}
+
+interface initialStateType {
+  currentClue: currentClueType;
+  clueHistory: currentClueType[];
+}
+
 const initialState = {
   currentClue: {},
   clueHistory: [],

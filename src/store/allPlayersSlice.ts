@@ -3,12 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { playerInitialStateType, playerInitialState } from './playerSlice';
 
 interface initialStateType {
-  // allPlayers: [];
-  //[index: number]: [typeof playerInitialState];
   allPlayers: playerInitialStateType[];
 }
 
-const initialState = {
+const initialState: initialStateType = {
   allPlayers: [],
 };
 
