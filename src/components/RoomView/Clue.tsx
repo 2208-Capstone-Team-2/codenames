@@ -25,7 +25,7 @@ const Clue:React.FC<ClueType> = () => {
   let arrayToCheck:string[] = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
-    arrayToCheck.push(gameboard[i].word.toUpperCase());
+    arrayToCheck.push(gameboard[i].wordString.toUpperCase());
   }
   let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
 
