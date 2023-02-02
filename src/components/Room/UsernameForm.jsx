@@ -34,6 +34,7 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     // Update firebase
     //// Update the 'outer' player ref
+    // i think the below is depracated?
     const playerRef = ref(database, `players/${playerId}`);
     update(playerRef, { username: trimmedInputtedUsername, roomId, id: playerId });
 

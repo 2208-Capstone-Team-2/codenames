@@ -76,7 +76,6 @@ const TeamOneBox = () => {
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.spymaster) {
       teamTwoSpymaster = teamTwoOpsAndSpys.spymaster;
-      console.log({ teamTwoSpymaster });
     }
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
