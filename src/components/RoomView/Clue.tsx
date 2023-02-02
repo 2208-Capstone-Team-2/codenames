@@ -5,39 +5,43 @@ import { database } from '../../utils/firebase';
 import { ref, child, push, update } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import pluralize from 'pluralize';
-import { Button } from '@mui/material';
 
-const Clue = () => {
+interface ClueType {
+  clueString: string;
+  clueNumber: number;
+  }
+  
+const Clue:React.FC<ClueType> = () => {
   const [clueString, setClueString] = useState('');
-  const [clueNumber, setClueNumber] = useState(null);
-  const playerId = useSelector((state) => state.player.playerId);
-  const roomId = useSelector((state) => state.player.roomId);
-  const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  const gameboard = useSelector((state) => state.wordsInGame.wordsInGame);
+  const [clueNumber, setClueNumber] = useState<number | null>(null);
+  const playerId = useSelector((state:any) => state.player.playerId);
+  const roomId = useSelector((state:any) => state.player.roomId);
+  const gameStatus = useSelector((state:any) => state.game.status);
+  const { teamOneSpymaster } = useSelector((state:any) => state.teamOne);
+  const { teamTwoSpymaster } = useSelector((state:any) => state.teamTwo);
+  const gameboard = useSelector((state:any) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
-  let arrayToCheck = [];
+  let gameHistoryRef=ref(database, `rooms/${roomId}/game/history`);
+  let arrayToCheck:string[] = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
-    arrayToCheck.push(gameboard[i].wordString.toUpperCase());
+    arrayToCheck.push(gameboard[i].word.toUpperCase());
   }
   let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
 
   const dispatch = useDispatch();
 
-  const handleClueChange = (event) => {
+  const handleClueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //trim any extra space so users cannot submit "   clue" or '    ',
     //then convert all to uppercase to avoid case sensitive issue
     setClueString(event.target.value.trim().toUpperCase());
   };
 
   //please also help me rephrase all these alert messages
-  const handleNumberChange = (event) => {
+  const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setClueNumber(Number(event.target.value));
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const regex = /[\s-]+/g;
     if (clueString === '') {
@@ -74,7 +78,7 @@ const Clue = () => {
 
       // store the clue in clueHistory and as current clue
       // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
-      let nextGameStatus;
+      let nextGameStatus:string;
       // if its team1spy submission, team1Ops goes next
       if (gameStatus === 'team1SpyTurn') {
         nextGameStatus = 'team1OpsTurn';
@@ -91,7 +95,7 @@ const Clue = () => {
   return (
     <div className="MessageInput">
       <form>
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
+        {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
           <>
             <input
               type="text"
@@ -118,7 +122,7 @@ const Clue = () => {
             </select>
           </>
         )}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
+        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
           <>
             <input
               type="text"
@@ -146,17 +150,17 @@ const Clue = () => {
           </>
         )}
         {/* is team 1 spy's turn and player is team1spymaster */}
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
-          <Button variant="contained" onClick={handleSubmit}>
+        {gameStatus === 'team1SpyTurn' && teamOneSpymaster[0]?.playerId === playerId && (
+          <button onClick={handleSubmit}>
             submit clue
-          </Button>
+          </button>
         )}
 
         {/* is team 2 spy's turn and player is team2spymaster */}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
-          <Button variant="contained" onClick={handleSubmit}>
+        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
+          <button variant="contained" onClick={handleSubmit}>
             submit clue
-          </Button>
+          </button>
         )}
       </form>
     </div>
