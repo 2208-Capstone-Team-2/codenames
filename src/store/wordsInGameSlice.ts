@@ -1,11 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Todo: make more specific?
-interface initialStateType {
+interface WordInGame {
+  /// todo!
+}
+
+interface InitialStateType {
   wordsInGame: [];
 }
 
-const initialState: initialStateType = {
+const initialState: InitialStateType = {
   wordsInGame: [],
 };
 

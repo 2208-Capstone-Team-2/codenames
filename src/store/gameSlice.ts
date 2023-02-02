@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface singleHistoryType {
+interface SingleHistoryType {
   clueString: string;
   clueNumber: number;
 }
 
 // This should be used instead of singleHistoryType, no?
-interface clueType {
+interface ClueType {
   clueString: string;
   clueNumber: number;
   playerSubmitting: string; // this is the player's ID (which is a string)
 }
 
-interface initialStateType {
+interface InitialStateType {
   status: string;
   team1RemainingCards: number;
   team2RemainingCards: number;
@@ -20,10 +20,10 @@ interface initialStateType {
   guessesRemaining: number;
   winner: string;
   loser: string;
-  gameHistory: (string | singleHistoryType)[];
+  gameHistory: (string | ClueType)[];
 }
 
-const initialState: initialStateType = {
+const initialState: InitialStateType = {
   status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
