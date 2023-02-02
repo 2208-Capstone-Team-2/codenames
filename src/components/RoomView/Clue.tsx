@@ -19,7 +19,6 @@ const Clue:React.FC<ClueType> = () => {
   const gameStatus = useSelector((state:any) => state.game.status);
   const { teamOneSpymaster } = useSelector((state:any) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state:any)=> state.teamTwo);
-  console.log(teamOneSpymaster)
   const gameboard = useSelector((state:any) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef=ref(database, `rooms/${roomId}/game/history`);
