@@ -8,6 +8,7 @@ interface initialStateType {
   guessesRemaining: number;
   winner: string;
   loser: string;
+  gameHistory: []
 }
 
 const initialState: initialStateType = {
