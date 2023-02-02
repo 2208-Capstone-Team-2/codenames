@@ -1,10 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+interface SpyObj {
+  playerId: string;
+  username: string
+}
+
+interface initialStateType {
+  team2Id: null | number;
+  teamTwoOperatives: [];
+  teamTwoSpymaster: SpyObj | null;
+}
+
+const initialState: initialStateType = {
   team2Id: null,
   teamTwoOperatives: [],
-  teamTwoSpymaster: [],
+  teamTwoSpymaster: null,
 };
+
+
 
 export const teamTwoSlice = createSlice({
   name: 'teamTwo',

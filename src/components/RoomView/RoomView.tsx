@@ -76,6 +76,10 @@ interface WordObj {
     boardId: number;
     teamId: number;
   }
+  interface SpymasterObj {
+    playerId: string;
+    username: string;
+  }
 
   interface WordsWithTeamIdsObj {
     [index:number] : CardObj;
@@ -175,8 +179,8 @@ interface WordObj {
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
-            let spymasterId = Object.keys(spymaster);
-            if (spymasterId.includes(playerId)) {
+            
+            if (spymaster.playerId === playerId) {
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -200,10 +204,8 @@ interface WordObj {
         get(teamTwoSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
-            let spymasterId = Object.keys(spymaster);
-            if (spymasterId.includes(playerId)) {
+            if (spymaster.playerId === playerId) {
               console.log('setting spy board...');
-
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -307,7 +309,7 @@ interface WordObj {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-{teamOneSpymaster[0]?.playerId === playerId || teamTwoSpymaster[0]?.playerId === playerId ? (
+{teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
             <SpyMasterBoard />
           ) : (
             <OperativeBoard />
