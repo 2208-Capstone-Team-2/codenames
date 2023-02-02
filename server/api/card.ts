@@ -26,7 +26,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     });
 
     if (!allWords) return res.sendStatus(404); // Sanity check
-    const allWordsIds = allWords.map((word) => word.id);
+    const allWordsIds = allWords.map((word: { id: number; }) => word.id);
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWordsIds);
 
@@ -89,17 +89,16 @@ router.get('/get25/forRoom/:roomId', async (req: Request, res: Response, next: N
     const room = await Room.findOne({
       where: { name: roomId },
     });
-
+    if(!room) return res.sendStatus(404);
     const board = await Board.findOne({
       where: { roomId: room.id },
     });
-
+    if(!board) return res.sendStatus(404);
     const cardsWithTeamIds = await Card.findAll({
       where: { boardId: board.id },
       include: [Word],
     });
-
-    res.send(cardsWithTeamIds);
+    !cardsWithTeamIds ? res.sendStatus(404) : res.send(cardsWithTeamIds);
   } catch (err) {
     next(err);
   }
@@ -117,19 +116,18 @@ router.put('/:wordId', async (req: Request, res: Response, next: NextFunction) =
     const room = await Room.findOne({
       where: { name: roomId },
     });
-
+    if(!room) return res.sendStatus(404);
     const board = await Board.findOne({
       where: { roomId: room.id },
     });
-
+    if(!board) return res.sendStatus(404);
     const cardToUpdate = await Card.findOne({
       where: { id: wordId, boardId: board.id },
       include: [Word],
     });
-
-    let cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
-
-    res.send(cardRevealed);
+    if(!cardToUpdate) return res.sendStatus(404);
+    const cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
+    !cardRevealed ? res.sendStatus(404) : res.send(cardRevealed);
   } catch (err) {
     next(err);
   }

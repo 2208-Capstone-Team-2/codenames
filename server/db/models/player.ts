@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import Sequelize, { INTEGER } from 'sequelize';
 import db from '../db';
 import {
   CreationOptional,
@@ -9,13 +9,15 @@ import {
 interface ResponseError extends Error {
   status?: number;
 }
-const { STRING, INTEGER,ENUM } = Sequelize;
+const { STRING } = Sequelize;
 export interface PlayerModel extends Model<    InferAttributes<PlayerModel>,
 InferCreationAttributes<PlayerModel>>{
-  id: CreationOptional<number>;
-  username:string
+  id: number
+  username:CreationOptional<string>;
   role:CreationOptional<string>;
   wins:CreationOptional<number>;
+  roomId: CreationOptional<number | null>;
+  teamId: CreationOptional<number | null>;
 }
 const Player = db.define<PlayerModel>('player', {
   //id will be coming from firebase
@@ -58,6 +60,14 @@ const Player = db.define<PlayerModel>('player', {
     unique: false,
     defaultValue: 0,
   },
+  roomId:{
+    type: INTEGER,
+    allowNull: true
+  },
+  teamId: {
+    type: INTEGER,
+    allowNull: true,
+  }
 });
 
 export default Player;

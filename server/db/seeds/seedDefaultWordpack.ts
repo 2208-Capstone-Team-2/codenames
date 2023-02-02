@@ -7,7 +7,7 @@ const seedDefaultWordpack = async () => {
   const wordArray: string[] = defaultPackString.split('\n'); // split the string on 'return' characters
 
   // First, create the Wordpack model
-  const defaultPack = await Wordpack.create({
+  const defaultPack = await (Wordpack as any).create({
     name: 'default',
   });
 
@@ -15,7 +15,7 @@ const seedDefaultWordpack = async () => {
 
   // Make array of promises
   const Promises = wordArray.map((str) => {
-    return Word.create({
+    return (Word as any).create({
       word: str,
     });
   });

@@ -9,12 +9,12 @@ const seedDuetWordpack = async () => {
   const wordArray = duetPackString.split('\n');
 
   // First, create the Wordpack model
-  const duetPack = await Wordpack.create({ name: 'duet' });
+  const duetPack = await (Wordpack as any).create({ name: 'duet' });
 
   // Create the 400 words:
   // Make array of promises
   const Promises = wordArray.map((str) => {
-    return Word.create({
+    return (Word as any).create({
       word: str,
     });
   });
