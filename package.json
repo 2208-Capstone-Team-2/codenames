@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
+    "build": "webpack",
+    "start-dev": "nodemon --watch server -e js,html server/index.ts",
     "seed": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
-    "build-watch": "webpack -w",
-    "start-server": "nodemon --watch server -e js,html server/index.js"
+    "build-dev": "webpack -w"
   },
   "keywords": [],
   "author": "",
