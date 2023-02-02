@@ -6,10 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
-    "test": "JWT=shhhhh mocha",
-    "test:dev": "DATABASE_URL=postgres://localhost/acme_shopping_test_db npm run test -- --watch",
-    "test:dev:quiet": "QUIET=true npm run test:dev",
-    "seed": "DATABASE_URL=*PasteDBURLHere* node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
+    "seed": "DATABASE_URL=*postgres://localhost/codenames node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "seed:dev": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
     "start:dev": "JWT=felix nodemon server/index.ts --ignore dist/ --ignore src/ & npm run build:dev"
