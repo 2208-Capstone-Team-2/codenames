@@ -21,18 +21,10 @@ const OperativeBoard = () => {
     playerId: string;
   }
 
-  interface WordObj {
-    id: number;
-    isVisibleToAll: boolean;
-    word: string;
-    wordId: number;
-    boardId: number;
-  }
-
   const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative: PlayerObj) => {
     return operative.playerId;
   });
-  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: PlayerObj)  => {
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: PlayerObj) => {
     return operative.playerId;
   });
 
@@ -63,7 +55,7 @@ const OperativeBoard = () => {
 
   return (
     <div style={style}>
-      {words.map((word: WordObj) => {
+      {words.map((word) => {
         return <Card key={word.id} word={word} />;
       })}
 
