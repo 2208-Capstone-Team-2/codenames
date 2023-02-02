@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
 import { setHost } from '../../store/gameSlice';
 import './userForm.css';
+
 function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }) {
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
   const { roomId } = useParams();
@@ -47,6 +48,7 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
     //// If they're the host, put that info there too.
 
     let hostRef = ref(database, `rooms/${roomId}/host`);
+
     if (isHost) {
       console.log('is host hit');
       update(hostRef, { playerId, username: trimmedInputtedUsername });
