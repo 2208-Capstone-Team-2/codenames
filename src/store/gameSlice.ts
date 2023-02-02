@@ -1,6 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+interface initialStateType {
+  status: string;
+  team1RemainingCards: number;
+  team2RemainingCards: number;
+  showResetButton: boolean;
+  guessesRemaining: number;
+  winner: string;
+  loser: string;
+  gameHistory: []
+}
+
+const initialState: initialStateType = {
   status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
