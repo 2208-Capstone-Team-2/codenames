@@ -1,12 +1,14 @@
-//TODO!!!!!!!!
-
 import { createSlice } from '@reduxjs/toolkit';
 
-//const initialStateType: {};
+interface InitialState {
+  assassinTeamId: null | number;
+  bystanderTeamId: null | number;
+}
 
-const initialState = {
-  assassinTeamId: [],
-  bystanderTeamId: [],
+const initialState: InitialState = {
+  // previously these were both emptry arrays?
+  assassinTeamId: null,
+  bystanderTeamId: null,
 };
 
 export const assassinAndBystanderSlice = createSlice({

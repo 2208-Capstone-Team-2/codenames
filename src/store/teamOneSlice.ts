@@ -2,16 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface SpyObj {
   playerId: string;
-  username: string
+  username: string;
 }
 
-interface initialStateType {
+interface InitialStateType {
   team1Id: null | number;
   teamOneOperatives: [];
   teamOneSpymaster: SpyObj | null;
 }
 
-const initialState: initialStateType = {
+const initialState: InitialStateType = {
   team1Id: null,
   teamOneOperatives: [],
   teamOneSpymaster: null,

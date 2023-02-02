@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-// Import the player object to use its interface
-import { playerInitialStateType, playerInitialState } from './playerSlice';
-
-interface initialStateType {
-  allPlayers: playerInitialStateType[];
+import { PlayerType } from '../utils/interfaces';
+interface AllPlayersType {
+  allPlayers: PlayerType[];
 }
 
-const initialState: initialStateType = {
+const initialState: AllPlayersType = {
   allPlayers: [],
 };
 
