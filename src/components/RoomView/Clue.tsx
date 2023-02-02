@@ -5,14 +5,14 @@ import { database } from '../../utils/firebase';
 import { ref, child, push, update } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import pluralize from 'pluralize';
-
+import { Button } from '@mui/material';
 interface ClueType {
   clueString: string;
   clueNumber: number;
   }
   
 const Clue:React.FC<ClueType> = () => {
-  const [clueString, setClueString] = useState('');
+  const [clueString, setClueString] = useState<string>('');
   const [clueNumber, setClueNumber] = useState<number | null>(null);
   const playerId = useSelector((state:any) => state.player.playerId);
   const roomId = useSelector((state:any) => state.player.roomId);
@@ -38,10 +38,10 @@ const Clue:React.FC<ClueType> = () => {
   };
 
   //please also help me rephrase all these alert messages
-  const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNumberChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setClueNumber(Number(event.target.value));
   };
-  const handleSubmit = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const regex = /[\s-]+/g;
     if (clueString === '') {
@@ -54,13 +54,13 @@ const Clue:React.FC<ClueType> = () => {
     }
     //here we make rules to only allow compound word that is a union of 3(and less) words so people won't type a whole sentence,
     // i.e "New York" or 'mother-in-law'
-    else if (clueString.match(regex) && clueString.match(regex).length > 2) {
+    else if (clueString.match(regex) && (clueString.match(regex)?.length || 0) > 2) {
       return alert('you can only use a compound word that is made of less than 3 words');
     }
     //this is to prevent users from submitting 'select a number'
     // either null(when user not selecting this at all) or select 'select a number'
     //clueNumber>0 will return false
-    else if (!clueNumber > 0) {
+    else if (!clueNumber || clueNumber <= 0) {
       return alert('please select a valid number');
     } else {
       const clueData = {
@@ -69,12 +69,14 @@ const Clue:React.FC<ClueType> = () => {
         playerSubmitting: playerId,
       };
       const newClueKey = push(child(ref(database), 'clues')).key;
-
-      const updates = {};
-      updates[newClueKey] = clueData;
-
-      dispatch(setCurrentClue(clueData));
-      update(gameHistoryRef, updates);
+      if (newClueKey) {
+        const updates = {}as { [key: string]: any };
+        updates[newClueKey] = clueData;
+        dispatch(setCurrentClue(clueData));
+        update(gameHistoryRef, updates);
+      } else {
+        console.error("newClueKey is null or undefined");
+      }
 
       // store the clue in clueHistory and as current clue
       // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
@@ -158,9 +160,9 @@ const Clue:React.FC<ClueType> = () => {
 
         {/* is team 2 spy's turn and player is team2spymaster */}
         {gameStatus === 'team2SpyTurn' && teamTwoSpymaster[0]?.playerId === playerId && (
-          <button variant="contained" onClick={handleSubmit}>
+          <Button variant="contained" onClick={handleSubmit}>
             submit clue
-          </button>
+          </Button>
         )}
       </form>
     </div>
