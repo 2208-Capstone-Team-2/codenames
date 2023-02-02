@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 import { isEveryRoleFilled } from '../../utils/utilFunctions.js';
 import SetupGame from './setupGame.jsx';
 import WelcomeBoard from './WelcomeBoard';
-import OperativeBoard from './OperativeBoard.jsx';
+import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';

@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+
+interface initialStateType {
+  wordsInGame: []
+}
+
+
+const initialState: initialStateType = {
   wordsInGame: [],
 };
 
