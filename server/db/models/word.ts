@@ -11,6 +11,7 @@ const { STRING, INTEGER } = Sequelize;
 export interface WordModel extends Model<InferAttributes<WordModel>, InferCreationAttributes<WordModel>> {
   id: CreationOptional<number>;
   word: string;
+  wordpackId: CreationOptional<number>;
 }
 
 const Word = db.define<WordModel>('word', {
@@ -23,6 +24,10 @@ const Word = db.define<WordModel>('word', {
     type: STRING,
     allowNull: false,
   },
+  wordpackId: {
+    type: INTEGER,
+    allowNull: true,
+  }
 });
 
 export default Word;

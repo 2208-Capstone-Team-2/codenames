@@ -62,8 +62,8 @@ router.put('/:playerId', async (req: Request, res: Response, next: NextFunction)
 
     // if they passed in a roomName, find that room, and associate the player with that.
     if (roomName) {
-      const room = await Room.findOne({ where: { name: roomName } });
-      if (!room) res.sendStatus(404); // sanity check
+      const room = await Room.findOne({ where: { name: roomName }});
+      if (!room) return res.sendStatus(404); // sanity check
       const roomId = room.id;
       updatedPlayer = await player.update({ roomId });
     }
@@ -226,7 +226,7 @@ router.put('/remove/player/teamAndRole', async (req: Request, res: Response, nex
 //✔ works
 router.put('/remove/player/room', async (req: Request, res: Response, next: NextFunction) => {
   const playerId = req.body.playerId;
-  const roomId = req.body.roomId;
+  const roomId = req.body.roomId
   try {
     const playerToRemoveFromRoom = await Player.findOne({
       where: {

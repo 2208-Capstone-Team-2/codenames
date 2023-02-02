@@ -1,5 +1,7 @@
 // const db = require('./db');
 import db from './db';
+import Board from './models/board';
+import Card from './models/card';
 import Player from './models/player';
 // eslint-disable-next-line no-unused-vars
 import Room from './models/room';
@@ -21,10 +23,15 @@ const seed = async () => {
   console.log('DONE RUNNING SEED...');
 };
 // some sequelize methods here
-console.log('Player methods in here:');
-console.log(Object.keys(Player.prototype));
-console.log('Team methods in here:');
-console.log(Object.keys(Team.prototype));
+// console.log('Player methods in here:');
+// console.log(Object.keys(Player.prototype));
+// console.log('Team methods in here:');
+// console.log(Object.keys(Team.prototype));
 console.log('Room methods in here:');
 console.log(Object.keys(Room.prototype));
+console.log('Card methods in here:');
+// console.log(Object.keys(Card.prototype));
+// console.log('Board methods in here:');
+console.log(Object.keys(Board.prototype));
+
 seed();

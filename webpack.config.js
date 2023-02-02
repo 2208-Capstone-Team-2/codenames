@@ -1,29 +1,29 @@
 module.exports = {
-  mode: "development",
-  entry: ["./src/index.js"],
+  mode: 'development',
+  entry: ['./src/index.js'],
   output: {
-    path: __dirname + "/public",
-    filename: "bundle.js",
+    path: __dirname + '/public',
+    filename: 'bundle.js',
   },
   context: __dirname,
-  devtool: "source-map",
+  devtool: 'source-map',
   devServer: {
     static: {
-      directory: __dirname + "/public",
+      directory: __dirname + '/public',
     },
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         options: {
-          presets: ["@babel/preset-env", "@babel/preset-react"],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
         },
       },
       {
@@ -31,11 +31,11 @@ module.exports = {
         include: /images/,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              name: "[name].[ext]",
-              outputPath: "images/",
-              publicPath: "images/",
+              name: '[name].[ext]',
+              outputPath: 'images/',
+              publicPath: 'images/',
             },
           },
         ],
@@ -43,19 +43,19 @@ module.exports = {
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         options: {
-          presets: ["@babel/preset-react"],
+          presets: ['@babel/preset-react'],
         },
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: "ts-loader",
+        loader: 'ts-loader',
       },
     ],
   },
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx", ".html", ".css"],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.html', '.css'],
   },
 };

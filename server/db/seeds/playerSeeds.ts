@@ -1,4 +1,6 @@
-import Player  from '../index';
+import data from '../index';
+const Player = data.Player;
+``
 
 const playerSeed = async () => {
   interface User {
@@ -83,7 +85,7 @@ const playerSeed = async () => {
       wins: 19,
     },
   ];
-  await Promise.all(dummyData.map((player) => Player.create(player)));
+  await Promise.all(dummyData.map((player:any) => (Player as any).create(player)));
   console.log('DONE SEEDING PLAYERS..');
 };
 
