@@ -1,11 +1,13 @@
-const { Word, Wordpack } = require('../index');
-const defaultPackString = require('../wordpacks/defaultPack');
+import data from '../index';
+const Word = data.Word;
+const Wordpack = data.Wordpack;
+import defaultPackString from '../wordpacks/defaultPack';
 
 const seedDefaultWordpack = async () => {
-  const wordArray = defaultPackString.split('\n'); // split the string on 'return' characters
+  const wordArray: string[] = defaultPackString.split('\n'); // split the string on 'return' characters
 
   // First, create the Wordpack model
-  const defaultPack = await Wordpack.create({
+  const defaultPack = await (Wordpack as any).create({
     name: 'default',
   });
 
@@ -13,7 +15,7 @@ const seedDefaultWordpack = async () => {
 
   // Make array of promises
   const Promises = wordArray.map((str) => {
-    return Word.create({
+    return (Word as any).create({
       word: str,
     });
   });
@@ -28,4 +30,4 @@ const seedDefaultWordpack = async () => {
   console.log('DONE SEEDING DEFAULT WORDPACK...');
 };
 
-module.exports = seedDefaultWordpack;
+export default seedDefaultWordpack;

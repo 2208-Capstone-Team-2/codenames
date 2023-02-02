@@ -1,12 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const { Word, Card, Board, Room } = require('../db');
-const { getRandomIntArray, createRandomLayout } = require('./cardHelperFunctions');
+import { NextFunction, Request, Response, Router } from "express";
+const router = Router();
+import db from "../db";
+const Word = db.Word;
+const Card = db.Card;
+const Board = db.Board;
+const Room = db.Room;
+import { getRandomIntArray, createRandomLayout } from './cardHelperFunctions';
+
 
 // POST localhost:3000/api/card/make25/forRoom/:roomId
 // Given the boardId of the board to fill,
 // and array of workpack ids, creates 25 cards.
-router.post('/make25/forRoom/:roomId', async (req, res, next) => {
+router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Get stuff out of req.body
     const { roomId } = req.params;
@@ -21,8 +26,7 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
     });
 
     if (!allWords) return res.sendStatus(404); // Sanity check
-
-    const allWordsIds = allWords.map((word) => word.id);
+    const allWordsIds = allWords.map((word: { id: number; }) => word.id);
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWordsIds);
 
@@ -79,23 +83,22 @@ router.post('/make25/forRoom/:roomId', async (req, res, next) => {
 });
 // get cards for spymaster
 // needs to be validated with jwt?
-router.get('/get25/forRoom/:roomId', async (req, res, next) => {
+router.get('/get25/forRoom/:roomId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { roomId } = req.params;
     const room = await Room.findOne({
       where: { name: roomId },
     });
-
+    if(!room) return res.sendStatus(404);
     const board = await Board.findOne({
       where: { roomId: room.id },
     });
-
+    if(!board) return res.sendStatus(404);
     const cardsWithTeamIds = await Card.findAll({
       where: { boardId: board.id },
       include: [Word],
     });
-
-    res.send(cardsWithTeamIds);
+    !cardsWithTeamIds ? res.sendStatus(404) : res.send(cardsWithTeamIds);
   } catch (err) {
     next(err);
   }
@@ -104,7 +107,7 @@ router.get('/get25/forRoom/:roomId', async (req, res, next) => {
 // PUT localhost:3000/api/card/make25/forRoom/:roomId
 // Updates a card, given its cardID
 // probably used for toggling isVisibleToAll
-router.put('/:wordId', async (req, res, next) => {
+router.put('/:wordId', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // TODO!!!!!!!
     const { wordId } = req.params;
@@ -113,22 +116,21 @@ router.put('/:wordId', async (req, res, next) => {
     const room = await Room.findOne({
       where: { name: roomId },
     });
-
+    if(!room) return res.sendStatus(404);
     const board = await Board.findOne({
       where: { roomId: room.id },
     });
-
+    if(!board) return res.sendStatus(404);
     const cardToUpdate = await Card.findOne({
       where: { id: wordId, boardId: board.id },
       include: [Word],
     });
-
-    let cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
-
-    res.send(cardRevealed);
+    if(!cardToUpdate) return res.sendStatus(404);
+    const cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
+    !cardRevealed ? res.sendStatus(404) : res.send(cardRevealed);
   } catch (err) {
     next(err);
   }
 });
 
-module.exports = router;
+export default router;

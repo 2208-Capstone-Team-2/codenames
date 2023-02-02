@@ -1,7 +1,14 @@
-const { Player } = require('../index');
+import data from '../index';
+const Player = data.Player;
+``
 
 const playerSeed = async () => {
-  const dummyData = [
+  interface User {
+    id: number;
+    username: string;
+    wins: number;
+  }
+  const dummyData: User[]= [
     {
       id: 1,
       username: 'Ben',
@@ -78,8 +85,8 @@ const playerSeed = async () => {
       wins: 19,
     },
   ];
-  await Promise.all(dummyData.map((player) => Player.create(player)));
+  await Promise.all(dummyData.map((player:any) => (Player as any).create(player)));
   console.log('DONE SEEDING PLAYERS..');
 };
 
-module.exports = playerSeed;
+export default playerSeed;
