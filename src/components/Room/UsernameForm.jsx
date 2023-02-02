@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 // Firebase:
 import { database } from '../../utils/firebase';
-import { ref, update, set, child, onDisconnect, get } from 'firebase/database';
+import { ref, update, set, child, onDisconnect } from 'firebase/database';
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
@@ -34,7 +34,6 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     // Update firebase
     //// Update the 'outer' player ref
-    // i think the below is depracated?
     const playerRef = ref(database, `players/${playerId}`);
     update(playerRef, { username: trimmedInputtedUsername, roomId, id: playerId });
 

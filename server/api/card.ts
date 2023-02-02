@@ -76,7 +76,6 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
       include: [Word],
       attributes: { exclude: ['teamId'] },
     });
-
     res.send(queriedCards);
   } catch (err) {
     next(err);
