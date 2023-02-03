@@ -1,16 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
+import { Player } from './roomview.types';
+import { RootState } from '../../store';
+
 const AllPlayers = () => {
-  const { allPlayers } = useSelector((state) => state.allPlayers);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
+  const { allPlayers } = useSelector((state: RootState) => state.allPlayers);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
 
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
+
   return (
     <div>
       Players:
-      {allPlayers?.map((player) => (
+      {allPlayers?.map((player: Player) => (
         <p key={player.playerId}>{player.username}</p>
       ))}
       <div>
