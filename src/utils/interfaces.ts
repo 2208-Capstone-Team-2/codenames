@@ -17,9 +17,10 @@ interface ClueType {
   playerSubmitting: string; // this is the player's ID (which is a string)
 }
 
-interface SingleHistoryObject {
-  clueString: string;
-  clueNumber: number;
+interface GameHistoryObject {
+  [key: string]: string | ClueType;
+  // clueString: string;
+  // clueNumber: number;
 }
 interface PlayerType {
   playerId: string;
@@ -45,4 +46,6 @@ interface Operative {
   interface WordsWithTeamIdsObj {
     [index: number]: Card;
   }
-export { PlayerType, ClueType, Card, SingleHistoryObject, Operative };
+
+  
+export { PlayerType, ClueType, Card, GameHistoryObject, Operative, WordsWithTeamIdsObj, Spy };

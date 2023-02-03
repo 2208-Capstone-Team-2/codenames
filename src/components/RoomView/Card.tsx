@@ -6,10 +6,10 @@ import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
 import { RootState } from '../../store';
-import { Player, CardObj } from './roomview.types';
+import { Operative, Card, ClueType, GameHistoryObject } from '../../utils/interfaces';
 
 
-const Card = (word: CardObj) => {
+const Card = (word: Card) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
   const { team1Id, teamOneOperatives } = useSelector((state: RootState) => state.teamOne);
   const { team2Id, teamTwoOperatives } = useSelector((state: RootState) => state.teamTwo);
@@ -25,14 +25,14 @@ const Card = (word: CardObj) => {
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef = ref(database, 'rooms/' + roomId + '/game/' + 'history');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
-  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative: Player) => {
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative: Operative) => {
     return operative.playerId;
   });
-  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: Player) => {
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: Operative) => {
     return operative.playerId;
   });
 
-  const submitAnswer = async (e: { preventDefault: () => void; target: { value: any; }; }) => {
+  const submitAnswer = async (e: { preventDefault: () => void; target: { value: string; }; }) => {
     e.preventDefault();
 
     let wordId = Number(e.target.value);
@@ -57,9 +57,9 @@ const Card = (word: CardObj) => {
 
       if (cardBelongsTo === assassinTeamId) {
         const newGameHistory = 'Team 1 hits the assassin! team 1 lose.';
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        let newHistoryKey = push(child(ref(database), 'history')).key;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
         /* below sets the cards to 0 and declares opposing team as winner in 
@@ -70,17 +70,17 @@ const Card = (word: CardObj) => {
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory = 'Team 1 hits a bystander! Turn is over!';
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        let newHistoryKey = push(child(ref(database), 'history')).key;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         endTurn();
       }
       if (cardBelongsTo === team1Id) {
         const newGameHistory = `Good job Team 1! ${revealedCard.word.word} is the correct codename!`;
-        const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        let newHistoryKey = push(child(ref(database), 'history')).key;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(gameRef, {
           team1RemainingCards: teamOneRemainingCards - 1,
@@ -90,8 +90,8 @@ const Card = (word: CardObj) => {
       if (cardBelongsTo === team2Id) {
         const newGameHistory = 'thats the other teams card! turn is over!';
         const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         endTurn();
@@ -104,8 +104,8 @@ const Card = (word: CardObj) => {
 
         const newHistoryKey = push(child(ref(database), 'history')).key;
 
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
         // team 1 wins if team 2 hits assassin. logic is triggered on roomview
@@ -114,16 +114,16 @@ const Card = (word: CardObj) => {
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory = 'team 2 hits a bystander! Turn is over!';
         const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         endTurn();
       }
       if (cardBelongsTo === team2Id) {
         const newGameHistory = `Good job Team 2! ${revealedCard.word.word} is the correct codename!`;
         const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(gameRef, { team2RemainingCards: teamTwoRemainingCards - 1 });
         set(child(gameRef, 'guessesRemaining'), guessesRemaining - 1);
@@ -131,8 +131,8 @@ const Card = (word: CardObj) => {
       if (cardBelongsTo === team1Id) {
         const newGameHistory = 'thats the other teams card! turn is over!';
         const newHistoryKey = push(child(ref(database), 'history')).key;
-        const updates = {};
-        updates[newHistoryKey] = newGameHistory;
+        const updates = {} as GameHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(gameRef, { team1RemainingCards: teamOneRemainingCards - 1 });
         endTurn();

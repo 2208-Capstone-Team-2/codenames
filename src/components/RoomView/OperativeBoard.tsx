@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './Card.jsx';
+import Card from './Card';
 import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
