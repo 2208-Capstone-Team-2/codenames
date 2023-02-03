@@ -28,6 +28,10 @@ npm run start:dev
 4. Navigate to <http://localhost:3000/> and create a room!
 5. For additional players, you will need to have a unique browser visit this port. This can be achieved by creating an incognito tab!
 
+### Diagrams and Images from planning
+
+- excalidraws here
+
 ### Known Issues
 
 - stuff
