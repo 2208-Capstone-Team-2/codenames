@@ -5,50 +5,53 @@ import { get, ref, set, child, onValue, onDisconnect } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';
+import { RootState } from '../../store';
 
 const TeamOneBox = () => {
   const { roomId } = useParams();
 
-  const { playerId, username } = useSelector((state) => state.player);
+  const { playerId, username } = useSelector((state: RootState) => state.player);
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
   const dispatch = useDispatch();
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
+  const teamOneRemainingCards = useSelector((state: RootState) => state.game.team1RemainingCards);
 
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {
-    //lines 25 - 38 are checking if the current player is already on a team
+    // lines 25 - 38 are checking if the current player is already on a team
     const teamTwo = await get(teamTwoRef);
     const teamTwoOpsAndSpys = teamTwo.val();
     let teamTwoSpymaster;
     let teamTwoOperatives;
-    //Grabbing team twos info
+    // Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.spymaster) {
       teamTwoSpymaster = teamTwoOpsAndSpys.spymaster;
     }
-    //Grabbing team twos info
+    // Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
       teamTwoOperatives = Object.keys(teamTwoOpsAndSpys.operatives);
     }
-    //If a player is on team 2, they cannot join this team
+    // If a player is on team 2, they cannot join this team
     if (
       (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
+      // tslint:disable-next-line:no-console
       console.log('Cannot join the other team!');
     } else {
-      //Here we want to check if a player is already a spymaster, so that they cannot join both
+      // Here we want to check if a player is already a spymaster, so that they cannot join both
       await get(teamOneSpymasterRef).then((snapshot) => {
-        //If players already exist as team one spymasters:
+        // If players already exist as team one spymasters:
         if (snapshot.exists()) {
-          //'teamOneSpymasters' sets the spymasers id's to an array
-          const teamOneSpymaster = snapshot.val();
-          //Now we can check if the player is a spymaster, if they are, for now we just console log
-          if (teamOneSpymaster.playerId === playerId) {
+          // 'teamOneSpymasters' sets the spymasers id's to an array
+          const teamOneSpymasterGet = snapshot.val();
+          // Now we can check if the player is a spymaster, if they are, for now we just console log
+          if (teamOneSpymasterGet.playerId === playerId) {
             // later we should probably refactor this so that something on the UI is triggered
+            // tslint:disable-next-line:no-console
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not a spymaster, then we allow them to join as an operative
@@ -67,34 +70,36 @@ const TeamOneBox = () => {
 
   // On click event for a player to be able to join the blue team-1 as a spymaster
   const joinTeamOneSpy = async () => {
-    //lines 71 - 82 are checking if the current player is already on a team
+    // lines 71 - 82 are checking if the current player is already on a team
     const teamTwo = await get(teamTwoRef);
     const teamTwoOpsAndSpys = teamTwo.val();
     let teamTwoSpymaster;
     let teamTwoOperatives;
-    //Grabbing team twos info
+    // Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.spymaster) {
       teamTwoSpymaster = teamTwoOpsAndSpys.spymaster;
     }
-    //Grabbing team twos info
+    // Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
       teamTwoOperatives = Object.keys(teamTwoOpsAndSpys.operatives);
     }
-    //If a player is on team 2, they cannot join this team
+    // If a player is on team 2, they cannot join this team
     if (
       (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
+      // tslint:disable-next-line:no-console
       console.log('Cannot join the other team!');
     } else {
-      //Here we want to check if a player is already an operative, so that they cannot join both.
+      // Here we want to check if a player is already an operative, so that they cannot join both.
       await get(teamOneOperativesRef).then((snapshot) => {
-        //If players already exist as team one operatives:
+        // If players already exist as team one operatives:
         if (snapshot.exists()) {
-          //Now we can check if the player is an operative, if they are for now we just console log
-          const teamOneOperatives = Object.keys(snapshot.val());
-          if (teamOneOperatives.includes(playerId)) {
+          // Now we can check if the player is an operative, if they are for now we just console log
+          const teamOneOperativesGet = Object.keys(snapshot.val());
+          if (teamOneOperativesGet.includes(playerId)) {
             // later we should probably refactor thisso that something on the UI is triggered
+            // tslint:disable-next-line:no-console
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
@@ -118,8 +123,8 @@ const TeamOneBox = () => {
       if (snapshot.exists()) {
         // watch firebase and update redux
         const teamOneOperativesFirebase = snapshot.val();
-        const teamOneOperatives = Object.values(teamOneOperativesFirebase);
-        dispatch(setTeamOneOperatives(teamOneOperatives));
+        const teamOneOperativesGet = Object.values(teamOneOperativesFirebase);
+        dispatch(setTeamOneOperatives(teamOneOperativesGet));
       } else {
         // if operatives don't exist, that means that the last one left and the redux store should be empty
         dispatch(setTeamOneOperatives([]));

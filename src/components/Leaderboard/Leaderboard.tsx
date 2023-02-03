@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { PageClickEvent, Player } from './leaderboardTypes';
+import { PageClickEvent, Player } from './leaderboard.types';
 import './leaderboard.css';
 const Leaderboard = () => {
   // eslint-disable-next-line no-unused-vars
