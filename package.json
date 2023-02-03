@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
-    "seed": "DATABASE_URL=postgresql://rosalie0:v2_3yfwz_9e7KLp5LDFzz3UDjTvwjnJN@db.bit.io:5432/rosalie0/codenames node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
+    "seed": "DATABASE_URL=postgresql://rosalie0:v2_3yfwz_9e7KLp5LDFzz3UDjTvwjnJN@db.bit.io:5432/rosalie0/codenames?SS=true node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "seed:dev": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
     "start:dev": "nodemon server/index.ts --ignore dist/ --ignore src/ & npm run build:dev"
