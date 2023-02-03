@@ -43,10 +43,11 @@
     "ts-node": "^10.9.1",
     "volleyball": "^1.5.1",
     "webpack": "^5.72.0",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^4.9.2",
+    "firebase": "^9.17.0"
+
   },
   "devDependencies": {
-    "firebase": "^9.15.0",
     "@babel/core": "7.17.10",
     "@babel/preset-env": "7.17.10",
     "@babel/preset-react": "^7.16.7",
