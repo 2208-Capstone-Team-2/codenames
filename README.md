@@ -1,7 +1,6 @@
-Codenames
+# Codenames
 
-### Credits
+### Acknowledgements
 
-#### Wordlist:
-
-- Default and Duet words from here: https://github.com/sagelga/codenames
+- Words for the cards sourced from <https://github.com/sagelga/codenames>
+- Fullstack Academy & and our amazing instructor & mentor, Ben and Louis!
