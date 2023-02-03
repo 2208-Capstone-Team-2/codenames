@@ -2,20 +2,32 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import './leaderboard.css';
+interface Player {
+  id: string;
+  username: string;
+  role: string;
+  wins: number;
+  roomId: string | null;
+  teamId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+interface PageClickEvent {
+  selected: number;
+}
 const Leaderboard = () => {
   // eslint-disable-next-line no-unused-vars
-  const [allPlayers, setAllPlayers] = useState([]);
+  const [allPlayers, setAllPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const getPlayers = async () => {
     setLoading(true);
     // Grabbing players from the backend, later we could make this a little different
-    //--- Maybe we wouldn't want to get players who have 0 wins, or you have to gave a certain number
-    //--- of wins to be on the leaderboard?
+    // --- Maybe we wouldn't want to get players who have 0 wins, or you have to gave a certain number
+    // --- of wins to be on the leaderboard?
     const { data } = await axios.get('/api/player');
-    console.log(data);
     // Sort in place based on wins, then set it to local state, although this can later be redux state
-    data.sort((a, b) => b.wins - a.wins);
+    data.sort((a:Player, b:Player) => b.wins - a.wins);
     setAllPlayers(data);
     setLoading(false);
   };
@@ -27,7 +39,7 @@ const Leaderboard = () => {
   const currentPageData = allPlayers.filter((player) => player.wins > 1).slice(offset, offset + PER_PAGE);
   const pageCount = Math.ceil(allPlayers.filter((player) => player.wins > 1).length / PER_PAGE);
   //
-  function handlePageClick({ selected: selectedPage }) {
+  function handlePageClick({ selected: selectedPage }: PageClickEvent) {
     setCurrentPage(selectedPage);
   }
   useEffect(() => {
