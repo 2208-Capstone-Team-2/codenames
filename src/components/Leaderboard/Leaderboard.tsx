@@ -1,25 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { PageClickEvent, Player } from './leaderboardTypes';
 import './leaderboard.css';
-interface Player {
-  id: string;
-  username: string;
-  role: string;
-  wins: number;
-  roomId: string | null;
-  teamId: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-interface PageClickEvent {
-  selected: number;
-}
 const Leaderboard = () => {
   // eslint-disable-next-line no-unused-vars
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const getPlayers = async () => {
     setLoading(true);
     // Grabbing players from the backend, later we could make this a little different
