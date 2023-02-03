@@ -11,8 +11,7 @@ interface GameType {
   winner: string;
   loser: string;
   gameHistory: (string | ClueType)[];
-  // eventually want this:
-  // gameHistory: (string | ClueType)[];
+  host: {} | null;
 }
 
 // gameHistory: [clueObj,  clueObj ] ...?
@@ -25,6 +24,7 @@ const initialState: GameType = {
   winner: '',
   loser: '',
   gameHistory: [],
+  host: null,
 };
 
 export const gameSlice = createSlice({
@@ -34,6 +34,7 @@ export const gameSlice = createSlice({
     setStatus: (state, action) => {
       state.status = action.payload;
     },
+
     setTeam1RemainingCards: (state, action) => {
       state.team1RemainingCards = action.payload;
     },
@@ -57,6 +58,9 @@ export const gameSlice = createSlice({
     setLoser: (state, action) => {
       state.loser = action.payload;
     },
+    setHost: (state, action) => {
+      state.host = action.payload;
+    },
   },
 });
 
@@ -69,5 +73,6 @@ export const {
   setWinner,
   setLoser,
   setGameHistory,
+  setHost,
 } = gameSlice.actions;
 export default gameSlice.reducer;
