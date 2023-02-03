@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
-    "seed": "DATABASE_URL=postgresql://rosalie0:v2_3yfwz_9e7KLp5LDFzz3UDjTvwjnJN@db.bit.io:5432/rosalie0/codenames?SS=true node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
+    "seed": "DATABASE_URL=postgresql://rosalie0:v2_3yfwz_9e7KLp5LDFzz3UDjTvwjnJN@db.bit.io:5432/rosalie0/codenames?ssl=true node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "seed:dev": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
     "start:dev": "nodemon server/index.ts --ignore dist/ --ignore src/ & npm run build:dev"
@@ -26,7 +26,6 @@
     "babel-eslint": "^10.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
-    "firebase": "^9.15.0",
     "morgan": "^1.10.0",
     "mui": "^0.0.1",
     "nodemon": "^2.0.16",
@@ -47,6 +46,7 @@
     "webpack-cli": "^4.9.2"
   },
   "devDependencies": {
+    "firebase": "^9.15.0",
     "@babel/core": "7.17.10",
     "@babel/preset-env": "7.17.10",
     "@babel/preset-react": "^7.16.7",
