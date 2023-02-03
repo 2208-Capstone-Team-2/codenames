@@ -32,7 +32,7 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-import words from 'random-words';
+import { Card, WordsWithTeamIdsObj } from '../../utils/interfaces';
 
 interface ClassName {
   className: string;
@@ -62,28 +62,7 @@ const RoomView = (props: ClassName) => {
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
-  // this is from word assoc with id, etc.
-  interface WordObj {
-    word: string;
-  }
 
-  interface CardObj {
-    id: number;
-    isVisibleToAll: boolean;
-    wordString: string;
-    word: WordObj;
-    wordId: number;
-    boardId: number;
-    teamId: number;
-  }
-  interface SpymasterObj {
-    playerId: string;
-    username: string;
-  }
-
-  interface WordsWithTeamIdsObj {
-    [index: number]: CardObj;
-  }
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
@@ -185,7 +164,7 @@ const RoomView = (props: ClassName) => {
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
-                (card: CardObj) =>
+                (card: Card) =>
                   (wordsWithTeamIds[card.id] = {
                     id: card.id,
                     isVisibleToAll: card.isVisibleToAll,
@@ -210,7 +189,7 @@ const RoomView = (props: ClassName) => {
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
-                (card: CardObj) =>
+                (card: Card) =>
                   (wordsWithTeamIds[card.id] = {
                     id: card.id,
                     isVisibleToAll: card.isVisibleToAll,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
-import { Player } from './roomview.types';
 import { RootState } from '../../store';
+import { PlayerType } from '../../utils/interfaces';
 
 const AllPlayers = () => {
   const { allPlayers } = useSelector((state: RootState) => state.allPlayers);
@@ -14,7 +14,7 @@ const AllPlayers = () => {
   return (
     <div>
       Players:
-      {allPlayers?.map((player: Player) => (
+      {allPlayers?.map((player: PlayerType) => (
         <p key={player.playerId}>{player.username}</p>
       ))}
       <div>

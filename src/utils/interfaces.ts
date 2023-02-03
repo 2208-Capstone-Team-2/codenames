@@ -6,6 +6,7 @@ interface Card {
   isVisibleToAll: boolean;
   wordString: string;
   wordId: number;
+  word: WordObj;
   boardId: number;
   teamId: null | number;
 }
@@ -31,4 +32,17 @@ interface Spy {
   playerId: string;
   username: string;
 }
-export { PlayerType, ClueType, Card, SingleHistoryObject };
+interface Operative {
+  playerId: string;
+  username: string;
+}
+
+  // this is from word assoc with id, etc.
+  interface WordObj {
+    word: string;
+  }
+
+  interface WordsWithTeamIdsObj {
+    [index: number]: Card;
+  }
+export { PlayerType, ClueType, Card, SingleHistoryObject, Operative };
