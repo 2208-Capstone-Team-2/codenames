@@ -5,31 +5,34 @@ import { ref, update, get, set, child, push } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
+import { RootState } from '../../store';
+import { Player, CardObj } from './roomview.types';
 
-const Card = ({ word }) => {
-  const { playerId, roomId } = useSelector((state) => state.player);
-  const { team1Id, teamOneOperatives } = useSelector((state) => state.teamOne);
-  const { team2Id, teamTwoOperatives } = useSelector((state) => state.teamTwo);
-  const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
-  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
-  const gameStatus = useSelector((state) => state.game.status);
-  const assassinTeamId = useSelector((state) => state.assassinAndBystander.assassinTeamId);
-  const bystanderTeamId = useSelector((state) => state.assassinAndBystander.bystanderTeamId);
+
+const Card = (word: CardObj) => {
+  const { playerId, roomId } = useSelector((state: RootState) => state.player);
+  const { team1Id, teamOneOperatives } = useSelector((state: RootState) => state.teamOne);
+  const { team2Id, teamTwoOperatives } = useSelector((state: RootState) => state.teamTwo);
+  const teamOneRemainingCards = useSelector((state: RootState) => state.game.team1RemainingCards);
+  const teamTwoRemainingCards = useSelector((state: RootState) => state.game.team2RemainingCards);
+  const gameStatus = useSelector((state: RootState) => state.game.status);
+  const assassinTeamId = useSelector((state: RootState) => state.assassinAndBystander.assassinTeamId);
+  const bystanderTeamId = useSelector((state: RootState) => state.assassinAndBystander.bystanderTeamId);
   const [teamsCard, setTeamsCard] = useState(0);
-  const guessesRemaining = useSelector((state) => state.game.guessesRemaining);
+  const guessesRemaining = useSelector((state: RootState) => state.game.guessesRemaining);
 
   // firebase room  & players reference
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef = ref(database, 'rooms/' + roomId + '/game/' + 'history');
   let singleCardRef = ref(database, `rooms/${roomId}/gameboard/${word.id}`);
-  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative) => {
+  const teamOneOperativesIds = Object.values(teamOneOperatives).map((operative: Player) => {
     return operative.playerId;
   });
-  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative) => {
+  const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: Player) => {
     return operative.playerId;
   });
 
-  const submitAnswer = async (e) => {
+  const submitAnswer = async (e: { preventDefault: () => void; target: { value: any; }; }) => {
     e.preventDefault();
 
     let wordId = Number(e.target.value);
