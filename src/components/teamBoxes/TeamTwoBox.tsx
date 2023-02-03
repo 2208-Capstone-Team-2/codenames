@@ -21,16 +21,13 @@ const TeamTwoBox = () => {
 
   // On click event for a player to be able to join team-2 team as a operative
   const joinTeamTwoOp = async () => {
-    // lines 23 - 35 are checking if the current player is already on a team
     const teamOne = await get(teamOneRef);
     const teamOneOpsAndSpys = teamOne.val();
     let teamOneSpymaster;
     let teamOneOperatives;
-    // Grabbing team ones info
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster) {
       teamOneSpymaster = teamOneOpsAndSpys.spymaster;
     }
-    // Grabbing team ones info
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.operatives) {
       teamOneOperatives = Object.keys(teamOneOpsAndSpys.operatives);
     }
@@ -39,29 +36,20 @@ const TeamTwoBox = () => {
       (teamOneSpymaster && teamOneSpymaster.playerId === playerId) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
-      // tslint:disable-next-line:no-console
       console.log('Cannot join the other team!');
     } else {
       // Here we want to check if a player is already a spymaster, so that they cannot join both
       await get(teamTwoSpymasterRef).then((snapshot) => {
         // If players already exist as team one spymasters:
         if (snapshot.exists()) {
-          // 'teamTwoSpymasters' sets the spymasers id's to an array
           const teamTwoSpymasterSnap = snapshot.val();
-          // Now we can check if the player is a spymaster, if they are, for now we just console log
           if (teamTwoSpymasterSnap.playerId === playerId) {
-            // later we should probably refactor this so that something on the UI is triggered
-            // tslint:disable-next-line:no-console
             console.log('cannot join both the spymasters and the operatives');
           } else {
-            // if they are not a spymaster, then we allow them to join as an operative
-            // onDisconnect needs to be placed before 'set' to avoid race condition
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
           }
         } else {
-          // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
-          // this code might be redundant, but I figured it could account for an edge case
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
         }
@@ -71,18 +59,14 @@ const TeamTwoBox = () => {
 
   // On click event for a player to be able to join the blue team-2 as a spymaster
   const joinTeamTwoSpy = async () => {
-    // lines 64 - 76 are checking if the current player is already on a team
     const teamOne = await get(teamOneRef);
     const teamOneOpsAndSpys = teamOne.val();
     let teamOneSpymaster;
     let teamOneOperatives;
-    // Grabbing team ones info
-    // tslint:disable-next-line:no-console
     console.log({ teamOneOpsAndSpys });
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster) {
       teamOneSpymaster = teamOneOpsAndSpys.spymaster;
     }
-    // Grabbing team ones info
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.operatives) {
       teamOneOperatives = Object.keys(teamOneOpsAndSpys.operatives);
     }
@@ -91,27 +75,23 @@ const TeamTwoBox = () => {
       (teamOneSpymaster && teamOneSpymaster.playerId === playerId) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
-      // tslint:disable-next-line:no-console
+
       console.log('Cannot join the other team!');
     } else {
       // Here we want to check if a player is already an operative, so that they cannot join both.
       await get(teamTwoOperativesRef).then((snapshot) => {
         // If players already exist as team one operatives:
         if (snapshot.exists()) {
-          // Now we can check if the player is an operative, if they are for now we just console log
           const teamTwoOperativesSnap = Object.keys(snapshot.val());
           if (teamTwoOperativesSnap.includes(playerId)) {
-            // later we should probably refactor thisso that something on the UI is triggered
-            // tslint:disable-next-line:no-console
+            // later we should probably refactor this so that something on the UI is triggered
+      
             console.log('cannot join both the spymasters and the operatives');
           } else {
-            // if they are not an operative, then we allow them to join as a spymaster
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
           }
         } else {
-          // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
-          // this code might be redundant, but I figured it could account for an edge case
           onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
         }
