@@ -21,6 +21,10 @@ interface SimpleHistoryObject {
   [index: string]: string | ClueType;
   // clueString: string;
   // clueNumber: number;
+  }
+interface HostType {
+  playerId: string;
+  username: string;
 }
 interface PlayerType {
   playerId: string;
@@ -28,11 +32,16 @@ interface PlayerType {
   roomId: string;
   isHost: boolean;
 }
+interface SingleHistoryObject {
+  clueString: string;
+  clueNumber: number;
+}
 
 interface Spy {
   playerId: string;
   username: string;
 }
+
 interface Operative {
   playerId: string;
   username: string;
@@ -49,4 +58,4 @@ interface Operative {
   }
 
   
-export { PlayerType, ClueType, CardObj, SimpleHistoryObject, Operative, WordsWithTeamIdsObj, Spy };
+export { PlayerType, ClueType, CardObj, SimpleHistoryObject, Operative, WordsWithTeamIdsObj, Spy, HostType };
