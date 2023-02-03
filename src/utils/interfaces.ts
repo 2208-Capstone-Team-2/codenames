@@ -1,7 +1,7 @@
 // This is a file of TS interfaces that get used in multiple places
 // So they live here so you can import them!
 
-interface Card {
+interface CardObj {
   id: number;
   isVisibleToAll: boolean;
   wordString: string;
@@ -17,8 +17,8 @@ interface ClueType {
   playerSubmitting: string; // this is the player's ID (which is a string)
 }
 
-interface GameHistoryObject {
-  [key: string]: string | ClueType;
+interface SimpleHistoryObject {
+  [index: string]: string | ClueType;
   // clueString: string;
   // clueNumber: number;
 }
@@ -40,12 +40,13 @@ interface Operative {
 
   // this is from word assoc with id, etc.
   interface WordObj {
+    id: number;
     word: string;
   }
 
   interface WordsWithTeamIdsObj {
-    [index: number]: Card;
+    [index: number]: CardObj;
   }
 
   
-export { PlayerType, ClueType, Card, GameHistoryObject, Operative, WordsWithTeamIdsObj, Spy };
+export { PlayerType, ClueType, CardObj, SimpleHistoryObject, Operative, WordsWithTeamIdsObj, Spy };

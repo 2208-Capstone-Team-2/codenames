@@ -5,6 +5,7 @@ import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
 import { RootState } from '../../store/index.js';
+import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 
 const OperativeBoard = () => {
   const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
@@ -55,8 +56,8 @@ const OperativeBoard = () => {
 
   return (
     <div style={style}>
-      {words.map((word) => {
-        return <Card key={word.id} word={word} />;
+      {words.map((word: CardObj) => {
+        return <Card key={word.id} word={word.word} id={word.id} isVisibleToAll={word.isVisibleToAll} wordString={word.wordString} wordId={word.wordId} boardId={word.boardId} teamId={word.teamId}  />;
       })}
 
       {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (

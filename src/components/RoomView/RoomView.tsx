@@ -32,7 +32,7 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-import { Card, WordsWithTeamIdsObj } from '../../utils/interfaces';
+import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 
 interface ClassName {
   className: string;
@@ -164,7 +164,7 @@ const RoomView = (props: ClassName) => {
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
-                (card: Card) =>
+                (card: CardObj) =>
                   (wordsWithTeamIds[card.id] = {
                     id: card.id,
                     isVisibleToAll: card.isVisibleToAll,
@@ -189,7 +189,7 @@ const RoomView = (props: ClassName) => {
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
-                (card: Card) =>
+                (card: CardObj) =>
                   (wordsWithTeamIds[card.id] = {
                     id: card.id,
                     isVisibleToAll: card.isVisibleToAll,
