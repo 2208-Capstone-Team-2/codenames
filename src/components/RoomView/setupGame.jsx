@@ -47,7 +47,6 @@ const SetupGame = () => {
     event.preventDefault();
 
     const response = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackId });
-    // console.log({ response });
     const updates = {};
     await response.data.forEach(
       (card) =>
@@ -57,6 +56,7 @@ const SetupGame = () => {
           wordString: card.word.word,
           wordId: card.wordId,
           boardId: card.boardId,
+          teamId: null,
         }),
     );
     update(ref(database, 'rooms/' + roomId), {

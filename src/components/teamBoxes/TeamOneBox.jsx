@@ -11,15 +11,12 @@ const TeamOneBox = () => {
 
   const { playerId, username } = useSelector((state) => state.player);
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
-  const playerOnTeamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/${playerId}`);
   const dispatch = useDispatch();
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
   const teamOneRemainingCards = useSelector((state) => state.game.team1RemainingCards);
-  // eslint-disable-next-line no-unused-vars
-  const teamTwoRemainingCards = useSelector((state) => state.game.team2RemainingCards);
 
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {
@@ -30,7 +27,7 @@ const TeamOneBox = () => {
     let teamTwoOperatives;
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.spymaster) {
-      teamTwoSpymaster = Object.keys(teamTwoOpsAndSpys.spymaster);
+      teamTwoSpymaster = teamTwoOpsAndSpys.spymaster;
     }
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
@@ -38,7 +35,7 @@ const TeamOneBox = () => {
     }
     //If a player is on team 2, they cannot join this team
     if (
-      (teamTwoSpymaster && teamTwoSpymaster.includes(playerId)) ||
+      (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
       console.log('Cannot join the other team!');
@@ -48,18 +45,20 @@ const TeamOneBox = () => {
         //If players already exist as team one spymasters:
         if (snapshot.exists()) {
           //'teamOneSpymasters' sets the spymasers id's to an array
-          const teamOneSpymaster = Object.keys(snapshot.val());
+          const teamOneSpymaster = snapshot.val();
           //Now we can check if the player is a spymaster, if they are, for now we just console log
-          if (teamOneSpymaster.includes(playerId)) {
+          if (teamOneSpymaster.playerId === playerId) {
             // later we should probably refactor this so that something on the UI is triggered
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not a spymaster, then we allow them to join as an operative
+            onDisconnect(playerOnTeamOneOperativesRef).remove();
             set(child(teamOneOperativesRef, playerId), { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
+          onDisconnect(playerOnTeamOneOperativesRef).remove();
           set(child(teamOneOperativesRef, playerId), { playerId, username });
         }
       });
@@ -75,7 +74,7 @@ const TeamOneBox = () => {
     let teamTwoOperatives;
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.spymaster) {
-      teamTwoSpymaster = Object.keys(teamTwoOpsAndSpys.spymaster);
+      teamTwoSpymaster = teamTwoOpsAndSpys.spymaster;
     }
     //Grabbing team twos info
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
@@ -83,7 +82,7 @@ const TeamOneBox = () => {
     }
     //If a player is on team 2, they cannot join this team
     if (
-      (teamTwoSpymaster && teamTwoSpymaster.includes(playerId)) ||
+      (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
       console.log('Cannot join the other team!');
@@ -99,12 +98,15 @@ const TeamOneBox = () => {
             console.log('cannot join both the spymasters and the operatives');
           } else {
             // if they are not an operative, then we allow them to join as a spymaster
-            set(child(teamOneSpymasterRef, playerId), { playerId, username });
+            // onDisconnect needs to be placed before the ref is set to avoid race condition
+            onDisconnect(teamOneSpymasterRef).remove();
+            set(teamOneSpymasterRef, { playerId, username });
           }
         } else {
           // if the snapshot is null, then no one is a spymaster and we can allow this player to be an operative
           // this code might be redundant, but I figured it could account for an edge case
-          set(child(teamOneSpymasterRef, playerId), { playerId, username });
+          onDisconnect(teamOneSpymasterRef).remove();
+          set(teamOneSpymasterRef, { playerId, username });
         }
       });
     }
@@ -124,25 +126,17 @@ const TeamOneBox = () => {
       }
     });
 
-    onValue(playerOnTeamOneOperativesRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerOnTeamOneOperativesRef).remove(playerOnTeamOneOperativesRef);
-      }
-    });
-
     onValue(teamOneSpymasterRef, async (snapshot) => {
       if (snapshot.exists()) {
         const teamOneSpymasterFirebase = snapshot.val();
-        const teamOneSpymaster = Object.values(teamOneSpymasterFirebase);
-        dispatch(setTeamOneSpymaster(teamOneSpymaster));
+        dispatch(
+          setTeamOneSpymaster({
+            playerId: teamOneSpymasterFirebase.playerId,
+            username: teamOneSpymasterFirebase.username,
+          }),
+        );
       } else {
-        dispatch(setTeamOneSpymaster([]));
-      }
-    });
-
-    onValue(playerOnTeamOneSpymasterRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        onDisconnect(playerOnTeamOneSpymasterRef).remove(playerOnTeamOneSpymasterRef);
+        dispatch(setTeamOneSpymaster(null));
       }
     });
   }, [playerId]);
@@ -154,7 +148,7 @@ const TeamOneBox = () => {
       <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>
-          {teamOneOperatives.map((player) => {
+          {teamOneOperatives?.map((player) => {
             return player.username + ', ';
           })}{' '}
           <br />
@@ -162,9 +156,7 @@ const TeamOneBox = () => {
         </div>
         <div>
           <p>Spymaster(s)</p>
-          {teamOneSpymaster.map((player) => {
-            return player.username + ', ';
-          })}
+          {teamOneSpymaster && teamOneSpymaster.username}
           <br />
           <button onClick={joinTeamOneSpy}>Join as Spymaster</button>
         </div>

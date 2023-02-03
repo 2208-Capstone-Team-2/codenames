@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ClueType, SingleHistoryObject } from '../utils/interfaces';
 
-interface initialStateType {
+// move this to interfaces.ts ?
+interface GameType {
   status: string;
   team1RemainingCards: number;
   team2RemainingCards: number;
@@ -8,10 +10,13 @@ interface initialStateType {
   guessesRemaining: number;
   winner: string;
   loser: string;
-  gameHistory: []
+  gameHistory: (string | SingleHistoryObject)[];
+  // eventually want this:
+  // gameHistory: (string | ClueType)[];
 }
 
-const initialState: initialStateType = {
+// gameHistory: [clueObj,  clueObj ] ...?
+const initialState: GameType = {
   status: 'ready',
   team1RemainingCards: 9,
   team2RemainingCards: 8,
