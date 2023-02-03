@@ -10,7 +10,7 @@ interface GameType {
   guessesRemaining: number;
   winner: string;
   loser: string;
-  gameHistory: [];
+  gameHistory: (string | ClueType)[];
   // eventually want this:
   // gameHistory: (string | ClueType)[];
 }
