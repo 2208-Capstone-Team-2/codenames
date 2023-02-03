@@ -38,7 +38,7 @@
     "react-redux": "^v8.0.1",
     "react-router-dom": "^6.3.0",
     "reactjs-popup": "^2.0.5",
-    "sequelize": "~6.25.3",
+    "sequelize": "^6.28.0",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "volleyball": "^1.5.1",
