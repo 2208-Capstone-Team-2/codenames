@@ -58,7 +58,7 @@ const Card = (word: CardObj) => {
 
       if (cardBelongsTo === assassinTeamId) {
         const newGameHistory = 'Team 1 hits the assassin! team 1 lose.';
-        let newHistoryKey = push(child(ref(database), 'history')).key;
+        const newHistoryKey = push(child(ref(database), 'history')).key;
         const updates = {} as SingleHistoryObject;
         updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
@@ -71,7 +71,7 @@ const Card = (word: CardObj) => {
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory = 'Team 1 hits a bystander! Turn is over!';
-        let newHistoryKey = push(child(ref(database), 'history')).key;
+        const newHistoryKey = push(child(ref(database), 'history')).key;
         const updates = {} as SingleHistoryObject;
         updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
@@ -79,7 +79,7 @@ const Card = (word: CardObj) => {
       }
       if (cardBelongsTo === team1Id) {
         const newGameHistory = `Good job Team 1! ${revealedCard.word.word} is the correct codename!`;
-        let newHistoryKey = push(child(ref(database), 'history')).key;
+        const newHistoryKey = push(child(ref(database), 'history')).key;
         const updates = {} as SingleHistoryObject;
         updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
