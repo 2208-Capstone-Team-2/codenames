@@ -36,7 +36,7 @@ import words from 'random-words';
 import { setHost } from '../../store/gameSlice';
 import { setIsHost } from '../../store/playerSlice';
 import Loser from'./Loser';
-
+import Winner from './Winner'
 interface ClassName{
   className: string;
 }
@@ -347,7 +347,7 @@ interface WordObj {
         <div className="chatBox"> this will be the chat box</div>
       </div>
       <Clue />
-<Loser />
+<Loser /><Winner />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup

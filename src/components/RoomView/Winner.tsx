@@ -7,23 +7,26 @@ import { ref, get, push, update, onValue } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { setRoomId } from '../../store/playerSlice';
-  const Loser:React.FC= () => {
+interface ReduxState {
+    player: { playerId: string };
+    game: { status: string; winner: string };
+  }
+  const Winner:React.FC= () => {
     const { roomId } = useParams();
     setRoomId(roomId);
-    const playerId= useSelector((state: any) => state.player)
-    const gameStatus=useSelector((state:any)=>state.game.status)
-    const loser=useSelector((state:any)=>state.game.loser)
-    const loserRef = ref(database, `rooms/${roomId}/game/loser`);
+    const playerId= useSelector((state: ReduxState) => state.player)
+    const gameStatus=useSelector((state:ReduxState)=>state.game.status)
+    const winnerRef = ref(database, `rooms/${roomId}/game/winner`);
     const[playerIdArray, setPlayerIdArray]=useState<string[]>([])
     useEffect(()=>{
-      onValue(loserRef, async (loserSnapshot) => {
+      onValue(winnerRef, async (winnerSnapshot) => {
       
-        if (loserSnapshot.exists()) {
-           const teamLoser=loserSnapshot.val();
-           const teamLoserRef = ref(database, `rooms/${roomId}/${teamLoser}/`);
-           get(teamLoserRef).then (async(loserMemberSnapshot)=>{
-            if(loserMemberSnapshot.exists())
-            {const loserMember=loserMemberSnapshot.val()
+        if (winnerSnapshot.exists()) {
+           const teamWinner=winnerSnapshot.val();
+           const teamWinnerRef = ref(database, `rooms/${roomId}/${teamWinner}/`);
+           get(teamWinnerRef).then (async(winnerMemberSnapshot)=>{
+            if(winnerMemberSnapshot.exists())
+            {const winnerMember=winnerMemberSnapshot.val()
               const getPlayerIds=(obj:any):string[] =>{
                 let playerIds:string[] = [];
                 for (const key in obj) {
@@ -34,12 +37,12 @@ import { setRoomId } from '../../store/playerSlice';
                     }
                 }
                 return playerIds;}
-           setPlayerIdArray(getPlayerIds(loserMember))
+           setPlayerIdArray(getPlayerIds(winnerMember))
               console.log(playerIdArray)
            }})}} );},[])
-           console.log(playerIdArray)
-           console.log(playerId)
+          
 if(playerIdArray.includes(playerId.playerId)&&gameStatus==='complete')
-    {return <h1> You are a loser, you should try again!</h1>;}
+    {return <h1> Congradulations! You won the game! How about beat them again?</h1>;}
+    else{return null}
   }
-  export default Loser;
+  export default Winner;

@@ -12,7 +12,6 @@ interface ReduxState {
     const { roomId } = useParams();
     const playerId= useSelector((state: ReduxState) => state.player)
     const gameStatus=useSelector((state:ReduxState)=>state.game.status)
-    const loser=useSelector((state:ReduxState)=>state.game.loser)
     const loserRef = ref(database, `rooms/${roomId}/game/loser`);
     const[playerIdArray, setPlayerIdArray]=useState<string[]>([])
     useEffect(()=>{
