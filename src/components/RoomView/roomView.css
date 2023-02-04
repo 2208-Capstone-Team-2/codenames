@@ -71,7 +71,21 @@ align-items:center;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 2% 5%;
     }
+    .winner{top: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      position: absolute;
+      z-index: 1;
+      width: 50vw;
+      height: 30vh;
+      background-color: #dec160;
+      color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2% 5%;}
     .closeButton{    position: absolute;
       top: 15px;
       right: 15px;

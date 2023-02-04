@@ -14,10 +14,11 @@ interface ReduxState {
   const Winner:React.FC= () => {
     const { roomId } = useParams();
     setRoomId(roomId);
-    const playerId= useSelector((state: ReduxState) => state.player)
+    const playerId= useSelector((state: ReduxState) => state.player.playerId)
     const gameStatus=useSelector((state:ReduxState)=>state.game.status)
     const winnerRef = ref(database, `rooms/${roomId}/game/winner`);
-    const[playerIdArray, setPlayerIdArray]=useState<string[]>([])
+    const[playerIdArray, setPlayerIdArray]=useState<string[]>([]);
+    const [isVisible, setIsVisible] = useState(true);
     useEffect(()=>{
       onValue(winnerRef, async (winnerSnapshot) => {
       
@@ -41,8 +42,10 @@ interface ReduxState {
               console.log(playerIdArray)
            }})}} );},[])
           
-if(playerIdArray.includes(playerId.playerId)&&gameStatus==='complete')
-    {return <h1> Congradulations! You won the game! How about beat them again?</h1>;}
-    else{return null}
+           return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
+            <div className="winner">
+              <h1>Congratulations! You won the game! How about play again?</h1>
+              <button className="closeButton" onClick={() => setIsVisible(false)}>X</button>
+            </div>): <div />;
   }
   export default Winner;

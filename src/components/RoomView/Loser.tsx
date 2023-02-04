@@ -10,8 +10,8 @@ interface ReduxState {
 }
   const Loser: React.FC= () => {
     const { roomId } = useParams();
-    const playerId= useSelector((state: ReduxState) => state.player)
-    const gameStatus=useSelector((state:ReduxState)=>state.game.status)
+    const playerId= useSelector((state: ReduxState) => state.player.playerId)
+    const gameStatus=useSelector((state: ReduxState)=>state.game.status)
     const loserRef = ref(database, `rooms/${roomId}/game/loser`);
     const [isVisible, setIsVisible] = useState(true);
     const[playerIdArray, setPlayerIdArray]=useState<string[]>([])
@@ -38,9 +38,11 @@ interface ReduxState {
               console.log(playerIdArray)
            }})}} );},[])
     
-if(playerIdArray.includes(playerId.playerId)&&gameStatus==='complete')
-{    return isVisible&&<div className="loser"><h1> You are a loser, you should try again!</h1>
-    <button className='closeButton' onClick={()=>{setIsVisible(false)}}>X</button></div>;}
-    else {return null}
+return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
+  <div className="loser">
+    <h1>You are a loser, you should try again!</h1>
+    <button className="closeButton" onClick={() => setIsVisible(false)}>X</button>
+  </div>): <div />;
   }
+   
   export default Loser;
