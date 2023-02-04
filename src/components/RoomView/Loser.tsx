@@ -17,7 +17,6 @@ interface ReduxState {
     const[playerIdArray, setPlayerIdArray]=useState<string[]>([])
     useEffect(()=>{
       onValue(loserRef, async (loserSnapshot) => {
-      
         if (loserSnapshot.exists()) {
            const teamLoser=loserSnapshot.val();
            const teamLoserRef = ref(database, `rooms/${roomId}/${teamLoser}/`);
@@ -35,7 +34,6 @@ interface ReduxState {
                 }
                 return playerIds;}
            setPlayerIdArray(getPlayerIds(loserMember))
-              console.log(playerIdArray)
            }})}} );},[])
     
 return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
