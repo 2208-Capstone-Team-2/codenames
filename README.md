@@ -1,5 +1,7 @@
 # Codenames
 
+<img src='src/static/images/transparentLogo.png' alt='logo' height='auto' width='auto'/>
+
 ## Play popular card game Codenames with your friends online!
 
 Intro paragraph
@@ -30,6 +32,9 @@ npm run start:dev
 
 ### Diagrams and Images from planning
 
+Our backend models & schema:
+
+![A diagram showing all the models, and their associations](excalidraws/schemaRedrawn.svg)
 A diagram of how players are created and updated, depending on if they created the room or entered it via a link:
 ![Flow of how players are created and updated, depending on if they created the room or entered it via a link.](excalidraws/roomFlow.svg)
 
@@ -45,4 +50,5 @@ Thank you for being interested in contributing to our project. Currently we are 
 ### Acknowledgements
 
 - Words for the cards sourced from <https://github.com/sagelga/codenames>
-- Fullstack Academy & and our amazing instructor & mentor, Ben and Louis!
+- [Adobe Express](https://express.adobe.com/express-apps/logo-maker/) for logo creation
+- Fullstack Academy & and our amazing instructor [Ben](https://github.com/Semiroundpizza8) and awesome mentor [Louis](https://github.com/lrabeno)
