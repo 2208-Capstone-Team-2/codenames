@@ -58,3 +58,25 @@ align-items:center;
     z-index: 0;
     justify-content: center;}
     .setupGamePopup .close-btn{position: absolute;top:15px;right:15px;}
+    .loser{
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      position: absolute;
+      z-index: 1;
+      width: 50vw;
+      height: 30vh;
+      background-color: black;
+      color: #dec160;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .closeButton{    position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: #dec160;
+      color: black;
+      border: none;
+      width: 5%;
+      height: 15%;}
