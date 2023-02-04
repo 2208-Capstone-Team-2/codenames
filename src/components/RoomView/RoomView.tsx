@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { database } from '../../utils/firebase';
 import { useParams } from 'react-router-dom';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
 import './roomView.css';
-import Popup from 'reactjs-popup';
+import Popup from '../Room/Popup.jsx';
 import { Button } from '@mui/material';
 import { isEveryRoleFilled } from '../../utils/utilFunctions.js';
 import SetupGame from './setupGame.jsx';
@@ -35,7 +35,7 @@ import { RootState } from '../../store/index.js';
 import words from 'random-words';
 import { setHost } from '../../store/gameSlice';
 import { setIsHost } from '../../store/playerSlice';
-
+import Loser from'./Loser';
 
 interface ClassName{
   className: string;
@@ -47,9 +47,10 @@ const RoomView = (props:ClassName) => {
   setRoomId(roomId);
 
   const dispatch = useDispatch();
-
+  const [timedPopup, setTimedPopup] = useState(false);
   // frontend state
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
+  const { winner, loser} = useSelector((state: RootState) => state.game);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const {host} = useSelector((state: RootState) => state.game)
@@ -172,7 +173,9 @@ interface WordObj {
         }
         dispatch(setGameHistory(history));
       }
-    });
+    }); setTimeout(() => {
+      setTimedPopup(true);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -322,19 +325,7 @@ interface WordObj {
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
-        <Popup
-          trigger={
-            <Button
-              style={{
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-            >
-              Set Up Board
-            </Button>
-          }
-        >
+        <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
           <SetupGame />
         </Popup>
       )}
@@ -356,7 +347,7 @@ interface WordObj {
         <div className="chatBox"> this will be the chat box</div>
       </div>
       <Clue />
-
+<Loser />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup
