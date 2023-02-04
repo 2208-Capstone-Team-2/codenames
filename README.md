@@ -30,13 +30,13 @@ npm run start:dev
 
 ### Diagrams and Images from planning
 
-- excalidraws here
+A diagram of how players are created and updated, depending on if they created the room or entered it via a link:
+![Flow of how players are created and updated, depending on if they created the room or entered it via a link.](excalidraws/roomFlow.svg)
 
 ### Known Issues
 
-- stuff
-- stuff
-- stuff
+- Player must assign themselves a role before the board setup in order to see the board
+- Website layout is not mobile friendly
 
 ### Contributing
 
