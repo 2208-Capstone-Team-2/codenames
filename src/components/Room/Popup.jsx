@@ -1,9 +1,8 @@
-import { Check } from '@mui/icons-material';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 function Popup(props) {
   return props.trigger ? (
-    <div className="popup">
+    <div className={props.className}>
       <button
         disabled={props.children.props.canBeClosed}
         className="close-btn"

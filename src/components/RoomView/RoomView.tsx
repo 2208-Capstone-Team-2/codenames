@@ -325,7 +325,7 @@ interface WordObj {
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
-        <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
+        <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="setupGamePopup">
           <SetupGame />
         </Popup>
       )}
