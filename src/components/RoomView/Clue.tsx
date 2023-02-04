@@ -6,20 +6,17 @@ import { ref, child, push, update } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import pluralize from 'pluralize';
 import { Button } from '@mui/material';
-interface ClueType {
-  clueString: string;
-  clueNumber: number;
-  }
-  
-const Clue:React.FC<ClueType> = () => {
+import { RootState } from '../../store';
+import { ClueType } from '../../utils/interfaces';
+const Clue = () => {
   const [clueString, setClueString] = useState<string>('');
   const [clueNumber, setClueNumber] = useState<number | null>(null);
-  const playerId = useSelector((state:any) => state.player.playerId);
-  const roomId = useSelector((state:any) => state.player.roomId);
-  const gameStatus = useSelector((state:any) => state.game.status);
-  const { teamOneSpymaster } = useSelector((state:any) => state.teamOne);
-  const { teamTwoSpymaster } = useSelector((state:any)=> state.teamTwo);
-  const gameboard = useSelector((state:any) => state.wordsInGame.wordsInGame);
+  const playerId = useSelector((state:RootState) => state.player.playerId);
+  const roomId = useSelector((state:RootState) => state.player.roomId);
+  const gameStatus = useSelector((state:RootState) => state.game.status);
+  const { teamOneSpymaster } = useSelector((state:RootState) => state.teamOne);
+  const { teamTwoSpymaster } = useSelector((state:RootState)=> state.teamTwo);
+  const gameboard = useSelector((state:RootState) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef=ref(database, `rooms/${roomId}/game/history`);
   let arrayToCheck:string[] = [];
@@ -70,7 +67,7 @@ const Clue:React.FC<ClueType> = () => {
       };
       const newClueKey = push(child(ref(database), 'clues')).key;
       if (newClueKey) {
-        const updates = {}as { [key: string]: any };
+        const updates = {} as { [key: string]: ClueType };
         updates[newClueKey] = clueData;
         dispatch(setCurrentClue(clueData));
         update(gameHistoryRef, updates);

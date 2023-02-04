@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import GuessesRemaining from './GuessesRemaining';
 import { useState } from 'react';
+import { RootState } from '../../store';
 const GameStatus = () => {
-  let gameStatus = useSelector((state) => state.game.status);
-  const { playerId } = useSelector((state) => state.player);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state) => state.teamTwo);
+  const gameStatus = useSelector((state: RootState) => state.game.status);
+  const { playerId } = useSelector((state: RootState) => state.player);
+  const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
+  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const [playerNote, setPlayerNote] = useState('');
 
   // will use below prior to user joining game && game being 'ready
