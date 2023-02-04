@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ClueType, HostType, SingleHistoryObject } from '../utils/interfaces';
+import { ClueType, HostType } from '../utils/interfaces';
 
 // move this to interfaces.ts ?
 interface GameType {
@@ -24,7 +24,6 @@ const initialState: GameType = {
   winner: '',
   loser: '',
   gameHistory: [],
-  host: null,
   host: null,
 };
 
