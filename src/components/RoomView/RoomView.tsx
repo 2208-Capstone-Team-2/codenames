@@ -8,7 +8,7 @@ import './roomView.css';
 import Popup from 'reactjs-popup';
 import { Button } from '@mui/material';
 import { isEveryRoleFilled } from '../../utils/utilFunctions.js';
-import SetupGame from './SetupGame.js';
+import SetupGame from './SetupGame';
 import WelcomeBoard from './WelcomeBoard';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
