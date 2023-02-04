@@ -41,7 +41,6 @@ interface Spy {
   username: string;
 }
 
-
 // this is from word assoc with id, etc.
 interface WordObj {
   id: number;
@@ -52,5 +51,4 @@ interface WordsWithTeamIdsObj {
   [index: number]: CardObj;
 }
 
-  
-export { PlayerType, ClueType, CardObj, SingleHistoryObject, Operative, WordsWithTeamIdsObj, Spy };
+export { PlayerType, ClueType, CardObj, SingleHistoryObject, Operative, WordsWithTeamIdsObj, Spy, HostType };
