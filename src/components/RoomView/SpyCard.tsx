@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { CardObj } from '../../utils/interfaces';
 
-
-
 interface WrapperProps {
   word: CardObj;
   teamId: React.ReactNode;
