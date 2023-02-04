@@ -4,7 +4,12 @@ import { RootState } from '../../store';
 
 const GuessesRemaining = () => {
   const guessesRemaining = useSelector((state: RootState) => state.game.guessesRemaining);
-  if (guessesRemaining) return <div>{guessesRemaining} guesses remaining</div>;
+  if (guessesRemaining) {
+    return <div>{guessesRemaining} guesses remaining</div>
+  } else {
+    return <></>
+  }
+
 };
 
 export default GuessesRemaining;
