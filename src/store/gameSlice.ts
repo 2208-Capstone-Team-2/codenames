@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ClueType, HostType, SingleHistoryObject } from '../utils/interfaces';
+import { ClueType, HostType } from '../utils/interfaces';
 
 // move this to interfaces.ts ?
 interface GameType {
@@ -10,9 +10,7 @@ interface GameType {
   guessesRemaining: number;
   winner: string;
   loser: string;
-  gameHistory: (string | SingleHistoryObject)[];
-  // eventually want this:
-  // gameHistory: (string | ClueType)[];
+  gameHistory: (string | ClueType)[];
   host: HostType | null;
 }
 
@@ -36,6 +34,7 @@ export const gameSlice = createSlice({
     setStatus: (state, action) => {
       state.status = action.payload;
     },
+
     setTeam1RemainingCards: (state, action) => {
       state.team1RemainingCards = action.payload;
     },
@@ -59,6 +58,9 @@ export const gameSlice = createSlice({
     setLoser: (state, action) => {
       state.loser = action.payload;
     },
+    setHost: (state, action) => {
+      state.host = action.payload;
+    },
   },
 });
 
@@ -71,5 +73,6 @@ export const {
   setWinner,
   setLoser,
   setGameHistory,
+  setHost,
 } = gameSlice.actions;
 export default gameSlice.reducer;

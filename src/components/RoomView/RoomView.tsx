@@ -32,7 +32,10 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-import words from 'random-words';
+import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
+import { setHost } from '../../store/gameSlice';
+import { setIsHost } from '../../store/playerSlice';
+
 
 interface ClassName {
   className: string;
@@ -49,6 +52,7 @@ const RoomView = (props: ClassName) => {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
+  const {host} = useSelector((state: RootState) => state.game)
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -58,32 +62,13 @@ const RoomView = (props: ClassName) => {
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+  let hostRef = ref(database, `rooms/${roomId}/host`);
+
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
-  // this is from word assoc with id, etc.
-  interface WordObj {
-    word: string;
-  }
 
-  interface CardObj {
-    id: number;
-    isVisibleToAll: boolean;
-    wordString: string;
-    word: WordObj;
-    wordId: number;
-    boardId: number;
-    teamId: number;
-  }
-  interface SpymasterObj {
-    playerId: string;
-    username: string;
-  }
-
-  interface WordsWithTeamIdsObj {
-    [index: number]: CardObj;
-  }
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
@@ -256,6 +241,26 @@ const RoomView = (props: ClassName) => {
     });
   }, [playerId]);
 
+  useEffect(() => {
+    onValue(hostRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const host = snapshot.val();
+        console.log('playeridhost', host.playerId)
+        console.log('playerId', playerId)
+        if (host.playerId === playerId) {
+          dispatch(setHost(host));
+          dispatch(setIsHost(true));
+        } else {
+          dispatch(setHost(host));
+          dispatch(setIsHost(false));
+        }
+      } else {
+        dispatch(setHost(null));
+        dispatch(setIsHost(false));
+      }
+    });
+  }, [playerId])
+
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
   const endTurn = () => {
@@ -280,10 +285,19 @@ const RoomView = (props: ClassName) => {
     });
   };
 
+  const claimHost = () => {
+    update(hostRef, { playerId, username });
+    update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
+  }
+
   return (
     <div className={props.className}>
       <GameStatus />
       <WelcomeBoard />
+      {!host && <>
+      <p>The host has left. Someone must claim host to begin the game</p>
+      <button onClick={claimHost}>claim host duties</button>
+      </>}
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
