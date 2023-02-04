@@ -16,7 +16,13 @@ interface ClueType {
   clueNumber: null | number;
   playerSubmitting: string; // this is the player's ID (which is a string)
 }
+
 interface HostType {
+  playerId: string;
+  username: string;
+}
+
+interface Operative {
   playerId: string;
   username: string;
 }
@@ -34,20 +40,17 @@ interface Spy {
   playerId: string;
   username: string;
 }
-interface Operative {
-  playerId: string;
-  username: string;
+
+
+// this is from word assoc with id, etc.
+interface WordObj {
+  id: number;
+  word: string;
 }
 
-  // this is from word assoc with id, etc.
-  interface WordObj {
-    id: number;
-    word: string;
-  }
-
-  interface WordsWithTeamIdsObj {
-    [index: number]: CardObj;
-  }
+interface WordsWithTeamIdsObj {
+  [index: number]: CardObj;
+}
 
   
-export { PlayerType, ClueType, CardObj, SingleHistoryObject, Operative, WordsWithTeamIdsObj, Spy, HostType };
+export { PlayerType, ClueType, CardObj, SingleHistoryObject, Operative, WordsWithTeamIdsObj, Spy };
