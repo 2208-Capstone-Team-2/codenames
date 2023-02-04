@@ -35,6 +35,7 @@ import { RootState } from '../../store/index.js';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 import { setHost } from '../../store/gameSlice';
 import { setIsHost } from '../../store/playerSlice';
+import words from 'random-words';
 
 
 interface ClassName {
