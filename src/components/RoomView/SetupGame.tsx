@@ -6,7 +6,7 @@ import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
 import { RootState } from '../../store';
 
-interface WordPackType{
+interface WordPackType {
   id: number;
   name: string;
   createdAt: string;
@@ -16,7 +16,7 @@ interface WordPackType{
 const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState<WordPackType[]>([]);
   const [selectedWordPackIds, setSelectedWordPackIds] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const roomId = useSelector((state: RootState) => state.player.roomId);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -53,19 +53,19 @@ const SetupGame = () => {
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log('hello')
-    console.log({selectedWordPackIds})
+    console.log({ selectedWordPackIds })
     const { data } = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackIds });
-    const updates:any = {};
+    const updates: any = {};
     data.forEach(
-      (card:any) =>
-        (updates[card.id] = {
-          id: card.id,
-          isVisibleToAll: card.isVisibleToAll,
-          wordString: card.word.word,
-          wordId: card.wordId,
-          boardId: card.boardId,
-          teamId: null,
-        }),
+      (card: any) =>
+      (updates[card.id] = {
+        id: card.id,
+        isVisibleToAll: card.isVisibleToAll,
+        wordString: card.word.word,
+        wordId: card.wordId,
+        boardId: card.boardId,
+        teamId: null,
+      }),
     );
     // updates looks like this:
     // updates = {
@@ -86,7 +86,7 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  console.log({wordpacks})
+  console.log({ wordpacks })
   if (isLoading) return <p>Loading...</p>;
   else
     return (
@@ -96,7 +96,7 @@ const SetupGame = () => {
           <form onSubmit={submitHandler}>
             {wordpacks.map((wordpack) => (
               <div key={wordpack.id}>
-                <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id}/>
+                <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
                 <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
               </div>
             ))}

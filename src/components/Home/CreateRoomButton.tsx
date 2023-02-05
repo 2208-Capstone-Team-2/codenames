@@ -17,7 +17,7 @@ function CreateRoomButton() {
     const { data } = await axios.post(`/api/room/`);
 
     // get the roomName so we can navigate to that room's page.
-    const roomId = data.name;
+    const roomId: string = data.name;
 
     // create room references on firebase
     const roomRef = ref(database, `rooms/${roomId}`);
