@@ -5,6 +5,7 @@ import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
 import { RootState } from '../../store';
+
 interface WordPackType{
   id: number;
   name: string;
@@ -19,7 +20,6 @@ const SetupGame = () => {
   const roomId = useSelector((state: RootState) => state.player.roomId);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-
   //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
     setIsLoading(true);
@@ -35,8 +35,8 @@ const SetupGame = () => {
   //------------------functions to handle selection---------------------//
 
   const handleWordPackSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const idInteractedWith = event.target.value;
 
+    const idInteractedWith = event.target.value;
     //if event.target.value is already in the array, we delete the already existed one in the array and return
     if (selectedWordPackIds.includes(idInteractedWith)) {
       // This creates a new array where each element is NOT the id interacted with.
@@ -52,6 +52,8 @@ const SetupGame = () => {
   //-------------get the res.send data from the backend and set it up in the store
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log('hello')
+    console.log({selectedWordPackIds})
     const { data } = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackIds });
     const updates:any = {};
     data.forEach(
@@ -84,6 +86,7 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
+  console.log({wordpacks})
   if (isLoading) return <p>Loading...</p>;
   else
     return (
@@ -93,7 +96,7 @@ const SetupGame = () => {
           <form onSubmit={submitHandler}>
             {wordpacks.map((wordpack) => (
               <div key={wordpack.id}>
-                <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
+                <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id}/>
                 <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
               </div>
             ))}
