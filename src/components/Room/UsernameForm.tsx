@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 // Firebase:
@@ -16,6 +16,8 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const { playerId, isHost } = useSelector((state) => state.player);
+
+  // dont know what this is for?
   const host = useSelector((state) => state.game.host);
 
   const submitHandler = async (e) => {

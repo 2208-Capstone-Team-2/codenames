@@ -17,7 +17,7 @@ function Popup(props) {
       {props.children}
     </div>
   ) : (
-    ''
+    <></>
   );
 }
 
