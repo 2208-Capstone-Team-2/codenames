@@ -10,7 +10,11 @@ import { auth } from '../../utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { setPlayerId, setUsername } from '../../store/playerSlice';
 
-function OnAuthStateChanged({ setInputtedUsername }) {
+interface WrapperProps {
+  setInputtedUsername: Function;
+}
+
+function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {

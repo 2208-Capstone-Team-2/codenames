@@ -6,22 +6,30 @@ import { useParams } from 'react-router-dom';
 import { database } from '../../utils/firebase';
 import { ref, update, set, child, onDisconnect, get } from 'firebase/database';
 // Redux:
+import { RootState } from '../../store'; // Used for TS
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
 import { setHost } from '../../store/gameSlice';
 import './userForm.css';
 
-function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }) {
+interface UsernameFormProps {
+  inputtedUsername: string;
+  setInputtedUsername: Function;
+  canBeClosed: boolean;
+  setCanBeClosed: Function;
+}
+
+function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }: UsernameFormProps) {
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
   const { roomId } = useParams();
   const dispatch = useDispatch();
-  const { playerId, isHost } = useSelector((state) => state.player);
+  const { playerId, isHost } = useSelector((state: RootState) => state.player);
 
   // dont know what this is for?
-  const host = useSelector((state) => state.game.host);
+  //const host = useSelector((state) => state.game.host);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const submitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
 
     // TODO: Validation - may want to use formik/yup?
     // Make sure the username they gave isn't empty / made of only white spaces
@@ -44,12 +52,10 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     //// Update the nested-in-room player
     const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
-    // update(nestedPlayerRef, { playerId, username: trimmedInputtedUsername });
-    // other way of doing it:
     const playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
     //// If they're the host, put that info there too.
 
-    let hostRef = ref(database, `rooms/${roomId}/host`);
+    const hostRef = ref(database, `rooms/${roomId}/host`);
 
     if (isHost) {
       console.log('is host hit');

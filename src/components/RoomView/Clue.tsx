@@ -8,18 +8,22 @@ import pluralize from 'pluralize';
 import { Button } from '@mui/material';
 import { RootState } from '../../store';
 import { ClueType } from '../../utils/interfaces';
+
 const Clue = () => {
   const [clueString, setClueString] = useState<string>('');
   const [clueNumber, setClueNumber] = useState<number | null>(null);
-  const playerId = useSelector((state:RootState) => state.player.playerId);
-  const roomId = useSelector((state:RootState) => state.player.roomId);
-  const gameStatus = useSelector((state:RootState) => state.game.status);
-  const { teamOneSpymaster } = useSelector((state:RootState) => state.teamOne);
-  const { teamTwoSpymaster } = useSelector((state:RootState)=> state.teamTwo);
-  const gameboard = useSelector((state:RootState) => state.wordsInGame.wordsInGame);
+
+  const playerId = useSelector((state: RootState) => state.player.playerId);
+  const roomId = useSelector((state: RootState) => state.player.roomId);
+  const gameStatus = useSelector((state: RootState) => state.game.status);
+
+  const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
+  const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
+  const gameboard = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let gameHistoryRef=ref(database, `rooms/${roomId}/game/history`);
-  let arrayToCheck:string[] = [];
+  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
+
+  let arrayToCheck: string[] = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
     arrayToCheck.push(gameboard[i].wordString.toUpperCase());
@@ -72,12 +76,12 @@ const Clue = () => {
         dispatch(setCurrentClue(clueData));
         update(gameHistoryRef, updates);
       } else {
-        console.error("newClueKey is null or undefined");
+        console.error('newClueKey is null or undefined');
       }
 
       // store the clue in clueHistory and as current clue
       // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
-      let nextGameStatus:string;
+      let nextGameStatus: string;
       // if its team1spy submission, team1Ops goes next
       if (gameStatus === 'team1SpyTurn') {
         nextGameStatus = 'team1OpsTurn';
@@ -150,9 +154,7 @@ const Clue = () => {
         )}
         {/* is team 1 spy's turn and player is team1spymaster */}
         {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
-          <button onClick={handleSubmit}>
-            submit clue
-          </button>
+          <button onClick={handleSubmit}>submit clue</button>
         )}
 
         {/* is team 2 spy's turn and player is team2spymaster */}

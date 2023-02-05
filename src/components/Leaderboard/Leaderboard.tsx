@@ -15,7 +15,7 @@ const Leaderboard = () => {
     // --- of wins to be on the leaderboard?
     const { data } = await axios.get('/api/player');
     // Sort in place based on wins, then set it to local state, although this can later be redux state
-    data.sort((a:Player, b:Player) => b.wins - a.wins);
+    data.sort((a: Player, b: Player) => b.wins - a.wins);
     setAllPlayers(data);
     setLoading(false);
   };
@@ -33,7 +33,7 @@ const Leaderboard = () => {
   useEffect(() => {
     getPlayers();
   }, []);
-  if (loading) return 'Loading...';
+  if (loading) return <p>'Loading...';</p>;
   return (
     <div className="leaderboardContainer">
       <h1>LEADERBOARD</h1>
