@@ -25,9 +25,6 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
   const dispatch = useDispatch();
   const { playerId, isHost } = useSelector((state: RootState) => state.player);
 
-  // dont know what this is for?
-  //const host = useSelector((state) => state.game.host);
-
   const submitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
