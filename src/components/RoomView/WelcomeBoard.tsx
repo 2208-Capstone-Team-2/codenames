@@ -3,8 +3,9 @@ import './card.css';
 import { useSelector } from 'react-redux';
 import ResetGame from './ResetGame';
 import AllPlayers from './AllPlayers'
+import { RootState } from '../../store';
 const WelcomeBoard = () => {
-  const { username, roomId } = useSelector((state) => state.player);
+  const { username, roomId } = useSelector((state: RootState) => state.player);
   return (
     <>
       <div className="welcomeBoard">
