@@ -142,9 +142,9 @@ const TeamOneBox = () => {
         </div>
         <div>
           <p>Spymaster(s)</p>
-          {teamOneSpymaster && teamOneSpymaster.username}
+          {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
           <br />
-          <button onClick={joinTeamOneSpy}>Join as Spymaster</button>
+          {!teamOneSpymaster && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
         </div>
       </div>
     </div>
