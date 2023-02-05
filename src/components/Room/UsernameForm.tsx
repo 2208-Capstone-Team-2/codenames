@@ -57,6 +57,7 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
     if (isHost) {
       console.log('is host hit');
       update(hostRef, { playerId, username: trimmedInputtedUsername });
+      onDisconnect(hostRef).remove();
       dispatch(setHost({ playerId, username: trimmedInputtedUsername }));
       set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: true });
     } else {
@@ -76,7 +77,6 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     //// remove the outer player ref
     onDisconnect(playerRef).remove();
-    onDisconnect(hostRef).remove();
 
     // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);
