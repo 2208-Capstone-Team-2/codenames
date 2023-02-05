@@ -6,19 +6,24 @@ import { ref, child, push, update } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import pluralize from 'pluralize';
 import { Button } from '@mui/material';
+import { RootState } from '../../store';
+import { ClueType } from '../../utils/interfaces';
 
 const Clue = () => {
-  const [clueString, setClueString] = useState('');
-  const [clueNumber, setClueNumber] = useState(null);
-  const playerId = useSelector((state) => state.player.playerId);
-  const roomId = useSelector((state) => state.player.roomId);
-  const gameStatus = useSelector((state) => state.game.status);
-  const { teamOneSpymaster } = useSelector((state) => state.teamOne);
-  const { teamTwoSpymaster } = useSelector((state) => state.teamTwo);
-  const gameboard = useSelector((state) => state.wordsInGame.wordsInGame);
+  const [clueString, setClueString] = useState<string>('');
+  const [clueNumber, setClueNumber] = useState<number | null>(null);
+
+  const playerId = useSelector((state: RootState) => state.player.playerId);
+  const roomId = useSelector((state: RootState) => state.player.roomId);
+  const gameStatus = useSelector((state: RootState) => state.game.status);
+
+  const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
+  const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
+  const gameboard = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
-  let arrayToCheck = [];
+
+  let arrayToCheck: string[] = [];
   //push all words in gameboard into an array
   for (let i = 0; i < gameboard.length; i++) {
     arrayToCheck.push(gameboard[i].wordString.toUpperCase());
@@ -27,17 +32,17 @@ const Clue = () => {
 
   const dispatch = useDispatch();
 
-  const handleClueChange = (event) => {
+  const handleClueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //trim any extra space so users cannot submit "   clue" or '    ',
     //then convert all to uppercase to avoid case sensitive issue
     setClueString(event.target.value.trim().toUpperCase());
   };
 
   //please also help me rephrase all these alert messages
-  const handleNumberChange = (event) => {
+  const handleNumberChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setClueNumber(Number(event.target.value));
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const regex = /[\s-]+/g;
     if (clueString === '') {
@@ -50,13 +55,13 @@ const Clue = () => {
     }
     //here we make rules to only allow compound word that is a union of 3(and less) words so people won't type a whole sentence,
     // i.e "New York" or 'mother-in-law'
-    else if (clueString.match(regex) && clueString.match(regex).length > 2) {
+    else if (clueString.match(regex) && (clueString.match(regex)?.length || 0) > 2) {
       return alert('you can only use a compound word that is made of less than 3 words');
     }
     //this is to prevent users from submitting 'select a number'
     // either null(when user not selecting this at all) or select 'select a number'
     //clueNumber>0 will return false
-    else if (!clueNumber > 0) {
+    else if (!clueNumber || clueNumber <= 0) {
       return alert('please select a valid number');
     } else {
       const clueData = {
@@ -65,16 +70,18 @@ const Clue = () => {
         playerSubmitting: playerId,
       };
       const newClueKey = push(child(ref(database), 'clues')).key;
-
-      const updates = {};
-      updates[newClueKey] = clueData;
-
-      dispatch(setCurrentClue(clueData));
-      update(gameHistoryRef, updates);
+      if (newClueKey) {
+        const updates = {} as { [key: string]: ClueType };
+        updates[newClueKey] = clueData;
+        dispatch(setCurrentClue(clueData));
+        update(gameHistoryRef, updates);
+      } else {
+        console.error('newClueKey is null or undefined');
+      }
 
       // store the clue in clueHistory and as current clue
       // will have for ex: {teamSubmittingClue: 1, clue: string, numOfGuesses: 3}
-      let nextGameStatus;
+      let nextGameStatus: string;
       // if its team1spy submission, team1Ops goes next
       if (gameStatus === 'team1SpyTurn') {
         nextGameStatus = 'team1OpsTurn';
@@ -147,9 +154,7 @@ const Clue = () => {
         )}
         {/* is team 1 spy's turn and player is team1spymaster */}
         {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
-          <Button variant="contained" onClick={handleSubmit}>
-            submit clue
-          </Button>
+          <button onClick={handleSubmit}>submit clue</button>
         )}
 
         {/* is team 2 spy's turn and player is team2spymaster */}
