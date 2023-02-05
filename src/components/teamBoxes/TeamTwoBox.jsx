@@ -117,6 +117,7 @@ const TeamTwoBox = () => {
       if (snapshot.exists()) {
         const teamTwoOperativesFirebase = snapshot.val();
         const teamTwoOperatives = Object.values(teamTwoOperativesFirebase);
+        console.log(teamTwoOperatives);
         dispatch(setTeamTwoOperatives(teamTwoOperatives));
       } else {
         dispatch(setTeamTwoOperatives([]));
@@ -145,8 +146,12 @@ const TeamTwoBox = () => {
       <div className="blueOpsAndSpys">
         <div>
           <p>Operative(s)</p>
-          {teamTwoOperatives?.map((player) => {
-            return player.username + ', ';
+          {teamTwoOperatives.map((player) => {
+            return (
+              <span className="playerName" key={player.playerId}>
+                {player.username}
+              </span>
+            );
           })}{' '}
           <br />
           <button onClick={joinTeamTwoOp}>Join as Operative</button>
@@ -154,7 +159,6 @@ const TeamTwoBox = () => {
         <div>
           <p>Spymaster(s)</p>
           {teamTwoSpymaster && teamTwoSpymaster.username}
-
           <br />
           <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>
         </div>

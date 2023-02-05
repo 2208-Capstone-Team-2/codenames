@@ -149,7 +149,11 @@ const TeamOneBox = () => {
         <div>
           <p>Operative(s)</p>
           {teamOneOperatives?.map((player) => {
-            return player.username + ', ';
+            return (
+              <span className="playerName" key={player.playerId}>
+                {player.username}
+              </span>
+            );
           })}{' '}
           <br />
           <button onClick={joinTeamOneOp}>Join as Operative</button>
