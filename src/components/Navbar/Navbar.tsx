@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './navbar.css';
 import HowToPlayDrop from './HowToPlayDrop'
 import AllPlayersDrop from './AllPlayersDrop'
+import TimerNav from './TimerNav'
 const Navbar = () => {
     return (
         <div className='narbarContainer'>
             <div className='navBarButtons'>
                 <AllPlayersDrop />
+                <TimerNav />
             </div>
             <div className='logo'>
                 <img src='/images/logoCircle.png' alt="codenames" />
