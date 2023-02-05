@@ -6,14 +6,12 @@ import AllPlayers from './AllPlayers';
 const WelcomeBoard = () => {
   const { username, roomId } = useSelector((state) => state.player);
   return (
-    <>
-      <div className="welcomeBoard">
-        <h3>Welcome, {username}</h3>
-        <p>Room id: {roomId}</p>
-        <AllPlayers />
-        <ResetGame />
-      </div>
-    </>
+    <div className="welcomeBoard">
+      <p className="welcomeBoardItem">Welcome, {username}</p>
+      <p className="welcomeBoardItem">Room id: {roomId}</p>
+      <AllPlayers />
+      <ResetGame />
+    </div>
   );
 };
 

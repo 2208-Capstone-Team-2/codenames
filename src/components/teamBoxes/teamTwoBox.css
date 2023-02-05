@@ -5,8 +5,9 @@
     padding: 15px;
     background-color: #365e7f;
     border-radius: 3px;
-    margin:0 2%;
+    margin:0 0 0 2%;
     border: black solid 1px;
+    font-family:"Oswald";
 }
 .blueOpsAndSpys{
     display: inline-block;

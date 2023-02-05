@@ -91,7 +91,7 @@ const GameStatus = () => {
   }, [gameStatus]);
 
   return (
-    <div>
+    <div className="gameStatus">
       {gameStatus !== 'ready' && (
         <>
           {playerNote}
