@@ -1,35 +1,42 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 // Firebase:
 import { database } from '../../utils/firebase';
 import { ref, update, set, child, onDisconnect, get } from 'firebase/database';
 // Redux:
+import { RootState } from '../../store'; // Used for TS
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
 import { setHost } from '../../store/gameSlice';
 import './userForm.css';
 
-function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }) {
-  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
+interface UsernameFormProps {
+  inputtedUsername: string;
+  setInputtedUsername: Function;
+  canBeClosed: boolean;
+  setCanBeClosed: Function;
+}
+
+function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }: UsernameFormProps) {
+  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
   const { roomId } = useParams();
   const dispatch = useDispatch();
-  const { playerId, isHost } = useSelector((state) => state.player);
-  const host = useSelector((state) => state.game.host);
+  const { playerId, isHost } = useSelector((state: RootState) => state.player);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const submitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
 
     // TODO: Validation - may want to use formik/yup?
     // Make sure the username they gave isn't empty / made of only white spaces
-    const trimmedInputtedUsername = inputtedUsername.trim();
+    const trimmedInputtedUsername: string = inputtedUsername.trim();
     if (trimmedInputtedUsername === '') {
       // stop now! and display error. user needs to resubmit. - Or use formik/yup
     }
 
     // Update our player's model with this new username
-    const bodyToSubmit = { username: trimmedInputtedUsername, roomId };
+    const bodyToSubmit: { username: string, roomId: string | undefined } = { username: trimmedInputtedUsername, roomId };
     await axios.put(`/api/player/${playerId}`, bodyToSubmit);
 
     // Update redux
@@ -42,16 +49,15 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     //// Update the nested-in-room player
     const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
-    // update(nestedPlayerRef, { playerId, username: trimmedInputtedUsername });
-    // other way of doing it:
     const playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
     //// If they're the host, put that info there too.
 
-    let hostRef = ref(database, `rooms/${roomId}/host`);
+    const hostRef = ref(database, `rooms/${roomId}/host`);
 
     if (isHost) {
       console.log('is host hit');
       update(hostRef, { playerId, username: trimmedInputtedUsername });
+      onDisconnect(hostRef).remove();
       dispatch(setHost({ playerId, username: trimmedInputtedUsername }));
       set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: true });
     } else {
@@ -71,7 +77,6 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     //// remove the outer player ref
     onDisconnect(playerRef).remove();
-    onDisconnect(hostRef).remove();
 
     // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);

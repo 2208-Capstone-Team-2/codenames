@@ -7,8 +7,8 @@ import { onValue, ref, set, get, child, update } from 'firebase/database';
 import './roomView.css';
 import Popup from 'reactjs-popup';
 import { Button } from '@mui/material';
-import { isEveryRoleFilled } from '../../utils/utilFunctions.js';
-import SetupGame from './setupGame.jsx';
+import { isEveryRoleFilled } from '../../utils/utilFunctions';
+import SetupGame from './SetupGame';
 import WelcomeBoard from './WelcomeBoard';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
@@ -28,20 +28,21 @@ import {
   setWinner,
   setLoser,
   setGuessesRemaining,
-  setGameHistory
+  setGameHistory,
 } from '../../store/gameSlice';
-import { setCurrentClue } from '../../store/clueSlice.js';
+import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-import words from 'random-words';
+import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 import { setHost } from '../../store/gameSlice';
 import { setIsHost } from '../../store/playerSlice';
+import words from 'random-words';
 
 
-interface ClassName{
+interface ClassName {
   className: string;
 }
 
-const RoomView = (props:ClassName) => {
+const RoomView = (props: ClassName) => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
@@ -52,7 +53,7 @@ const RoomView = (props:ClassName) => {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const {host} = useSelector((state: RootState) => state.game)
+  const { host } = useSelector((state: RootState) => state.game)
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -68,28 +69,7 @@ const RoomView = (props:ClassName) => {
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
-// this is from word assoc with id, etc.
-interface WordObj {
-  word: string;
-}
 
-  interface CardObj {
-    id: number;
-    isVisibleToAll: boolean;
-    wordString: string;
-    word: WordObj;
-    wordId: number;
-    boardId: number;
-    teamId: number;
-  }
-  interface SpymasterObj {
-    playerId: string;
-    username: string;
-  }
-
-  interface WordsWithTeamIdsObj {
-    [index:number] : CardObj;
-  }
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
@@ -185,22 +165,22 @@ interface WordObj {
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
-            
+
             if (spymaster.playerId === playerId) {
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
                 (card: CardObj) =>
-                  (wordsWithTeamIds[card.id] = {
-                    id: card.id,
-                    isVisibleToAll: card.isVisibleToAll,
-                    wordString: card.word.word,
-                    word: card.word,
-                    wordId: card.wordId,
-                    boardId: card.boardId,
-                    teamId: card.teamId,
-                  }),
+                (wordsWithTeamIds[card.id] = {
+                  id: card.id,
+                  isVisibleToAll: card.isVisibleToAll,
+                  wordString: card.word.word,
+                  word: card.word,
+                  wordId: card.wordId,
+                  boardId: card.boardId,
+                  teamId: card.teamId,
+                }),
               );
               const values = Object.values(wordsWithTeamIds);
               dispatch(setWordsInGame(values));
@@ -217,15 +197,15 @@ interface WordObj {
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
                 (card: CardObj) =>
-                  (wordsWithTeamIds[card.id] = {
-                    id: card.id,
-                    isVisibleToAll: card.isVisibleToAll,
-                    wordString: card.word.word,
-                    word: card.word,
-                    wordId: card.wordId,
-                    boardId: card.boardId,
-                    teamId: card.teamId,
-                  }),
+                (wordsWithTeamIds[card.id] = {
+                  id: card.id,
+                  isVisibleToAll: card.isVisibleToAll,
+                  wordString: card.word.word,
+                  word: card.word,
+                  wordId: card.wordId,
+                  boardId: card.boardId,
+                  teamId: card.teamId,
+                }),
               );
               const values = Object.values(wordsWithTeamIds);
               dispatch(setWordsInGame(values));
@@ -316,8 +296,8 @@ interface WordObj {
       <GameStatus />
       <WelcomeBoard />
       {!host && <>
-      <p>The host has left. Someone must claim host to begin the game</p>
-      <button onClick={claimHost}>claim host duties</button>
+        <p>The host has left. Someone must claim host to begin the game</p>
+        <button onClick={claimHost}>claim host duties</button>
       </>}
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
@@ -344,7 +324,7 @@ interface WordObj {
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-{teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
+          {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
             <SpyMasterBoard />
           ) : (
             <OperativeBoard />
