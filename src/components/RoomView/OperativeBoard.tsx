@@ -52,11 +52,11 @@ const OperativeBoard = () => {
     if (teamOneRemainingCards && teamTwoRemainingCards) {
       if (gameStatus === 'team1OpsTurn') {
         nextStatus = 'team2SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
+        update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
       if (gameStatus === 'team2OpsTurn') {
         nextStatus = 'team1SpyTurn';
-        update(gameRef, { gameStatus: nextStatus });
+        update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
     }
   };
