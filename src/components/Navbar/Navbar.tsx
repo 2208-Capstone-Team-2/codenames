@@ -6,6 +6,9 @@ import AllPlayersDrop from './AllPlayersDrop'
 const Navbar = () => {
     return (
         <div className='narbarContainer'>
+            <div className='navBarButtons'>
+                <AllPlayersDrop />
+            </div>
             <div className='logo'>
                 <img src='/images/logoCircle.png' alt="codenames" />
             </div>
@@ -13,7 +16,6 @@ const Navbar = () => {
                 className='navBarButtons'
             >
                 <HowToPlayDrop />
-                <AllPlayersDrop />
             </div>
         </div>
     );

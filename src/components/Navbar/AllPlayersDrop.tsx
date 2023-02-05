@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import AllPlayers from '../RoomView/AllPlayers';
+import AllPlayersNav from './AllPlayersNav';
 import './navbar.css';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
@@ -26,6 +26,8 @@ export default function BasicPopover() {
                     //Most stylings should go here
                     paper: {
                         border: '1px solid black',
+                        padding: 0,
+                        margin: 0
                     },
                     root: {
                     },
@@ -46,15 +48,19 @@ export default function BasicPopover() {
                     onClose={handleClose}
                     anchorOrigin={{
                         vertical: 'bottom',
-                        horizontal: 'left',
+                        horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
                     }}
                 >
                     <div
                         style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}
                     >
-                        Players In Room:
+                        Players In Room
                     </div>
-                    <Typography sx={{ p: 2 }}><AllPlayers /></Typography>
+                    <Typography sx={{ p: 2 }}><AllPlayersNav /></Typography>
                 </Popover>
             </ThemeProvider>
         </div >
