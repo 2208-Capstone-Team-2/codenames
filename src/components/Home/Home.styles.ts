@@ -1,4 +1,4 @@
-const styles = {
+const styles: any = {
   sx: {
     HomeContainer: {
       display: 'flex',

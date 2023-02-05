@@ -9,15 +9,20 @@ import { useDispatch } from 'react-redux';
 import { auth } from '../../utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { setPlayerId, setUsername } from '../../store/playerSlice';
+import { Player } from '../Leaderboard/leaderboard.types';
 
-function OnAuthStateChanged({ setInputtedUsername }) {
+interface WrapperProps {
+  setInputtedUsername: Function;
+}
+
+function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const playerId = user.uid;
-        let player = null;
+        let player: Player | null = null;
 
         try {
           // query backend player model to see if one exists with this uid
@@ -32,8 +37,10 @@ function OnAuthStateChanged({ setInputtedUsername }) {
         }
 
         // Update redux:
-        dispatch(setPlayerId(player.id));
-        dispatch(setUsername(player.username));
+        if(player){
+          dispatch(setPlayerId(player.id));
+          dispatch(setUsername(player.username));
+        }
 
         // Update firebase:
         // This will come once they submit their username!

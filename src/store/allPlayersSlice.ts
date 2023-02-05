@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PlayerType } from '../utils/interfaces';
+interface AllPlayersType {
+  allPlayers: PlayerType[];
+}
 
-const initialState = {
+const initialState: AllPlayersType = {
   allPlayers: [],
 };
 

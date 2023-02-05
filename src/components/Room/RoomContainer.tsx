@@ -2,24 +2,27 @@ import React, { useEffect, useState } from 'react';
 import Popup from './Popup';
 // Component Imports:
 import UsernameForm from './UsernameForm';
+import ResponsiveAppBar from '../ResponsiveAppBar';
 import RoomView from '../RoomView/RoomView';
 import FetchRoom from './FetchRoom';
 import SignInAnonymously from './SignInAnonymously';
 import OnAuthStateChanged from './OnAuthStateChanged';
 import './userForm.css';
-import Navbar from '../Navbar/Navbar';
+
 function RoomContainer() {
-  const [inputtedUsername, setInputtedUsername] = useState('');
-  const [timedPopup, setTimedPopup] = useState(false);
-  const [canBeClosed, setCanBeClosed] = useState(true);
+  const [inputtedUsername, setInputtedUsername] = useState<string>('');
+  const [timedPopup, setTimedPopup] = useState<boolean>(false);
+  const [canBeClosed, setCanBeClosed] = useState<boolean>(true);
+
   useEffect(() => {
     setTimeout(() => {
       setTimedPopup(true);
     }, 1000);
   }, []);
+
   return (
     <div>
-      <Navbar />
+      <ResponsiveAppBar />
       <FetchRoom />
       <SignInAnonymously />
       <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
