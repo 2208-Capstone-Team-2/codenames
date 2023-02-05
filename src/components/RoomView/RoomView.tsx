@@ -311,7 +311,7 @@ interface WordObj {
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   }
 
-  return (
+  return (<div className="roomViewBG">
     <div className={props.className}>
       <GameStatus />
       <WelcomeBoard />
@@ -375,6 +375,7 @@ interface WordObj {
           <SetupGame />
         </Popup>
       )} */}
+    </div>
     </div>
   );
 };
