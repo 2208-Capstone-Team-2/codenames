@@ -13,6 +13,7 @@
   <img src="https://img.shields.io/badge/Babel-red?&logo=babel"/>
   <img src="https://img.shields.io/badge/ESLint-764abc?&logo=eslint"/>
 </div>
+
 ## Play popular card game Codenames with your friends online today!
 
 Fast-paced and easy to learn, simply click the 'create room' button, and invite your friends by sending them the URL in your web browser. Everyone should now enter their usernames, assign themselves teams and roles. The host can now setup the game board- and you're ready to play CODENAMES!
