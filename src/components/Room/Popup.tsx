@@ -1,7 +1,7 @@
 import { Check } from '@mui/icons-material';
 import React, { useState, useEffect } from 'react';
 
-function Popup(props) {
+function Popup(props: any) {
   return props.trigger ? (
     <div className="popup">
       <button
@@ -17,7 +17,7 @@ function Popup(props) {
       {props.children}
     </div>
   ) : (
-    ''
+    <></>
   );
 }
 
