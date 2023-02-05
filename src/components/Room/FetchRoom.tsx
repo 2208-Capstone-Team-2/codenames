@@ -11,7 +11,7 @@ function FetchRoom() {
   const { roomId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchRoom = async () => {
     setLoading(true);

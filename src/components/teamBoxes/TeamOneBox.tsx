@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './teamOneBox.css';
-import { get, ref, set, child, onValue, onDisconnect } from 'firebase/database';
+import { get, ref, set, child, onValue, onDisconnect, DataSnapshot } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';

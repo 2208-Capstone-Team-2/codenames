@@ -20,7 +20,7 @@ interface UsernameFormProps {
 }
 
 function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }: UsernameFormProps) {
-  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState(false);
+  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const { playerId, isHost } = useSelector((state: RootState) => state.player);
@@ -30,13 +30,13 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
 
     // TODO: Validation - may want to use formik/yup?
     // Make sure the username they gave isn't empty / made of only white spaces
-    const trimmedInputtedUsername = inputtedUsername.trim();
+    const trimmedInputtedUsername: string = inputtedUsername.trim();
     if (trimmedInputtedUsername === '') {
       // stop now! and display error. user needs to resubmit. - Or use formik/yup
     }
 
     // Update our player's model with this new username
-    const bodyToSubmit = { username: trimmedInputtedUsername, roomId };
+    const bodyToSubmit: { username: string, roomId: string | undefined } = { username: trimmedInputtedUsername, roomId };
     await axios.put(`/api/player/${playerId}`, bodyToSubmit);
 
     // Update redux

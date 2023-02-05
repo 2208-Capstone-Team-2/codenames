@@ -9,7 +9,7 @@ const AllPlayers = () => {
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
 
-  const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
+  const everyonesHere: boolean = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
   return (
     <div>

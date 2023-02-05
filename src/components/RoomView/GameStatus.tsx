@@ -8,22 +8,22 @@ const GameStatus = () => {
   const { playerId } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const [playerNote, setPlayerNote] = useState('');
+  const [playerNote, setPlayerNote] = useState<string>('');
 
   // will use below prior to user joining game && game being 'ready
-  const joinTeamNote = 'Join a team to play the game';
+  const joinTeamNote: string = 'Join a team to play the game';
 
-  const otherTeamSpymasterNote = 'The opponent spymaster is playing...wait for your turn';
-  const sameTeamSpymasterNote = 'Wait for spymaster to give you a clue';
-  const spyGivingClueNote = 'give your operatives a clue';
+  const otherTeamSpymasterNote: string = 'The opponent spymaster is playing...wait for your turn';
+  const sameTeamSpymasterNote: string = 'Wait for spymaster to give you a clue';
+  const spyGivingClueNote: string = 'give your operatives a clue';
 
-  const sameTeamOperativesNote = 'Your operatives are guessing now';
-  const otherTeamOperativesNote = 'the opponent operative is playing...wait for your turn';
-  const operativeGuessingNote = 'guess a word or click end turn';
+  const sameTeamOperativesNote: string = 'Your operatives are guessing now';
+  const otherTeamOperativesNote: string = 'the opponent operative is playing...wait for your turn';
+  const operativeGuessingNote: string = 'guess a word or click end turn';
 
   useEffect(() => {
-    const isPlayerTeamOneOperative = teamOneOperatives.map((operative) => operative.playerId).includes(playerId);
-    const isPlayerTeamTwoOperative = teamTwoOperatives.map((operative) => operative.playerId).includes(playerId);
+    const isPlayerTeamOneOperative: boolean = teamOneOperatives.map((operative) => operative.playerId).includes(playerId);
+    const isPlayerTeamTwoOperative: boolean = teamTwoOperatives.map((operative) => operative.playerId).includes(playerId);
 
     if (teamOneSpymaster?.playerId === playerId) {
       switch (gameStatus) {

@@ -10,9 +10,9 @@ import OnAuthStateChanged from './OnAuthStateChanged';
 import './userForm.css';
 
 function RoomContainer() {
-  const [inputtedUsername, setInputtedUsername] = useState('');
-  const [timedPopup, setTimedPopup] = useState(false);
-  const [canBeClosed, setCanBeClosed] = useState(true);
+  const [inputtedUsername, setInputtedUsername] = useState<string>('');
+  const [timedPopup, setTimedPopup] = useState<boolean>(false);
+  const [canBeClosed, setCanBeClosed] = useState<boolean>(true);
 
   useEffect(() => {
     setTimeout(() => {
