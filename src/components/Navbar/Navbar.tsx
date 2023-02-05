@@ -9,13 +9,12 @@ const Navbar = () => {
             <div className='logo'>
                 <img src='/images/logoCircle.png' alt="codenames" />
             </div>
-            <HowToPlayDrop />
-            <AllPlayersDrop />
-            {/* <Link to={'/leaderboard'}>
-                <button>
-                    Leaderboard
-                </button>
-            </Link> */}
+            <div
+                className='navBarButtons'
+            >
+                <HowToPlayDrop />
+                <AllPlayersDrop />
+            </div>
         </div>
     );
 };

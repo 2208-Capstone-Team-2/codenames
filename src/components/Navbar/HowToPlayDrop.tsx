@@ -22,6 +22,7 @@ export default function BasicPopover() {
                     //Most stylings should go here
                     paper: {
                         border: '1px solid black',
+                        width: '400px',
                     },
                     root: {
                     },
@@ -48,6 +49,11 @@ export default function BasicPopover() {
                         horizontal: 'left',
                     }}
                 >
+                    <div style={{
+                        display: 'flex', justifyContent: 'center', padding: '8px'
+                    }}>
+                        Rules
+                    </div>
                     <Typography sx={{ p: 2 }}><GameRules /></Typography>
                 </Popover>
             </ThemeProvider>

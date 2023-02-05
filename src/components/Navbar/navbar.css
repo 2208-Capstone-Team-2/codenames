@@ -1,11 +1,16 @@
 .narbarContainer
 {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    border: 1px solid black;
+}
+.navBarButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-grow: .1;
 }
 .logo img 
 {
-width: 100px;
+width: 50px;
 }
