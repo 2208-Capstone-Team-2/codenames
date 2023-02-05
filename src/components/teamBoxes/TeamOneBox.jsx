@@ -5,7 +5,6 @@ import { get, ref, set, child, onValue, onDisconnect } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';
-
 const TeamOneBox = () => {
   const { roomId } = useParams();
 
@@ -143,8 +142,8 @@ const TeamOneBox = () => {
 
   return (
     <div className="redBoxCard">
-      <div>Team 1</div>
-      <div>Remaining Cards: {teamOneRemainingCards}</div>
+      <h3>Team 1</h3>
+      <h3>Remaining Cards: {teamOneRemainingCards}</h3>
       <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>

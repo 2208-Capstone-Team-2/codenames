@@ -4,8 +4,9 @@
     color: #d2dcde;
     padding: 15px;
     background-color: #365e7f;
-    border-radius: 6px;
-    margin:0 5%;
+    border-radius: 3px;
+    margin:0 2%;
+    border: black solid 1px;
 }
 .blueOpsAndSpys{
     display: inline-block;
