@@ -2,16 +2,17 @@
 
 <img src='src/static/images/transparentLogo.png' alt='logo' height='auto' width='auto'/>
 
-<img src="https://img.shields.io/badge/Typescript-027bcd?&logo=typescript&logoColor=white" />
-<img src="https://img.shields.io/badge/Firebase-red?&logo=firebase"/>
-<img src="https://img.shields.io/badge/ts–node-242526?&logo=tsnode"/>
-<img src="https://img.shields.io/badge/Express-yellowgreen?&logo=express"/>
-<img src="https://img.shields.io/badge/Sequelize-2e3b69?&logo=sequelize"/>
-<img src="https://img.shields.io/badge/Redux-764abc?&logo=redux"/>
-<img src="https://img.shields.io/badge/Webpack-darkgreen?&logo=webpack"/>
-<img src="https://img.shields.io/badge/Babel-red?&logo=babel"/>
-<img src="https://img.shields.io/badge/ESLint-764abc?&logo=eslint"/>
-
+<div class="flex-container"><!-- .element: style="display: flex; flex-direction: row;" -->
+  <img src="https://img.shields.io/badge/Typescript-027bcd?&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Firebase-red?&logo=firebase"/>
+  <img src="https://img.shields.io/badge/ts–node-242526?&logo=tsnode"/>
+  <img src="https://img.shields.io/badge/Express-yellowgreen?&logo=express"/>
+  <img src="https://img.shields.io/badge/Sequelize-2e3b69?&logo=sequelize"/>
+  <img src="https://img.shields.io/badge/Redux-764abc?&logo=redux"/>
+  <img src="https://img.shields.io/badge/Webpack-darkgreen?&logo=webpack"/>
+  <img src="https://img.shields.io/badge/Babel-red?&logo=babel"/>
+  <img src="https://img.shields.io/badge/ESLint-764abc?&logo=eslint"/>
+</div>
 ## Play popular card game Codenames with your friends online today!
 
 Fast-paced and easy to learn, simply click the 'create room' button, and invite your friends by sending them the URL in your web browser. Everyone should now enter their usernames, assign themselves teams and roles. The host can now setup the game board- and you're ready to play CODENAMES!
