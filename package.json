@@ -34,6 +34,7 @@
     "pluralize": "^8.0.0",
     "random-words": "^1.2.1",
     "react": "^18.1.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.1.0",
     "react-paginate": "^8.1.4",
     "react-redux": "^v8.0.1",
