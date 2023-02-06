@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setIsHost } from '../../store/playerSlice';
 //firebase imports
-import { database, auth } from '../../utils/firebase';
+import { database } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
 
 function CreateRoomButton() {
@@ -30,14 +30,15 @@ function CreateRoomButton() {
       },
     });
 
+    ///* this gets moved
     // Since we are the ones that made the room, make us the host in our redux.
     let hostRef = ref(database, `rooms/${roomId}/host`);
     // setting host here triggers hostRef in roomview and sets redux stores accordingly
-    if(auth.currentUser){
-      set(hostRef, { playerId: auth.currentUser.uid });
-      dispatch(setIsHost(true));
-      return navigate(`/room/${roomId}`);
-    }
+    if (auth.currentUser) set(hostRef, { playerId: auth.currentUser.uid });
+    //*
+
+    dispatch(setIsHost(true));
+    return navigate(`/room/${roomId}`);
   };
 
   return <button onClick={clickHandler}>Create Room</button>;
