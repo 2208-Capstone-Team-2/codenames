@@ -3,15 +3,11 @@ import { useParams } from 'react-router-dom';
 import { database } from '../../utils/firebase';
 import { ref, get, onValue } from 'firebase/database';
 import { useSelector } from 'react-redux';
-import { setRoomId } from '../../store/playerSlice';
-interface ReduxState {
-  player: { playerId: string };
-  game: { status: string; loser: string };
-}
+import { RootState } from '../../store';
   const Loser: React.FC= () => {
     const { roomId } = useParams();
-    const playerId= useSelector((state: ReduxState) => state.player.playerId)
-    const gameStatus=useSelector((state: ReduxState)=>state.game.status)
+    const playerId= useSelector((state: RootState) => state.player.playerId)
+    const gameStatus=useSelector((state: RootState)=>state.game.status)
     const loserRef = ref(database, `rooms/${roomId}/game/loser`);
     const [isVisible, setIsVisible] = useState(true);
     const[playerIdArray, setPlayerIdArray]=useState<string[]>([])

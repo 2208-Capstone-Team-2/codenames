@@ -7,15 +7,13 @@ import { ref, get, push, update, onValue } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { setRoomId } from '../../store/playerSlice';
-interface ReduxState {
-    player: { playerId: string };
-    game: { status: string; winner: string };
-  }
+import { RootState } from '../../store';
+
   const Winner:React.FC= () => {
     const { roomId } = useParams();
     setRoomId(roomId);
-    const playerId= useSelector((state: ReduxState) => state.player.playerId)
-    const gameStatus=useSelector((state:ReduxState)=>state.game.status)
+    const playerId= useSelector((state: RootState) => state.player.playerId)
+    const gameStatus=useSelector((state:RootState)=>state.game.status)
     const winnerRef = ref(database, `rooms/${roomId}/game/winner`);
     const[playerIdArray, setPlayerIdArray]=useState<string[]>([]);
     const [isVisible, setIsVisible] = useState(true);
