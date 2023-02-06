@@ -46,13 +46,13 @@ function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
         if (player) {
           dispatch(setPlayerId(player.id));
           dispatch(setUsername(player.username));
-        }
 
-        // Look to see if they are host (if redux's isHost is true)
-        if (isHost) {
-          let hostRef = ref(database, `rooms/${roomId}/host`);
-          // setting host here triggers hostRef in roomview and sets redux stores accordingly
-          set(hostRef, { playerId });
+          // Look to see if they are host (if redux's isHost is true)
+          if (isHost) {
+            let hostRef = ref(database, `rooms/${roomId}/host`);
+            // setting host here triggers hostRef in roomview and sets redux stores accordingly
+            set(hostRef, { playerId });
+          }
         }
 
         // Update firebase:
