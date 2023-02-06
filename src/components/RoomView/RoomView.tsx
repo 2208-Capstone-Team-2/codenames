@@ -246,8 +246,6 @@ const RoomView = (props: ClassName) => {
     onValue(hostRef, (snapshot) => {
       if (snapshot.exists()) {
         const host = snapshot.val();
-        console.log('playeridhost', host.playerId)
-        console.log('playerId', playerId)
         if (host.playerId === playerId) {
           dispatch(setHost(host));
           dispatch(setIsHost(true));
@@ -275,11 +273,11 @@ const RoomView = (props: ClassName) => {
           if (game.gameStatus === 'team1OpsTurn') {
             console.log('hitting next status');
             nextStatus = 'team2SpyTurn';
-            update(gameRef, { gameStatus: nextStatus });
+            update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
           }
           if (game.gameStatus === 'team2OpsTurn') {
             nextStatus = 'team1SpyTurn';
-            update(gameRef, { gameStatus: nextStatus });
+            update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
           }
         }
       }
