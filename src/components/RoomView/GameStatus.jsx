@@ -92,14 +92,17 @@ const GameStatus = () => {
 
   return (
     <div className="gameStatus">
-      {gameStatus !== 'ready' && (
-        <>
-          {playerNote}
-          <GuessesRemaining />
-        </>
-      )}
-
-      {gameStatus === 'ready' && <p>Waiting to begin the game!</p>}
+      <p>
+        {' '}
+        Game Status:{' '}
+        {gameStatus !== 'ready' && (
+          <>
+            {playerNote}
+            <GuessesRemaining />
+          </>
+        )}
+        {gameStatus === 'ready' && 'Waiting to begin the game!'}
+      </p>
     </div>
   );
 };

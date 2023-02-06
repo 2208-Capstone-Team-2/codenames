@@ -313,12 +313,14 @@ interface WordObj {
 
   return (<div className="roomViewBG">
     <div className={props.className}>
-      <GameStatus />
       <WelcomeBoard />
+      <div className="gameStatusClaimHost">
+      <GameStatus />
+      <div className='gameStatus'>
       {!host && <>
-      <p>The host has left. Someone must claim host to begin the game</p>
-      <button onClick={claimHost}>claim host duties</button>
-      </>}
+      <p>The host has left,  <button onClick={claimHost}>claim host responsibilities</button> to begin game.</p>
+     
+      </>}</div></div>
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (

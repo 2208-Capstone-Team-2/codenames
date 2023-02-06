@@ -10,6 +10,7 @@ const WelcomeBoard = () => {
       <p className="welcomeBoardItem">Welcome, {username}</p>
       <p className="welcomeBoardItem">Room id: {roomId}</p>
       <AllPlayers />
+      <div className="break"></div>
       <ResetGame />
     </div>
   );

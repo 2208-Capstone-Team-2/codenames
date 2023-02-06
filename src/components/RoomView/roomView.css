@@ -1,5 +1,5 @@
 body{margin:0;}
-.roomViewBG{background-image: url(./bg.svg);
+.roomViewBG{background-image: url(../../../public/images/bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -23,33 +23,34 @@ align-items:center;
   width: auto;
   background-color: #fffffff2;
   color: #8c2a2a;
-  border-top: solid #365E7E 5px;
-  border-bottom: solid #365e7f 5px;
   font-family: "Oswald";
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 20px;
+  flex-wrap: wrap;
 }
 .welcomeBoardItem{
   width: 30%;
   text-align: center;
-  color:#e2c78d
+  color:#e2c78d;
+  line-height: 10px;
 }
   .break{flex-basis: 100%;
     height: 0;}
 .gameLog{float: left;
       width: 15%;
       height: fit-content;
-      margin: 5% 0 0 10%;
+      margin: 15% 0 0 10%;
       padding: 10px;
       border-radius: 6px;
       background-color: gainsboro;}
 .chatBox{float: left;
   width: 50vw;
   height: 200px;
-  margin: 5% 10% 0 0;
+  margin: 15% 10% 0 0;
   padding: 10px;
   border-radius: 6px;
   background-color: gainsboro;}
@@ -61,8 +62,16 @@ align-items:center;
   .setUpGame{    display: flex;
     justify-content: center;
     margin-top: 2%;}
-.gameStatus{
-  background-color: white;
-  height: fit-content;
-  padding: 2%;
+.gameStatusClaimHost{background-color: #e2c78d; font-family: "Oswald";color:white; font-weight: 300;
+display: flex;height: fit-content;width: auto;justify-content: center;align-items: center;}
+.gameStatus{    align-self: center;
+  margin-right: -5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.gameStatus:last-child{ 
+  margin-left: 10%;
+}
+.gameStatusClaimHost button{border:solid black 1px;background-color: white;color:#e2c78d;width:fit-content;padding: 5px;font-family: "Oswald";font-size: 15px;
+  border-radius: 3px;}
