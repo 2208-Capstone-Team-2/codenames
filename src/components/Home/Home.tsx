@@ -5,7 +5,6 @@ import styles from './Home.styles';
 import FAQ from './FAQ';
 import HowToPlay from './HowToPlay';
 import CreateRoomButton from './CreateRoomButton';
-import LinkToClipboard from '../RoomView/LinkToClipboard';
 //idk our static folder is so weird and I can't get the image to show
 function Home() {
   return (
@@ -14,7 +13,6 @@ function Home() {
         <img src={'../../static/images/logoLight.png'} alt={''} width="50%" />
         <CreateRoomButton />
       </div>
-      <LinkToClipboard />
       <HowToPlay />
       <FAQ />
     </div>
