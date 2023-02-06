@@ -5,7 +5,8 @@ import ResetGame from './ResetGame';
 import AllPlayers from './AllPlayers'
 import { RootState } from '../../store';
 const WelcomeBoard = () => {
-  const { username, roomId } = useSelector((state: RootState) => state.player);
+  const { username, roomId, isHost, playerId } = useSelector((state: RootState) => state.player);
+
   return (
     <>
       <div className="welcomeBoard">
@@ -14,7 +15,7 @@ const WelcomeBoard = () => {
         <h3>
           <AllPlayers />
         </h3>
-        <ResetGame />
+        {isHost && <ResetGame />}
       </div>
     </>
   );

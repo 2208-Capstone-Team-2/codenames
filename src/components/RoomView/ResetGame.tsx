@@ -22,11 +22,9 @@ const ResetGame = () => {
 
   return (
     <div>
-      {showResetButton && (
         <Button variant="contained" onClick={resetGame}>
           Reset Game
         </Button>
-      )}
     </div>
   );
 };
