@@ -1,0 +1,32 @@
+.narbarContainer
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 16px;
+}
+.navBarButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-grow: .1;
+}
+.navBarButtons button {
+    width: 75px;
+}
+.logo img 
+{
+width: 50px;
+}
+.timeButton button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}

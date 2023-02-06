@@ -8,6 +8,7 @@ import FetchRoom from './FetchRoom';
 import SignInAnonymously from './SignInAnonymously';
 import OnAuthStateChanged from './OnAuthStateChanged';
 import './userForm.css';
+import Navbar from '../Navbar/Navbar';
 
 function RoomContainer() {
   const [inputtedUsername, setInputtedUsername] = useState<string>('');
@@ -22,7 +23,7 @@ function RoomContainer() {
 
   return (
     <div>
-      <ResponsiveAppBar />
+      <Navbar />
       <FetchRoom />
       <SignInAnonymously />
       <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
