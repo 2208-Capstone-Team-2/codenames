@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ResetGame from './ResetGame';
 import AllPlayers from './AllPlayers'
 import { RootState } from '../../store';
+import LinkToClipboard from './LinkToClipboard';
 const WelcomeBoard = () => {
   const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
 
@@ -16,6 +17,7 @@ const WelcomeBoard = () => {
           <AllPlayers />
         </h3>
         {isHost && <ResetGame />}
+        <LinkToClipboard />
       </div>
     </>
   );
