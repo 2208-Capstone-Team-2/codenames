@@ -2,11 +2,11 @@
   "name": "final-project",
   "version": "0.0.1",
   "description": "A review time project",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
-    "seed": "DATABASE_URL=postgres://localhost/codenames node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
+    "seed": "DATABASE_URL=postgresql://rosalie0:v2_3yfwz_9e7KLp5LDFzz3UDjTvwjnJN@db.bit.io:5432/rosalie0/codenames?ssl=true node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "seed:dev": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
     "start:dev": "nodemon server/index.ts --ignore dist/ --ignore src/ & npm run build:dev"
@@ -56,6 +56,7 @@
     "@types/express": "^4.17.16",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
+    "@types/pluralize": "^0.0.29",
     "@types/react": "^18.0.27",
     "babel-loader": "8.2.5",
     "css-loader": "^6.7.3",
