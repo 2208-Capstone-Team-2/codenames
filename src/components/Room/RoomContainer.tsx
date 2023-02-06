@@ -9,6 +9,7 @@ import SignInAnonymously from './SignInAnonymously';
 import OnAuthStateChanged from './OnAuthStateChanged';
 import './userForm.css';
 import Navbar from '../Navbar/Navbar';
+import DocumentTitleChange from './DocumentTitleChange';
 
 function RoomContainer() {
   const [inputtedUsername, setInputtedUsername] = useState<string>('');
@@ -21,6 +22,7 @@ function RoomContainer() {
     }, 1000);
   }, []);
 
+  DocumentTitleChange();
   return (
     <div>
       <Navbar />
