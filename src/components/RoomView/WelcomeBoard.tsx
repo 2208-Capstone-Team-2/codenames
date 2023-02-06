@@ -5,7 +5,7 @@ import ResetGame from './ResetGame';
 import AllPlayers from './AllPlayers'
 import { RootState } from '../../store';
 const WelcomeBoard = () => {
-  const { username, roomId, isHost, playerId } = useSelector((state: RootState) => state.player);
+  const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
 
   return (
     <>
