@@ -4,10 +4,23 @@ body {
 font-family: 'Oswald';
 font-size: larger;
 font-weight: 1000;
+}
+
+.container {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+display: block;
+margin-top: 150px;
+margin-left: auto;
+margin-right: auto;
+
 
 
 }
-.container {
+
+.imgContainer {
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -18,4 +31,9 @@ background: linear-gradient(rgba(192, 68, 27, 1), #2a9489);
 background-size: 400px;
 backdrop-filter: blur(1px);
 filter: drop-shadow(30px 10px 4px grey);
+width: 800px;
+height: 600px;
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
 }
