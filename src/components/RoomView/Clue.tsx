@@ -10,27 +10,28 @@ import { RootState } from '../../store';
 import { ClueType } from '../../utils/interfaces';
 
 const Clue = () => {
+  // useStates:
   const [clueString, setClueString] = useState<string>('');
   const [clueNumber, setClueNumber] = useState<number | null>(null);
 
-  const playerId = useSelector((state: RootState) => state.player.playerId);
-  const roomId = useSelector((state: RootState) => state.player.roomId);
+  // redux:
+  const dispatch = useDispatch();
   const gameStatus = useSelector((state: RootState) => state.game.status);
-
+  const { playerId, roomId } = useSelector((state: RootState) => state.player);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const gameboard = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
+  const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
+
+  // firebase:
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
   let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
 
+  // This is an array of all the cards' words in play. It is used to make sure
+  // that the spy does not give a clue that is one of these words.
   let arrayToCheck: string[] = [];
-  //push all words in gameboard into an array
-  for (let i = 0; i < gameboard.length; i++) {
-    arrayToCheck.push(gameboard[i].wordString.toUpperCase());
+  for (let i = 0; i < wordsInGame.length; i++) {
+    arrayToCheck.push(wordsInGame[i].wordString.toUpperCase());
   }
-  let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
-
-  const dispatch = useDispatch();
 
   const handleClueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //trim any extra space so users cannot submit "   clue" or '    ',
@@ -42,6 +43,7 @@ const Clue = () => {
   const handleNumberChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setClueNumber(Number(event.target.value));
   };
+
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const regex = /[\s-]+/g;
