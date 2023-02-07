@@ -9,6 +9,7 @@ function SignInAnonymously() {
     signInAnonymously(auth)
       .then(() => {
         // ?
+        console.log('signed in!');
       })
       .catch((error) => {
         const errorCode = error.code;
