@@ -287,59 +287,60 @@ const RoomView = (props: ClassName) => {
   };
 
   return (
-    <div className={props.className}>
-      <WelcomeBoard />
+    <div className="roomViewBG">
+      <div className={props.className}>
+        <WelcomeBoard />
 
-      <div className="gameStatusClaimHost">
-        {!host && (
-          <p>
-            The host has left, <button onClick={claimHost}>claim host responsibilities</button> to begin game.
-          </p>
-        )}
-      </div>
-
-      <div className="gameStatus">
-        <GameStatus />
-      </div>
-
-      {/* is there isnt at least one person to each role, setup board should be disabled / not visible 
-      is host AND there is at least one person on each team */}
-      {isHost && (
-        <Popup
-          trigger={
-            <Button style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}> Set Up Board </Button>
-          }
-        >
-          <SetupGame />
-        </Popup>
-      )}
-
-      <div className="flexBox">
-        <TeamOneBox />
-        <div className="boardContainer">
-          {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-          {/* this is working for now, but we probably need more protection to not display 
-      a spymaster board on someone who randomly joins room while game is 'in progress' */}
-          {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
-            <SpyMasterBoard />
-          ) : (
-            <OperativeBoard />
+        <div className="gameStatusClaimHost">
+          {!host && (
+            <p>
+              The host has left, <button onClick={claimHost}>claim host responsibilities</button> to begin game.
+            </p>
           )}
+          <div className="gameStatus">
+            <GameStatus />
+          </div>
         </div>
-        <TeamTwoBox />
-        <div className="break"></div>
-        <GameLog />
-        <div className="chatBox"> this will be the chat box</div>
-      </div>
 
-      <Clue />
+        {/* is there isnt at least one person to each role, setup board should be disabled / not visible 
+      is host AND there is at least one person on each team */}
+        {isHost && (
+          <Popup
+            trigger={
+              <Button style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}> Set Up Board </Button>
+            }
+          >
+            <SetupGame />
+          </Popup>
+        )}
 
-      {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
-      {/* {isHost && everyonesHere && (
+        <div className="flexBox">
+          <TeamOneBox />
+          <div className="boardContainer">
+            {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+            {/* this is working for now, but we probably need more protection to not display 
+      a spymaster board on someone who randomly joins room while game is 'in progress' */}
+            {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
+              <SpyMasterBoard />
+            ) : (
+              <OperativeBoard />
+            )}
+          </div>
+          <TeamTwoBox />
+          <div className="break"></div>
+          <GameLog />
+          <div className="chatBox"> this will be the chat box</div>
+        </div>
+
+        <Clue />
+
+        {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
+        {/* {isHost && everyonesHere && (
         <Popup trigger={ <Button style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto'}}> Set Up Board </Button>}>
           <SetupGame />
         </Popup>
       )} */}
+      </div>
     </div>
   );
 };
