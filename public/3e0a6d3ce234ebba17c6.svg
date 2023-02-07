@@ -7,7 +7,7 @@
 	.st1{fill:#8E4A4A;}
 	.st2{fill:none;stroke:#527993;stroke-width:3;stroke-miterlimit:10;}
 	.st3{fill:none;stroke:#8E4A4A;stroke-width:3;stroke-miterlimit:10;}
-	.st4{opacity:0.30;fill:#D6D3D0;stroke:#000000;stroke-width:1;stroke-miterlimit:10;enable-background:new    ;}
+	.st4{opacity:0.54;fill:#D6D3D0;stroke:#000000;stroke-width:0.75;stroke-miterlimit:10;enable-background:new    ;}
 </style>
 <title>Artboard 1</title>
 <polygon class="st0" points="0,1024 0,0 1083,0 148,1024 "/>

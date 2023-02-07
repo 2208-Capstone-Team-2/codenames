@@ -289,7 +289,7 @@ const RoomView = (props: ClassName) => {
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   }
   return (
-    <div className={props.className}>
+    <div className={`${props.className} roomViewBG`}>
       <WelcomeBoard />
       <div className="gameStatusClaimHost">
       <GameStatus />
@@ -354,8 +354,7 @@ const RoomView = (props: ClassName) => {
         </Popup>
       )} */}
     </div>
-    </div>
-  );
+  )
 };
 
 export default RoomView;
