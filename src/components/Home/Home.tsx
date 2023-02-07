@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // Component Imports:
 import FAQ from './FAQ';
 import HowToPlay from './HowToPlay';
@@ -7,6 +7,7 @@ import SignInAnonymously from '../Room/SignInAnonymously';
 // idk our static folder is so weird and I can't get the image to show
 import HomeNav from './HomeNavLinks/HomeNav';
 import './homepage.css';
+import Footer from '../Footer/Footer';
 function Home() {
   return (
     <div>
@@ -19,6 +20,7 @@ function Home() {
         </div>
         <SignInAnonymously />
       </div>
+      {/* <Footer /> */}
     </div>
   );
 }

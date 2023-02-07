@@ -1,0 +1,29 @@
+.topFooter{
+    margin-top: 200px;
+}
+.bottomFooter{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    align-self: baseline;
+    margin-top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    min-height: 75px;
+    color: white;
+}
+.bottomFooter p{
+    font-size: 14px;
+}
+.icons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 22rem;
+    margin-right: 2rem;
+}
+.bottomFooter img{
+    height: 100px;
+    width: auto;
+}

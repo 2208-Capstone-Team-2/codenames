@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HomeToPlayPop from './HowToPlayPop';
 import Leaderboard from '../../Leaderboard/Leaderboard';
 import { Link } from 'react-router-dom';

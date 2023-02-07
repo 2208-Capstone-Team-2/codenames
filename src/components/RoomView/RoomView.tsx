@@ -69,6 +69,7 @@ const RoomView = (props: ClassName) => {
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
