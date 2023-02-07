@@ -95,74 +95,41 @@ const Clue = () => {
     }
   };
 
+  // calculate here if we should show this component or not
+  let showClue = false;
+  const iAmSpy1AndItsMyTurn = gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId;
+  const iAmSpy2AndItsMyTurn = gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId;
+  if (iAmSpy1AndItsMyTurn || iAmSpy2AndItsMyTurn) showClue = true;
+
+  if (!showClue) return <></>;
   return (
     <div className="MessageInput">
       <form>
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
-          <>
-            <input
-              type="text"
-              placeholder="Clue..."
-              onChange={(e) => {
-                handleClueChange(e);
-              }}
-            />
-            <select
-              onChange={(e) => {
-                handleNumberChange(e);
-              }}
-            >
-              <option>select a number</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-            </select>
-          </>
-        )}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
-          <>
-            <input
-              type="text"
-              placeholder="Clue..."
-              onChange={(e) => {
-                handleClueChange(e);
-              }}
-            />
-            <select
-              onChange={(e) => {
-                handleNumberChange(e);
-              }}
-            >
-              <option>select a number</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-            </select>
-          </>
-        )}
-        {/* is team 1 spy's turn and player is team1spymaster */}
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
-          <button onClick={handleSubmit}>submit clue</button>
-        )}
+        <input
+          type="text"
+          placeholder="Clue..."
+          onChange={(e) => {
+            handleClueChange(e);
+          }}
+        />
+        <select
+          onChange={(e) => {
+            handleNumberChange(e);
+          }}
+        >
+          <option>select a number</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+        </select>
 
-        {/* is team 2 spy's turn and player is team2spymaster */}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
-          <Button variant="contained" onClick={handleSubmit}>
-            submit clue
-          </Button>
-        )}
+        <button onClick={handleSubmit}>submit clue</button>
       </form>
     </div>
   );
