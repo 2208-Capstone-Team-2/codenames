@@ -125,22 +125,26 @@ const TeamOneBox = () => {
 
   return (
     <div className="redBoxCard">
-      <div>Team 1</div>
-      <div>Remaining Cards: {teamOneRemainingCards}</div>
+      <h3>Team 1</h3>
+      <h3>Remaining Cards: {teamOneRemainingCards}</h3>
       <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>
           {teamOneOperatives?.map((player) => {
-            return player.username + ', ';
+            return (
+              <span className="playerName" key={player.playerId}>
+                {player.username}
+              </span>
+            );
           })}{' '}
           <br />
           <button onClick={joinTeamOneOp}>Join as Operative</button>
         </div>
         <div>
           <p>Spymaster(s)</p>
-          {teamOneSpymaster && teamOneSpymaster.username}
+          {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
           <br />
-          <button onClick={joinTeamOneSpy}>Join as Spymaster</button>
+          {!teamOneSpymaster && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
         </div>
       </div>
     </div>

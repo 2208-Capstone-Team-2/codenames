@@ -13,6 +13,7 @@ const RouterComponent = () => {
       <Route path="/room/:roomId" element={<RoomContainer />} />
       <Route path="/404" element={<Error />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
+      <Route path="/*" element={<Error/>} />
     </Routes>
   );
 };

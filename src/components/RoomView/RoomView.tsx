@@ -250,8 +250,6 @@ const RoomView = (props: ClassName) => {
     onValue(hostRef, (snapshot) => {
       if (snapshot.exists()) {
         const host = snapshot.val();
-        console.log('playeridhost', host.playerId)
-        console.log('playerId', playerId)
         if (host.playerId === playerId) {
           dispatch(setHost(host));
           dispatch(setIsHost(true));
@@ -279,11 +277,11 @@ const RoomView = (props: ClassName) => {
           if (game.gameStatus === 'team1OpsTurn') {
             console.log('hitting next status');
             nextStatus = 'team2SpyTurn';
-            update(gameRef, { gameStatus: nextStatus });
+            update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
           }
           if (game.gameStatus === 'team2OpsTurn') {
             nextStatus = 'team1SpyTurn';
-            update(gameRef, { gameStatus: nextStatus });
+            update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
           }
         }
       }
@@ -294,15 +292,15 @@ const RoomView = (props: ClassName) => {
     update(hostRef, { playerId, username });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   }
-
   return (
     <div className={props.className}>
-      <GameStatus />
       <WelcomeBoard />
-      {!host && <>
-        <p>The host has left. Someone must claim host to begin the game</p>
-        <button onClick={claimHost}>claim host duties</button>
-      </>}
+      <div className="gameStatusClaimHost">
+      <GameStatus />
+      <div className='gameStatus'>
+      {!host && 
+      <p>The host has left,  <button onClick={claimHost}>claim host responsibilities</button> to begin game.</p>
+      }</div></div>
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
@@ -347,6 +345,7 @@ const RoomView = (props: ClassName) => {
           <SetupGame />
         </Popup>
       )} */}
+    </div>
     </div>
   );
 };

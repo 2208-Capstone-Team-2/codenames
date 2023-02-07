@@ -2,22 +2,18 @@ import React from 'react';
 import './card.css';
 import { useSelector } from 'react-redux';
 import ResetGame from './ResetGame';
-import AllPlayers from './AllPlayers'
 import { RootState } from '../../store';
 const WelcomeBoard = () => {
-  const { username, roomId } = useSelector((state: RootState) => state.player);
-  return (
-    <>
-      <div className="welcomeBoard">
-        <h3>Welcome, {username}</h3>
-        <h3>Room id: {roomId}</h3>
-        <h3>
-          <AllPlayers />
-        </h3>
-        <ResetGame />
-      </div>
-    </>
-  );
-};
+  const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
 
-export default WelcomeBoard;
+  return (
+
+    <div className="welcomeBoard">
+      <p className="welcomeBoardItem">Welcome, {username}</p>
+      <p className="welcomeBoardItem">Room id: {roomId}</p>
+      <div className="break"></div>
+      {isHost && <ResetGame />}
+    </div>
+
+)}
+export default WelcomeBoard

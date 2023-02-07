@@ -2,14 +2,18 @@
 
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { Player } from '../Leaderboard/leaderboard.types';
+
 // Redux:
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPlayerId, setUsername } from '../../store/playerSlice';
+import { RootState } from '../../store';
 
 // Firebase:
-import { auth } from '../../utils/firebase';
+import { auth, database } from '../../utils/firebase';
+import { ref, set } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
-import { setPlayerId, setUsername } from '../../store/playerSlice';
-import { Player } from '../Leaderboard/leaderboard.types';
 
 interface WrapperProps {
   setInputtedUsername: Function;
@@ -17,6 +21,8 @@ interface WrapperProps {
 
 function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
   const dispatch = useDispatch();
+  const { isHost } = useSelector((state: RootState) => state.player);
+  const { roomId } = useParams();
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -37,9 +43,16 @@ function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
         }
 
         // Update redux:
-        if(player){
+        if (player) {
           dispatch(setPlayerId(player.id));
           dispatch(setUsername(player.username));
+
+          // Look to see if they are host (if redux's isHost is true)
+          if (isHost) {
+            let hostRef = ref(database, `rooms/${roomId}/host`);
+            // setting host here triggers hostRef in roomview and sets redux stores accordingly
+            set(hostRef, { playerId });
+          }
         }
 
         // Update firebase:
