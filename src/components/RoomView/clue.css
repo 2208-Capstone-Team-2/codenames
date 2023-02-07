@@ -32,8 +32,12 @@
   cursor: pointer;
   font-family: 'Oswald', sans-serif;
   color: white;
-  border-radius: 3px;
+  border-radius: 10px;
   padding: 0.5rem;
+}
+
+.clue-submit-button:hover {
+  filter: brightness(120%);
 }
 
 .dark-red-color {

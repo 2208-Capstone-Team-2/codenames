@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Home.styles';
-
+import '../RoomView/roomView.css';
 // Component Imports:
 import FAQ from './FAQ';
 import HowToPlay from './HowToPlay';
@@ -11,15 +11,18 @@ import ClueTestingDesign from '../RoomView/ClueTestingDesign';
 
 function Home() {
   return (
-    <div style={styles.sx.HomeContainer}>
-      <div style={styles.sx.LoginContainer}>
-        <img src={'../../static/images/logoLight.png'} alt={''} width="50%" />
-        <CreateRoomButton />
+    <div className="roomViewBG">
+      <div style={styles.sx.HomeContainer}>
+        <div style={styles.sx.LoginContainer}>
+          <img src={'../../static/images/logoLight.png'} alt={''} width="50%" />
+          <CreateRoomButton />
+        </div>
+
+        <HowToPlay />
         <ClueTestingDesign />
+        <FAQ />
+        <SignInAnonymously />
       </div>
-      <HowToPlay />
-      <FAQ />
-      <SignInAnonymously />
     </div>
   );
 }

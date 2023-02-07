@@ -21,8 +21,7 @@ const ClueTestingDesign = () => {
     event.preventDefault();
   };
 
-  const imRedSpy = true;
-  const imBlueSpy = false;
+  const imRedSpy = false;
   return (
     <div>
       <form className="clue-form">
@@ -40,7 +39,7 @@ const ClueTestingDesign = () => {
             handleNumberChange(e);
           }}
         >
-          <option>select a number</option>
+          <option>#</option>
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -51,7 +50,6 @@ const ClueTestingDesign = () => {
           <option>8</option>
           <option>9</option>
         </select>
-
         <button
           className={
             imRedSpy ? 'clue-submit-button dark-red-background-color' : 'clue-submit-button dark-blue-background-color'
