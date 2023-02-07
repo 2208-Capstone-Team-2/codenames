@@ -4,6 +4,9 @@ import { database } from '../../utils/firebase';
 import { ref, get, onValue } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+interface TeamInfo {
+  [property: string]: any;
+   }
   const Loser: React.FC= () => {
     const { roomId } = useParams();
     const playerId= useSelector((state: RootState) => state.player.playerId)
@@ -19,7 +22,7 @@ import { RootState } from '../../store';
            get(teamLoserRef).then (async(loserMemberSnapshot)=>{
             if(loserMemberSnapshot.exists())
             {const loserMember=loserMemberSnapshot.val()
-              const getPlayerIds=(obj:any):string[] =>{
+              const getPlayerIds=(obj:TeamInfo):string[] =>{
                 let playerIds:string[] = [];
                 for (const key in obj) {
                     if (obj[key].hasOwnProperty("playerId")) {

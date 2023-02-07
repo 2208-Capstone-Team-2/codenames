@@ -8,7 +8,9 @@ import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { setRoomId } from '../../store/playerSlice';
 import { RootState } from '../../store';
-
+interface TeamInfo {
+ [property: string]: any;
+  }
   const Winner:React.FC= () => {
     const { roomId } = useParams();
     setRoomId(roomId);
@@ -26,7 +28,7 @@ import { RootState } from '../../store';
            get(teamWinnerRef).then (async(winnerMemberSnapshot)=>{
             if(winnerMemberSnapshot.exists())
             {const winnerMember=winnerMemberSnapshot.val()
-              const getPlayerIds=(obj:any):string[] =>{
+              const getPlayerIds=(obj:TeamInfo):string[] =>{
                 let playerIds:string[] = [];
                 for (const key in obj) {
                     if (obj[key].hasOwnProperty("playerId")) {
