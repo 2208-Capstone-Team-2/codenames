@@ -8,6 +8,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 2rem;
   display: flex;
+  flex-wrap: nowrap;
   flex-direction: row;
   align-items: center;
   gap: 1rem;
@@ -33,6 +34,15 @@
 }
 
 .clue-submit-button {
+  width: 8rem;
+  font-size: 16px;
+
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
   cursor: pointer;
   font-family: 'Oswald', sans-serif;
   color: white;
@@ -40,6 +50,7 @@
   padding: 0.5rem;
   filter: drop-shadow(3px 3px 1px black);
   border: none;
+  display: flex;
 }
 
 .clue-submit-button:hover {
