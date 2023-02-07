@@ -6,6 +6,7 @@ import FAQ from './FAQ';
 import HowToPlay from './HowToPlay';
 import CreateRoomButton from './CreateRoomButton';
 import SignInAnonymously from '../Room/SignInAnonymously';
+import ClueTestingDesign from '../RoomView/ClueTestingDesign';
 //idk our static folder is so weird and I can't get the image to show
 
 function Home() {
@@ -14,6 +15,7 @@ function Home() {
       <div style={styles.sx.LoginContainer}>
         <img src={'../../static/images/logoLight.png'} alt={''} width="50%" />
         <CreateRoomButton />
+        <ClueTestingDesign />
       </div>
       <HowToPlay />
       <FAQ />

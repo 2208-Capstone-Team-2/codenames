@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { setCurrentClue } from '../../store/clueSlice';
-import { useDispatch } from 'react-redux';
+import pluralize from 'pluralize';
+import './clue.css';
+import { ClueType } from '../../utils/interfaces'; // for Typescript interface
 import { database } from '../../utils/firebase';
 import { ref, child, push, update } from 'firebase/database';
-import { useSelector } from 'react-redux';
-import pluralize from 'pluralize';
-import { Button } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store';
-import { ClueType } from '../../utils/interfaces';
 
 const Clue = () => {
   // useStates:
@@ -23,7 +22,7 @@ const Clue = () => {
   const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
 
   // firebase:
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  let gameRef = ref(database, `rooms/${roomId}/game/`);
   let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
 
   // This is an array of all the cards' words in play. It is used to make sure
@@ -39,7 +38,6 @@ const Clue = () => {
     setClueString(event.target.value.trim().toUpperCase());
   };
 
-  //please also help me rephrase all these alert messages
   const handleNumberChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setClueNumber(Number(event.target.value));
   };
