@@ -7,7 +7,7 @@ import HowToPlay from './HowToPlay';
 import CreateRoomButton from './CreateRoomButton';
 import SignInAnonymously from '../Room/SignInAnonymously';
 //idk our static folder is so weird and I can't get the image to show
-
+import './homepage.css'
 function Home() {
   return (
     <div style={styles.sx.HomeContainer}>

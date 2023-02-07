@@ -1,0 +1,13 @@
+body{background-image: url(../RoomView/bg.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .createRoomBox{
+    display: flex;
+    flex-direction: column;
+  }
+  .createRoomBox img{
+    margin: 60px;
+    width: 100px;
+  }

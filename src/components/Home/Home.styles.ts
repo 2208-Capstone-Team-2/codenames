@@ -15,7 +15,7 @@ const styles: any = {
       display: 'flex',
       flexDirection: 'column',
       padding: '2vw',
-      boxShadow: '5px 5px 5px red',
+      boxShadow: '5px 5px 5px linear-gradient(90deg, rgba(142,74,74,1) 26%, rgba(54,94,127,1) 75%)',
       border: '1px solid gray',
       borderRadius: '5px',
       backgroundColor: 'white',
