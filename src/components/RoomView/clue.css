@@ -19,6 +19,8 @@
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 5px;
+  filter: drop-shadow(3px 3px 1px black);
+  border: none;
 }
 
 .clue-input-number {
@@ -26,6 +28,8 @@
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 5px;
+  filter: drop-shadow(3px 3px 1px black);
+  border: none;
 }
 
 .clue-submit-button {
@@ -34,10 +38,12 @@
   color: white;
   border-radius: 10px;
   padding: 0.5rem;
+  filter: drop-shadow(3px 3px 1px black);
+  border: none;
 }
 
 .clue-submit-button:hover {
-  filter: brightness(120%);
+  filter: brightness(120%) drop-shadow(3px 3px 1px black);
 }
 
 .dark-red-color {
