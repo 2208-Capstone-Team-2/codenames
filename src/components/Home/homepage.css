@@ -46,7 +46,6 @@ body{background-image: url(../RoomView/bg.svg);
     display: flex;
     flex-direction: column;
     padding: 2vw;
-    box-shadow: 5px 5px 5px red;
     border: 1px solid gray;
     border-radius: 5px;
     background-color: white;
