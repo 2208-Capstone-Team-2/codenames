@@ -346,7 +346,6 @@ const RoomView = (props: ClassName) => {
         </Popup>
       )} */}
     </div>
-    </div>
   );
 };
 
