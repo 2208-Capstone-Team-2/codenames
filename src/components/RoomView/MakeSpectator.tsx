@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { ref, update, remove, get } from 'firebase/database';
+import { ref, update, remove, get, child } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
@@ -12,8 +12,8 @@ const MakeSpectator = () => {
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
-  const playerOnteamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives${playerId}`);
-  const playerOnteamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
+  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
+  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
 
@@ -37,11 +37,9 @@ const MakeSpectator = () => {
     // if on team 1 ops, take them off
     // let player = {playerId, username}
      if (teamOneOperatives && teamOneOperatives.includes(playerId)) {
-         console.log('player was on team 1 ops')
-         remove(playerOnteamOneOperativesRef)
+         remove(child(teamOneOperativesRef, playerId));
     } else if (teamTwoOperatives && teamTwoOperatives.includes(playerId)) {
-        console.log('player was on team 2 ops')
-        remove(playerOnteamTwoOperativesRef)
+        remove(child(teamTwoOperativesRef, playerId));
     } else if (teamOneSpymaster?.playerId === playerId) {
         remove(teamOneSpymasterRef)
     } else if (teamTwoSpymaster?.playerId === playerId) {
