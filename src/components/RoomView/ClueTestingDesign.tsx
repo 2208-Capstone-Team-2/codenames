@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './clue.css';
 
+// You can use this to see how it would look without needing
+// all the logic behind it!
 const ClueTestingDesign = () => {
   // useStates:
   const [clueString, setClueString] = useState<string>('');
