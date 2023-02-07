@@ -288,8 +288,7 @@ const RoomView = (props: ClassName) => {
     update(hostRef, { playerId, username });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   }
-
-  return (<div className="roomViewBG">
+  return (
     <div className={props.className}>
       <WelcomeBoard />
       <div className="gameStatusClaimHost">
