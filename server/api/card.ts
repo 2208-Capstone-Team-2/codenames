@@ -15,13 +15,14 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
   try {
     // Get stuff out of req.body
     const { roomId } = req.params;
-    const { selectedWordPackId } = req.body;
+    const { selectedWordPackIds } = req.body;
 
+    console.log({selectedWordPackIds})
     // Find which pack users select and put all the candidate words in an array
     const allWords = await Word.findAll({
       where: {
         //findAll can work with an array
-        wordpackId: selectedWordPackId,
+        wordpackId: selectedWordPackIds,
       },
     });
 
