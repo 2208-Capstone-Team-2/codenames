@@ -14,7 +14,7 @@
 .redRevealed {
   width: 120pt;
     height: 96pt;
-  background-image: url(../../../public/images/red.svg);
+  background-image: url(./red.svg);
   background-repeat: no-repeat;
   background-size: cover;
   text-indent: -9999px;
@@ -25,7 +25,7 @@
 .blueRevealed {
   width: 120pt;
     height: 96pt;
-    background-image: url(../../../public/images/blue.svg);
+    background-image: url(./blue.svg);
     background-repeat: no-repeat;
     background-size: cover;
   margin: 0;
@@ -36,7 +36,7 @@
 .beigeRevealed {
   width: 120pt;
     height: 96pt;
-    background-image: url(../../../public/images/beige.svg);
+    background-image: url(./beige.svg);
     background-repeat: no-repeat;
     background-size: cover;
   margin: 0;
@@ -47,7 +47,7 @@
 .blackRevealed {
   width: 120pt;
     height: 96pt;
-    background-image: url(../../../public/images/black.svg);
+    background-image: url(./black.svg);
     background-repeat: no-repeat;
     background-size: cover;
   margin: 0;
