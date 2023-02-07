@@ -8,7 +8,7 @@
     "build:dev": "npm run build -- --watch --mode=development",
     "seed": "DATABASE_URL=postgresql://rosalie0:v2_3yfwz_9e7KLp5LDFzz3UDjTvwjnJN@db.bit.io:5432/rosalie0/codenames?ssl=true node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
     "seed:dev": "node --experimental-specifier-resolution=node --loader ts-node/esm server/db/seed.ts",
-    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm  server/index.ts --ignore dist/ --ignore src/",
+    "start": "DATABASE_URL=postgresql://rosalie0:v2_3yfwz_9e7KLp5LDFzz3UDjTvwjnJN@db.bit.io:5432/rosalie0/codenames?ssl=true node --experimental-specifier-resolution=node --loader ts-node/esm server/index.ts --ignore dist/ --ignore src/",
     "start:dev": "nodemon server/index.ts --ignore dist/ --ignore src/ & npm run build:dev"
   },
   "keywords": [],
@@ -31,6 +31,7 @@
     "mui": "^0.0.1",
     "nodemon": "^2.0.16",
     "pg": "^8.7.3",
+    "pixel-borders": "^1.1.4",
     "pluralize": "^8.0.0",
     "random-words": "^1.2.1",
     "react": "^18.1.0",

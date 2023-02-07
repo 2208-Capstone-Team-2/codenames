@@ -125,8 +125,8 @@ const TeamOneBox = () => {
 
   return (
     <div className="redBoxCard">
-      <div>Team 1</div>
-      <div>Remaining Cards: {teamOneRemainingCards}</div>
+      <h3>Team 1</h3>
+      <h3>Remaining Cards: {teamOneRemainingCards}</h3>
       <div className="redOpsAndSpys">
         <div>
           <p>Operative(s)</p>
