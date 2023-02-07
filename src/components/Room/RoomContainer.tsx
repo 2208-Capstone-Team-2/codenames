@@ -21,12 +21,13 @@ function RoomContainer() {
     }, 1000);
   }, []);
 
+  const isSignedIn = SignInAnonymously();
+
   DocumentTitleChange();
   return (
     <div>
       <Navbar />
       <FetchRoom />
-      <SignInAnonymously />
       <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
       <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
         <UsernameForm
@@ -36,7 +37,7 @@ function RoomContainer() {
           setCanBeClosed={setCanBeClosed}
         />
       </Popup>
-      <RoomView className={timedPopup ? 'disabled' : ''} />
+      {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
     </div>
   );
 }

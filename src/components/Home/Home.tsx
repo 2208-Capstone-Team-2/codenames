@@ -9,6 +9,7 @@ import SignInAnonymously from '../Room/SignInAnonymously';
 //idk our static folder is so weird and I can't get the image to show
 
 function Home() {
+  SignInAnonymously();
   return (
     <div style={styles.sx.HomeContainer}>
       <div style={styles.sx.LoginContainer}>
@@ -17,7 +18,6 @@ function Home() {
       </div>
       <HowToPlay />
       <FAQ />
-      <SignInAnonymously />
     </div>
   );
 }
