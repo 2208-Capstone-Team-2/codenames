@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './teamTwoBox.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { child, get, onDisconnect, onValue, ref, set } from 'firebase/database';
+import { child, get, onDisconnect, onValue, ref, set, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 import { useParams } from 'react-router-dom';
@@ -15,6 +15,8 @@ const TeamTwoBox = () => {
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
+
   const teamTwoRemainingCards = useSelector((state: RootState) => state.game.team2RemainingCards);
 
   const dispatch = useDispatch();
@@ -48,10 +50,12 @@ const TeamTwoBox = () => {
           } else {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
+            update(nestedPlayerRef, { isSpectator: false });
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
+          update(nestedPlayerRef, { isSpectator: false });
         }
       });
     }
@@ -90,10 +94,12 @@ const TeamTwoBox = () => {
           } else {
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
+            update(nestedPlayerRef, { isSpectator: false });
           }
         } else {
           onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
+          update(nestedPlayerRef, { isSpectator: false });
         }
       });
     }
