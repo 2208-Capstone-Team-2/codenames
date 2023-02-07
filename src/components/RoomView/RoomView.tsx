@@ -17,7 +17,7 @@ import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import Clue from './Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
-import { setRoomId } from '../../store/playerSlice';
+import { setRoomId, setIsSpectator, setIsHost } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import {
@@ -34,8 +34,8 @@ import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 import { setHost } from '../../store/gameSlice';
-import { setIsHost } from '../../store/playerSlice';
 import words from 'random-words';
+import MakeSpectator from './MakeSpectator';
 
 interface ClassName {
   className: string;
@@ -63,6 +63,7 @@ const RoomView = (props: ClassName) => {
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -257,6 +258,16 @@ const RoomView = (props: ClassName) => {
     });
   }, [playerId]);
 
+  useEffect(() => {
+    onValue(nestedPlayerRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const player = snapshot.val()
+        dispatch(setIsSpectator(player.isSpectator));
+        dispatch(setIsHost(player.isHost));
+      }
+    });
+  }, []);
+
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
   const endTurn = () => {
@@ -299,6 +310,7 @@ const RoomView = (props: ClassName) => {
           )}
           <div className="gameStatus">
             <GameStatus />
+            <MakeSpectator/>
           </div>
         </div>
 

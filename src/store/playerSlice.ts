@@ -6,6 +6,7 @@ const playerInitialState: PlayerType = {
   username: '',
   roomId: '',
   isHost: false,
+  isSpectator: true
 };
 
 export const playerSlice = createSlice({
@@ -24,10 +25,13 @@ export const playerSlice = createSlice({
     setIsHost: (state, action) => {
       state.isHost = action.payload;
     },
+    setIsSpectator: (state, action) => {
+      state.isSpectator = action.payload;
+    },
   },
 });
 
 // export the playerinterface for allPlayers to use
 
-export const { setUsername, setRoomId, setPlayerId, setIsHost } = playerSlice.actions;
+export const { setUsername, setRoomId, setPlayerId, setIsHost, setIsSpectator } = playerSlice.actions;
 export default playerSlice.reducer;
