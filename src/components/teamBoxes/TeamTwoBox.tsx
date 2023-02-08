@@ -52,10 +52,12 @@ const TeamTwoBox = () => {
           } else {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
+            dispatch(setTeamIdOnPlayer(team2Id));
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
+          dispatch(setTeamIdOnPlayer(team2Id));
         }
       });
     }
@@ -67,7 +69,6 @@ const TeamTwoBox = () => {
     const teamOneOpsAndSpys = teamOne.val();
     let teamOneSpymaster;
     let teamOneOperatives;
-    console.log({ teamOneOpsAndSpys });
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster) {
       teamOneSpymaster = teamOneOpsAndSpys.spymaster;
     }
@@ -93,10 +94,12 @@ const TeamTwoBox = () => {
           } else {
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
+            dispatch(setTeamIdOnPlayer(team2Id));
           }
         } else {
           onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
+          dispatch(setTeamIdOnPlayer(team2Id));
         }
       });
     }
