@@ -32,7 +32,7 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-import { CardObj, PlayerType, WordsWithTeamIdsObj } from '../../utils/interfaces';
+import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 import { setHost } from '../../store/gameSlice';
 import words from 'random-words';
 
@@ -62,8 +62,7 @@ const RoomView = (props: ClassName) => {
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
-  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
-  const spectatorRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -236,7 +235,7 @@ const RoomView = (props: ClassName) => {
             }
           }
         });
-        get(spectatorRef).then((snapshot) => {
+        get(nestedPlayerRef).then((snapshot) => {
           if (snapshot.exists()) {
               console.log('setting spectator board...');
               const cardsFromSnapshot = cardSnapshot.val();
@@ -247,7 +246,6 @@ const RoomView = (props: ClassName) => {
       }
     });
   }, [playerId]);
-
 
   useEffect(() => {
     onValue(hostRef, (snapshot) => {
@@ -268,7 +266,7 @@ const RoomView = (props: ClassName) => {
   }, [playerId]);
 
   useEffect( () => {
-    onValue(spectatorRef, (snapshot) => {
+    onValue(nestedPlayerRef, (snapshot) => {
       // const trimmedInputtedUsername: string = inputtedUsername.trim();
       if (snapshot.exists()) {
         const player: any = Object.values(snapshot.val())[0];
@@ -276,8 +274,6 @@ const RoomView = (props: ClassName) => {
       }
     });
   }, []);
-
-
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
@@ -335,7 +331,6 @@ const RoomView = (props: ClassName) => {
             <SetupGame />
           </Popup>
         )}
-        {isHost && <p>HELLOOOOO</p>}
 
         <div className="flexBox">
           <TeamOneBox />

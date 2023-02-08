@@ -5,7 +5,6 @@ export interface Player {
     wins: number;
     roomId: string | null;
     teamId: string | null;
-    isSpectator: boolean;
     createdAt: string;
     updatedAt: string;
   }
