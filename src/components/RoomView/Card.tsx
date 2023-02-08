@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { RootState } from '../../store';
 import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
 import { MouseEvent } from 'react';
+import './card.html';
 
 
 const Card = (word: CardObj) => {
