@@ -19,7 +19,7 @@ interface UsernameFormProps {
 
 function UsernameForm({ canBeClosed, setCanBeClosed }: UsernameFormProps) {
   const dispatch = useDispatch();
-  const { roomId } = useParams();
+  const { roomId } = useParams() as { roomId: string };
 
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
 
@@ -38,7 +38,7 @@ function UsernameForm({ canBeClosed, setCanBeClosed }: UsernameFormProps) {
     }
 
     // Update our player's model with this new username
-    const bodyToSubmit: { username: string; roomId: string | undefined } = {
+    const bodyToSubmit: { username: string; roomId: string } = {
       username: trimmedInputtedUsername,
       roomId,
     };
