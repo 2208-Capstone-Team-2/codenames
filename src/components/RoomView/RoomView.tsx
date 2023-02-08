@@ -64,6 +64,7 @@ const RoomView = (props: ClassName) => {
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
+  const spectatorRef = ref(database, `rooms/${roomId}/players/${playerId}/isSpectator`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -236,6 +237,16 @@ const RoomView = (props: ClassName) => {
             }
           }
         });
+        get(spectatorRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            const isSpect = snapshot.val();
+            console.log(isSpect)
+              console.log('setting spectator board...');
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
+          }
+        });
       }
     });
   }, [playerId]);
@@ -263,7 +274,6 @@ const RoomView = (props: ClassName) => {
       if (snapshot.exists()) {
         const player = snapshot.val()
         dispatch(setIsSpectator(player.isSpectator));
-        dispatch(setIsHost(player.isHost));
       }
     });
   }, []);
@@ -319,7 +329,7 @@ const RoomView = (props: ClassName) => {
         {isHost && (
           <Popup
             trigger={
-              <Button variant="contained"style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto'}}> Set Up Board </Button>
+              <Button variant="contained" style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto'}}> Set Up Board </Button>
             }
           >
             <SetupGame />
