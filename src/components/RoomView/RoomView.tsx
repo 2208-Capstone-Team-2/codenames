@@ -68,7 +68,6 @@ const RoomView = (props: ClassName) => {
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
-
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
@@ -316,7 +315,7 @@ const RoomView = (props: ClassName) => {
       )}
       <div className="flexBox">
         <TeamOneBox />
-        <div className="placeHolder">
+        <div className="placeHolder"> 
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
@@ -324,8 +323,7 @@ const RoomView = (props: ClassName) => {
             <SpyMasterBoard />
           ) : (
             <OperativeBoard />
-          )}
-        </div>
+          )} </div>
         <TeamTwoBox />
         <div className="break"></div>
         <GameLog />
