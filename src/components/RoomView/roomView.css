@@ -26,7 +26,11 @@ align-items:center;
       margin: 15% 0 0 10%;
       padding: 10px;
       border-radius: 6px;
-      background-color: gainsboro;}
+      background-color: gainsboro;
+     }
+.scrollContent{ height: 250px;
+        overflow-x: hidden;
+        overflow-y: auto}
 .chatBox{float: left;
   width: 50vw;
   height: 200px;
