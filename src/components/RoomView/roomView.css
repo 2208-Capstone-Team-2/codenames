@@ -1,5 +1,8 @@
-body{margin:0;}
-.roomViewBG{background-image: url(./bg.svg);
+body {
+  margin: 0;
+}
+.roomViewBG {
+  background-image: url(./bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -63,12 +66,13 @@ width: 70vw;
 border-radius: 40px;
 box-shadow: 4px 4px black;}
 .gameStatus{    align-self: center;
+  align-self: center;
   margin-right: -5%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.gameStatus:last-child{ 
+.gameStatus:last-child {
   margin-left: 10%;
 }
 .gameStatusClaimHost button{border-right: solid black 3px;
