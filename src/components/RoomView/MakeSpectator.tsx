@@ -54,7 +54,6 @@ const MakeSpectator = () => {
   useEffect( () => {
     onValue(nestedPlayerRef, (snapshot) => {
         if (snapshot.exists()) {
-          console.log(snapshot.val())
           let isSpectator = snapshot.val().isSpectator
           dispatch(setIsSpectator(isSpectator))
         }

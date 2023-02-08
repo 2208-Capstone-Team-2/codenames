@@ -70,7 +70,7 @@ const RoomView = (props: ClassName) => {
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
-    onValue(playersInRoomRef, async (snapshot) => {
+    onValue(playersInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
         const players = snapshot.val();
         const values = Object.values(players);
