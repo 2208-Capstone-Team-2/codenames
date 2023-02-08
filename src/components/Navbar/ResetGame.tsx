@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '@mui/material';
 import { ref, set } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
@@ -18,9 +17,9 @@ const ResetGame = () => {
 
   return (
     <div>
-        <Button variant="contained" onClick={resetGame}>
+        <button className='welcomeBoardButton' onClick={resetGame}>
           Reset Game
-        </Button>
+        </button>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import HowToPlayDrop from './HowToPlayDrop'
 import AllPlayersDrop from './AllPlayersDrop'
 import TimerNav from './TimerNav'
 import WelcomeBoard from './WelcomeBoard';
+import ResetsDrop from './ResetDrop'
 const Navbar = () => {
     return (
         <div className='narbarContainer'>
@@ -14,7 +15,7 @@ const Navbar = () => {
             <WelcomeBoard />
             <div
                 className='navBarButtons'
-            >
+            ><ResetsDrop />
                 <HowToPlayDrop />
             </div>
         </div>
