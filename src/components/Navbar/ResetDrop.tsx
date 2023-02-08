@@ -4,7 +4,11 @@ import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import ResetGame from './ResetGame';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+
 export default function BasicPopover() {
+    const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,7 +37,7 @@ export default function BasicPopover() {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    return (
+if(isHost)  return (
         <div>
             <button aria-describedby={id} onClick={handleClick}>
                 Game Settings
@@ -58,5 +62,6 @@ export default function BasicPopover() {
                 </Popover>
             </ThemeProvider>
         </div>
-    );
+    )
+    else return<></>
 }

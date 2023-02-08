@@ -4,14 +4,11 @@ import { useSelector } from 'react-redux';
 import ResetGame from './ResetGame';
 import { RootState } from '../../store';
 const WelcomeBoard = () => {
-  const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
-
+  const { username, roomId } = useSelector((state: RootState) => state.player);
   return (
 
     <div className="welcomeBoard">
       <p className="welcomeBoardItem">Welcome, {username}</p>
-
-      {isHost && <ResetGame />}
       <div className='welcomeBoardItem'>
                 <img src='/images/topBarLogo.svg' alt="codenames" />
             </div>
