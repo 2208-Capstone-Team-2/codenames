@@ -1,3 +1,4 @@
+import { width } from '@mui/system';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
@@ -12,14 +13,18 @@ const AllPlayers = () => {
   const everyonesHere: boolean = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
   return (
-    <div>
-      Players:
-      {allPlayers?.map((player: PlayerType) => (
-        <p key={player.playerId}>{player.username}</p>
-      ))}
-      <div>
-        {!everyonesHere && <p style={{ color: 'red' }}>Make sure there is at least one person in each role!</p>}
-      </div>
+    <div className="welcomeBoardItem">
+    
+        Players:
+        {allPlayers?.map((player:PlayerType) => {
+         return <p key={player.playerId}>{player.username}</p>
+        })}
+    
+      {!everyonesHere && (
+        <p style={{ color: '#8c2a2a', textDecoration: 'underline' }}>
+          Make sure there is at least one person in each role!
+        </p>
+      )}
     </div>
   );
 };
