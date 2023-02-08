@@ -18,11 +18,11 @@ const MakeSpectator = () => {
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   const dispatch = useDispatch()
 
   const makeMeSpectator = async () => {
-    // update player to being a spectator, dispatch happens in roomView
+    /* update player to being a spectator, dispatch happens in useEffect of this component 
+    (won't work in roomView bc playerId not immediately identified)*/
     update(nestedPlayerRef, { isSpectator: true });
 
     // the rest of the logic in this fxn removes them depending on what team/position theyre in
@@ -52,17 +52,6 @@ const MakeSpectator = () => {
     }
   };
   useEffect( () => {
-    console.log({playerId})
-    // get(child(playersInRoomRef, `players/${playerId}`)).then((snapshot) => {
-    //   if (snapshot.exists()) {
-    //     console.log(snapshot.val());
-    //   } else {
-    //     console.log("No data available");
-    //   }
-    // }).catch((error) => {
-    //   console.error(error);
-    // });
-
     onValue(nestedPlayerRef, (snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val())
@@ -70,7 +59,6 @@ const MakeSpectator = () => {
           dispatch(setIsSpectator(isSpectator))
         }
       });
-    
   }, []);
 
   return (

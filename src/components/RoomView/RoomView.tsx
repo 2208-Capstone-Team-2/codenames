@@ -17,7 +17,7 @@ import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import Clue from './Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
-import { setRoomId, setIsSpectator, setIsHost } from '../../store/playerSlice';
+import { setRoomId, setIsHost } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import {
