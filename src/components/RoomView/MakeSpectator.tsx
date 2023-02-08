@@ -4,7 +4,6 @@ import { ref, update, remove, get, child } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-
 const MakeSpectator = () => {
   const { roomId, playerId, username } = useSelector((state: RootState) => state.player);
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
@@ -16,6 +15,7 @@ const MakeSpectator = () => {
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
+
 
   const makeMeSpectator = async () => {
     // update nested player ref to isSpectator: true

@@ -3,8 +3,10 @@ import './card.css';
 import { useSelector } from 'react-redux';
 import ResetGame from './ResetGame';
 import { RootState } from '../../store';
+import MakeSpectator from './MakeSpectator';
+
 const WelcomeBoard = () => {
-  const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
+  const { username, roomId, isHost, isSpectator } = useSelector((state: RootState) => state.player);
 
   return (
 
@@ -13,6 +15,7 @@ const WelcomeBoard = () => {
       <p className="welcomeBoardItem">Room id: {roomId}</p>
       <div className="break"></div>
       {isHost && <ResetGame />}
+      {!isSpectator && <MakeSpectator/>} 
     </div>
 
 )}

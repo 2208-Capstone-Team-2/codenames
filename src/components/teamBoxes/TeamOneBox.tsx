@@ -51,6 +51,7 @@ const TeamOneBox = () => {
             onDisconnect(playerOnTeamOneOperativesRef).remove();
             set(child(teamOneOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { isSpectator: false });
+            
 
           }
         } else {

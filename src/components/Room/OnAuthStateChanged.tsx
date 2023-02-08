@@ -7,7 +7,7 @@ import { Player } from '../Leaderboard/leaderboard.types';
 
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
-import { setPlayerId, setUsername } from '../../store/playerSlice';
+import { setIsSpectator, setPlayerId, setUsername } from '../../store/playerSlice';
 import { RootState } from '../../store';
 
 // Firebase:
@@ -46,6 +46,7 @@ function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
         if (player) {
           dispatch(setPlayerId(player.id));
           dispatch(setUsername(player.username));
+          dispatch(setIsSpectator(player.isSpectator));
 
           // Look to see if they are host (if redux's isHost is true)
           if (isHost) {
