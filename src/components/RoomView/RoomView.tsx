@@ -70,7 +70,7 @@ const RoomView = (props: ClassName) => {
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
-    onValue(playersInRoomRef, (snapshot) => {
+    onValue(playersInRoomRef, async (snapshot) => {
       if (snapshot.exists()) {
         const players = snapshot.val();
         const values = Object.values(players);
@@ -265,15 +265,6 @@ const RoomView = (props: ClassName) => {
     });
   }, [playerId]);
 
-  useEffect( () => {
-    onValue(nestedPlayerRef, (snapshot) => {
-      // const trimmedInputtedUsername: string = inputtedUsername.trim();
-      if (snapshot.exists()) {
-        const player: any = Object.values(snapshot.val())[0];
-        dispatch(setIsSpectator(player.isSpectator))
-      }
-    });
-  }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|

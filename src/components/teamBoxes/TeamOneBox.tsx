@@ -18,7 +18,7 @@ const TeamOneBox = () => {
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const teamOneRemainingCards = useSelector((state: RootState) => state.game.team1RemainingCards);
-  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
 
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {

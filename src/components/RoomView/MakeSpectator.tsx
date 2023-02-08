@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { ref, update, remove, get, child } from 'firebase/database';
+import { ref, update, remove, get, child, onValue } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setIsSpectator } from '../../store/playerSlice';
 const MakeSpectator = () => {
   const { roomId, playerId } = useSelector((state: RootState) => state.player);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
@@ -16,6 +18,8 @@ const MakeSpectator = () => {
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
+  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
+  const dispatch = useDispatch()
 
   const makeMeSpectator = async () => {
     // update player to being a spectator, dispatch happens in roomView
@@ -47,6 +51,27 @@ const MakeSpectator = () => {
      console.log('youre already a spectator!')
     }
   };
+  useEffect( () => {
+    console.log({playerId})
+    // get(child(playersInRoomRef, `players/${playerId}`)).then((snapshot) => {
+    //   if (snapshot.exists()) {
+    //     console.log(snapshot.val());
+    //   } else {
+    //     console.log("No data available");
+    //   }
+    // }).catch((error) => {
+    //   console.error(error);
+    // });
+
+    onValue(nestedPlayerRef, (snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val())
+          let isSpectator = snapshot.val().isSpectator
+          dispatch(setIsSpectator(isSpectator))
+        }
+      });
+    
+  }, []);
 
   return (
     <div>
