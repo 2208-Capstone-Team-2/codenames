@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 import { Button } from '@mui/material';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import SetupGame from './SetupGame';
-import WelcomeBoard from './WelcomeBoard';
+import WelcomeBoard from '../Navbar/WelcomeBoard';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
@@ -36,7 +36,7 @@ import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 import { setHost } from '../../store/gameSlice';
 import { setIsHost } from '../../store/playerSlice';
 import words from 'random-words';
-
+import Navbar from '../Navbar/Navbar';
 
 interface ClassName {
   className: string;
@@ -290,7 +290,7 @@ const RoomView = (props: ClassName) => {
   }
   return (
     <div className={`${props.className} roomViewBG`}>
-      <WelcomeBoard />
+          <Navbar />
       <div className="gameStatusClaimHost">
       <GameStatus />
       <div className='gameStatus'>

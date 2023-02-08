@@ -3,6 +3,7 @@ import './navbar.css';
 import HowToPlayDrop from './HowToPlayDrop'
 import AllPlayersDrop from './AllPlayersDrop'
 import TimerNav from './TimerNav'
+import WelcomeBoard from './WelcomeBoard';
 const Navbar = () => {
     return (
         <div className='narbarContainer'>
@@ -10,9 +11,7 @@ const Navbar = () => {
                 <AllPlayersDrop />
                 <TimerNav />
             </div>
-            <div className='logo'>
-                <img src='/images/logoCircle.png' alt="codenames" />
-            </div>
+            <WelcomeBoard />
             <div
                 className='navBarButtons'
             >

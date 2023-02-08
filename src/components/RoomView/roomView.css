@@ -18,26 +18,6 @@ gap: 2%;
 justify-content:center;
 align-items:center;
 }
-.welcomeBoard{
-  height: fit-content;
-  width: auto;
-  background-color: #fffffff2;
-  color: #8c2a2a;
-  font-family: "Oswald";
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 15px;
-  line-height: 20px;
-  flex-wrap: wrap;
-}
-.welcomeBoardItem{
-  width: 30%;
-  text-align: center;
-  color:#e2c78d;
-  line-height: 10px;
-}
   .break{flex-basis: 100%;
     height: 0;}
 .gameLog{float: left;
@@ -62,8 +42,8 @@ align-items:center;
   .setUpGame{    display: flex;
     justify-content: center;
     margin-top: 2%;}
-.gameStatusClaimHost{background-color: #e2c78d; font-family: "Oswald";color:white; font-weight: 300;
-display: flex;height: fit-content;width: auto;justify-content: center;align-items: center;}
+.gameStatusClaimHost{ font-family: "Oswald";color:white; font-weight: 300;
+display: flex;height: fit-content;justify-content: center;align-items: center;}
 .gameStatus{    align-self: center;
   margin-right: -5%;
   display: flex;

@@ -1,7 +1,7 @@
 import React from 'react';
-import './card.css';
+import '../RoomView/card.css';
 import { useSelector } from 'react-redux';
-import ResetGame from './ResetGame';
+import ResetGame from '../RoomView/ResetGame';
 import { RootState } from '../../store';
 const WelcomeBoard = () => {
   const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
@@ -10,6 +10,9 @@ const WelcomeBoard = () => {
 
     <div className="welcomeBoard">
       <p className="welcomeBoardItem">Welcome, {username}</p>
+      <div className='welcomeBoardItem'>
+                <img src='/images/topBarLogo.svg' alt="codenames" />
+            </div>
       <p className="welcomeBoardItem">Room id: {roomId}</p>
       <div className="break"></div>
       {isHost && <ResetGame />}
