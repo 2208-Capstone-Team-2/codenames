@@ -11,7 +11,6 @@ import Navbar from '../Navbar/Navbar';
 import DocumentTitleChange from './DocumentTitleChange';
 
 function RoomContainer() {
-  const [inputtedUsername, setInputtedUsername] = useState<string>('');
   const [timedPopup, setTimedPopup] = useState<boolean>(false);
   const [canBeClosed, setCanBeClosed] = useState<boolean>(true);
 
@@ -25,18 +24,13 @@ function RoomContainer() {
   const isSignedIn = SignInAnonymously();
   DocumentTitleChange();
 
+  OnAuthStateChanged();
   return (
     <div>
       <Navbar />
       <FetchRoom />
-      <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
       <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
-        <UsernameForm
-          inputtedUsername={inputtedUsername}
-          setInputtedUsername={setInputtedUsername}
-          canBeClosed={canBeClosed}
-          setCanBeClosed={setCanBeClosed}
-        />
+        <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />
       </Popup>
       {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
     </div>
