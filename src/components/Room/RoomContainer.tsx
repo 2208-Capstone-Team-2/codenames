@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Popup from './Popup';
 // Component Imports:
+import Popup from './Popup';
 import UsernameForm from './UsernameForm';
 import RoomView from '../RoomView/RoomView';
 import FetchRoom from './FetchRoom';
 import SignInAnonymously from '../FirebaseAuth/SignInAnonymously';
 import OnAuthStateChanged from '../FirebaseAuth/OnAuthStateChanged';
-import './userForm.css';
 import Navbar from '../Navbar/Navbar';
 import DocumentTitleChange from './DocumentTitleChange';
+import './userForm.css';
 
 function RoomContainer() {
   const [timedPopup, setTimedPopup] = useState<boolean>(false);
@@ -23,8 +23,8 @@ function RoomContainer() {
   // Run custom hooks
   const isSignedIn = SignInAnonymously();
   DocumentTitleChange();
-
   OnAuthStateChanged();
+
   return (
     <div>
       <Navbar />

@@ -31,7 +31,6 @@ function OnAuthStateChanged() {
           const foundPlayer = await axios.get(`/api/player/${playerId}`);
           player = foundPlayer.data;
           // Use the found player's username in the backend to pre-fill our form's text input
-          // If we already have a player in the backend, start their username with that.
         } catch (err) {
           // if player doesn't exist in db... create one right now!
           const createdPlayer = await axios.post(`/api/player`, { playerId });
