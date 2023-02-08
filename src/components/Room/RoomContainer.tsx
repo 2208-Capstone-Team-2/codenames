@@ -4,8 +4,8 @@ import Popup from './Popup';
 import UsernameForm from './UsernameForm';
 import RoomView from '../RoomView/RoomView';
 import FetchRoom from './FetchRoom';
-import SignInAnonymously from './SignInAnonymously';
-import OnAuthStateChanged from './OnAuthStateChanged';
+import SignInAnonymously from '../FirebaseAuth/SignInAnonymously';
+import OnAuthStateChanged from '../FirebaseAuth/OnAuthStateChanged';
 import './userForm.css';
 import Navbar from '../Navbar/Navbar';
 import DocumentTitleChange from './DocumentTitleChange';
@@ -21,9 +21,10 @@ function RoomContainer() {
     }, 1000);
   }, []);
 
+  // Run custom hooks
   const isSignedIn = SignInAnonymously();
-
   DocumentTitleChange();
+
   return (
     <div>
       <Navbar />

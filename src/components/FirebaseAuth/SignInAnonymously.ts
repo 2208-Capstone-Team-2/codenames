@@ -4,15 +4,14 @@ import { auth } from '../../utils/firebase';
 import { signInAnonymously } from 'firebase/auth';
 
 function SignInAnonymously() {
+  // A bool that is set to true only when the fb signin async is finished!
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     // at this point we need to sign them in anonymously to get their browser's uid
     signInAnonymously(auth)
       .then(() => {
-        // ?
         setIsSignedIn(true);
-        console.log('signed in!');
       })
       .catch((error) => {
         const errorCode = error.code;
