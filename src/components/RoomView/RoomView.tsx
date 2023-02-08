@@ -318,7 +318,7 @@ const RoomView = (props: ClassName) => {
       )}
       <div className="flexBox">
         <TeamOneBox />
-        <div className="boardContainer">
+        <div className="placeHolder">
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
@@ -331,6 +331,7 @@ const RoomView = (props: ClassName) => {
         <TeamTwoBox />
         <div className="break"></div>
         <GameLog />
+        <div className='placeHolder'></div>
         <div className="chatBox"> this will be the chat box</div>
       </div>
       <Clue />

@@ -22,7 +22,7 @@ const GameLog: React.FC = () => {
 
     return ( 
     <div className='gameLog'>
-    <h3>Game History</h3>
+    <h3 className='gameHistoryTitle'>Game History</h3>
     <div className='scrollContent'>
         {gameHistory.map((singleHistory, index) => {
             if (typeof singleHistory === 'object') {
