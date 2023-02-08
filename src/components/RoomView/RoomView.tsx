@@ -38,7 +38,6 @@ import Loser from'./Loser';
 import Winner from './Winner'
 import words from 'random-words';
 
-
 interface ClassName {
   className: string;
 }
@@ -55,7 +54,7 @@ const RoomView = (props: ClassName) => {
   const { winner, loser} = useSelector((state: RootState) => state.game);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host } = useSelector((state: RootState) => state.game)
+  const { host } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -70,8 +69,6 @@ const RoomView = (props: ClassName) => {
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
-
-
 
   useEffect(() => {
     // whenever users are added to specific room, update frontend redux store
@@ -176,15 +173,15 @@ const RoomView = (props: ClassName) => {
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
                 (card: CardObj) =>
-                (wordsWithTeamIds[card.id] = {
-                  id: card.id,
-                  isVisibleToAll: card.isVisibleToAll,
-                  wordString: card.word.word,
-                  word: card.word,
-                  wordId: card.wordId,
-                  boardId: card.boardId,
-                  teamId: card.teamId,
-                }),
+                  (wordsWithTeamIds[card.id] = {
+                    id: card.id,
+                    isVisibleToAll: card.isVisibleToAll,
+                    wordString: card.word.word,
+                    word: card.word,
+                    wordId: card.wordId,
+                    boardId: card.boardId,
+                    teamId: card.teamId,
+                  }),
               );
               const values = Object.values(wordsWithTeamIds);
               dispatch(setWordsInGame(values));
@@ -201,15 +198,15 @@ const RoomView = (props: ClassName) => {
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
               spyWords.data.forEach(
                 (card: CardObj) =>
-                (wordsWithTeamIds[card.id] = {
-                  id: card.id,
-                  isVisibleToAll: card.isVisibleToAll,
-                  wordString: card.word.word,
-                  word: card.word,
-                  wordId: card.wordId,
-                  boardId: card.boardId,
-                  teamId: card.teamId,
-                }),
+                  (wordsWithTeamIds[card.id] = {
+                    id: card.id,
+                    isVisibleToAll: card.isVisibleToAll,
+                    wordString: card.word.word,
+                    word: card.word,
+                    wordId: card.wordId,
+                    boardId: card.boardId,
+                    teamId: card.teamId,
+                  }),
               );
               const values = Object.values(wordsWithTeamIds);
               dispatch(setWordsInGame(values));
@@ -262,7 +259,7 @@ const RoomView = (props: ClassName) => {
         dispatch(setIsHost(false));
       }
     });
-  }, [playerId])
+  }, [playerId]);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
@@ -292,7 +289,7 @@ const RoomView = (props: ClassName) => {
     update(hostRef, { playerId, username });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   }
-  return (
+  return ( <div className="roomViewBG">
     <div className={props.className}>
       <WelcomeBoard />
       <div className="gameStatusClaimHost">
@@ -345,8 +342,8 @@ const RoomView = (props: ClassName) => {
           <SetupGame />
         </Popup>
       )} */}
-    </div>
-  );
-};
+      
+  </div></div>)
 
+    }
 export default RoomView;
