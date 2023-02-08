@@ -1,5 +1,5 @@
 .narbarContainer
-{    font-weight: 300;
+{    font-weight: 500;
     display: flex;
     justify-content: space-between;
     padding: 7px;
@@ -8,11 +8,11 @@
     background-color: #e2c78d;
     height: 50px;
     border-radius: 5px;
+    font-size: 16px;
 }
 .welcomeBoard{
     font-family: "Oswald";
     width: 40%;
-    font-size: 15px;
     flex-direction: row;
     flex-wrap: wrap;
     display: flex;
@@ -22,7 +22,7 @@
   .welcomeBoardItem{
 margin-left: 2em;
     text-align: center;
-    color: white;
+    color: black;
     line-height: 10px;
   }
 .navBarButtons{
@@ -42,6 +42,7 @@ margin-left: 2em;
     border-right:solid black 3px;
     border-bottom:solid black 3px;
     border-radius: 5px 10px;
+    font-family: "oswald"
 }
 .welcomeBoardItem img 
 {align-self: center;

@@ -295,7 +295,7 @@ const RoomView = (props: ClassName) => {
       <GameStatus />
       <div className='gameStatus'>
       {!host && 
-      <p>The host has left,  <button onClick={claimHost}>claim host responsibilities</button> to begin game.</p>
+      <p>The host has left, need a <button onClick={claimHost}>New Host</button> to begin game.</p>
       }</div></div>
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
