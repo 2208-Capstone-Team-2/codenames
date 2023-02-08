@@ -319,12 +319,13 @@ const RoomView = (props: ClassName) => {
         {isHost && (
           <Popup
             trigger={
-              <Button style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}> Set Up Board </Button>
+              <Button variant="contained"style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto'}}> Set Up Board </Button>
             }
           >
             <SetupGame />
           </Popup>
         )}
+        {isHost && <p>HELLOOOOO</p>}
 
         <div className="flexBox">
           <TeamOneBox />
