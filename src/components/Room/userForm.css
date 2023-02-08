@@ -1,4 +1,4 @@
-.popup{    
+.userformPopup{    
     background-color: #365e7f;
     position: fixed;
     width: 20%;
@@ -21,7 +21,7 @@
     justify-content: center;
     
 }
-.popup .close-btn{position: absolute;top:15px;right:15px;}
+.userformPopup .close-btn{position: absolute;top:15px;right:15px;}
 .disabled {
     pointer-events: none;
   }
