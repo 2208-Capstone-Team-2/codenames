@@ -33,9 +33,12 @@ align-items:center;
       text-align: center;
       border-bottom: solid black 2px;
       font-weight: 400;}
-.scrollContent{ height: 250px;
-        overflow-x: hidden;
-        overflow-y: auto}
+.scrollContent{    height: 300px;
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: "Montserrat";
+  padding: 0 2%;}
 .chatBox{    float: left;
   width: 15%;
   height: 400px;

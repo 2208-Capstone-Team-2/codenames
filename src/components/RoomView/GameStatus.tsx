@@ -95,12 +95,12 @@ const GameStatus = () => {
     <>
         {gameStatus !== 'ready' && (
           <p className='gameStatus'>
-            {playerNote}{" "}
+            {playerNote}
             {'\u00A0'}
             <GuessesRemaining />
           </p>
         )}
-        {gameStatus === 'ready' && 'Waiting to begin the game!'}
+        {gameStatus === 'ready' && <p className='gameStatus'>Waiting to begin the game!</p>}
     </>
   );
 };
