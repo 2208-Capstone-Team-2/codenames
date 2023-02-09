@@ -68,6 +68,70 @@ body {
   margin: 15% 10% 0 0;
   padding: 10px;
   border-radius: 6px;
+  background-color: gainsboro;}
+  .MessageInput{
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+  }
+  .setupGamePopup{      background-color: #dec160;
+    position: absolute;
+    width: 20%;
+    height: 10%;
+    padding: 3%;
+    display: flex;
+    margin: 5% auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: 50;
+    align-items: center;
+    border-radius: 5px;
+    z-index: 0;
+    justify-content: center;}
+    .setupGamePopup .close-btn{position: absolute;top:15px;right:15px;}
+    .loser{
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      position: absolute;
+      z-index: 1;
+      width: 50vw;
+      height: 30vh;
+      background-color: black;
+      color: #dec160;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2% 5%;
+    }
+    .winner{top: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      position: absolute;
+      z-index: 1;
+      width: 50vw;
+      height: 30vh;
+      background-color: #dec160;
+      color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2% 5%;}
+    .closeButton{    position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: #dec160;
+      color: black;
+      border: none;
+      width: 5%;
+      height: 15%;}
+  .setUpGame{    display: flex;
+    justify-content: center;
+    margin-top: 2%;}
+.gameStatusClaimHost{background-color: #e2c78d; font-family: "Oswald";color:white; font-weight: 300;
+display: flex;height: fit-content;width: auto;justify-content: center;align-items: center;}
+.gameStatus{    align-self: center;
   background-color: gainsboro;
 }
 .MessageInput {
@@ -101,13 +165,5 @@ body {
 .gameStatus:last-child {
   margin-left: 10%;
 }
-.gameStatusClaimHost button {
-  border: solid black 1px;
-  background-color: white;
-  color: #e2c78d;
-  width: fit-content;
-  padding: 5px;
-  font-family: 'Oswald';
-  font-size: 15px;
-  border-radius: 3px;
-}
+.gameStatusClaimHost button{border:solid black 1px;background-color: white;color:#e2c78d;width:fit-content;padding: 5px;font-family: "Oswald";font-size: 15px;
+  border-radius: 3px;}

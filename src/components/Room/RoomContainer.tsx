@@ -29,7 +29,7 @@ function RoomContainer() {
     <div>
       <Navbar />
       <FetchRoom />
-      <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
+      <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
         <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />
       </Popup>
       {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}

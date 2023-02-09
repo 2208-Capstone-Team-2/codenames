@@ -31,6 +31,7 @@ interface PlayerType {
   username: string;
   roomId: string;
   isHost: boolean;
+  teamId: number | null;
 }
 interface SingleHistoryObject {
   [index: string]: string | ClueType;
