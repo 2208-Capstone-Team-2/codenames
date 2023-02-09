@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { database } from '../../utils/firebase';
-import { useParams } from 'react-router-dom';
-import { onValue, ref, set, get, child, update } from 'firebase/database';
-import './roomView.css';
-import Popup from '../Room/Popup';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
 // Custom Hooks
 import OnValueHostRef from './customHooks/OnValueHostRef';
@@ -45,13 +38,6 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
-import { setHost } from '../../store/gameSlice';
-import { setIsHost } from '../../store/playerSlice';
-import Loser from './Loser';
-import Winner from './Winner';
-import words from 'random-words';
-import Navbar from '../Navbar/Navbar';
 
 // CSS:
 import './roomView.css';
@@ -68,7 +54,6 @@ const RoomView = (props: ClassName) => {
   // frontend state
   const [timedPopup, setTimedPopup] = useState(false);
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
-  const { winner, loser } = useSelector((state: RootState) => state.game);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { host } = useSelector((state: RootState) => state.game);
