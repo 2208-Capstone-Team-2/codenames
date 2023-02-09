@@ -20,9 +20,11 @@ const About = () => {
         <div className='aboutTeamMember'>
         <img src='/images/heidi.jpg' alt='heidi'/>
         <span>Heidi Lyu</span>
-        <p>My name is Heidi and I come from an art background.
-        You can find my full resume <a href="https://www.linkedin.com/in/heidilyu/">here</a>.
-        <br></br>
+       
+        <a href="https://www.linkedin.com/in/heidilyu/" target="_blank">Linkedin</a>
+        <a href="https://github.com/Heidi9287" target="_blank">Github</a>
+        <p>lyu9287@gmail.com</p>
+        <p>
         My biggest take on this project is learning typescript and firebase. Typescript helps me write codes that are more robust and maintainable.
        We used firebase to make sure this multi-player game can provide a seamless experience.
     In this process, I learned how to model data in a NoSQL environment and how to work with unstructured data.</p>
