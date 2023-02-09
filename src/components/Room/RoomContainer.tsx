@@ -28,7 +28,7 @@ function RoomContainer() {
       <FetchRoom />
       <SignInAnonymously />
       <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
-      <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
+      <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
         <UsernameForm
           inputtedUsername={inputtedUsername}
           setInputtedUsername={setInputtedUsername}
