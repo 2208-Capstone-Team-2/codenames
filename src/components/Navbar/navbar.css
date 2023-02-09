@@ -1,4 +1,4 @@
-.narbarContainer
+.navbarContainer
 {    font-weight: 500;
     display: flex;
     justify-content: space-between;
@@ -56,3 +56,34 @@ width: 55px;
     width: 30px;
     border-radius: 50%;
 }
+.gameStatusClaimHost {
+    background-color: #e2c78d;
+    font-family: 'Oswald';
+    color: white;
+    font-weight: 300;
+    display: flex;
+    height: fit-content;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+  }
+  .gameStatus {
+    align-self: center;
+    margin-right: -5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gameStatus:last-child {
+    margin-left: 10%;
+  }
+  .gameStatusClaimHost button{border-right: solid black 3px;
+    border-bottom: solid black 3px;
+    background-color: white;
+    color: black;
+    width: fit-content;
+    padding: 1px 5px;
+    font-family: "Oswald";
+    font-size: 16px;
+    border-radius: 5px 10px;}
+  

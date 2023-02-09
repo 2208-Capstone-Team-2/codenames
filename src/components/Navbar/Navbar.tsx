@@ -7,7 +7,7 @@ import WelcomeBoard from './WelcomeBoard';
 import ResetsDrop from './ResetDrop'
 const Navbar = () => {
     return (
-        <div className='narbarContainer'>
+        <div className='navbarContainer'>
             <div className='navBarButtons'>
                 <AllPlayersDrop />
                 <TimerNav />
