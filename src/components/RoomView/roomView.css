@@ -68,22 +68,68 @@ height: 40px;
 width: 70vw;
 border-radius: 40px;
 box-shadow: 4px 4px black;}
-.gameStatus{    align-self: center;
-  align-self: center;
-  margin-right: -5%;
+  .setupGamePopup{      background-color: #dec160;
+    position: absolute;
+    width: 20%;
+    height: 10%;
+    padding: 3%;
+    display: flex;
+    margin: 5% auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: 50;
+    align-items: center;
+    border-radius: 5px;
+    z-index: 0;
+    justify-content: center;}
+    .setupGamePopup .close-btn{position: absolute;top:15px;right:15px;}
+    .loser{
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      position: absolute;
+      z-index: 1;
+      width: 50vw;
+      height: 30vh;
+      background-color: black;
+      color: #dec160;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2% 5%;
+    }
+    .winner{top: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      position: absolute;
+      z-index: 1;
+      width: 50vw;
+      height: 30vh;
+      background-color: #dec160;
+      color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2% 5%;}
+    .closeButton{    position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: #dec160;
+      color: black;
+      border: none;
+      width: 5%;
+      height: 15%;}
+  .setUpGame{    display: flex;
+    justify-content: center;
+    margin-top: 2%;}
+.MessageInput {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 2%;
 }
-.gameStatus:last-child {
-  margin-left: 10%;
+.setUpGame {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
 }
-.gameStatusClaimHost button{border-right: solid black 3px;
-  border-bottom: solid black 3px;
-  background-color: white;
-  color: black;
-  width: fit-content;
-  padding: 1px 5px;
-  font-family: "Oswald";
-  font-size: 16px;
-  border-radius: 5px 10px;}
