@@ -35,6 +35,7 @@ import Winner from './Winner';
 import Navbar from '../Navbar/Navbar';
 import OnValueHostRef from './customHooks/OnValueHostRef';
 import OnValueCardsRef from './customHooks/OnValueCardsRef';
+import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
 
 interface ClassName {
   className: string;
@@ -55,7 +56,6 @@ const RoomView = (props: ClassName) => {
   // firebase room  & players reference
   let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
 
   let hostRef = ref(database, `rooms/${roomId}/host`);
 
@@ -134,17 +134,7 @@ const RoomView = (props: ClassName) => {
         }
       }
     });
-    onValue(gameHistoryRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        let history = [];
-        //this is to access the data under random firebase key and put them in an iterable array
-        for (let historyKey in data) {
-          history.push(data[historyKey]);
-        }
-        dispatch(setGameHistory(history));
-      }
-    });
+
     setTimeout(() => {
       setTimedPopup(true);
     }, 1000);
@@ -181,6 +171,7 @@ const RoomView = (props: ClassName) => {
 
   OnValueHostRef();
   OnValueCardsRef();
+  OnValueGameHistoryRef();
   return (
     <div className={`${props.className} roomViewBG`}>
       <Navbar />

@@ -13,7 +13,7 @@ function OnValueHostRef() {
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const { playerId } = useSelector((state: RootState) => state.player);
-  let hostRef = ref(database, `rooms/${roomId}/host`);
+  const hostRef = ref(database, `rooms/${roomId}/host`);
 
   useEffect(() => {
     onValue(hostRef, (snapshot) => {
