@@ -7,18 +7,42 @@
     border-radius: 3px;
     margin:0 0 0 2%;
     border: black solid 1px;
-    font-family:"Oswald";}
+    font-family:"Oswald";
+  }
+  .blueBoxCard button{
+    width: fit-content;
+    height:30px;
+    background-color: white;
+    border-top:solid black 1px;
+    border-left:solid black 1px;
+    border-right:solid black 3px;
+    border-bottom:solid black 3px;
+    border-radius: 5px 10px;
+    font-family: "oswald"
+  }
 
 .blueOpsAndSpys {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 250px;
   margin-top: 30px;
 }
-
+.blueBoxCard h3{
+  padding: 0;
+  margin: 0;
+}
+.blueOpsAndSpys p {
+  margin: 8px;
+  padding: 0;
+}
 .playerName {
   color: white;
   border: 1px solid beige;
+  font-size: 14px;
+  letter-spacing: 1px;
   border-radius: 5px;
-  padding: 2px;
-  margin: 5px;
+  padding: 1px;
+  margin: 4px;
 }
