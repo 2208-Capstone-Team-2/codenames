@@ -3,10 +3,11 @@
     src: url('./fonts/death-from-above-font/DeathFromAbove-Ow9P.ttf')  format('truetype');
   }
 
-body{background-image: url(../RoomView/bg.svg);
+body{background-image: url(./bg.svg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    background-attachment: fixed
   }
   .codenames{
     font-size: 84px;
