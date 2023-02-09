@@ -7,8 +7,12 @@ import { onValue, ref, set, get, child, update } from 'firebase/database';
 import './roomView.css';
 import Popup from '../Room/Popup';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
+// Custom Hooks
+import OnValueHostRef from './customHooks/OnValueHostRef';
+import OnValueCardsRef from './customHooks/OnValueCardsRef';
+import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
+// Components:
 import SetupGame from './SetupGame';
-import WelcomeBoard from '../Navbar/WelcomeBoard';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
@@ -16,6 +20,16 @@ import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import Clue from './clue/Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
+import Loser from './Loser';
+import Winner from './Winner';
+import Navbar from '../Navbar/Navbar';
+import Popup from '../Room/Popup';
+// Firebase:
+import { database } from '../../utils/firebase';
+import { onValue, ref, set, get, child, update } from 'firebase/database';
+// Redux:
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { setRoomId } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
@@ -39,6 +53,8 @@ import Winner from './Winner';
 import words from 'random-words';
 import Navbar from '../Navbar/Navbar';
 
+// CSS:
+import './roomView.css';
 interface ClassName {
   className: string;
 }
@@ -47,29 +63,24 @@ const RoomView = (props: ClassName) => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
-
   const dispatch = useDispatch();
-  const [timedPopup, setTimedPopup] = useState(false);
+
   // frontend state
+  const [timedPopup, setTimedPopup] = useState(false);
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { winner, loser } = useSelector((state: RootState) => state.game);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { host } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
-  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  let cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
-  const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
-  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
-  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
-  const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+  let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
+  let gameRef = ref(database, `rooms/${roomId}/game/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // whenever users are added to specific room, update frontend redux store
@@ -142,126 +153,11 @@ const RoomView = (props: ClassName) => {
         }
       }
     });
-    onValue(gameHistoryRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        let history = [];
-        //this is to access the data under random firebase key and put them in an iterable array
-        for (let historyKey in data) {
-          history.push(data[historyKey]);
-        }
-        dispatch(setGameHistory(history));
-      }
-    });
+
     setTimeout(() => {
       setTimedPopup(true);
     }, 1000);
   }, []);
-
-  useEffect(() => {
-    // Look to see if there are cards already loaded for the room
-    onValue(cardsRef, async (cardSnapshot) => {
-      // for some reason, i'm having trouble accessing the redux teams
-      //  data even though it exists on firebase and redux
-      // tried a few diff ways and this is what i could get to work. bulky :(
-      if (cardSnapshot.exists()) {
-        get(teamOneSpymasterRef).then(async (snapshot) => {
-          if (snapshot.exists()) {
-            let spymaster = snapshot.val();
-
-            if (spymaster.playerId === playerId) {
-              //get set of cards with team ids from backend and set spymaster words
-              let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
-              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
-              spyWords.data.forEach(
-                (card: CardObj) =>
-                  (wordsWithTeamIds[card.id] = {
-                    id: card.id,
-                    isVisibleToAll: card.isVisibleToAll,
-                    wordString: card.word.word,
-                    word: card.word,
-                    wordId: card.wordId,
-                    boardId: card.boardId,
-                    teamId: card.teamId,
-                  }),
-              );
-              const values = Object.values(wordsWithTeamIds);
-              dispatch(setWordsInGame(values));
-            }
-          }
-        });
-        get(teamTwoSpymasterRef).then(async (snapshot) => {
-          if (snapshot.exists()) {
-            let spymaster = snapshot.val();
-            if (spymaster.playerId === playerId) {
-              console.log('setting spy board...');
-              //get set of cards with team ids from backend and set spymaster words
-              let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
-              let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
-              spyWords.data.forEach(
-                (card: CardObj) =>
-                  (wordsWithTeamIds[card.id] = {
-                    id: card.id,
-                    isVisibleToAll: card.isVisibleToAll,
-                    wordString: card.word.word,
-                    word: card.word,
-                    wordId: card.wordId,
-                    boardId: card.boardId,
-                    teamId: card.teamId,
-                  }),
-              );
-              const values = Object.values(wordsWithTeamIds);
-              dispatch(setWordsInGame(values));
-            }
-          }
-        });
-        get(teamOneOperativesRef).then((snapshot) => {
-          if (snapshot.exists()) {
-            let operatives = snapshot.val();
-            let operativesIds = Object.keys(operatives);
-            if (operativesIds.includes(playerId)) {
-              console.log('setting opertive board...');
-              //update our redux to reflect that
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
-            }
-          }
-        });
-        get(teamTwoOperativesRef).then((snapshot) => {
-          if (snapshot.exists()) {
-            let operatives = snapshot.val();
-            let operativesIds = Object.keys(operatives);
-            if (operativesIds.includes(playerId)) {
-              console.log('setting opertive board...');
-              //update our redux to reflect that
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
-            }
-          }
-        });
-      }
-    });
-  }, [playerId]);
-
-  useEffect(() => {
-    onValue(hostRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const host = snapshot.val();
-        if (host.playerId === playerId) {
-          dispatch(setHost(host));
-          dispatch(setIsHost(true));
-        } else {
-          dispatch(setHost(host));
-          dispatch(setIsHost(false));
-        }
-      } else {
-        dispatch(setHost(null));
-        dispatch(setIsHost(false));
-      }
-    });
-  }, [playerId]);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
@@ -291,6 +187,10 @@ const RoomView = (props: ClassName) => {
     update(hostRef, { playerId, username });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   };
+
+  OnValueHostRef();
+  OnValueCardsRef();
+  OnValueGameHistoryRef();
   return (
     <div className={`${props.className} roomViewBG`}>
       <Navbar />
