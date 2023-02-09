@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import pluralize from 'pluralize';
-import { ClueType } from '../../utils/interfaces'; // for Typescript interface
+import { ClueType } from '../../../utils/interfaces'; // for Typescript interface
 //firebase:
-import { database } from '../../utils/firebase';
+import { database } from '../../../utils/firebase';
 import { ref, child, push, update } from 'firebase/database';
 //redux:
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentClue } from '../../store/clueSlice';
-import { RootState } from '../../store';
+import { setCurrentClue } from '../../../store/clueSlice';
+import { RootState } from '../../../store';
 //CSS:
 import './clue.css';
 

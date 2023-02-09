@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { database } from '../../utils/firebase';
@@ -13,7 +13,7 @@ import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
-import Clue from './Clue';
+import Clue from './clue/Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
 import { setRoomId } from '../../store/playerSlice';
@@ -34,8 +34,8 @@ import { RootState } from '../../store/index.js';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 import { setHost } from '../../store/gameSlice';
 import { setIsHost } from '../../store/playerSlice';
-import Loser from'./Loser';
-import Winner from './Winner'
+import Loser from './Loser';
+import Winner from './Winner';
 import words from 'random-words';
 import Navbar from '../Navbar/Navbar';
 
@@ -52,7 +52,7 @@ const RoomView = (props: ClassName) => {
   const [timedPopup, setTimedPopup] = useState(false);
   // frontend state
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
-  const { winner, loser} = useSelector((state: RootState) => state.game);
+  const { winner, loser } = useSelector((state: RootState) => state.game);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { host } = useSelector((state: RootState) => state.game);
@@ -152,7 +152,8 @@ const RoomView = (props: ClassName) => {
         }
         dispatch(setGameHistory(history));
       }
-    }); setTimeout(() => {
+    });
+    setTimeout(() => {
       setTimedPopup(true);
     }, 1000);
   }, []);
@@ -289,16 +290,20 @@ const RoomView = (props: ClassName) => {
   const claimHost = () => {
     update(hostRef, { playerId, username });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
-  }
+  };
   return (
     <div className={`${props.className} roomViewBG`}>
-          <Navbar />
+      <Navbar />
       <div className="gameStatusClaimHost">
-      <GameStatus />
-      <div className='gameStatus'>
-      {!host && 
-      <p>The host has left, need a <button onClick={claimHost}>New Host</button> to begin game.</p>
-      }</div></div>
+        <GameStatus />
+        <div className="gameStatus">
+          {!host && (
+            <p>
+              The host has left, need a <button onClick={claimHost}>New Host</button> to begin game.
+            </p>
+          )}
+        </div>
+      </div>
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
@@ -324,7 +329,8 @@ const RoomView = (props: ClassName) => {
         <div className="chatBox"> this will be the chat box</div>
       </div>
       <Clue />
-<Loser /><Winner />
+      <Loser />
+      <Winner />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
       {/* {isHost && everyonesHere && (
         <Popup
@@ -343,8 +349,7 @@ const RoomView = (props: ClassName) => {
           <SetupGame />
         </Popup>
       )} */}
-      
-  </div>)
-
-    }
+    </div>
+  );
+};
 export default RoomView;
