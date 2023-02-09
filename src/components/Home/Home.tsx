@@ -14,7 +14,7 @@ function Home() {
       <div className="homeContainer">
         <div className="codenames">CODENAMES</div>
         <div className="loginContainer">
-          <img src={'../../static/images/logoLight.png'} alt={''} width="50%" />
+          <img className="logo" src="/images/logoCircle.png" alt="codenames" />
           <CreateRoomButton />
         </div>
       </div>
