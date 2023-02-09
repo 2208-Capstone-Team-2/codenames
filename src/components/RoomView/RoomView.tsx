@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { database } from '../../utils/firebase';
-import { useParams } from 'react-router-dom';
-import { onValue, ref, set, get, child, update } from 'firebase/database';
-import './roomView.css';
-import Popup from '../Room/Popup';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
+// Custom Hooks
+import OnValueHostRef from './customHooks/OnValueHostRef';
+import OnValueCardsRef from './customHooks/OnValueCardsRef';
+import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
+// Components:
 import SetupGame from './SetupGame';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
@@ -14,6 +13,16 @@ import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import Clue from './Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
+import Loser from './Loser';
+import Winner from './Winner';
+import Navbar from '../Navbar/Navbar';
+import Popup from '../Room/Popup';
+// Firebase:
+import { database } from '../../utils/firebase';
+import { onValue, ref, set, get, child, update } from 'firebase/database';
+// Redux:
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { setRoomId } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
@@ -29,14 +38,8 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-
-import Loser from './Loser';
-import Winner from './Winner';
-import Navbar from '../Navbar/Navbar';
-import OnValueHostRef from './customHooks/OnValueHostRef';
-import OnValueCardsRef from './customHooks/OnValueCardsRef';
-import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
-
+// CSS:
+import './roomView.css';
 interface ClassName {
   className: string;
 }
@@ -45,23 +48,23 @@ const RoomView = (props: ClassName) => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
-
   const dispatch = useDispatch();
-  const [timedPopup, setTimedPopup] = useState(false);
+
   // frontend state
+  const [timedPopup, setTimedPopup] = useState(false);
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { host } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
-  let playersInRoomRef = ref(database, 'rooms/' + roomId + '/players/');
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-
+  let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
+  let gameRef = ref(database, `rooms/${roomId}/game/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // whenever users are added to specific room, update frontend redux store
