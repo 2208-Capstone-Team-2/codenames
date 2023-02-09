@@ -6,10 +6,14 @@ import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
+import { setTeamIdOnPlayer } from '../../store/playerSlice';
+
 const TeamTwoBox = () => {
   const { roomId } = useParams();
 
   const { playerId, username } = useSelector((state: RootState) => state.player);
+  const { team2Id } = useSelector((state: RootState) => state.teamTwo);
+
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
@@ -48,10 +52,12 @@ const TeamTwoBox = () => {
           } else {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
+            dispatch(setTeamIdOnPlayer(team2Id));
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
+          dispatch(setTeamIdOnPlayer(team2Id));
         }
       });
     }
@@ -63,7 +69,6 @@ const TeamTwoBox = () => {
     const teamOneOpsAndSpys = teamOne.val();
     let teamOneSpymaster;
     let teamOneOperatives;
-    console.log({ teamOneOpsAndSpys });
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.spymaster) {
       teamOneSpymaster = teamOneOpsAndSpys.spymaster;
     }
@@ -75,7 +80,6 @@ const TeamTwoBox = () => {
       (teamOneSpymaster && teamOneSpymaster.playerId === playerId) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
-
       console.log('Cannot join the other team!');
     } else {
       // Here we want to check if a player is already an operative, so that they cannot join both.
@@ -85,15 +89,17 @@ const TeamTwoBox = () => {
           const teamTwoOperativesSnap = Object.keys(snapshot.val());
           if (teamTwoOperativesSnap.includes(playerId)) {
             // later we should probably refactor this so that something on the UI is triggered
-      
+
             console.log('cannot join both the spymasters and the operatives');
           } else {
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
+            dispatch(setTeamIdOnPlayer(team2Id));
           }
         } else {
           onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
+          dispatch(setTeamIdOnPlayer(team2Id));
         }
       });
     }
@@ -132,9 +138,11 @@ const TeamTwoBox = () => {
         <div>
           <p>Operative(s)</p>
           {teamTwoOperatives?.map((player) => {
-            return   <span className="playerName" key={player.playerId}>
-            {player.username}
-          </span>
+            return (
+              <span className="playerName" key={player.playerId}>
+                {player.username}
+              </span>
+            );
           })}
           <br />
           <button onClick={joinTeamTwoOp}>Join as Operative</button>
