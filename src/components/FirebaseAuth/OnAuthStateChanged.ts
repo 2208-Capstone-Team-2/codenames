@@ -15,11 +15,7 @@ import { auth, database } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 
-interface WrapperProps {
-  setInputtedUsername: Function;
-}
-
-function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
+function OnAuthStateChanged() {
   const dispatch = useDispatch();
   const { isHost } = useSelector((state: RootState) => state.player);
   const { roomId } = useParams();
@@ -35,7 +31,6 @@ function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
           const foundPlayer = await axios.get(`/api/player/${playerId}`);
           player = foundPlayer.data;
           // Use the found player's username in the backend to pre-fill our form's text input
-          setInputtedUsername(foundPlayer.data.username);
         } catch (err) {
           // if player doesn't exist in db... create one right now!
           const createdPlayer = await axios.post(`/api/player`, { playerId });
@@ -62,8 +57,6 @@ function OnAuthStateChanged({ setInputtedUsername }: WrapperProps) {
       }
     });
   }, []);
-
-  return <></>;
 }
 
 export default OnAuthStateChanged;
