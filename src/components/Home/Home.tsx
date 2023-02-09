@@ -12,7 +12,6 @@ function Home() {
       <div className="homeContainer">
         <div className="codenames">CODENAMES</div>
         <div className="loginContainer">
-        <img src="/images/logoCircle.png" alt="codenames" />
           <CreateRoomButton />
         </div>
         <SignInAnonymously />
