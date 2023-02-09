@@ -1,25 +1,25 @@
-.redBoxCard{
-    height: fit-content;
-    width: 15%;
-    color: #e0620e;
-    padding: 15px;
-    background-color: #8c2a2a;
-    border-radius: 6px;
-    margin:0 2% 0 0;
-    border:black solid 1px;
-    font-family:"Oswald";
-  }
-  .redBoxCard button{
-    width: fit-content;
-    height:30px;
-    background-color: white;
-    border-top:solid black 1px;
-    border-left:solid black 1px;
-    border-right:solid black 3px;
-    border-bottom:solid black 3px;
-    border-radius: 5px 10px;
-    font-family: "oswald"
-  }
+.redBoxCard {
+  height: fit-content;
+  width: 15%;
+  color: #e0620e;
+  padding: 15px;
+  background-color: #8c2a2a;
+  border-radius: 6px;
+  margin: 0 2% 0 0;
+  border: black solid 1px;
+  font-family: 'Oswald';
+}
+.redBoxCard button {
+  width: fit-content;
+  height: 30px;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+}
 .redOpsAndSpys {
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@
   width: 250px;
   margin-top: 30px;
 }
-.redBoxCard h3{
+.redBoxCard h3 {
   padding: 0;
   margin: 0;
 }

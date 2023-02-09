@@ -1,25 +1,25 @@
-.blueBoxCard{
-    height: fit-content;
-    width: 15%;
-    color: #d2dcde;
-    padding: 15px;
-    background-color: #365e7f;
-    border-radius: 3px;
-    margin:0 0 0 2%;
-    border: black solid 1px;
-    font-family:"Oswald";
-  }
-  .blueBoxCard button{
-    width: fit-content;
-    height:30px;
-    background-color: white;
-    border-top:solid black 1px;
-    border-left:solid black 1px;
-    border-right:solid black 3px;
-    border-bottom:solid black 3px;
-    border-radius: 5px 10px;
-    font-family: "oswald"
-  }
+.blueBoxCard {
+  height: fit-content;
+  width: 15%;
+  color: #d2dcde;
+  padding: 15px;
+  background-color: #365e7f;
+  border-radius: 3px;
+  margin: 0 0 0 2%;
+  border: black solid 1px;
+  font-family: 'Oswald';
+}
+.blueBoxCard button {
+  width: fit-content;
+  height: 30px;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+}
 
 .blueOpsAndSpys {
   display: flex;
@@ -29,7 +29,7 @@
   width: 250px;
   margin-top: 30px;
 }
-.blueBoxCard h3{
+.blueBoxCard h3 {
   padding: 0;
   margin: 0;
 }
