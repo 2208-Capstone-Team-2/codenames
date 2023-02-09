@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // redux imports:
 import { useDispatch } from 'react-redux';
 import { setIsHost } from '../../store/playerSlice';
-//firebase imports
+// firebase imports
 import { database } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
 
@@ -34,7 +34,12 @@ function CreateRoomButton() {
     return navigate(`/room/${roomId}`);
   };
 
-  return <button onClick={clickHandler}>Create Room</button>;
+  return (
+    <div className="createRoomBox">
+      <img src="/images/logoCircle.png" alt="codenames" />
+      <button onClick={clickHandler}>Create Room</button>
+    </div>
+  );
 }
 
 export default CreateRoomButton;
