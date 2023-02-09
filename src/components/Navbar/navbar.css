@@ -34,7 +34,7 @@ margin-left: 2em;
     flex-grow: .2;
 }
 .navBarButtons button {
-    width: 75px;
+    width: fit-content;
     height:30px;
     background-color: white;
     border-top:solid black 1px;
