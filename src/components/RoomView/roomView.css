@@ -61,13 +61,7 @@ visibility: visible;
   .setUpGame{    display: flex;
     justify-content: center;
     margin-top: 2%;}
-.gameStatusClaimHost{ font-family: "Montserrat";color:white; 
-display: flex;height: fit-content;justify-content: center;align-items: center;margin: 2% auto 5%;
-background-color: #483d3d4a;
-height: 40px;
-width: 70vw;
-border-radius: 40px;
-box-shadow: 4px 4px black;}
+
   .setupGamePopup{      background-color: #dec160;
     position: absolute;
     width: 20%;
