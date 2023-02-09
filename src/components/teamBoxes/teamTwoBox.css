@@ -3,6 +3,7 @@
   width: 15%;
   color: #d2dcde;
   padding: 15px;
+  font-size: 16px;
   background-color: #365e7f;
   border-radius: 6px;
   margin: 0 0 0 2%;
@@ -15,6 +16,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0;
+  margin: 0;
   font-weight: 400;
   letter-spacing: 1px;
 }
@@ -30,7 +33,6 @@
   font-family: 'oswald';
   margin-top: 8px;
 }
-
 .blueOpsAndSpys {
   display: flex;
   flex-direction: column;
@@ -38,10 +40,6 @@
   align-items: flex-start;
   width: 250px;
   margin-top: 30px;
-}
-.blueBoxCard h3 {
-  padding: 0;
-  margin: 0;
 }
 .blueOpsAndSpys p {
   margin: 8px;
