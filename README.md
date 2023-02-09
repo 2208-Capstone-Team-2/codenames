@@ -1,6 +1,6 @@
 # Codenames
 
-<img src='src/static/images/transparentLogo.png' alt='logo' height='auto' width='auto'/>
+<img src='public/images/transparentLogo.png' alt='logo' height='auto' width='auto'/>
 
 <div class="flex-container"><!-- .element: style="display: flex; flex-direction: row;" -->
   <img src="https://img.shields.io/badge/Typescript-027bcd?&logo=typescript&logoColor=white" />
