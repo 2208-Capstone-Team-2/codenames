@@ -34,12 +34,8 @@ function CreateRoomButton() {
     return navigate(`/room/${roomId}`);
   };
 
-  return (
-    <div className="createRoomBox">
-      <img src="/images/logoCircle.png" alt="codenames" />
-      <button onClick={clickHandler}>Create Room</button>
-    </div>
-  );
+  return <button onClick={clickHandler}>Create Room</button>
+
 }
 
 export default CreateRoomButton;
