@@ -1,16 +1,15 @@
-.MessageInput {
+.clue-container {
   display: flex;
   justify-content: center;
-  margin-top: 2%;
 }
 
 .clue-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   font-family: 'Montserrat', sans-serif;
   font-size: 2rem;
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  align-items: center;
   gap: 1rem;
 }
 
@@ -72,6 +71,7 @@
 .dark-blue-background-color {
   background-color: rgb(53, 94, 127);
 }
+
 /*   !!!!!!!! COLOR CHEAT SHEET !!!!!!!
 dark red - #8c292a   rgb(140,41,42)
 dark blue -  #355e7f    rgb(53,94,127) 
