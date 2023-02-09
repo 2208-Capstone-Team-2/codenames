@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Popup from './Popup';
 // Component Imports:
+import Popup from './Popup';
 import UsernameForm from './UsernameForm';
 import RoomView from '../RoomView/RoomView';
 import FetchRoom from './FetchRoom';
-import SignInAnonymously from './SignInAnonymously';
-import OnAuthStateChanged from './OnAuthStateChanged';
-import './userForm.css';
+import SignInAnonymously from '../FirebaseAuth/SignInAnonymously';
+import OnAuthStateChanged from '../FirebaseAuth/OnAuthStateChanged';
 import DocumentTitleChange from './DocumentTitleChange';
+import './userForm.css';
 
 function RoomContainer() {
-  const [inputtedUsername, setInputtedUsername] = useState<string>('');
   const [timedPopup, setTimedPopup] = useState<boolean>(false);
   const [canBeClosed, setCanBeClosed] = useState<boolean>(true);
 
@@ -20,21 +19,18 @@ function RoomContainer() {
     }, 1000);
   }, []);
 
+  // Run custom hooks
+  const isSignedIn = SignInAnonymously();
   DocumentTitleChange();
+  OnAuthStateChanged();
+
   return (
     <div>
       <FetchRoom />
-      <SignInAnonymously />
-      <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
       <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
-        <UsernameForm
-          inputtedUsername={inputtedUsername}
-          setInputtedUsername={setInputtedUsername}
-          canBeClosed={canBeClosed}
-          setCanBeClosed={setCanBeClosed}
-        />
+        <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />
       </Popup>
-      <RoomView className={timedPopup ? 'disabled' : ''} />
+      {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
     </div>
   );
 }
