@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import pluralize from 'pluralize';
-import './clue.css';
 import { ClueType } from '../../utils/interfaces'; // for Typescript interface
+//firebase:
 import { database } from '../../utils/firebase';
 import { ref, child, push, update } from 'firebase/database';
+//redux:
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store';
+//CSS:
+import './clue.css';
 
 const Clue = () => {
   // useStates:
@@ -20,7 +23,6 @@ const Clue = () => {
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
-
   // firebase:
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
@@ -95,29 +97,37 @@ const Clue = () => {
     }
   };
 
-  // calculate here if we should show this component or not
-  let showClue = false;
+  // This is used to conditionally style - if they're red, they get red styling. Else, blue styling.
+  const imRedSpy = teamOneSpymaster?.playerId === playerId;
+
+  // Calculate here if we should show this component or not.
+  /* Note: I do think this logic should be done outside the component and conditionally renders it there,
+    rather than in here, and choosing to render a fragment instead, but for now... */
+  let showClue = false; // start it with false
   const iAmSpy1AndItsMyTurn = gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId;
   const iAmSpy2AndItsMyTurn = gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId;
+  // If either of these above are true, show the Clue component!
   if (iAmSpy1AndItsMyTurn || iAmSpy2AndItsMyTurn) showClue = true;
 
   if (!showClue) return <></>;
   return (
-    <div className="MessageInput">
-      <form>
+    <div>
+      <form className="clue-form">
         <input
+          className={imRedSpy ? 'clue-input-text dark-red-color' : 'clue-input-text dark-blue-color'}
           type="text"
-          placeholder="Clue..."
+          placeholder="Type your clue here..."
           onChange={(e) => {
             handleClueChange(e);
           }}
         />
         <select
+          className={imRedSpy ? 'clue-input-number dark-red-color' : 'clue-input-number dark-blue-color'}
           onChange={(e) => {
             handleNumberChange(e);
           }}
         >
-          <option>select a number</option>
+          <option>#</option>
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -128,8 +138,14 @@ const Clue = () => {
           <option>8</option>
           <option>9</option>
         </select>
-
-        <button onClick={handleSubmit}>submit clue</button>
+        <button
+          className={
+            imRedSpy ? 'clue-submit-button dark-red-background-color' : 'clue-submit-button dark-blue-background-color'
+          }
+          onClick={handleSubmit}
+        >
+          Submit Clue
+        </button>
       </form>
     </div>
   );
