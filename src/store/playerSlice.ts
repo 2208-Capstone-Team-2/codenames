@@ -27,6 +27,7 @@ export const playerSlice = createSlice({
     },
     setTeamIdOnPlayer: (state, action) => {
       console.log('setting teamid on player!');
+      console.log(action.payload)
       state.teamId = action.payload;
     },
   },
