@@ -1,21 +1,23 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import path from "path";
-import apiRouter from "./api";
-import morgan from "morgan";
+import path from 'path';
+import apiRouter from './api';
+import morgan from 'morgan';
 const app: Express = express();
 // static middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
+
 // body parsers!!!! woohoooo!!!!!!
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
-app.use(morgan("tiny"));
+app.use(morgan('tiny'));
 
 app.use('/api', apiRouter);
 
-app.use('*', (req: Request, res:Response) => {
+app.use('*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 

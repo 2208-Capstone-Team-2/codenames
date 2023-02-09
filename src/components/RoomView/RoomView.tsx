@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { database } from '../../utils/firebase';
 import { useParams } from 'react-router-dom';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
 import './roomView.css';
-import Popup from 'reactjs-popup';
-import { Button } from '@mui/material';
+import Popup from '../Room/Popup';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import SetupGame from './SetupGame';
-import WelcomeBoard from './WelcomeBoard';
+import WelcomeBoard from '../Navbar/WelcomeBoard';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
@@ -35,7 +34,10 @@ import { RootState } from '../../store/index.js';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
 import { setHost } from '../../store/gameSlice';
 import { setIsHost } from '../../store/playerSlice';
+import Loser from'./Loser';
+import Winner from './Winner'
 import words from 'random-words';
+import Navbar from '../Navbar/Navbar';
 
 interface ClassName {
   className: string;
@@ -47,9 +49,10 @@ const RoomView = (props: ClassName) => {
   setRoomId(roomId);
 
   const dispatch = useDispatch();
-
+  const [timedPopup, setTimedPopup] = useState(false);
   // frontend state
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
+  const { winner, loser} = useSelector((state: RootState) => state.game);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { host } = useSelector((state: RootState) => state.game);
@@ -67,8 +70,8 @@ const RoomView = (props: ClassName) => {
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
-
   useEffect(() => {
+    window.scrollTo(0, 0);
     // whenever users are added to specific room, update frontend redux store
     onValue(playersInRoomRef, (snapshot) => {
       if (snapshot.exists()) {
@@ -149,7 +152,9 @@ const RoomView = (props: ClassName) => {
         }
         dispatch(setGameHistory(history));
       }
-    });
+    }); setTimeout(() => {
+      setTimedPopup(true);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -284,65 +289,62 @@ const RoomView = (props: ClassName) => {
   const claimHost = () => {
     update(hostRef, { playerId, username });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
-  };
-
+  }
   return (
-    <div className="roomViewBG">
-      <div className={props.className}>
-        <WelcomeBoard />
-
-        <div className="gameStatusClaimHost">
-          {!host && (
-            <p>
-              The host has left, <button onClick={claimHost}>claim host responsibilities</button> to begin game.
-            </p>
-          )}
-          <div className="gameStatus">
-            <GameStatus />
-          </div>
-        </div>
-
-        {/* is there isnt at least one person to each role, setup board should be disabled / not visible 
-      is host AND there is at least one person on each team */}
-        {isHost && (
-          <Popup
-            trigger={
-              <Button style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}> Set Up Board </Button>
-            }
-          >
-            <SetupGame />
-          </Popup>
-        )}
-
-        <div className="flexBox">
-          <TeamOneBox />
-          <div className="boardContainer">
-            {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-            {/* this is working for now, but we probably need more protection to not display 
+    <div className={`${props.className} roomViewBG`}>
+          <Navbar />
+      <div className="gameStatusClaimHost">
+      <GameStatus />
+      <div className='gameStatus'>
+      {!host && 
+      <p>The host has left, need a <button onClick={claimHost}>New Host</button> to begin game.</p>
+      }</div></div>
+      {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
+      {/* is host AND there is at least one person on each team */}
+      {isHost && (
+        <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="setupGamePopup">
+          <SetupGame />
+        </Popup>
+      )}
+      <div className="flexBox">
+        <TeamOneBox />
+        <div className="boardContainer">
+          {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+          {/* this is working for now, but we probably need more protection to not display 
       a spymaster board on someone who randomly joins room while game is 'in progress' */}
-            {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
-              <SpyMasterBoard />
-            ) : (
-              <OperativeBoard />
-            )}
-          </div>
-          <TeamTwoBox />
-          <div className="break"></div>
-          <GameLog />
-          <div className="chatBox"> this will be the chat box</div>
+          {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
+            <SpyMasterBoard />
+          ) : (
+            <OperativeBoard />
+          )}
         </div>
-
-        <Clue />
-
-        {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
-        {/* {isHost && everyonesHere && (
-        <Popup trigger={ <Button style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto'}}> Set Up Board </Button>}>
+        <TeamTwoBox />
+        <div className="break"></div>
+        <GameLog />
+        <div className="chatBox"> this will be the chat box</div>
+      </div>
+      <Clue />
+<Loser /><Winner />
+      {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
+      {/* {isHost && everyonesHere && (
+        <Popup
+          trigger={
+            <Button
+              style={{
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              Set Up Board
+            </Button>
+          }
+        >
           <SetupGame />
         </Popup>
       )} */}
-      </div>
-    </div>
-  );
-};
+      
+  </div>)
 
+    }
 export default RoomView;

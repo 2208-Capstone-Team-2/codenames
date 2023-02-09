@@ -16,9 +16,11 @@ const ResetGame = () => {
   };
 
   return (
+    <div>
         <button className='welcomeBoardButton' onClick={resetGame}>
           Reset Game
         </button>
+    </div>
   );
 };
 

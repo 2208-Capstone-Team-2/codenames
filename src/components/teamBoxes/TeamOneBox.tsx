@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './teamOneBox.css';
-import { get, ref, set, child, onValue, onDisconnect, DataSnapshot } from 'firebase/database';
+import { get, ref, set, child, onValue, onDisconnect } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
+import { setTeamIdOnPlayer } from '../../store/playerSlice';
 
 const TeamOneBox = () => {
   const { roomId } = useParams();
 
   const { playerId, username } = useSelector((state: RootState) => state.player);
+  const { team1Id } = useSelector((state: RootState) => state.teamOne);
+
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
   const dispatch = useDispatch();
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
@@ -49,10 +52,12 @@ const TeamOneBox = () => {
           } else {
             onDisconnect(playerOnTeamOneOperativesRef).remove();
             set(child(teamOneOperativesRef, playerId), { playerId, username });
+            dispatch(setTeamIdOnPlayer(team1Id));
           }
         } else {
           onDisconnect(playerOnTeamOneOperativesRef).remove();
           set(child(teamOneOperativesRef, playerId), { playerId, username });
+          dispatch(setTeamIdOnPlayer(team1Id));
         }
       });
     }
@@ -87,10 +92,12 @@ const TeamOneBox = () => {
           } else {
             onDisconnect(teamOneSpymasterRef).remove();
             set(teamOneSpymasterRef, { playerId, username });
+            dispatch(setTeamIdOnPlayer(team1Id));
           }
         } else {
           onDisconnect(teamOneSpymasterRef).remove();
           set(teamOneSpymasterRef, { playerId, username });
+          dispatch(setTeamIdOnPlayer(team1Id));
         }
       });
     }

@@ -13,17 +13,19 @@ import { setHost } from '../../store/gameSlice';
 import './userForm.css';
 
 interface UsernameFormProps {
-  inputtedUsername: string;
-  setInputtedUsername: Function;
   canBeClosed: boolean;
   setCanBeClosed: Function;
 }
 
-function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setCanBeClosed }: UsernameFormProps) {
-  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
-  const { roomId } = useParams();
+function UsernameForm({ canBeClosed, setCanBeClosed }: UsernameFormProps) {
   const dispatch = useDispatch();
-  const { playerId, isHost } = useSelector((state: RootState) => state.player);
+  const { roomId } = useParams() as { roomId: string };
+
+  const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
+
+  // If we have a username in redux slice, start it with that. else, start it with empty string.
+  const [inputtedUsername, setInputtedUsername] = useState<string>(username ? username : '');
+  const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
 
   const submitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -36,7 +38,10 @@ function UsernameForm({ inputtedUsername, setInputtedUsername, canBeClosed, setC
     }
 
     // Update our player's model with this new username
-    const bodyToSubmit: { username: string, roomId: string | undefined } = { username: trimmedInputtedUsername, roomId };
+    const bodyToSubmit: { username: string; roomId: string } = {
+      username: trimmedInputtedUsername,
+      roomId,
+    };
     await axios.put(`/api/player/${playerId}`, bodyToSubmit);
 
     // Update redux
