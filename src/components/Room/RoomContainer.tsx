@@ -6,7 +6,6 @@ import RoomView from '../RoomView/RoomView';
 import FetchRoom from './FetchRoom';
 import SignInAnonymously from '../FirebaseAuth/SignInAnonymously';
 import OnAuthStateChanged from '../FirebaseAuth/OnAuthStateChanged';
-import Navbar from '../Navbar/Navbar';
 import DocumentTitleChange from './DocumentTitleChange';
 import './userForm.css';
 
@@ -27,7 +26,6 @@ function RoomContainer() {
 
   return (
     <div>
-      <Navbar />
       <FetchRoom />
       <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
         <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />

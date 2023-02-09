@@ -1,26 +1,52 @@
-.narbarContainer
-{
+.navbarContainer
+{    font-weight: 500;
     display: flex;
     justify-content: space-between;
-    padding: 8px;
+    padding: 7px;
     align-items: center;
-    border: 1px solid black;
-    border-radius: 16px;
+    border: 3px solid black;
+    background-color: #e2c78d;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 16px;
 }
+.welcomeBoard{
+    font-family: "Oswald";
+    width: 40%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .welcomeBoardItem{
+margin-left: 2em;
+    text-align: center;
+    color: black;
+    line-height: 10px;
+  }
 .navBarButtons{
     display: flex;
     align-items: center;
-    justify-content: center;
+    height: 50px;
     flex-direction: row;
     justify-content: space-around;
-    flex-grow: .1;
+    flex-grow: .2;
 }
 .navBarButtons button {
-    width: 75px;
+    width: fit-content;
+    height:30px;
+    background-color: white;
+    border-top:solid black 1px;
+    border-left:solid black 1px;
+    border-right:solid black 3px;
+    border-bottom:solid black 3px;
+    border-radius: 5px 10px;
+    font-family: "oswald"
 }
-.logo img 
-{
-width: 50px;
+.welcomeBoardItem img 
+{align-self: center;
+width: 55px;
 }
 .timeButton button{
     display: flex;
@@ -30,3 +56,34 @@ width: 50px;
     width: 30px;
     border-radius: 50%;
 }
+.gameStatusClaimHost {
+    background-color: #e2c78d;
+    font-family: 'Oswald';
+    color: white;
+    font-weight: 300;
+    display: flex;
+    height: fit-content;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+  }
+  .gameStatus {
+    align-self: center;
+    margin-right: -5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gameStatus:last-child {
+    margin-left: 10%;
+  }
+  .gameStatusClaimHost button{border-right: solid black 3px;
+    border-bottom: solid black 3px;
+    background-color: white;
+    color: black;
+    width: fit-content;
+    padding: 1px 5px;
+    font-family: "Oswald";
+    font-size: 16px;
+    border-radius: 5px 10px;}
+  

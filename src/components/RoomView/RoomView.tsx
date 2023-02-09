@@ -8,7 +8,7 @@ import './roomView.css';
 import Popup from '../Room/Popup';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import SetupGame from './SetupGame';
-import WelcomeBoard from './WelcomeBoard';
+import WelcomeBoard from '../Navbar/WelcomeBoard';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
@@ -37,6 +37,7 @@ import { setIsHost } from '../../store/playerSlice';
 import Loser from'./Loser';
 import Winner from './Winner'
 import words from 'random-words';
+import Navbar from '../Navbar/Navbar';
 
 interface ClassName {
   className: string;
@@ -69,7 +70,6 @@ const RoomView = (props: ClassName) => {
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
-
   useEffect(() => {
     window.scrollTo(0, 0);
     // whenever users are added to specific room, update frontend redux store
@@ -290,14 +290,14 @@ const RoomView = (props: ClassName) => {
     update(hostRef, { playerId, username });
     update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
   }
-  return ( <div className="roomViewBG">
-    <div className={props.className}>
-      <WelcomeBoard />
+  return (
+    <div className={`${props.className} roomViewBG`}>
+          <Navbar />
       <div className="gameStatusClaimHost">
       <GameStatus />
       <div className='gameStatus'>
       {!host && 
-      <p>The host has left,  <button onClick={claimHost}>claim host responsibilities</button> to begin game.</p>
+      <p>The host has left, need a <button onClick={claimHost}>New Host</button> to begin game.</p>
       }</div></div>
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
@@ -344,7 +344,7 @@ const RoomView = (props: ClassName) => {
         </Popup>
       )} */}
       
-  </div></div>)
+  </div>)
 
     }
 export default RoomView;
