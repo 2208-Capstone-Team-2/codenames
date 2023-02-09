@@ -29,15 +29,6 @@ const OperativeBoard = () => {
     return operative.playerId;
   });
 
-  const style = {
-    display: 'grid',
-    gridTemplateColumns: 'auto auto auto auto auto',
-    marginTop: '5%',
-    gap: '2%',
-    justifyContent: 'center',
-    alightItems: 'center',
-  };
-
   const endTurn = () => {
     console.log('ending turn');
     let nextStatus;
@@ -55,7 +46,7 @@ const OperativeBoard = () => {
   };
 
   return (
-    <div style={style}>
+    <div className="board">
       {words.map((word: CardObj) => {
         return <Card key={word.id} word={word.word} id={word.id} isVisibleToAll={word.isVisibleToAll} wordString={word.wordString} wordId={word.wordId} boardId={word.boardId} teamId={word.teamId}  />;
       })}

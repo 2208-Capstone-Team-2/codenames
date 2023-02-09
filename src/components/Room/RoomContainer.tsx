@@ -7,7 +7,6 @@ import FetchRoom from './FetchRoom';
 import SignInAnonymously from './SignInAnonymously';
 import OnAuthStateChanged from './OnAuthStateChanged';
 import './userForm.css';
-import Navbar from '../Navbar/Navbar';
 import DocumentTitleChange from './DocumentTitleChange';
 
 function RoomContainer() {
@@ -24,7 +23,6 @@ function RoomContainer() {
   DocumentTitleChange();
   return (
     <div>
-      <Navbar />
       <FetchRoom />
       <SignInAnonymously />
       <OnAuthStateChanged setInputtedUsername={setInputtedUsername} />
