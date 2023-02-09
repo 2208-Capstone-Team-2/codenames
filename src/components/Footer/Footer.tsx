@@ -13,7 +13,7 @@ function Footer() {
           <p>Terms of Service</p>
         </div>
         <div className="groupInfo">
-          <p>© 2023 Codenams | Powered by Full Stack Academy Web Dev - Part Time - 2208 - Capstone Group 2</p>
+          <p>© 2023 Codenames | Powered by Full Stack Academy Web Dev - Part Time - 2208 - Capstone Group 2</p>
         </div>
         <div className="icons">
           <a
