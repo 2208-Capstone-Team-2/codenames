@@ -1,13 +1,22 @@
 .redBoxCard {
   height: fit-content;
   width: 15%;
-  color: #e0620e;
+  color: #d2dcde;
   padding: 15px;
   background-color: #8c2a2a;
   border-radius: 6px;
   margin: 0 2% 0 0;
   border: black solid 1px;
   font-family: 'Oswald';
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+.redBoxCard h3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 .redBoxCard button {
   width: fit-content;
@@ -19,6 +28,7 @@
   border-bottom: solid black 3px;
   border-radius: 5px 10px;
   font-family: 'oswald';
+  margin-top: 8px;
 }
 .redOpsAndSpys {
   display: flex;
@@ -39,9 +49,13 @@
 .playerName {
   color: white;
   border: 1px solid beige;
+  font-weight: 400;
   font-size: 14px;
   letter-spacing: 1px;
   border-radius: 5px;
-  padding: 1px;
-  margin: 4px;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  margin: 4px !important;
 }
