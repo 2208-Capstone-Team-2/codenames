@@ -12,7 +12,7 @@ import './chat.css';
   -NNw7f9cwKyPmhH0Qu7h: {msg: 'from spectator', username: 'ben'}
   -NNw8ewwRkrKmDjon24H: {msg: 'message!', teamId: 14, username: 'rose'}
   } */
-interface FirebaseMessageType {
+interface MessagesType {
   [key: string]: MsgType;
 }
 interface MsgType {
@@ -28,7 +28,7 @@ const Chat = () => {
   const { team1Id } = useSelector((state: RootState) => state.teamOne);
   const { team2Id } = useSelector((state: RootState) => state.teamTwo);
   const [msg, setMsg] = useState(''); // this is the currently inputted message by the user
-  const [messages, setMessages] = useState<FirebaseMessageType>({}); // these are all the messages in the chat
+  const [messages, setMessages] = useState<MessagesType>({}); // these are all the messages in the chat
   const chatRef = ref(database, `rooms/${roomId}/chat`); // firebase reference to all messages in room
 
   useEffect(() => {
