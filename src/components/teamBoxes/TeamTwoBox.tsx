@@ -138,8 +138,8 @@ const TeamTwoBox = () => {
 
   return (
     <div className="blueBoxCard">
-      <div>Team 2</div>
-      <div>Remaining Cards: {teamTwoRemainingCards}</div>
+      <h3>Team 2</h3>
+      <h3>Remaining Cards: {teamTwoRemainingCards}</h3>
       <div className="blueOpsAndSpys">
         <div>
           <p>Operative(s)</p>

@@ -53,9 +53,9 @@ const MakeSpectator = () => {
 
   return (
     <div>
-        <Button variant="contained" onClick={makeMeSpectator}>
+        <button className="welcomeBoardButton" onClick={makeMeSpectator}>
           Become a spectator
-        </Button>
+        </button>
     </div>
   );
 };

@@ -17,6 +17,7 @@ import Loser from './Loser';
 import Winner from './Winner';
 import Navbar from '../Navbar/Navbar';
 import Popup from '../Room/Popup';
+import Chat from './chat/Chat';
 // Firebase:
 import { database } from '../../utils/firebase';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
@@ -211,7 +212,7 @@ const RoomView = (props: ClassName) => {
         <TeamTwoBox />
         <div className="break"></div>
         <GameLog />
-        <div className="chatBox"> this will be the chat box</div>
+        <Chat />
       </div>
       <Clue />
       <Loser />
