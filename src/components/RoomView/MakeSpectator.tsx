@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button } from '@mui/material';
-import { ref, update, remove, get, child, onValue } from 'firebase/database';
+import { ref, update, remove, get, child } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
@@ -8,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setTeamIdOnPlayer } from '../../store/playerSlice';
 
 const MakeSpectator = () => {
-  const { roomId, playerId, teamId } = useSelector((state: RootState) => state.player);
+  const { roomId, playerId } = useSelector((state: RootState) => state.player);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
