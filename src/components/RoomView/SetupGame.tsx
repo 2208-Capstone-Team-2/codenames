@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
-import Button from '@mui/material/Button';
 import { RootState } from '../../store';
 import { setShowStartGame } from '../../store/gameSlice';
 import { useDispatch } from 'react-redux';
+import './roomView.css';
+
 interface WordPackType {
   id: number;
   name: string;
@@ -95,14 +96,14 @@ const SetupGame = () => {
                 <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
               </div>
             ))}
-            <Button
-              variant="contained"
+            <button className='startGameButton'
+              
               type="submit"
               disabled={selectedWordPackIds.length === 0 ? true : false}
               onClick={startGame}
             >
               Start game
-            </Button>
+            </button>
           </form>
       </div>
       }

@@ -151,18 +151,21 @@ body {
   width: 5%;
   height: 15%;
 }
-.setUpGame {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
-}
+
 .MessageInput {
   display: flex;
   justify-content: center;
   margin-top: 2%;
 }
-.setUpGame {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
+
+.startGameButton {
+  width: fit-content;
+  height: 30px;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
 }
