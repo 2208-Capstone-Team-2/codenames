@@ -12,6 +12,7 @@ interface GameType {
   loser: string;
   gameHistory: (string | ClueType)[];
   host: HostType | null;
+  showStartGame: boolean;
 }
 
 // gameHistory: [clueObj,  clueObj ] ...?
@@ -25,6 +26,7 @@ const initialState: GameType = {
   loser: '',
   gameHistory: [],
   host: null,
+  showStartGame: true,
 };
 
 export const gameSlice = createSlice({
@@ -61,6 +63,10 @@ export const gameSlice = createSlice({
     setHost: (state, action) => {
       state.host = action.payload;
     },
+    setShowStartGame: (state, action) => {
+      state.showStartGame = action.payload;
+    },
+    
   },
 });
 
@@ -74,5 +80,6 @@ export const {
   setLoser,
   setGameHistory,
   setHost,
+  setShowStartGame
 } = gameSlice.actions;
 export default gameSlice.reducer;

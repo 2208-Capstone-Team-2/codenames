@@ -5,7 +5,8 @@ import { ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import Button from '@mui/material/Button';
 import { RootState } from '../../store';
-
+import { setShowStartGame } from '../../store/gameSlice';
+import { useDispatch } from 'react-redux';
 interface WordPackType {
   id: number;
   name: string;
@@ -14,12 +15,15 @@ interface WordPackType {
 
 }
 const SetupGame = () => {
+  const { isHost } = useSelector((state: RootState) => state.player);
+  const { status, showStartGame } = useSelector((state: RootState) => state.game);
   const [wordpacks, setWordpacks] = useState<WordPackType[]>([]);
   const [selectedWordPackIds, setSelectedWordPackIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const roomId = useSelector((state: RootState) => state.player.roomId);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  const dispatch = useDispatch()
   //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
     setIsLoading(true);
@@ -52,8 +56,6 @@ const SetupGame = () => {
   //-------------get the res.send data from the backend and set it up in the store
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('hello')
-    console.log({ selectedWordPackIds })
     const { data } = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackIds });
     const updates: any = {};
     data.forEach(
@@ -67,30 +69,25 @@ const SetupGame = () => {
         teamId: null,
       }),
     );
-    // updates looks like this:
-    // updates = {
-    //   1: {id: 1, isVisibleToAll: false, ....}, 
-    //   2: {id: 1, isVisibleToAll: false, ....}
-    //   etc
-    //  }
-
     update(ref(database, 'rooms/' + roomId), {
       gameboard: updates,
     });
+    dispatch(setShowStartGame(false))
   };
 
   const startGame = async () => {
-    console.log('startingGame');
     // gamestatus default value in firebase is 'not playing'.
     // when startGame is clicked, firebase gamestatus changes to 'team1SpyTurn'
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  console.log('ccc')
+
   if (isLoading) return <p>Loading...</p>;
   else
     return (
-      <div className="setUpContainer">
+     <>
+     <div className="setUpContainer">
+      {showStartGame && 
       <div className="setUpGame">
           Please select a pack of words
           <form onSubmit={submitHandler}>
@@ -110,7 +107,9 @@ const SetupGame = () => {
             </Button>
           </form>
       </div>
+      }
       </div>
+     </>
     );
 };
 

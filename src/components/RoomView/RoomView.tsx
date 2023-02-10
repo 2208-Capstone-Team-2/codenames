@@ -36,6 +36,7 @@ import {
   setLoser,
   setGuessesRemaining,
   setGameHistory,
+  setShowStartGame,
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
@@ -57,7 +58,7 @@ const RoomView = (props: ClassName) => {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host } = useSelector((state: RootState) => state.game);
+  const { host, status } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
@@ -104,6 +105,7 @@ const RoomView = (props: ClassName) => {
           dispatch(setGameHistory([]));
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
+          dispatch(setShowStartGame(true));
         }
 
         if (game.team1RemainingCards === 0) {
