@@ -10,16 +10,19 @@ const AllPlayers = () => {
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
 
-  const everyonesHere: boolean = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
+  const everyonesHere: boolean = isEveryRoleFilled(
+    teamOneOperatives,
+    teamTwoOperatives,
+    teamOneSpymaster,
+    teamTwoSpymaster,
+  );
 
   return (
     <div className="welcomeBoardItem">
-    
-        Players:
-        {allPlayers?.map((player:PlayerType) => {
-         return <p key={player.playerId}>{player.username}</p>
-        })}
-    
+      Players:
+      {allPlayers?.map((player: PlayerType) => {
+        return <p key={player.playerId}>{player.username}</p>;
+      })}
       {!everyonesHere && (
         <p style={{ color: '#8c2a2a', textDecoration: 'underline' }}>
           Make sure there is at least one person in each role!

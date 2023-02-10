@@ -1,6 +1,6 @@
 .notYetRevealed {
-    width: 120pt;
-    height: 96pt;
+  width: 120pt;
+  height: 96pt;
   background-color: #e2c78d;
   align-content: 'center';
   margin: 0;
@@ -13,7 +13,7 @@
 }
 .redRevealed {
   width: 120pt;
-    height: 96pt;
+  height: 96pt;
   background-image: url(./red.svg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -24,10 +24,10 @@
 
 .blueRevealed {
   width: 120pt;
-    height: 96pt;
-    background-image: url(./blue.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
+  height: 96pt;
+  background-image: url(./blue.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 0;
   text-indent: -9999px;
   border: none;
@@ -35,10 +35,10 @@
 
 .beigeRevealed {
   width: 120pt;
-    height: 96pt;
-    background-image: url(./beige.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
+  height: 96pt;
+  background-image: url(./beige.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 0;
   text-indent: -9999px;
   border: none;
@@ -46,10 +46,10 @@
 
 .blackRevealed {
   width: 120pt;
-    height: 96pt;
-    background-image: url(./black.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
+  height: 96pt;
+  background-image: url(./black.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 0;
   text-indent: -9999px;
   border: none;
@@ -58,7 +58,7 @@
 .redStyle {
   background-color: #8c2a2a;
   width: 120pt;
-    height: 96pt;
+  height: 96pt;
   text-align: 'center';
   align-content: 'center';
   margin: 0;
@@ -72,7 +72,7 @@
 .blueStyle {
   background-color: #365e7f;
   width: 120pt;
-    height: 96pt;
+  height: 96pt;
   text-align: 'center';
   align-content: 'center';
   margin: 0;
@@ -85,7 +85,7 @@
 }
 .beigeStyle {
   width: 120pt;
-    height: 96pt;
+  height: 96pt;
   text-align: 'center';
   align-content: 'center';
   margin: 0;
@@ -98,7 +98,7 @@
 }
 .blackStyle {
   width: 120pt;
-    height: 96pt;
+  height: 96pt;
   text-align: 'center';
   align-content: 'center';
   margin: 0;

@@ -11,7 +11,6 @@ interface WordPackType {
   name: string;
   createdAt: string;
   updatedAt: string;
-
 }
 const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState<WordPackType[]>([]);
@@ -35,7 +34,6 @@ const SetupGame = () => {
   //------------------functions to handle selection---------------------//
 
   const handleWordPackSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-
     const idInteractedWith = event.target.value;
     //if event.target.value is already in the array, we delete the already existed one in the array and return
     if (selectedWordPackIds.includes(idInteractedWith)) {
@@ -52,24 +50,24 @@ const SetupGame = () => {
   //-------------get the res.send data from the backend and set it up in the store
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('hello')
-    console.log({ selectedWordPackIds })
+    console.log('hello');
+    console.log({ selectedWordPackIds });
     const { data } = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackIds });
     const updates: any = {};
     data.forEach(
       (card: any) =>
-      (updates[card.id] = {
-        id: card.id,
-        isVisibleToAll: card.isVisibleToAll,
-        wordString: card.word.word,
-        wordId: card.wordId,
-        boardId: card.boardId,
-        teamId: null,
-      }),
+        (updates[card.id] = {
+          id: card.id,
+          isVisibleToAll: card.isVisibleToAll,
+          wordString: card.word.word,
+          wordId: card.wordId,
+          boardId: card.boardId,
+          teamId: null,
+        }),
     );
     // updates looks like this:
     // updates = {
-    //   1: {id: 1, isVisibleToAll: false, ....}, 
+    //   1: {id: 1, isVisibleToAll: false, ....},
     //   2: {id: 1, isVisibleToAll: false, ....}
     //   etc
     //  }
@@ -86,7 +84,7 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  console.log({ wordpacks })
+  console.log({ wordpacks });
   if (isLoading) return <p>Loading...</p>;
   else
     return (

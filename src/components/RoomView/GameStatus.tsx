@@ -22,8 +22,12 @@ const GameStatus = () => {
   const operativeGuessingNote: string = 'guess a word or click end turn';
 
   useEffect(() => {
-    const isPlayerTeamOneOperative: boolean = teamOneOperatives.map((operative) => operative.playerId).includes(playerId);
-    const isPlayerTeamTwoOperative: boolean = teamTwoOperatives.map((operative) => operative.playerId).includes(playerId);
+    const isPlayerTeamOneOperative: boolean = teamOneOperatives
+      .map((operative) => operative.playerId)
+      .includes(playerId);
+    const isPlayerTeamTwoOperative: boolean = teamTwoOperatives
+      .map((operative) => operative.playerId)
+      .includes(playerId);
 
     if (teamOneSpymaster?.playerId === playerId) {
       switch (gameStatus) {
@@ -93,14 +97,14 @@ const GameStatus = () => {
 
   return (
     <>
-        {gameStatus !== 'ready' && (
-          <p className='gameStatus'>
-            {playerNote}
-            {'\u00A0'}
-            <GuessesRemaining />
-          </p>
-        )}
-        {gameStatus === 'ready' && <p className='gameStatus'>Waiting to begin the game!</p>}
+      {gameStatus !== 'ready' && (
+        <p className="gameStatus">
+          {playerNote}
+          {'\u00A0'}
+          <GuessesRemaining />
+        </p>
+      )}
+      {gameStatus === 'ready' && <p className="gameStatus">Waiting to begin the game!</p>}
     </>
   );
 };

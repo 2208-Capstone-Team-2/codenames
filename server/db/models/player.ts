@@ -1,21 +1,15 @@
 import Sequelize, { INTEGER } from 'sequelize';
 import db from '../db';
-import {
-  CreationOptional,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from "sequelize";
+import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 interface ResponseError extends Error {
   status?: number;
 }
 const { STRING } = Sequelize;
-export interface PlayerModel extends Model<    InferAttributes<PlayerModel>,
-InferCreationAttributes<PlayerModel>>{
-  id: number
-  username:CreationOptional<string>;
-  role:CreationOptional<string>;
-  wins:CreationOptional<number>;
+export interface PlayerModel extends Model<InferAttributes<PlayerModel>, InferCreationAttributes<PlayerModel>> {
+  id: number;
+  username: CreationOptional<string>;
+  role: CreationOptional<string>;
+  wins: CreationOptional<number>;
   roomId: CreationOptional<number | null>;
   teamId: CreationOptional<number | null>;
 }
@@ -46,7 +40,7 @@ const Player = db.define<PlayerModel>('player', {
     unique: false,
     defaultValue: 'unassigned',
     validate: {
-      customValidator: (value:any) => {
+      customValidator: (value: any) => {
         const enums = ['operative', 'spymaster', 'unassigned'];
         if (!enums.includes(value)) {
           throw new Error('not a valid option');
@@ -60,14 +54,14 @@ const Player = db.define<PlayerModel>('player', {
     unique: false,
     defaultValue: 0,
   },
-  roomId:{
+  roomId: {
     type: INTEGER,
-    allowNull: true
+    allowNull: true,
   },
   teamId: {
     type: INTEGER,
     allowNull: true,
-  }
+  },
 });
 
 export default Player;

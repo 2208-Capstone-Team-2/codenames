@@ -22,11 +22,11 @@ const Leaderboard = () => {
   // PAGINATION
   // Hardcoded # of results, if in the future we wanted the user to be able to change the # of items per page
   // we would then could have state determine this.
-  const PER_PAGE:number = 5;
-  const offset:number = currentPage * PER_PAGE;
-  const currentPageData:Player[] = allPlayers.filter((player) => player.wins > 1).slice(offset, offset + PER_PAGE);
+  const PER_PAGE: number = 5;
+  const offset: number = currentPage * PER_PAGE;
+  const currentPageData: Player[] = allPlayers.filter((player) => player.wins > 1).slice(offset, offset + PER_PAGE);
   console.log(currentPageData);
-  const pageCount:number = Math.ceil(allPlayers.filter((player) => player.wins > 1).length / PER_PAGE);
+  const pageCount: number = Math.ceil(allPlayers.filter((player) => player.wins > 1).length / PER_PAGE);
   //
   function handlePageClick({ selected: selectedPage }: PageClickEvent) {
     setCurrentPage(selectedPage);

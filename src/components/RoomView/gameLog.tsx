@@ -4,40 +4,38 @@ import './roomView.css';
 import GuessesRemaining from './GuessesRemaining';
 
 interface ClueType {
-    clueString: string;
-    clueNumber: number;
+  clueString: string;
+  clueNumber: number;
 }
 
 interface GameState {
-    gameHistory: (string | ClueType)[];
-    status: string;
+  gameHistory: (string | ClueType)[];
+  status: string;
 }
 
 const GameLog: React.FC = () => {
-    const game = useSelector<{ game: GameState }, GameState>(
-        (state) => state.game
-    );
-    const gameHistory = game.gameHistory;
-    const gameStatus = game.status;
+  const game = useSelector<{ game: GameState }, GameState>((state) => state.game);
+  const gameHistory = game.gameHistory;
+  const gameStatus = game.status;
 
-    return ( 
-    <div className='gameLog'>
-    <h3 className='gameHistoryTitle'>Game History</h3>
-    <div className='scrollContent'>
+  return (
+    <div className="gameLog">
+      <h3 className="gameHistoryTitle">Game History</h3>
+      <div className="scrollContent">
         {gameHistory.map((singleHistory, index) => {
-            if (typeof singleHistory === 'object') {
-                return (
-                    <p key={index}>
-                        The clue is {singleHistory.clueString} and you have{' '}
-                        {singleHistory.clueNumber} guess(es)
-                    </p>
-                );
-            } else {
-                return <p key={index}>{singleHistory}</p>;
-            }
-        })}</div>
+          if (typeof singleHistory === 'object') {
+            return (
+              <p key={index}>
+                The clue is {singleHistory.clueString} and you have {singleHistory.clueNumber} guess(es)
+              </p>
+            );
+          } else {
+            return <p key={index}>{singleHistory}</p>;
+          }
+        })}
+      </div>
     </div>
-    );
+  );
 };
 
 export default GameLog;
