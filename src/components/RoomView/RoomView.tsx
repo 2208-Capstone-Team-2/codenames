@@ -16,7 +16,6 @@ import GameStatus from './GameStatus';
 import Loser from './Loser';
 import Winner from './Winner';
 import Navbar from '../Navbar/Navbar';
-import Popup from '../Room/Popup';
 import Chat from './chat/Chat';
 // Firebase:
 import { database } from '../../utils/firebase';
