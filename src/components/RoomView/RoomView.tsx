@@ -10,7 +10,7 @@ import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
-import Clue from './Clue';
+import Clue from './clue/Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
 import Loser from './Loser';
@@ -38,6 +38,7 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
+
 // CSS:
 import './roomView.css';
 interface ClassName {

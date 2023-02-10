@@ -8,25 +8,35 @@ body {
   background-position: center;
 }
 
-.flexBox{display: flex;
-justify-content:space-around;flex-wrap: wrap;}
-.break{ flex-basis: 100%;
-  height: 0;}
-.placeHolder{width:40vw;
-  height: 400px; 
-  visibility: hidden;
-  position:relative;
- }
-.board{display:grid;
-grid-template-columns: auto auto auto auto auto;
-gap: 2%;
-justify-content:center;
-align-items:center;
-visibility: visible;
+.flexBox {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
-  .break{flex-basis: 100%;
-    height: 0;}
-.gameLog{float: left;
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+.placeHolder {
+  width: 40vw;
+  height: 400px;
+  visibility: hidden;
+  position: relative;
+}
+.board {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  gap: 2%;
+  justify-content: center;
+  align-items: center;
+  visibility: visible;
+}
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+.gameLog {
+  float: left;
   width: 15%;
   height: 400px;
   margin-top: 2%;
@@ -34,89 +44,109 @@ visibility: visible;
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
-     }
-     .gameHistoryTitle{margin-top: 1%;
-      text-align: center;
-      border-bottom: solid black 2px;
-      font-weight: 400;}
-.scrollContent{    height: 300px;
+}
+.gameHistoryTitle {
+  margin-top: 1%;
+  text-align: center;
+  border-bottom: solid black 2px;
+  font-weight: 400;
+}
+.scrollContent {
+  height: 300px;
   font-size: 16px;
   overflow-x: hidden;
   overflow-y: auto;
-  font-family: "Montserrat";
-  padding: 0 2%;}
-.chatBox{    float: left;
+  font-family: 'Montserrat';
+  padding: 0 2%;
+}
+.chatBox {
+  float: left;
   width: 15%;
   height: 400px;
   margin-top: 2%;
   margin-left: 2%;
   padding: 15px;
   border-radius: 6px;
-  background-color: gainsboro;}
-  .MessageInput{
-    display: flex;
-    justify-content: center;
-    margin-top: 2%;
-  }
-  .setUpGame{    display: flex;
-    justify-content: center;
-    margin-top: 2%;}
+  background-color: gainsboro;
+}
+.MessageInput {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
+.setUpGame {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
 
-  .setupGamePopup{      background-color: #dec160;
-    position: absolute;
-    width: 20%;
-    height: 10%;
-    padding: 3%;
-    display: flex;
-    margin: 5% auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    right: 50;
-    align-items: center;
-    border-radius: 5px;
-    z-index: 0;
-    justify-content: center;}
-    .setupGamePopup .close-btn{position: absolute;top:15px;right:15px;}
-    .loser{
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, 50%);
-      position: absolute;
-      z-index: 1;
-      width: 50vw;
-      height: 30vh;
-      background-color: black;
-      color: #dec160;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2% 5%;
-    }
-    .winner{top: 50%;
-      left: 50%;
-      transform: translate(-50%, 50%);
-      position: absolute;
-      z-index: 1;
-      width: 50vw;
-      height: 30vh;
-      background-color: #dec160;
-      color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2% 5%;}
-    .closeButton{    position: absolute;
-      top: 15px;
-      right: 15px;
-      background-color: #dec160;
-      color: black;
-      border: none;
-      width: 5%;
-      height: 15%;}
-  .setUpGame{    display: flex;
-    justify-content: center;
-    margin-top: 2%;}
+.setupGamePopup {
+  background-color: #dec160;
+  position: absolute;
+  width: 20%;
+  height: 10%;
+  padding: 3%;
+  display: flex;
+  margin: 5% auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  right: 50;
+  align-items: center;
+  border-radius: 5px;
+  z-index: 0;
+  justify-content: center;
+}
+.setupGamePopup .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+.loser {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  position: absolute;
+  z-index: 1;
+  width: 50vw;
+  height: 30vh;
+  background-color: black;
+  color: #dec160;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2% 5%;
+}
+.winner {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  position: absolute;
+  z-index: 1;
+  width: 50vw;
+  height: 30vh;
+  background-color: #dec160;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2% 5%;
+}
+.closeButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #dec160;
+  color: black;
+  border: none;
+  width: 5%;
+  height: 15%;
+}
+.setUpGame {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
 .MessageInput {
   display: flex;
   justify-content: center;
