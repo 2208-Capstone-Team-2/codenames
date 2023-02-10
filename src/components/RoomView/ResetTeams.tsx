@@ -6,6 +6,7 @@ import { RootState } from '../../store';
 
 const ResetTeams = () => {
     const { roomId } = useSelector((state: RootState) => state.player);
+    const { status } = useSelector((state: RootState) => state.game);
     const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
     const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
     const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
@@ -16,12 +17,13 @@ const resetTeams = () => {
     remove(teamTwoSpymasterRef)
     remove(teamOneOperativesRef)
     remove(teamTwoOperativesRef)
-    set(gameRef, { gameStatus: 'ready', team1RemainingCards: 9, team2RemainingCards: 8 });
-    set(gameHistoryRef, {});
-    set(cardsRef, {});
 }
     return (
+        <>
+        {status === 'ready' && 
         <button onClick={resetTeams}>Reset Teams</button>
+        }
+        </>
     );
 };
 
