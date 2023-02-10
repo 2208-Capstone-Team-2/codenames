@@ -64,9 +64,9 @@ function UsernameForm({ canBeClosed, setCanBeClosed }: UsernameFormProps) {
       update(hostRef, { playerId, username: trimmedInputtedUsername });
       onDisconnect(hostRef).remove();
       dispatch(setHost({ playerId, username: trimmedInputtedUsername }));
-      set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: true});
+      set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: true });
     } else {
-      set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: false});
+      set(child(playersInRoomRef, playerId), { playerId, username: trimmedInputtedUsername, isHost: false });
       // we need this here bc if the user joins after the host is set, they wont get an updated host in their redux
       get(hostRef).then((snapshot) => {
         if (snapshot.exists()) {

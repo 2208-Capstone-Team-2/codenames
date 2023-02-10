@@ -19,7 +19,6 @@ const TeamTwoBox = () => {
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
   const teamTwoRemainingCards = useSelector((state: RootState) => state.game.team2RemainingCards);
-  let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
 
   const dispatch = useDispatch();
 

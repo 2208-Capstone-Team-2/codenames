@@ -14,7 +14,6 @@ import { RootState } from '../../store';
 import { auth, database } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
-import { setTeam1Id } from '../../store/teamOneSlice';
 
 function OnAuthStateChanged() {
   const dispatch = useDispatch();
