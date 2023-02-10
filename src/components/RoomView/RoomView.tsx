@@ -41,6 +41,7 @@ import { RootState } from '../../store/index.js';
 
 // CSS:
 import './roomView.css';
+import Chat from './chat/Chat';
 interface ClassName {
   className: string;
 }
@@ -211,7 +212,7 @@ const RoomView = (props: ClassName) => {
         <TeamTwoBox />
         <div className="break"></div>
         <GameLog />
-        <div className="chatBox"> this will be the chat box</div>
+        <Chat />
       </div>
       <Clue />
       <Loser />

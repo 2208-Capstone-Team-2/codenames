@@ -1,0 +1,40 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 400px;
+  margin-top: 2%;
+  margin-left: 2%;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: gainsboro;
+  /* overflow: auto; */
+}
+.messages {
+  overflow-wrap: break-word;
+  height: 350px;
+  width: 200px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: smaller;
+  overflow-y: scroll;
+}
+
+.input-container input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  padding-left: 5px;
+  margin-top: 5px;
+  width: 200px;
+  height: 40px;
+}
+.team-one-message {
+  color: red;
+}
+
+.team-two-message {
+  color: blue;
+}
