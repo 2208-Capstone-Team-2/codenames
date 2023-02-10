@@ -53,11 +53,10 @@ const RoomView = (props: ClassName) => {
   const dispatch = useDispatch();
 
   // frontend state
-  const [timedPopup, setTimedPopup] = useState(false);
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host, status } = useSelector((state: RootState) => state.game);
+  const { host } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
