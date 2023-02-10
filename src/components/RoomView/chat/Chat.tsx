@@ -64,7 +64,6 @@ const Chat = () => {
     }
   };
 
-  console.log(messages);
   return (
     <div className="chat-container">
       <h3 className="chat-header">Chatroom</h3>
