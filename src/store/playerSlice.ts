@@ -26,13 +26,11 @@ export const playerSlice = createSlice({
       state.isHost = action.payload;
     },
     setTeamIdOnPlayer: (state, action) => {
-      console.log('setting teamid on player!');
       state.teamId = action.payload;
     },
   },
 });
 
-// export the playerinterface for allPlayers to use
 
-export const { setUsername, setRoomId, setPlayerId, setIsHost, setTeamIdOnPlayer } = playerSlice.actions;
+export const { setUsername, setRoomId, setPlayerId, setIsHost, setTeamIdOnPlayer } = playerSlice.actions; 
 export default playerSlice.reducer;

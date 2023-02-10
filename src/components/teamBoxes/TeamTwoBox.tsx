@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import './teamTwoBox.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { child, get, onDisconnect, onValue, ref, set } from 'firebase/database';
+import { child, get, onDisconnect, onValue, ref, set, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
 import { setTeamIdOnPlayer } from '../../store/playerSlice';
-
 const TeamTwoBox = () => {
   const { roomId } = useParams();
 
   const { playerId, username } = useSelector((state: RootState) => state.player);
   const { team2Id } = useSelector((state: RootState) => state.teamTwo);
-
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
@@ -52,12 +51,16 @@ const TeamTwoBox = () => {
           } else {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
-            dispatch(setTeamIdOnPlayer(team2Id));
+            update(nestedPlayerRef, { teamId: team2Id });
+            dispatch(setTeamIdOnPlayer(team2Id))
+
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
-          dispatch(setTeamIdOnPlayer(team2Id));
+          update(nestedPlayerRef, { teamId: team2Id });
+          dispatch(setTeamIdOnPlayer(team2Id))
+
         }
       });
     }
@@ -94,12 +97,14 @@ const TeamTwoBox = () => {
           } else {
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
-            dispatch(setTeamIdOnPlayer(team2Id));
+            update(nestedPlayerRef, { teamId: team2Id });
+            dispatch(setTeamIdOnPlayer(team2Id))
           }
         } else {
           onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
-          dispatch(setTeamIdOnPlayer(team2Id));
+          update(nestedPlayerRef, { teamId: team2Id });
+          dispatch(setTeamIdOnPlayer(team2Id))
         }
       });
     }
@@ -129,6 +134,7 @@ const TeamTwoBox = () => {
       }
     });
   }, [playerId]);
+
 
   return (
     <div className="blueBoxCard">
