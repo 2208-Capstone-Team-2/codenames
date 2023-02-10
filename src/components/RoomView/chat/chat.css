@@ -18,6 +18,7 @@
   width: 200px;
   font-family: 'Montserrat', sans-serif;
   font-size: smaller;
+  font-weight: 400;
   overflow-y: scroll;
 }
 
@@ -31,10 +32,17 @@
   width: 200px;
   height: 40px;
 }
-.team-one-message {
-  color: red;
+
+.sender {
+  font-weight: 500;
 }
 
+.team-one-message {
+  color: #8c292a;
+}
 .team-two-message {
-  color: blue;
+  color: #355e7f;
+}
+.spectator-message {
+  color: black;
 }
