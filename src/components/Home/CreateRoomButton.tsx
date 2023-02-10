@@ -34,8 +34,7 @@ function CreateRoomButton() {
     return navigate(`/room/${roomId}`);
   };
 
-  return <button onClick={clickHandler}>Create Room</button>
-
+  return <button onClick={clickHandler}>Create Room</button>;
 }
 
 export default CreateRoomButton;

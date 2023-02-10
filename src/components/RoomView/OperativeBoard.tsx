@@ -48,7 +48,18 @@ const OperativeBoard = () => {
   return (
     <div className="board">
       {words.map((word: CardObj) => {
-        return <Card key={word.id} word={word.word} id={word.id} isVisibleToAll={word.isVisibleToAll} wordString={word.wordString} wordId={word.wordId} boardId={word.boardId} teamId={word.teamId}  />;
+        return (
+          <Card
+            key={word.id}
+            word={word.word}
+            id={word.id}
+            isVisibleToAll={word.isVisibleToAll}
+            wordString={word.wordString}
+            wordId={word.wordId}
+            boardId={word.boardId}
+            teamId={word.teamId}
+          />
+        );
       })}
 
       {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (

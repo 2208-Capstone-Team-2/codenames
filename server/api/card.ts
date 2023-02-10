@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from 'express';
 const router = Router();
-import db from "../db";
+import db from '../db';
 const Word = db.Word;
 const Card = db.Card;
 const Board = db.Board;
 const Room = db.Room;
 import { getRandomIntArray, createRandomLayout } from './cardHelperFunctions';
-
 
 // POST localhost:3000/api/card/make25/forRoom/:roomId
 // Given the boardId of the board to fill,
@@ -17,7 +16,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     const { roomId } = req.params;
     const { selectedWordPackIds } = req.body;
 
-    console.log({selectedWordPackIds})
+    console.log({ selectedWordPackIds });
     // Find which pack users select and put all the candidate words in an array
     const allWords = await Word.findAll({
       where: {
@@ -27,7 +26,7 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     });
 
     if (!allWords) return res.sendStatus(404); // Sanity check
-    const allWordsIds = allWords.map((word: { id: number; }) => word.id);
+    const allWordsIds = allWords.map((word: { id: number }) => word.id);
     // This is an array of random word ids to pull from
     const randomWordsIds = getRandomIntArray(25, allWordsIds);
 
@@ -90,11 +89,11 @@ router.get('/get25/forRoom/:roomId', async (req: Request, res: Response, next: N
     const room = await Room.findOne({
       where: { name: roomId },
     });
-    if(!room) return res.sendStatus(404);
+    if (!room) return res.sendStatus(404);
     const board = await Board.findOne({
       where: { roomId: room.id },
     });
-    if(!board) return res.sendStatus(404);
+    if (!board) return res.sendStatus(404);
     const cardsWithTeamIds = await Card.findAll({
       where: { boardId: board.id },
       include: [Word],
@@ -117,16 +116,16 @@ router.put('/:wordId', async (req: Request, res: Response, next: NextFunction) =
     const room = await Room.findOne({
       where: { name: roomId },
     });
-    if(!room) return res.sendStatus(404);
+    if (!room) return res.sendStatus(404);
     const board = await Board.findOne({
       where: { roomId: room.id },
     });
-    if(!board) return res.sendStatus(404);
+    if (!board) return res.sendStatus(404);
     const cardToUpdate = await Card.findOne({
       where: { id: wordId, boardId: board.id },
       include: [Word],
     });
-    if(!cardToUpdate) return res.sendStatus(404);
+    if (!cardToUpdate) return res.sendStatus(404);
     const cardRevealed = await cardToUpdate.update({ isVisibleToAll: true });
     !cardRevealed ? res.sendStatus(404) : res.send(cardRevealed);
   } catch (err) {
