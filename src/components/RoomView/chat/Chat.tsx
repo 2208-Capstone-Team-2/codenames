@@ -5,8 +5,21 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { database } from '../../../utils/firebase';
 import { RootState } from '../../../store/index.js';
-
 import './chat.css';
+
+// This is how the messages object looks in firebase - it is a string key and the value is a MsgType.
+/* {
+  -NNw7f9cwKyPmhH0Qu7h: {msg: 'from spectator', username: 'ben'}
+  -NNw8ewwRkrKmDjon24H: {msg: 'message!', teamId: 14, username: 'rose'}
+  } */
+interface FirebaseMessageType {
+  [key: string]: MsgType;
+}
+interface MsgType {
+  username: string;
+  msg: string;
+  teamId: null | number;
+}
 
 const Chat = () => {
   const divRef = useRef<null | HTMLDivElement>(null);
@@ -15,7 +28,7 @@ const Chat = () => {
   const { team1Id } = useSelector((state: RootState) => state.teamOne);
   const { team2Id } = useSelector((state: RootState) => state.teamTwo);
   const [msg, setMsg] = useState(''); // this is the currently inputted message by the user
-  const [messages, setMessages] = useState({}); // these are all the messages in the chat
+  const [messages, setMessages] = useState<FirebaseMessageType>({}); // these are all the messages in the chat
   const chatRef = ref(database, `rooms/${roomId}/chat`); // firebase reference to all messages in room
 
   useEffect(() => {
@@ -51,6 +64,7 @@ const Chat = () => {
     }
   };
 
+  console.log(messages);
   return (
     <div className="chat-container">
       <h3 className="chat-header">Chatroom</h3>
