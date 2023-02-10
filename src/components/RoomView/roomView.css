@@ -89,6 +89,9 @@ body {
 }
 .setUpGame {
   display: flex;
+  background-color: #e2c78d;
+  padding: 3%;
+  border-radius: 5px;
   justify-content: center;
   justify-items: center;
   flex-direction: column;
