@@ -17,6 +17,7 @@ import Loser from './Loser';
 import Winner from './Winner';
 import Navbar from '../Navbar/Navbar';
 import Popup from '../Room/Popup';
+import Chat from './chat/Chat';
 // Firebase:
 import { database } from '../../utils/firebase';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
@@ -41,7 +42,6 @@ import { RootState } from '../../store/index.js';
 
 // CSS:
 import './roomView.css';
-import Chat from './chat/Chat';
 interface ClassName {
   className: string;
 }
