@@ -46,7 +46,7 @@ const Leaderboard = () => {
     <div className="leaderboardContainer">
       <div className="homeButton">
         <Link to={'/'}>
-          <button>Home</button>
+          <button>&larr;&nbsp;Home</button>
         </Link>
       </div>
       <h1>LEADERBOARD</h1>

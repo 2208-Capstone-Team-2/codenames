@@ -75,6 +75,7 @@
   border-right: solid black 3px;
   border-bottom: solid black 3px;
   background-color: white;
+  cursor: pointer;
   color: black;
   width: fit-content;
   padding: 1px 5px;
@@ -98,7 +99,9 @@
 .playerRow {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   border-bottom: 1px solid black;
+  width: 350px;
 }
 .playerUsername {
   display: flex;
@@ -114,7 +117,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 280px;
+  width: 350px;
   border-bottom: 1px solid black;
 }
 @keyframes typing-leaderboard {
