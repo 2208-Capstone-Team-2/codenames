@@ -6,9 +6,9 @@ import { ThemeProvider } from '@emotion/react';
 import ResetGame from './ResetGame';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-
+import MakeSpectator from '../RoomView/MakeSpectator';
 export default function BasicPopover() {
-  const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
+  const { username, roomId, isHost, teamId } = useSelector((state: RootState) => state.player);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,7 +36,7 @@ export default function BasicPopover() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  if (isHost)
+ 
     return (
       <div>
         <button aria-describedby={id} onClick={handleClick}>
@@ -57,12 +57,11 @@ export default function BasicPopover() {
               horizontal: 'center',
             }}
           >
-            <Typography sx={{ p: 2 }}>
-              <ResetGame />
-            </Typography>
+              {isHost && <ResetGame />}
+              {teamId && <MakeSpectator/>}
           </Popover>
         </ThemeProvider>
       </div>
     );
-  else return <></>;
+
 }
