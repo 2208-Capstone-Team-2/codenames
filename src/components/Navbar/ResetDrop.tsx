@@ -6,6 +6,7 @@ import { ThemeProvider } from '@emotion/react';
 import ResetGame from './ResetGame';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import ResetTeams from '../RoomView/ResetTeams';
 
 export default function BasicPopover() {
   const { username, roomId, isHost } = useSelector((state: RootState) => state.player);
@@ -57,9 +58,8 @@ export default function BasicPopover() {
               horizontal: 'center',
             }}
           >
-            <Typography sx={{ p: 2 }}>
               <ResetGame />
-            </Typography>
+              <ResetTeams/>
           </Popover>
         </ThemeProvider>
       </div>
