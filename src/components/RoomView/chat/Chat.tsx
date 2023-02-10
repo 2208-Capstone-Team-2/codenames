@@ -4,18 +4,19 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { database } from '../../../utils/firebase';
+import { RootState } from '../../../store/index.js';
 
 import './chat.css';
 
 const Chat = () => {
-  const divRef = useRef(null);
+  const divRef = useRef<null | HTMLDivElement>(null);
   const { roomId } = useParams();
-  const { username, teamId } = useSelector((state) => state.player);
-  const { team1Id } = useSelector((state) => state.teamOne);
-  const { team2Id } = useSelector((state) => state.teamTwo);
+  const { username, teamId } = useSelector((state: RootState) => state.player);
+  const { team1Id } = useSelector((state: RootState) => state.teamOne);
+  const { team2Id } = useSelector((state: RootState) => state.teamTwo);
   const [msg, setMsg] = useState(''); // this is the currently inputted message by the user
   const [messages, setMessages] = useState({}); // these are all the messages in the chat
-  const chatRef = ref(database, `rooms/${roomId}/chat`);
+  const chatRef = ref(database, `rooms/${roomId}/chat`); // firebase reference to all messages in room
 
   useEffect(() => {
     onValue(chatRef, (snapshot) => {
@@ -29,15 +30,16 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    divRef.current.scroll({
-      top: divRef.current.scrollHeight,
-      behavior: 'smooth',
-    });
+    if (divRef.current)
+      divRef.current.scroll({
+        top: divRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
   }, [messages]);
 
-  const handleMsgChange = (e) => setMsg(e.target.value);
+  const handleMsgChange = (e: React.ChangeEvent<HTMLInputElement>) => setMsg(e.target.value);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const isMsgOnlyWhiteSpace = '' === msg.trim(); // don't let them send blank messages
     if (e.key === 'Enter' && !isMsgOnlyWhiteSpace) {
       const messageObjectForFirebase = { username, msg, teamId };
