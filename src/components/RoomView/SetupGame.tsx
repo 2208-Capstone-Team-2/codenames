@@ -86,16 +86,16 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  console.log({ wordpacks })
+  console.log('ccc')
   if (isLoading) return <p>Loading...</p>;
   else
     return (
+      <div className="setUpContainer">
       <div className="setUpGame">
-        <>
           Please select a pack of words
           <form onSubmit={submitHandler}>
             {wordpacks.map((wordpack) => (
-              <div key={wordpack.id}>
+              <div key={wordpack.id} className="setupGamePopup">
                 <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
                 <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
               </div>
@@ -109,7 +109,7 @@ const SetupGame = () => {
               Start game
             </Button>
           </form>
-        </>
+      </div>
       </div>
     );
 };

@@ -140,9 +140,7 @@ const RoomView = (props: ClassName) => {
       }
     });
 
-    setTimeout(() => {
-      setTimedPopup(true);
-    }, 1000);
+   
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
@@ -193,10 +191,13 @@ const RoomView = (props: ClassName) => {
       {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
       {/* is host AND there is at least one person on each team */}
       {isHost && (
+          <SetupGame />
+      )}
+      {/* {isHost && (
         <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="setupGamePopup">
           <SetupGame />
         </Popup>
-      )}
+      )} */}
       <div className="flexBox">
         <TeamOneBox />
         <div className="boardContainer">
