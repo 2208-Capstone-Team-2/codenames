@@ -22,6 +22,7 @@ function OnValueCardsRef() {
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
 
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
@@ -104,6 +105,14 @@ function OnValueCardsRef() {
               const values = Object.values(cardsFromSnapshot);
               dispatch(setWordsInGame(values));
             }
+          }
+        });
+        get(nestedPlayerRef).then((snapshot) => {
+          if (snapshot.exists()) {
+              console.log('setting spectator board...');
+              const cardsFromSnapshot = cardSnapshot.val();
+              const values = Object.values(cardsFromSnapshot);
+              dispatch(setWordsInGame(values));
           }
         });
       }
