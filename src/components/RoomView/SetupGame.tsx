@@ -15,8 +15,7 @@ interface WordPackType {
 
 }
 const SetupGame = () => {
-  const { isHost } = useSelector((state: RootState) => state.player);
-  const { status, showStartGame } = useSelector((state: RootState) => state.game);
+  const { showStartGame } = useSelector((state: RootState) => state.game);
   const [wordpacks, setWordpacks] = useState<WordPackType[]>([]);
   const [selectedWordPackIds, setSelectedWordPackIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
