@@ -51,7 +51,7 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
-      <h3>Chatroom</h3>
+      <h3 className="chat-header">Chatroom</h3>
       <div className="chat">
         <div className="messages" ref={divRef}>
           {Object.keys(messages).map((message) => {
