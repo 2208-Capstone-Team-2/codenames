@@ -86,7 +86,6 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  console.log({ wordpacks })
   if (isLoading) return <p>Loading...</p>;
   else
     return (

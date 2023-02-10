@@ -4,7 +4,6 @@ import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import OnValueHostRef from './customHooks/OnValueHostRef';
 import OnValueCardsRef from './customHooks/OnValueCardsRef';
 import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
-import OnValueNestedPlayerRef from './customHooks/OnValueNestedPlayerRef';
 
 // Components:
 import SetupGame from './SetupGame';
@@ -178,7 +177,6 @@ const RoomView = (props: ClassName) => {
   OnValueHostRef();
   OnValueCardsRef();
   OnValueGameHistoryRef();
-  OnValueNestedPlayerRef()
   return (
     <div className={`${props.className} roomViewBG`}>
       <Navbar />

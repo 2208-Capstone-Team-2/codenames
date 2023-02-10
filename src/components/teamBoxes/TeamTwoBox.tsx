@@ -6,7 +6,7 @@ import { database } from '../../utils/firebase';
 import { setTeamTwoOperatives, setTeamTwoSpymaster } from '../../store/teamTwoSlice';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
-import OnValueNestedPlayerRef from '../RoomView/customHooks/OnValueNestedPlayerRef';
+import { setTeamIdOnPlayer } from '../../store/playerSlice';
 const TeamTwoBox = () => {
   const { roomId } = useParams();
 
@@ -19,6 +19,7 @@ const TeamTwoBox = () => {
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
   const teamTwoRemainingCards = useSelector((state: RootState) => state.game.team2RemainingCards);
+  let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
 
   const dispatch = useDispatch();
 
@@ -52,11 +53,15 @@ const TeamTwoBox = () => {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
+            dispatch(setTeamIdOnPlayer(team2Id))
+
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
           update(nestedPlayerRef, { teamId: team2Id });
+          dispatch(setTeamIdOnPlayer(team2Id))
+
         }
       });
     }
@@ -94,11 +99,13 @@ const TeamTwoBox = () => {
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
+            dispatch(setTeamIdOnPlayer(team2Id))
           }
         } else {
           onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
           update(nestedPlayerRef, { teamId: team2Id });
+          dispatch(setTeamIdOnPlayer(team2Id))
         }
       });
     }

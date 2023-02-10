@@ -5,6 +5,8 @@ import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useDispatch } from 'react-redux';
+import { setTeamIdOnPlayer } from '../../store/playerSlice';
+
 const MakeSpectator = () => {
   const { roomId, playerId, teamId } = useSelector((state: RootState) => state.player);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
@@ -16,12 +18,12 @@ const MakeSpectator = () => {
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-
+  const dispatch = useDispatch()
   const makeMeSpectator = async () => {
     /* update player to being a spectator, dispatch happens in useEffect of this component 
     (won't work in roomView bc playerId not immediately identified)*/
     update(nestedPlayerRef, { teamId: null });
-
+    dispatch(setTeamIdOnPlayer(null))
     // the rest of the logic in this fxn removes them depending on what team/position theyre in
     const teamOne = await get(teamOneRef);
     const teamTwo = await get(teamTwoRef);

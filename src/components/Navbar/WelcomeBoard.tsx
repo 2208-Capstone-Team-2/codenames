@@ -15,7 +15,7 @@ const WelcomeBoard = () => {
             </div>
       <p className="welcomeBoardItem">Room id: {roomId}</p>
      {isHost && <ResetGame/>}
-     {!teamId && <MakeSpectator/>}
+     {teamId && <MakeSpectator/>}
     </div>
 
 )}

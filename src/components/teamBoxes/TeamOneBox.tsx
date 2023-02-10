@@ -6,6 +6,7 @@ import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
+import { setTeamIdOnPlayer } from '../../store/playerSlice';
 
 const TeamOneBox = () => {
   const { roomId } = useParams();
@@ -53,11 +54,16 @@ const TeamOneBox = () => {
             onDisconnect(playerOnTeamOneOperativesRef).remove();
             set(child(teamOneOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { teamId: team1Id });
+            dispatch(setTeamIdOnPlayer(team1Id))
+
+
           }
         } else {
           onDisconnect(playerOnTeamOneOperativesRef).remove();
           set(child(teamOneOperativesRef, playerId), { playerId, username });
           update(nestedPlayerRef, { teamId: team1Id });
+          dispatch(setTeamIdOnPlayer(team1Id))
+
         }
       });
     }
@@ -93,11 +99,15 @@ const TeamOneBox = () => {
             onDisconnect(teamOneSpymasterRef).remove();
             set(teamOneSpymasterRef, { playerId, username });
             update(nestedPlayerRef, { teamId: team1Id });
+            dispatch(setTeamIdOnPlayer(team1Id))
+
           }
         } else {
           onDisconnect(teamOneSpymasterRef).remove();
           set(teamOneSpymasterRef, { playerId, username });
           update(nestedPlayerRef, { teamId: team1Id });
+          dispatch(setTeamIdOnPlayer(team1Id))
+
         }
       });
     }
