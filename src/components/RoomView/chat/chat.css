@@ -10,11 +10,11 @@
   padding: 15px;
   border-radius: 6px;
   background-color: gainsboro;
-  /* overflow: auto; */
 }
+
 .messages {
   overflow-wrap: break-word;
-  height: 350px;
+  height: 300px;
   width: 200px;
   font-family: 'Montserrat', sans-serif;
   font-size: smaller;
@@ -22,7 +22,7 @@
   overflow-y: scroll;
 }
 
-.input-container input {
+.message-input {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,7 +30,7 @@
   padding-left: 5px;
   margin-top: 5px;
   width: 200px;
-  height: 40px;
+  padding: 10px;
 }
 
 .sender {
