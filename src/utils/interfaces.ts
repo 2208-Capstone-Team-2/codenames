@@ -14,7 +14,7 @@ interface CardObj {
 interface ClueType {
   clueString: string;
   clueNumber: null | number;
-  playerSubmitting: string; // this is the player's ID (which is a string)
+  teamSubmitted: null | number; // changed this to teamSubmitted and it is a number
 }
 
 interface HostType {
