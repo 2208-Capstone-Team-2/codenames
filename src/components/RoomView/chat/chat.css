@@ -10,7 +10,7 @@
   padding: 15px;
   border-radius: 6px;
   background-color: gainsboro;
-  order:5
+  order: 5;
 }
 
 .chat-header {
@@ -53,14 +53,29 @@
   color: black;
 }
 
-
-@media only screen and (max-width: 320px) {
-.chat-container {
-  width: 100vw;
-  height: 200px;
+/*---------------------------------------------mobile----------------------------*/
+@media only screen and (max-width: 600px) {
+  .chat-container {
+    width: 100vw;
+    height: 200px;
+  }
+  .messages {
+    height: 120px;
+  }
 }
-.messages {
-  height: 120px;
-
-}
+/*---------------------------------------------tablet----------------------------*/
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  .chat-container {
+    width: 15%;
+    height: 200px;
+  }
+  .messages {
+    height: 120px;
+    width: 120px;
+    font-size: 12px;
+  }
+  .message-input {
+    width: 110px;
+    font-size: 12px;
+  }
 }

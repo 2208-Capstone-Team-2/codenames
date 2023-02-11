@@ -157,10 +157,6 @@ body {
   margin-top: 2%;
 }
 /*---------------------------------------------mobile----------------------------*/
-/* @media only screen and  (min-width:400px)and (max-width: 600px){.placeholder {
-  order:0;
-  width: 100vw;
-  height: 220px;}} */
 @media only screen and (max-width: 600px) {
 .flexBox {
   justify-content: center;
@@ -195,8 +191,27 @@ height: 320px;}
 .placeholder2 {
   width: 0; height: 0; 
 }
-.chat-container {
-  width: 100vw;
+}
+/*---------------------------------tablet-------------------------------------*/
+@media only screen and  (min-width: 600px)and (max-width: 768px){
+  .board {
+ gap:0.5%}
+ .placeholder {
+  height: 300px;
+  width: 320px;
+}
+.placeholder2 {
+  width: 320px; height: 200px; 
+}
+.gameLog {
   height: 200px;
 }
-}
+.scrollContent{font-size: 10px;height: 200px;width: 80px;}
+.gameHistoryTitle {
+  margin-top: 1%;
+  text-align: center;
+  border-bottom: solid black 2px;
+  font-weight: 400;
+  font-size: 12px;
+  max-height: 18px;
+}}
