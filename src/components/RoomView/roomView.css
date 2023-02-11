@@ -10,33 +10,37 @@ body {
 
 .flexBox {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: center;
+  width: 100vw;
   flex-wrap: wrap;
 }
-.break {
-  flex-basis: 100%;
-  height: 0;
-}
-.placeHolder {
-  width: 40vw;
+
+.placeholder {
+  width: 50vw;
   height: 400px;
   visibility: hidden;
   position: relative;
+  order:1;
+  display: flex;
+}
+.placeholder2 {
+  width: 50vw;
+  height: 400px;
+  visibility: hidden;
+  position: relative;
+  order:4;
+  display: flex;
 }
 .board {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   gap: 2%;
   justify-content: center;
-  align-items: center;
+  margin: auto;
   visibility: visible;
 }
-.break {
-  flex-basis: 100%;
-  height: 0;
-}
 .gameLog {
-  float: left;
   width: 15%;
   height: 400px;
   margin-top: 2%;
@@ -44,6 +48,8 @@ body {
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
+  display:flex;
+  order:3;
 }
 .gameHistoryTitle {
   margin-top: 1%;
@@ -59,8 +65,7 @@ body {
   font-family: 'Montserrat';
   padding: 0 2%;
 }
-.chatBox {
-  float: left;
+.chat-container {
   width: 15%;
   height: 400px;
   margin-top: 2%;
@@ -68,6 +73,8 @@ body {
   padding: 15px;
   border-radius: 6px;
   background-color: gainsboro;
+  order:5;
+  display: flex;
 }
 .MessageInput {
   display: flex;
@@ -156,4 +163,34 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 2%;
+}
+/*---------------------------------------------mobile----------------------------*/
+@media only screen and (max-width: 320px) {
+.placeholder {
+order:0;
+width: 100vw;
+height: 220px;}
+
+.board{gap: 0;}
+.gameLog {
+  width: 65px;
+  height: 270px;
+  margin-top: 0;
+  margin-right: 0;
+  border-radius: 6px;
+  padding: 15px;
+  display:flex;
+  order:3;
+}
+.gameHistoryTitle {
+  margin-top: 1%;
+  text-align: center;
+  border-bottom: solid black 2px;
+  font-weight: 400;
+  font-size: 12px;
+}
+.placeholder2 {
+  width: 0; height: 0;
+  
+}
 }

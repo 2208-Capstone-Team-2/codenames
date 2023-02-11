@@ -13,7 +13,8 @@ const Navbar = () => {
         <TimerNav />
       </div>
       <WelcomeBoard />
-      <div className="navBarButtons">
+
+      <div className="navBarButtonsLast">
         <ResetsDrop />
         <HowToPlayDrop />
       </div>

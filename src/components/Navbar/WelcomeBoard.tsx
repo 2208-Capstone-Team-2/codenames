@@ -7,10 +7,8 @@ const WelcomeBoard = () => {
   return (
     <div className="welcomeBoard">
       <p className="welcomeBoardItem">Welcome, {username}</p>
-      <div className="welcomeBoardItem">
-        <img src="/images/topBarLogo.svg" alt="codenames" />
-      </div>
-      <p className="welcomeBoardItem">Room id: {roomId}</p>
+      <img src="/images/topBarLogo.svg" className="welcomeBoardImage" alt="codenames" />
+      <p className="welcomeBoardItemLast">Room id: {roomId}</p>
     </div>
   );
 };
