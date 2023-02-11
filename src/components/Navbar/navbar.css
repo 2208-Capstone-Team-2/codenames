@@ -222,3 +222,14 @@
  font-size: 12px;
 }
 }
+/*---------------------------------tablet/small laptop-------------------------------------*/
+@media only screen and  (min-width:769px)and (max-width: 1024px){
+  .welcomeBoard {
+   width: 55vw;
+    justify-content: space-evenly;
+    font-weight: 400;
+  }
+.navBarButtonsLast button {
+ font-size: 12px;
+}
+}

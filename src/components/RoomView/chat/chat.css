@@ -79,3 +79,20 @@
     font-size: 12px;
   }
 }
+/*---------------------------------------------tablet/small laptop----------------------------*/
+@media only screen and (min-width: 768px) and (max-width: 1040px) {
+  .chat-container {
+    width: 15%;
+    height: 200px;
+  }
+  .messages {
+    height: 120px;
+    width: 120px;
+    font-size: 12px;
+  }
+  .message-input {
+    width: 110px;
+    font-size: 12px;
+  }
+}
+

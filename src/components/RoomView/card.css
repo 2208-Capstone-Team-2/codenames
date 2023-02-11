@@ -290,3 +290,64 @@ border: solid 0.5px black;
   font-size: 10px;
   border: solid 1px black;
   }}
+    /*---------------------------------------------tablet----------------------------*/
+@media only screen and (min-width:769px)and (max-width: 1040px){
+  .notYetRevealed {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  .redRevealed {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  
+  .blueRevealed {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  
+  .beigeRevealed {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  
+  .blackRevealed {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  
+  .redStyle {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  .blueStyle {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  .beigeStyle {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }
+  .blackStyle {
+    width: 60pt;
+    height: 48pt;
+  font-size: 10px;
+  border: solid 1px black;
+  }}
+  
