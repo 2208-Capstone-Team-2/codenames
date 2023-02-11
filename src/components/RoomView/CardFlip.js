@@ -47,10 +47,28 @@ const CardFlip = () => {
     backgroundImage: `url(${redUrl.url})`,
   };
 
-  const cardStyles = {
+  let cardStyles = {};
+
+  const redCardStyles = {
     front: notYetRevealed,
     back: redRevealed,
   };
+  const blueCardStyles = {
+    front: notYetRevealed,
+    back: blueRevealed,
+  };
+  const beigeCardStyles = {
+    front: notYetRevealed,
+    back: beigeRevealed,
+  };
+  const blackCardStyles = {
+    front: notYetRevealed,
+    back: blackRevealed,
+  };
+  // if (word.teamId === team1Id) cardStyles = redCardStyles
+  // if (word.teamId === team2Id) cardStyles = blueCardStyles
+  // if (word.teamId === bystanderTeamId) cardStyles = beigeCardStyles
+  // if (word.teamId === assassinTeamId) cardStyles = blackCardStyles
   return (
     <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical" cardStyles={cardStyles}>
       <div>
