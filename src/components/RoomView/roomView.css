@@ -74,6 +74,7 @@ body {
   justify-content: center;
   margin-top: 2%;
 }
+
 .setUpContainer {
   display: flex;
   justify-content: center;
@@ -85,8 +86,20 @@ body {
 .setUpGame {
   position: absolute;
   background-color: #e2c78d;
-  padding: 3%;
+  padding: 1rem;
   border-radius: 5px;
+}
+
+.setUpForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.wordPackSelection {
+  font-family: 'Montserrat';
+  font-size: smaller;
 }
 
 .startGameButton {
@@ -99,6 +112,8 @@ body {
   border-bottom: solid black 3px;
   border-radius: 5px 10px;
   font-family: 'oswald';
+  place-self: center;
+  margin-top: 10px;
 }
 
 .loser {

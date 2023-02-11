@@ -85,9 +85,9 @@ const SetupGame = () => {
       <div className="setUpContainer">
         <div className="setUpGame">
           Please select a pack of words
-          <form onSubmit={submitHandler}>
+          <form className="setUpForm" onSubmit={submitHandler}>
             {wordpacks.map((wordpack) => (
-              <div key={wordpack.id}>
+              <div className="wordPackSelection" key={wordpack.id}>
                 <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
                 <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
               </div>
