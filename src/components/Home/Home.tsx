@@ -10,7 +10,7 @@ import ClueTestingDesign from '../RoomView/clue/ClueTestingDesign';
 function Home() {
   SignInAnonymously();
   return (
-    <div className="realHomeContainer">
+    <div>
       <HomeNav />
       <div className="homeContainer">
         <div className="codenames">CODENAMES</div>
