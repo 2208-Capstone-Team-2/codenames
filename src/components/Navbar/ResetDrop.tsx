@@ -11,7 +11,6 @@ import MakeSpectator from '../RoomView/MakeSpectator';
 export default function BasicPopover() {
   const { isHost, teamId } = useSelector((state: RootState) => state.player);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-  const { status } = useSelector((state: RootState) => state.game);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -38,37 +37,35 @@ export default function BasicPopover() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
- 
-    return (
-      <div>
-        <button aria-describedby={id} onClick={handleClick}>
-          Game Settings
-        </button>
-        <ThemeProvider theme={theme}>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-          >
-              {isHost && (
-                <>
-                  <ResetGame />
-                  <ResetTeams/>
-                </>
-              )}
-              {teamId && <MakeSpectator/>}
-          </Popover>
-        </ThemeProvider>
-      </div>
-    );
-
+  return (
+    <div>
+      <button aria-describedby={id} onClick={handleClick}>
+        Game Settings
+      </button>
+      <ThemeProvider theme={theme}>
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          {isHost && (
+            <>
+              <ResetGame />
+              <ResetTeams />
+            </>
+          )}
+          {teamId && <MakeSpectator />}
+        </Popover>
+      </ThemeProvider>
+    </div>
+  );
 }
