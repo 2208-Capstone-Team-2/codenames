@@ -180,7 +180,6 @@ const RoomView = (props: ClassName) => {
 
   return (
     <div>
-    {/* <div className={`${props.className} roomViewBG`}> */}
       <Navbar />
       <div className="gameStatusClaimHost">
         <GameStatus />
@@ -204,7 +203,7 @@ const RoomView = (props: ClassName) => {
           )}
         </div>
         <TeamTwoBox />
-        <div className="break"></div>
+        {/* <div className="break"></div> */}
         <GameLog />
         <Chat />
       </div>
