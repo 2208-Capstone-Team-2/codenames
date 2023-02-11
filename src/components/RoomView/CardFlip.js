@@ -32,7 +32,7 @@ const CardFlip = () => {
   // <span className={classes.imageSrc} style={{ backgroundImage: url(${image.url})`, }} />
 
   const redUrl = {
-    url: require('./red.svg'),
+    url: require('./red.jpg'),
   };
   console.log(redUrl.url);
 
