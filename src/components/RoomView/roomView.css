@@ -50,6 +50,8 @@ body {
   padding: 15px;
   display:flex;
   order:3;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .gameHistoryTitle {
   margin-top: 1%;
@@ -65,17 +67,6 @@ body {
   overflow-y: auto;
   font-family: 'Montserrat';
   padding: 0 2%;
-}
-.chat-container {
-  width: 15%;
-  height: 400px;
-  margin-top: 2%;
-  margin-left: 2%;
-  padding: 15px;
-  border-radius: 6px;
-  background-color: gainsboro;
-  order:5;
-  display: flex;
 }
 .MessageInput {
   display: flex;
@@ -167,6 +158,9 @@ body {
 }
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 320px) {
+.flexBox {
+  justify-content: center;
+}
 .placeholder {
 order:0;
 width: 100vw;
@@ -174,15 +168,18 @@ height: 220px;}
 
 .board{gap: 0;}
 .gameLog {
-  width: 65px;
-  height: 270px;
+  width: 25%;
+  height: 200px;
   margin-top: 0;
   margin-right: 0;
-  border-radius: 6px;
-  padding: 15px;
+  border-radius: 0;
+  padding: 10px;
   display:flex;
   order:3;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+.scrollContent{font-size: 10px;height: 200px;width: 80px;}
 .gameHistoryTitle {
   margin-top: 1%;
   text-align: center;
@@ -192,7 +189,10 @@ height: 220px;}
   max-height: 18px;
 }
 .placeholder2 {
-  width: 0; height: 0;
-  
+  width: 0; height: 0; 
+}
+.chat-container {
+  width: 100vw;
+  height: 200px;
 }
 }

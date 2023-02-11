@@ -194,6 +194,7 @@
     font-size: 12px;
     flex-wrap: wrap;
   }
+  .gameStatus{font-size: 10px;}
   .gameStatus:last-child {
     margin-top: -15px;
     width: 90vw;

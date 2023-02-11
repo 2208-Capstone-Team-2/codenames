@@ -10,6 +10,7 @@
   padding: 15px;
   border-radius: 6px;
   background-color: gainsboro;
+  order:5
 }
 
 .chat-header {
@@ -50,4 +51,16 @@
 }
 .spectator-message {
   color: black;
+}
+
+
+@media only screen and (max-width: 320px) {
+.chat-container {
+  width: 100vw;
+  height: 200px;
+}
+.messages {
+  height: 120px;
+
+}
 }

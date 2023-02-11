@@ -11,7 +11,7 @@
   font-family: 'Oswald';
   font-weight: 400;
   letter-spacing: 1px;
-  order:0;
+  order: 0;
   display: flex;
   flex-direction: column;
 }
@@ -64,32 +64,49 @@
   margin: 4px !important;
 }
 /*---------------------------------------------mobile----------------------------*/
-@media only screen and (max-width: 320px){
-.redBoxCard {
-  width: 68px;
-  padding: 15px;
-  font-size: 12px;
-  border-radius: 6px;
-  margin: 0 2% 0 0;
-  height: 270px;
-  border: black solid 1px;
-  font-weight: 300;
-  letter-spacing: 1px;
-  order:1;
-}
-.redOpsAndSpys{display: flex;
+@media only screen and (max-width: 320px) {
+  .redBoxCard {
+    width: 26%;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 0px;
+    margin: 0;
+    height: 200px;
+    border: none;
+    font-weight: 300;
+    letter-spacing: 1px;
+    order: 1;
+  }
+  .redBoxCard h3 {
+   font-size: 10px;
+    justify-content: left;
+    font-weight: 300;
+  }
+  .redOpsAndSpys {
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     width: fit-content;
     margin-top: 0;
     padding-left: 0;
-    padding-bottom: 10px;
-    }
-    .redBoxCard button {
-      width: fit-content;
-      height: fit-content;
-      width: max-content;
-      font-size: 10px;
-      font-weight: 300;
-  }}
+    padding-bottom: 5px;
+    font-size: 10px;
+    flex-wrap: wrap;
+  }
+  br {
+    display: none;
+  }
+  .redBoxCard button {
+    width: fit-content;
+    height: fit-content;
+    width: max-content;
+    font-size: 10px;
+    font-weight: 300;
+    margin-top: 2px;
+  }
+  .playerName {
+    font-weight: 300;
+    font-size: 10px;
+  }
+}
