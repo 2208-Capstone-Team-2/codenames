@@ -9,33 +9,30 @@ import { setTeamIdOnPlayer } from '../../../store/playerSlice';
 import { RootState } from '../../../store/index.js';
 
 function OnChildChangedPlayerRef() {
+  console.log('custom hook!');
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const { playerId } = useSelector((state: RootState) => state.player);
-  let nestedPlayerInRoomRef = ref(database, `rooms/${roomId}/players/${playerId}`);
 
   useEffect(() => {
-    onChildChanged(nestedPlayerInRoomRef, (data) => {
+    const nestedPlayerInRoomRef = ref(database, `rooms/${roomId}/players/`);
+    if (playerId) {
+      onChildChanged(nestedPlayerInRoomRef, async (data) => {
+        console.log(`playerId inside onChild: ${playerId}`);
         // playerId still === '' at this point, so have to use auth? :/
         // even when listening for playerId changes...?
-        if (data.key === auth.currentUser?.uid) {
-            console.log('playerid', playerId)
+        if (data.key === playerId) {
           if (data.val().teamId) {
-            console.log('setting team id as TEAMID')
-            dispatch(setTeamIdOnPlayer(data.val().teamId))
+            console.log('setting team id as TEAMID');
+            dispatch(setTeamIdOnPlayer(data.val().teamId));
           } else {
-            console.log('setting team id as null')
-            dispatch(setTeamIdOnPlayer(null))
+            console.log('setting team id as null');
+            dispatch(setTeamIdOnPlayer(null));
           }
-        } else {
-          return
         }
-      })
-
+      });
+    }
   }, [playerId]);
 }
 
 export default OnChildChangedPlayerRef;
-
-
-
