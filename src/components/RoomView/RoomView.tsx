@@ -81,20 +81,6 @@ const RoomView = (props: ClassName) => {
       }
     });
 
-    // onChildChanged(nestedPlayerInRoomRef, (data) => {
-    //   if (data.key === playerId) {
-    //     if (data.val().teamId) {
-    //       dispatch(setTeamIdOnPlayer(data.val().teamId))
-    //     } else {
-    //       dispatch(setTeamIdOnPlayer(null))
-    //     }
-    //   } else {
-    //     return
-    //   }
-    // })
-
-
-
     // setting the 'turn' on the frontend will help determine what users are seeing depending on their role
     // for example, if its team1spymasters turn, they'll see the input clue box and number dropdown
     onValue(gameRef, (snapshot) => {
@@ -158,7 +144,7 @@ const RoomView = (props: ClassName) => {
     setTimeout(() => {
       setTimedPopup(true);
     }, 1000);
-  }, [playerId]);
+  }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
