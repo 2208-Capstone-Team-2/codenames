@@ -19,12 +19,12 @@ import Navbar from '../Navbar/Navbar';
 import Popup from '../Room/Popup';
 import Chat from './chat/Chat';
 // Firebase:
-import { database } from '../../utils/firebase';
-import { onValue, ref, set, get, child, update } from 'firebase/database';
+import { database, auth } from '../../utils/firebase';
+import { onValue, ref, set, get, child, update, onChildChanged } from 'firebase/database';
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setRoomId } from '../../store/playerSlice';
+import { setRoomId, setTeamIdOnPlayer } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import {
@@ -60,6 +60,7 @@ const RoomView = (props: ClassName) => {
   const { host } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
+  let nestedPlayerInRoomRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
 
@@ -79,6 +80,20 @@ const RoomView = (props: ClassName) => {
         console.log('no players in room yet!');
       }
     });
+
+    onChildChanged(nestedPlayerInRoomRef, (data) => {
+      if (data.key === auth.currentUser?.uid) {
+        if (data.val().teamId) {
+          dispatch(setTeamIdOnPlayer(data.val().teamId))
+        } else {
+          dispatch(setTeamIdOnPlayer(null))
+        }
+      } else {
+        return
+      }
+    })
+
+
 
     // setting the 'turn' on the frontend will help determine what users are seeing depending on their role
     // for example, if its team1spymasters turn, they'll see the input clue box and number dropdown

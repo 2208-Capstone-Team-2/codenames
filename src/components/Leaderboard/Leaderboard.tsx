@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { PageClickEvent, Player } from './leaderboard.types';
 import './leaderboard.css';
+import { Link } from 'react-router-dom';
 const Leaderboard = () => {
   // eslint-disable-next-line no-unused-vars
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pageNumColor, setPageNumColor] = useState<string>('pagination__link--active-red');
   const getPlayers = async () => {
     setLoading(true);
     // Grabbing players from the backend, later we could make this a little different
@@ -22,14 +24,19 @@ const Leaderboard = () => {
   // PAGINATION
   // Hardcoded # of results, if in the future we wanted the user to be able to change the # of items per page
   // we would then could have state determine this.
-  const PER_PAGE:number = 5;
-  const offset:number = currentPage * PER_PAGE;
-  const currentPageData:Player[] = allPlayers.filter((player) => player.wins > 1).slice(offset, offset + PER_PAGE);
+  const PER_PAGE: number = 5;
+  const offset: number = currentPage * PER_PAGE;
+  const currentPageData: Player[] = allPlayers.filter((player) => player.wins > 1).slice(offset, offset + PER_PAGE);
   console.log(currentPageData);
-  const pageCount:number = Math.ceil(allPlayers.filter((player) => player.wins > 1).length / PER_PAGE);
+  const pageCount: number = Math.ceil(allPlayers.filter((player) => player.wins > 1).length / PER_PAGE);
   //
   function handlePageClick({ selected: selectedPage }: PageClickEvent) {
     setCurrentPage(selectedPage);
+    if (pageNumColor === 'pagination__link--active-red') {
+      setPageNumColor('pagination__link--active-blue');
+    } else {
+      setPageNumColor('pagination__link--active-red');
+    }
   }
   useEffect(() => {
     getPlayers();
@@ -37,6 +44,11 @@ const Leaderboard = () => {
   if (loading) return <p>'Loading...';</p>;
   return (
     <div className="leaderboardContainer">
+      <div className="homeButton">
+        <Link to={'/'}>
+          <button>&larr;&nbsp;Home</button>
+        </Link>
+      </div>
       <h1>LEADERBOARD</h1>
       <div className="players">
         <div id="headers">
@@ -61,7 +73,7 @@ const Leaderboard = () => {
           previousLinkClassName={'pagination__link'}
           nextLinkClassName={'pagination__link'}
           disabledClassName={'pagination__link--disabled'}
-          activeClassName={'pagination__link--active'}
+          activeClassName={pageNumColor}
         />
       </div>
     </div>

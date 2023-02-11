@@ -9,7 +9,6 @@ import { RootState } from '../../store';
 import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
 import { MouseEvent } from 'react';
 
-
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
   const { team1Id, teamOneOperatives } = useSelector((state: RootState) => state.teamOne);
@@ -35,7 +34,7 @@ const Card = (word: CardObj) => {
 
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
-    const target: string = (e.target as HTMLButtonElement).value
+    const target: string = (e.target as HTMLButtonElement).value;
     let wordId = Number(target);
     // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });

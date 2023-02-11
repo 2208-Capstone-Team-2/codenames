@@ -1,7 +1,6 @@
 import React from 'react';
 import '../RoomView/card.css';
 import { useSelector } from 'react-redux';
-import ResetGame from './ResetGame';
 import { RootState } from '../../store';
 const WelcomeBoard = () => {
   const { username, roomId } = useSelector((state: RootState) => state.player);
