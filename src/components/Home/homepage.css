@@ -8,6 +8,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: 100vh;
 }
 .codenames {
   font-size: 84px;
@@ -26,6 +27,9 @@ body {
 .logo {
   margin: 60px;
   width: 100px;
+}
+.realHomeContainer {
+  height: 100vh;
 }
 .homeContainer {
   display: flex;
