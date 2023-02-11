@@ -4,6 +4,7 @@ import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import OnValueHostRef from './customHooks/OnValueHostRef';
 import OnValueCardsRef from './customHooks/OnValueCardsRef';
 import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
+import OnChildChangedPlayerRef from './customHooks/OnChildChangedPlayerRef';
 // Components:
 import SetupGame from './SetupGame';
 import OperativeBoard from './OperativeBoard';
@@ -19,12 +20,12 @@ import Navbar from '../Navbar/Navbar';
 import Popup from '../Room/Popup';
 import Chat from './chat/Chat';
 // Firebase:
-import { database, auth } from '../../utils/firebase';
-import { onValue, ref, set, get, child, update, onChildChanged } from 'firebase/database';
+import { database } from '../../utils/firebase';
+import { onValue, ref, set, get, child, update } from 'firebase/database';
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setRoomId, setTeamIdOnPlayer } from '../../store/playerSlice';
+import { setRoomId } from '../../store/playerSlice';
 import { setAllPlayers } from '../../store/allPlayersSlice';
 import { setWordsInGame } from '../../store/wordsInGameSlice';
 import {
@@ -60,7 +61,6 @@ const RoomView = (props: ClassName) => {
   const { host } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
-  let nestedPlayerInRoomRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
 
@@ -81,17 +81,17 @@ const RoomView = (props: ClassName) => {
       }
     });
 
-    onChildChanged(nestedPlayerInRoomRef, (data) => {
-      if (data.key === playerId) {
-        if (data.val().teamId) {
-          dispatch(setTeamIdOnPlayer(data.val().teamId))
-        } else {
-          dispatch(setTeamIdOnPlayer(null))
-        }
-      } else {
-        return
-      }
-    })
+    // onChildChanged(nestedPlayerInRoomRef, (data) => {
+    //   if (data.key === playerId) {
+    //     if (data.val().teamId) {
+    //       dispatch(setTeamIdOnPlayer(data.val().teamId))
+    //     } else {
+    //       dispatch(setTeamIdOnPlayer(null))
+    //     }
+    //   } else {
+    //     return
+    //   }
+    // })
 
 
 
@@ -192,6 +192,8 @@ const RoomView = (props: ClassName) => {
   OnValueHostRef();
   OnValueCardsRef();
   OnValueGameHistoryRef();
+  OnChildChangedPlayerRef();
+
   return (
     <div className={`${props.className} roomViewBG`}>
       <Navbar />
