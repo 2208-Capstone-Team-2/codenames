@@ -30,8 +30,8 @@ body {
   height: 0;
 }
 .gameLog {
-  float: left;
-  width: 15%;
+  /* float: left; */
+  /* width: 15%; */
   height: 400px;
   margin-top: 2%;
   margin-right: 2%;
@@ -53,7 +53,7 @@ body {
   font-family: 'Montserrat';
   padding: 0 2%;
 }
-.chatBox {
+/* .chatBox {
   float: left;
   width: 15%;
   height: 400px;
@@ -62,7 +62,7 @@ body {
   padding: 15px;
   border-radius: 6px;
   background-color: gainsboro;
-}
+} */
 .MessageInput {
   display: flex;
   justify-content: center;
@@ -155,4 +155,23 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 2%;
+}
+
+.leftContainer,
+.rightContainer {
+  flex-direction: column;
+}
+
+.leftContainer {
+  order: 1;
+  flex-shrink: 3;
+}
+.rightContainer {
+  order: 3;
+  flex-shrink: 1;
+}
+
+.boardContainer {
+  order: 2;
+  flex-shrink: 1;
 }
