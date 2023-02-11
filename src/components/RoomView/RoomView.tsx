@@ -82,7 +82,7 @@ const RoomView = (props: ClassName) => {
     });
 
     onChildChanged(nestedPlayerInRoomRef, (data) => {
-      if (data.key === auth.currentUser?.uid) {
+      if (data.key === playerId) {
         if (data.val().teamId) {
           dispatch(setTeamIdOnPlayer(data.val().teamId))
         } else {
@@ -158,7 +158,7 @@ const RoomView = (props: ClassName) => {
     setTimeout(() => {
       setTimedPopup(true);
     }, 1000);
-  }, []);
+  }, [playerId]);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
