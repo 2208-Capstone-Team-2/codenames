@@ -52,15 +52,12 @@ const TeamTwoBox = () => {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
-            dispatch(setTeamIdOnPlayer(team2Id))
 
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
           set(child(teamTwoOperativesRef, playerId), { playerId, username });
           update(nestedPlayerRef, { teamId: team2Id });
-          dispatch(setTeamIdOnPlayer(team2Id))
-
         }
       });
     }
@@ -98,13 +95,11 @@ const TeamTwoBox = () => {
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
-            dispatch(setTeamIdOnPlayer(team2Id))
           }
         } else {
           onDisconnect(teamTwoSpymasterRef).remove();
           set(teamTwoSpymasterRef, { playerId, username });
           update(nestedPlayerRef, { teamId: team2Id });
-          dispatch(setTeamIdOnPlayer(team2Id))
         }
       });
     }
