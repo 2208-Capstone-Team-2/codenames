@@ -157,14 +157,18 @@ body {
   margin-top: 2%;
 }
 /*---------------------------------------------mobile----------------------------*/
-@media only screen and (max-width: 320px) {
+/* @media only screen and  (min-width:400px)and (max-width: 600px){.placeholder {
+  order:0;
+  width: 100vw;
+  height: 220px;}} */
+@media only screen and (max-width: 600px) {
 .flexBox {
   justify-content: center;
 }
 .placeholder {
 order:0;
 width: 100vw;
-height: 220px;}
+height: 320px;}
 
 .board{gap: 0;}
 .gameLog {
