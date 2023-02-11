@@ -102,15 +102,6 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.setupGamePopup {
-  justify-content: center;
-}
-
-.setupGamePopup .close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
 .loser {
   top: 50%;
   left: 50%;

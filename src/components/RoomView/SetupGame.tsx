@@ -13,7 +13,6 @@ interface WordPackType {
   name: string;
   createdAt: string;
   updatedAt: string;
-
 }
 const SetupGame = () => {
   const [wordpacks, setWordpacks] = useState<WordPackType[]>([]);
@@ -22,7 +21,7 @@ const SetupGame = () => {
   const roomId = useSelector((state: RootState) => state.player.roomId);
 
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   //----------------fetch all packs for users to select from-----------------//
   const fetchWordPacks = async () => {
     setIsLoading(true);
@@ -38,7 +37,6 @@ const SetupGame = () => {
   //------------------functions to handle selection---------------------//
 
   const handleWordPackSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-
     const idInteractedWith = event.target.value;
     //if event.target.value is already in the array, we delete the already existed one in the array and return
     if (selectedWordPackIds.includes(idInteractedWith)) {
@@ -59,20 +57,20 @@ const SetupGame = () => {
     const updates: any = {};
     data.forEach(
       (card: any) =>
-      (updates[card.id] = {
-        id: card.id,
-        isVisibleToAll: card.isVisibleToAll,
-        wordString: card.word.word,
-        wordId: card.wordId,
-        boardId: card.boardId,
-        teamId: null,
-      }),
+        (updates[card.id] = {
+          id: card.id,
+          isVisibleToAll: card.isVisibleToAll,
+          wordString: card.word.word,
+          wordId: card.wordId,
+          boardId: card.boardId,
+          teamId: null,
+        }),
     );
     update(ref(database, 'rooms/' + roomId), {
       gameboard: updates,
     });
-    dispatch(setShowStartGame(false))
-    setSelectedWordPackIds([])
+    dispatch(setShowStartGame(false));
+    setSelectedWordPackIds([]);
   };
 
   const startGame = async () => {
@@ -84,19 +82,18 @@ const SetupGame = () => {
   if (isLoading) return <p>Loading...</p>;
   else
     return (
-     <>
-     <div className="setUpContainer">
-      <div className="setUpGame">
+      <div className="setUpContainer">
+        <div className="setUpGame">
           Please select a pack of words
           <form onSubmit={submitHandler}>
             {wordpacks.map((wordpack) => (
-              <div key={wordpack.id} className="setupGamePopup">
+              <div key={wordpack.id}>
                 <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
                 <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
               </div>
             ))}
-            <button className='startGameButton'
-              
+            <button
+              className="startGameButton"
               type="submit"
               disabled={selectedWordPackIds.length === 0 ? true : false}
               onClick={startGame}
@@ -104,9 +101,8 @@ const SetupGame = () => {
               Start game
             </button>
           </form>
+        </div>
       </div>
-      </div>
-     </>
     );
 };
 
