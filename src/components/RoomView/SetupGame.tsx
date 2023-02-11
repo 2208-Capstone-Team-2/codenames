@@ -16,7 +16,6 @@ interface WordPackType {
 
 }
 const SetupGame = () => {
-  const { showStartGame } = useSelector((state: RootState) => state.game);
   const [wordpacks, setWordpacks] = useState<WordPackType[]>([]);
   const [selectedWordPackIds, setSelectedWordPackIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -73,6 +72,7 @@ const SetupGame = () => {
       gameboard: updates,
     });
     dispatch(setShowStartGame(false))
+    setSelectedWordPackIds([])
   };
 
   const startGame = async () => {
@@ -86,7 +86,6 @@ const SetupGame = () => {
     return (
      <>
      <div className="setUpContainer">
-      {showStartGame && 
       <div className="setUpGame">
           Please select a pack of words
           <form onSubmit={submitHandler}>
@@ -106,7 +105,6 @@ const SetupGame = () => {
             </button>
           </form>
       </div>
-      }
       </div>
      </>
     );
