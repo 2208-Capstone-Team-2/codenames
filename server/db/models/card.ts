@@ -1,26 +1,17 @@
 import Sequelize from 'sequelize';
 import db from '../db';
-import {
-  CreationOptional,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from "sequelize";
-const { BOOLEAN, INTEGER} = Sequelize;
+import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+const { BOOLEAN, INTEGER } = Sequelize;
 interface ResponseError extends Error {
   status?: number;
 }
 
-export interface CardModel
-  extends Model<
-    InferAttributes<CardModel>,
-    InferCreationAttributes<CardModel>
-  > {
-    id: CreationOptional<number>;
-    isVisibleToAll:CreationOptional<boolean>;
-    boardId: CreationOptional<number>
-    wordId: CreationOptional<number>
-    teamId: CreationOptional<number>
+export interface CardModel extends Model<InferAttributes<CardModel>, InferCreationAttributes<CardModel>> {
+  id: CreationOptional<number>;
+  isVisibleToAll: CreationOptional<boolean>;
+  boardId: CreationOptional<number>;
+  wordId: CreationOptional<number>;
+  teamId: CreationOptional<number>;
 }
 const Card = db.define<CardModel>('card', {
   id: {
@@ -33,16 +24,18 @@ const Card = db.define<CardModel>('card', {
     allowNull: false,
     defaultValue: false,
   },
-  boardId:{
+  boardId: {
     type: INTEGER,
     allowNull: true,
   },
-  wordId: {    
+  wordId: {
     type: INTEGER,
-    allowNull: true,},
-  teamId: {    
+    allowNull: true,
+  },
+  teamId: {
     type: INTEGER,
-    allowNull: true,},
+    allowNull: true,
+  },
   // tier 2
   // Todo: Need to decide if this will be a simple bool or
   // if we want the player's name associated with it -

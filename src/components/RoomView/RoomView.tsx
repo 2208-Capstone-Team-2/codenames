@@ -140,8 +140,6 @@ const RoomView = (props: ClassName) => {
         }
       }
     });
-
-   
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
@@ -193,8 +191,8 @@ const RoomView = (props: ClassName) => {
       {isHost && showStartGame && <SetupGame />}
       <div className="flexBox">
         <div className="leftContainer">
-        <TeamOneBox />
-        <GameLog />
+          <TeamOneBox />
+          <GameLog />
         </div>
         <div className="boardContainer">
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
@@ -205,8 +203,8 @@ const RoomView = (props: ClassName) => {
           )}
         </div>
         <div className="rightContainer">
-        <TeamTwoBox />        
-        <Chat />
+          <TeamTwoBox />
+          <Chat />
         </div>
       </div>
       <Clue />

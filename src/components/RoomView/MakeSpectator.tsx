@@ -17,12 +17,12 @@ const MakeSpectator = () => {
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const makeMeSpectator = async () => {
     /* update player to being a spectator, dispatch happens in useEffect of this component 
     (won't work in roomView bc playerId not immediately identified)*/
     update(nestedPlayerRef, { teamId: null });
-    dispatch(setTeamIdOnPlayer(null))
+    dispatch(setTeamIdOnPlayer(null));
     // the rest of the logic in this fxn removes them depending on what team/position theyre in
     const teamOne = await get(teamOneRef);
     const teamTwo = await get(teamTwoRef);
@@ -32,29 +32,29 @@ const MakeSpectator = () => {
     let teamTwoOperatives;
 
     if (teamOneOpsAndSpys && teamOneOpsAndSpys.operatives) {
-        teamOneOperatives = Object.keys(teamOneOpsAndSpys.operatives);
+      teamOneOperatives = Object.keys(teamOneOpsAndSpys.operatives);
     }
     if (teamTwoOpsAndSpys && teamTwoOpsAndSpys.operatives) {
-        teamTwoOperatives = Object.keys(teamTwoOpsAndSpys.operatives);
+      teamTwoOperatives = Object.keys(teamTwoOpsAndSpys.operatives);
     }
-     if (teamOneOperatives && teamOneOperatives.includes(playerId)) {
-         remove(child(teamOneOperativesRef, playerId));
+    if (teamOneOperatives && teamOneOperatives.includes(playerId)) {
+      remove(child(teamOneOperativesRef, playerId));
     } else if (teamTwoOperatives && teamTwoOperatives.includes(playerId)) {
-        remove(child(teamTwoOperativesRef, playerId));
+      remove(child(teamTwoOperativesRef, playerId));
     } else if (teamOneSpymaster?.playerId === playerId) {
-        remove(teamOneSpymasterRef)
+      remove(teamOneSpymasterRef);
     } else if (teamTwoSpymaster?.playerId === playerId) {
-        remove(teamTwoSpymasterRef)
+      remove(teamTwoSpymasterRef);
     } else {
-     console.log('youre already a spectator!')
+      console.log('youre already a spectator!');
     }
   };
 
   return (
     <div>
-        <button className="welcomeBoardButton" onClick={makeMeSpectator}>
-          Become a spectator
-        </button>
+      <button className="welcomeBoardButton" onClick={makeMeSpectator}>
+        Become a spectator
+      </button>
     </div>
   );
 };

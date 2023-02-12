@@ -96,16 +96,16 @@ const GameStatus = () => {
     if (!teamId) {
       switch (gameStatus) {
         case 'team1SpyTurn':
-          setPlayerNote('Team one spymaster\'s turn');
+          setPlayerNote("Team one spymaster's turn");
           break;
         case 'team2SpyTurn':
-          setPlayerNote('Team two spymaster\'s turn');
+          setPlayerNote("Team two spymaster's turn");
           break;
         case 'team1OpsTurn':
-          setPlayerNote('Team one operative\'s turn');
+          setPlayerNote("Team one operative's turn");
           break;
         case 'team2OpsTurn':
-          setPlayerNote('Team two operative\'s turn');
+          setPlayerNote("Team two operative's turn");
           break;
       }
     }

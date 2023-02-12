@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';;
+import { RootState } from '../../store';
 import SpyCard from './SpyCard';
 
 const SpyMasterBoard = () => {

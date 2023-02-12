@@ -109,10 +109,10 @@ function OnValueCardsRef() {
         });
         get(nestedPlayerRef).then((snapshot) => {
           if (snapshot.exists()) {
-              console.log('setting spectator board...');
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
+            console.log('setting spectator board...');
+            const cardsFromSnapshot = cardSnapshot.val();
+            const values = Object.values(cardsFromSnapshot);
+            dispatch(setWordsInGame(values));
           }
         });
       }

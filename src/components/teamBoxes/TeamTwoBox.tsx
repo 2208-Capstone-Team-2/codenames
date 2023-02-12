@@ -52,7 +52,6 @@ const TeamTwoBox = () => {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
-
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
@@ -129,7 +128,6 @@ const TeamTwoBox = () => {
       }
     });
   }, [playerId]);
-
 
   return (
     <div className="blueBoxCard">

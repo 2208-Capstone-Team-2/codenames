@@ -66,7 +66,6 @@ export const gameSlice = createSlice({
     setShowStartGame: (state, action) => {
       state.showStartGame = action.payload;
     },
-    
   },
 });
 
@@ -80,6 +79,6 @@ export const {
   setLoser,
   setGameHistory,
   setHost,
-  setShowStartGame
+  setShowStartGame,
 } = gameSlice.actions;
 export default gameSlice.reducer;

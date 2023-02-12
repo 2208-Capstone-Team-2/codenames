@@ -27,13 +27,13 @@ function RoomContainer() {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="roomContainer">
-      <FetchRoom />
-      <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
-        <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />
-      </Popup>
-      {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
+        <FetchRoom />
+        <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
+          <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />
+        </Popup>
+        {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
       </div>
     </div>
   );
