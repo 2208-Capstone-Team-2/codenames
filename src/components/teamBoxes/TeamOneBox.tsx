@@ -145,13 +145,12 @@ const TeamOneBox = () => {
               </span>
             );
           })}{' '}
-          <br />
           <button onClick={joinTeamOneOp}>Join as Operative</button>
         </div>
         <div>
           <p>Spymaster(s)</p>
           {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
-          <br />
+          {/* took the <br /> out of here because we are displaying flex, no need to use br to start a new line */}
           {!teamOneSpymaster && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
         </div>
       </div>

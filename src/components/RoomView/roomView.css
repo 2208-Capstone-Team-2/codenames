@@ -39,7 +39,6 @@ flex-shrink: 1;
 .gameLog {
   height: 400px;
   margin-top: 2%;
-  margin-right: 2%;
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
@@ -150,7 +149,7 @@ max-width: 250px;
 }
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
-
+.flexBox{justify-content: center;}
   .leftContainer {
   order:1;
   width: 50%;
@@ -192,9 +191,10 @@ max-width: 250px;
 }
 /*---------------------------------tablet-------------------------------------*/
 @media only screen and  (min-width: 601px)and (max-width: 768px){
+  .flexBox{justify-content: center;}
   .leftContainer {
     order:1;
-    width: 50%;
+    width: 40%;
     margin-top: 2%;
     }
     .boardContainer {
@@ -203,7 +203,7 @@ max-width: 250px;
       }
     .rightContainer {
         order:2;
-        width: 50%;
+        width: 40%;
         margin-top: 2%;
         }
   .board {
@@ -211,9 +211,6 @@ max-width: 250px;
  .placeholder {
   height: 300px;
   width: 320px;
-}
-.placeholder2 {
-  width: 320px; height: 200px; 
 }
 .gameLog {
   height: 200px;
@@ -228,7 +225,7 @@ max-width: 250px;
   max-height: 18px;
 }}
 /*---------------------------------------------tablet/small laptop----------------------------*/
-@media only screen and (min-width: 769px) and (max-width: 1040px) {
+@media only screen and (min-width: 769px) and (max-width: 1440px) {
   .flexBox{justify-content: space-evenly;}
   .leftContainer {
     width: 20%;

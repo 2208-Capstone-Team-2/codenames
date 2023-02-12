@@ -52,7 +52,6 @@ const TeamTwoBox = () => {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
-
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
@@ -130,7 +129,6 @@ const TeamTwoBox = () => {
     });
   }, [playerId]);
 
-
   return (
     <div className="blueBoxCard">
       <h3>Team 2</h3>
@@ -145,14 +143,13 @@ const TeamTwoBox = () => {
               </span>
             );
           })}
-          <br />
+
           <button onClick={joinTeamTwoOp}>Join as Operative</button>
         </div>
         <div>
           <p>Spymaster(s)</p>
           {teamTwoSpymaster && <span className="playerName">{teamTwoSpymaster.username}</span>}
-
-          <br />
+          {/* took the <br /> out of here because we are displaying flex, no need to use br to start a new line */}
           {!teamTwoSpymaster && <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>}
         </div>
       </div>
