@@ -6,21 +6,20 @@ import Home from './Home/Home';
 import Leaderboard from './Leaderboard/Leaderboard';
 import RoomContainer from './Room/RoomContainer';
 import UsernameModal from './RoomView/UserNameModal/UsernameModal';
+
 const RouterComponent = () => {
   return (
-    <>
+    <div>
       <Routes>
-        {/*-------------------- home page---------------------*/}
         <Route path="/" element={<Home />} />
-        {/*--------------------a page for room initialization---------------------*/}
         <Route path="/room/:roomId" element={<RoomContainer />} />
         <Route path="/404" element={<Error />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/usernameModal" element={<UsernameModal />} />
         <Route path="/*" element={<Error />} />
       </Routes>
-      <Footer />
-    </>
+      {/* <Footer /> */}
+    </div>
   );
 };
 export default RouterComponent;

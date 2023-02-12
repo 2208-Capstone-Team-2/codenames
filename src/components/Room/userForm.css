@@ -46,6 +46,7 @@
   border-radius: 5px 10px;
   font-family: 'oswald';
 }
+
 .userformPopup .close-btn {
   position: absolute;
   top: 15px;
@@ -53,4 +54,8 @@
 }
 .disabled {
   pointer-events: none;
+}
+.roomContainer {
+  margin: 2rem;
+  margin-top: 8rem;
 }

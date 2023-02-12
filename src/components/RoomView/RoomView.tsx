@@ -179,8 +179,7 @@ const RoomView = (props: ClassName) => {
   OnValueTeamDispatch();
 
   return (
-    <div className={`${props.className} roomViewBG`}>
-      <Navbar />
+    <div>
       <div className="gameStatusClaimHost">
         <GameStatus />
         <div className="gameStatus">
@@ -193,7 +192,10 @@ const RoomView = (props: ClassName) => {
       </div>
       {isHost && showStartGame && <SetupGame />}
       <div className="flexBox">
+        <div className="leftContainer">
         <TeamOneBox />
+        <GameLog />
+        </div>
         <div className="boardContainer">
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
@@ -202,10 +204,10 @@ const RoomView = (props: ClassName) => {
             <OperativeBoard />
           )}
         </div>
-        <TeamTwoBox />
-        <div className="break"></div>
-        <GameLog />
+        <div className="rightContainer">
+        <TeamTwoBox />        
         <Chat />
+        </div>
       </div>
       <Clue />
       <Loser />
