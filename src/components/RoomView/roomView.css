@@ -55,16 +55,7 @@ body {
   font-family: 'Montserrat';
   padding: 0 2%;
 }
-/* .chatBox {
-  float: left;
-  width: 15%;
-  height: 400px;
-  margin-top: 2%;
-  margin-left: 2%;
-  padding: 15px;
-  border-radius: 6px;
-  background-color: gainsboro;
-} */
+
 .MessageInput {
   display: flex;
   justify-content: center;
