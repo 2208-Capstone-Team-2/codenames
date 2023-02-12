@@ -13,11 +13,10 @@ import { setHost } from '../../store/gameSlice';
 import './userForm.css';
 
 interface UsernameFormProps {
-  canBeClosed: boolean;
-  setCanBeClosed: Function;
+  handleClose: Function;
 }
 
-function UsernameForm({ canBeClosed, setCanBeClosed }: UsernameFormProps) {
+function UsernameForm({ handleClose }: UsernameFormProps) {
   const dispatch = useDispatch();
   const { roomId } = useParams() as { roomId: string };
 
@@ -85,7 +84,7 @@ function UsernameForm({ canBeClosed, setCanBeClosed }: UsernameFormProps) {
 
     // Change the piece of state that hides this popup
     setUsernameSubmissionDone(true);
-    setCanBeClosed(false);
+    handleClose(false);
   };
   if (!playerId) return <p>loading user form popup...</p>;
   return (

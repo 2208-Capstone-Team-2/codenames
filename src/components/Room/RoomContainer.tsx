@@ -8,9 +8,10 @@ import SignInAnonymously from '../FirebaseAuth/SignInAnonymously';
 import OnAuthStateChanged from '../FirebaseAuth/OnAuthStateChanged';
 import DocumentTitleChange from './DocumentTitleChange';
 import './userForm.css';
+import UsernameModal from '../RoomView/UsernameModal/UsernameModal';
 
 function RoomContainer() {
-  const [timedPopup, setTimedPopup] = useState<boolean>(false);
+  const [timedPopup, setTimedPopup] = useState<boolean>(true);
   const [canBeClosed, setCanBeClosed] = useState<boolean>(true);
 
   useEffect(() => {
@@ -27,10 +28,11 @@ function RoomContainer() {
   return (
     <div>
       <FetchRoom />
-      <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
+      {/* <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
         <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />
-      </Popup>
-      {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
+      </Popup> */}
+      <UsernameModal />
+      <RoomView />
     </div>
   );
 }
