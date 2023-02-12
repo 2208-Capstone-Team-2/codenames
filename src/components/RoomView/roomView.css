@@ -1,12 +1,6 @@
 body {
   margin: 0;
 }
-/* .roomViewBG {
-  background-image: url(./bg.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-} */
 
 .flexBox {
   display: flex;
