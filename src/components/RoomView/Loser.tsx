@@ -42,7 +42,7 @@ const Loser: React.FC = () => {
 
   return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
     <div className="loser">
-      <h1>You are a loser, you should try again!</h1>
+      <h1>Your team lost! Play again!</h1>
       <button className="closeButton" onClick={() => setIsVisible(false)}>
         X
       </button>
