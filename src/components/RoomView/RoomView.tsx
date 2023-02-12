@@ -89,7 +89,7 @@ const RoomView = (props: ClassName) => {
         dispatch(setTeam1RemainingCards(game.team1RemainingCards));
         dispatch(setTeam2RemainingCards(game.team2RemainingCards));
         dispatch(setGuessesRemaining(game.guessesRemaining));
-        // i think we can put 'setWinner' & 'setLoser' here..?
+
         if (game.guessesRemaining <= 0) {
           endTurn();
         }
@@ -98,8 +98,6 @@ const RoomView = (props: ClassName) => {
         to 'ready' which triggers the redux cleanup below */
         if (game.gameStatus === 'ready') {
           dispatch(setStatus('ready'));
-          dispatch(setWinner(''));
-          dispatch(setLoser(''));
           dispatch(setTeam1RemainingCards(9));
           dispatch(setTeam2RemainingCards(8));
           dispatch(setWordsInGame([]));
@@ -108,6 +106,8 @@ const RoomView = (props: ClassName) => {
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
           dispatch(setShowStartGame(true));
+          dispatch(setWinner(''));
+          dispatch(setLoser(''));
         }
 
         if (game.team1RemainingCards === 0) {
@@ -117,7 +117,6 @@ const RoomView = (props: ClassName) => {
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
           dispatch(setGuessesRemaining(0));
-
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
