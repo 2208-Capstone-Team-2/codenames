@@ -8,6 +8,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: auto;
+  width: auto;
 }
 .codenames {
   font-size: 84px;
