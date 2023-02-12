@@ -28,9 +28,6 @@ function RoomContainer() {
   return (
     <div>
       <FetchRoom />
-      {/* <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup">
-        <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} />
-      </Popup> */}
       <UsernameModal />
       <RoomView />
     </div>
