@@ -3,8 +3,6 @@ import { Facebook, Instagram, Twitter, GitHub } from '@mui/icons-material';
 import './footer.css';
 function Footer() {
   return (
-    <div className="footerContainer">
-      <div className="topFooter"></div>
       <div className="bottomFooter">
         <div className="miscInfo">
           <p>About Us</p>
@@ -25,7 +23,7 @@ function Footer() {
           </a>
         </div>
       </div>
-    </div>
+
   );
 }
 export default Footer;

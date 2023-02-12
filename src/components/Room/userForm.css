@@ -1,27 +1,33 @@
-.userformPopup{    
-    background-color: #365e7f;
-    position: fixed;
-    width: 20%;
-    height: 30%;
-    padding: 3%;
-    display: flex;
-    margin: 5% auto;
-    left: 0;
-    right: 0;
-    border-radius: 5px;
-    z-index: 1;
-    justify-content: center;
-
+.userformPopup {
+  background-color: #365e7f;
+  position: fixed;
+  width: 20%;
+  height: 30%;
+  padding: 3%;
+  display: flex;
+  margin: 5% auto;
+  left: 0;
+  right: 0;
+  border-radius: 5px;
+  z-index: 1;
+  justify-content: center;
 }
-.popupContent
- {
-    color:#d2dcde;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
+.popupContent {
+  color: #d2dcde;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.userformPopup .close-btn{position: absolute;top:15px;right:15px;}
+.userformPopup .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
 .disabled {
-    pointer-events: none;
-  }
+  pointer-events: none;
+}
+
+.roomContainer {
+  margin: 2rem;
+  margin-top: 8rem;
+}
