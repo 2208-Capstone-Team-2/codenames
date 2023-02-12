@@ -1,5 +1,4 @@
 .navbarContainer {
-  position: absolute;
   font-weight: 500;
   display: flex;
   justify-content: space-between;
@@ -10,9 +9,6 @@
   height: 50px;
   border-radius: 5px;
   font-size: 16px;
-  top: 0;
-  width: 99vw;
-  left: 0;
 }
 .welcomeBoard {
   font-family: 'Oswald';
