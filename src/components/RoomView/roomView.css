@@ -167,14 +167,11 @@ body {
 
 .leftContainer {
   order: 1;
-  flex-shrink: 3;
 }
 .rightContainer {
   order: 3;
-  flex-shrink: 1;
 }
 
 .boardContainer {
   order: 2;
-  flex-shrink: 1;
 }

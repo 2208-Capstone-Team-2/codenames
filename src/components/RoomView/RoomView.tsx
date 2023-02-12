@@ -180,7 +180,6 @@ const RoomView = (props: ClassName) => {
 
   return (
     <div>
-      <Navbar />
       <div className="gameStatusClaimHost">
         <GameStatus />
         <div className="gameStatus">
