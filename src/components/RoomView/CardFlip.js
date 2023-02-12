@@ -49,22 +49,66 @@ const CardFlip = () => {
 
   let cardStyles = {};
 
-  const redCardStyles = {
-    front: notYetRevealed,
-    back: redRevealed,
+  const blueUrl = {
+    url: require('./red.jpg'),
   };
-  const blueCardStyles = {
-    front: notYetRevealed,
-    back: blueRevealed,
+  console.log(blueUrl.url);
+  const blueRevealed = {
+    width: '120pt',
+    height: '96pt',
+    backgroundimage: `url(${blueUrl.url})`,
+    backgroundrepeat: 'no-repeat',
+    backgroundsize: 'cover',
+    margin: '0',
+    textindent: '-9999px',
+    border: 'none',
   };
-  const beigeCardStyles = {
-    front: notYetRevealed,
-    back: beigeRevealed,
+  
+  const beigeUrl = {
+    url: require('./beige.jpg'),
   };
-  const blackCardStyles = {
-    front: notYetRevealed,
-    back: blackRevealed,
+  console.log(beigeUrl.url);
+  const beigeRevealed = {
+    width: '120pt',
+    height: '96pt',
+    backgroundimage: `url(${beigeUrl.url})`,
+    backgroundrepeat: 'no-repeat',
+    backgroundsize: 'cover',
+    margin: '0',
+    textindent: '-9999px',
+    border: 'none',
   };
+  const blackUrl = {
+    url: require('./being.jpg'),
+  };
+  console.log(blackUrl.url);
+  const blackRevealed = {
+    width: '120pt',
+    height: '96pt',
+    backgroundimage: `url(${blackUrl.url})`,
+    backgroundrepeat: 'no-repeat',
+    backgroundsize: 'cover',
+    margin: '0',
+    textindent: '-9999px',
+    border: 'none',
+  };
+
+  // const redCardStyles = {
+  //   front: notYetRevealed,
+  //   back: redRevealed,
+  // };
+  // const blueCardStyles = {
+  //   front: notYetRevealed,
+  //   back: blueRevealed,
+  // };
+  // const beigeCardStyles = {
+  //   front: notYetRevealed,
+  //   back: beigeRevealed,
+  // };
+  // const blackCardStyles = {
+  //   front: notYetRevealed,
+  //   back: blackRevealed,
+  // };
   // if (word.teamId === team1Id) cardStyles = redCardStyles
   // if (word.teamId === team2Id) cardStyles = blueCardStyles
   // if (word.teamId === bystanderTeamId) cardStyles = beigeCardStyles
