@@ -3,6 +3,12 @@
   src: url('./fonts/death-from-above-font/DeathFromAbove-Ow9P.ttf') format('truetype');
 }
 
+body {
+  background-image: url(../RoomView/bg.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
 .codenames {
   font-size: 84px;
   font-family: myFirstFont;
@@ -21,7 +27,6 @@
   margin: 60px;
   width: 100px;
 }
-
 .homeContainer {
   display: flex;
   flex-direction: column;

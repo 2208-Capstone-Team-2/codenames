@@ -1,5 +1,8 @@
 body {
-  background-image: url(../RoomView/bg.svg);
+  margin: 0;
+}
+.roomViewBG {
+  background-image: url(./bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -34,6 +37,8 @@ body {
   height: 0;
 }
 .gameLog {
+  float: left;
+  width: 15%;
   height: 400px;
   margin-top: 2%;
   margin-right: 2%;
@@ -55,7 +60,16 @@ body {
   font-family: 'Montserrat';
   padding: 0 2%;
 }
-
+.chatBox {
+  float: left;
+  width: 15%;
+  height: 400px;
+  margin-top: 2%;
+  margin-left: 2%;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: gainsboro;
+}
 .MessageInput {
   display: flex;
   justify-content: center;
@@ -148,20 +162,4 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 2%;
-}
-
-.leftContainer,
-.rightContainer {
-  flex-direction: column;
-}
-
-.leftContainer {
-  order: 1;
-}
-.rightContainer {
-  order: 3;
-}
-
-.boardContainer {
-  order: 2;
 }
