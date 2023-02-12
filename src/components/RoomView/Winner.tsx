@@ -44,7 +44,7 @@ interface TeamInfo {
           
            return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
             <div className="winner">
-              <h1>Congratulations! You won the game! How about play again?</h1>
+              <h1>Congratulations! Your team won! Play again?</h1>
               <button className="closeButton" onClick={() => setIsVisible(false)}>X</button>
             </div>): <div />;
   }
