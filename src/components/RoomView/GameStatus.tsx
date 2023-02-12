@@ -5,7 +5,7 @@ import { RootState } from '../../store';
 const GameStatus = () => {
   const gameStatus = useSelector((state: RootState) => state.game.status);
   const guessesRemaining = useSelector((state: RootState) => state.game.guessesRemaining);
-  const { playerId } = useSelector((state: RootState) => state.player);
+  const { playerId, teamId } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const [playerNote, setPlayerNote] = useState<string>('');
@@ -90,6 +90,22 @@ const GameStatus = () => {
           break;
         case 'team2OpsTurn':
           setPlayerNote(operativeGuessingNote);
+          break;
+      }
+    }
+    if (!teamId) {
+      switch (gameStatus) {
+        case 'team1SpyTurn':
+          setPlayerNote('Team one spymaster\'s turn');
+          break;
+        case 'team2SpyTurn':
+          setPlayerNote('Team two spymaster\'s turn');
+          break;
+        case 'team1OpsTurn':
+          setPlayerNote('Team one operative\'s turn');
+          break;
+        case 'team2OpsTurn':
+          setPlayerNote('Team two operative\'s turn');
           break;
       }
     }
