@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
 // Custom Hooks
 import OnValueHostRef from './customHooks/OnValueHostRef';
 import OnValueCardsRef from './customHooks/OnValueCardsRef';
 import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
+import OnValueTeamDispatch from './customHooks/OnValueTeamDispatch';
 // Components:
 import SetupGame from './SetupGame';
 import OperativeBoard from './OperativeBoard';
 import SpyMasterBoard from './SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
-import Clue from './Clue';
+import Clue from './clue/Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
 import Loser from './Loser';
 import Winner from './Winner';
 import Navbar from '../Navbar/Navbar';
-import Popup from '../Room/Popup';
+import Chat from './chat/Chat';
 // Firebase:
 import { database } from '../../utils/firebase';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
@@ -35,9 +36,11 @@ import {
   setLoser,
   setGuessesRemaining,
   setGameHistory,
+  setShowStartGame,
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
+
 // CSS:
 import './roomView.css';
 interface ClassName {
@@ -51,11 +54,10 @@ const RoomView = (props: ClassName) => {
   const dispatch = useDispatch();
 
   // frontend state
-  const [timedPopup, setTimedPopup] = useState(false);
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host } = useSelector((state: RootState) => state.game);
+  const { host, showStartGame } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
@@ -102,6 +104,7 @@ const RoomView = (props: ClassName) => {
           dispatch(setGameHistory([]));
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
+          dispatch(setShowStartGame(true));
         }
 
         if (game.team1RemainingCards === 0) {
@@ -138,9 +141,7 @@ const RoomView = (props: ClassName) => {
       }
     });
 
-    setTimeout(() => {
-      setTimedPopup(true);
-    }, 1000);
+   
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
@@ -175,6 +176,8 @@ const RoomView = (props: ClassName) => {
   OnValueHostRef();
   OnValueCardsRef();
   OnValueGameHistoryRef();
+  OnValueTeamDispatch();
+
   return (
     <div className={`${props.className} roomViewBG`}>
       <Navbar />
@@ -188,19 +191,11 @@ const RoomView = (props: ClassName) => {
           )}
         </div>
       </div>
-      {/* is there isnt at least one person to each role, setup board should be disabled / not visible */}
-      {/* is host AND there is at least one person on each team */}
-      {isHost && (
-        <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="setupGamePopup">
-          <SetupGame />
-        </Popup>
-      )}
+      {isHost && showStartGame && <SetupGame />}
       <div className="flexBox">
         <TeamOneBox />
         <div className="boardContainer">
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-          {/* this is working for now, but we probably need more protection to not display 
-      a spymaster board on someone who randomly joins room while game is 'in progress' */}
           {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
             <SpyMasterBoard />
           ) : (
@@ -210,29 +205,13 @@ const RoomView = (props: ClassName) => {
         <TeamTwoBox />
         <div className="break"></div>
         <GameLog />
-        <div className="chatBox"> this will be the chat box</div>
+        <Chat />
       </div>
       <Clue />
       <Loser />
       <Winner />
-      {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE READY TO TEST WTH ALL ROLES FILLED */}
-      {/* {isHost && everyonesHere && (
-        <Popup
-          trigger={
-            <Button
-              style={{
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-            >
-              Set Up Board
-            </Button>
-          }
-        >
-          <SetupGame />
-        </Popup>
-      )} */}
+      {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
+      {/* {isHost && everyonesHere &&  <SetupGame />*/}
     </div>
   );
 };

@@ -1,0 +1,79 @@
+.clue-container {
+  display: flex;
+  justify-content: center;
+}
+
+.clue-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  gap: 1rem;
+}
+
+.clue-input-text {
+  width: 20rem;
+  height: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 5px;
+  filter: drop-shadow(3px 3px 1px black);
+  border: none;
+}
+
+.clue-input-number {
+  height: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 5px;
+  filter: drop-shadow(3px 3px 1px black);
+  border: none;
+}
+
+.clue-submit-button {
+  width: 8rem;
+  font-size: 16px;
+
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  font-family: 'Oswald', sans-serif;
+  color: white;
+  border-radius: 10px;
+  padding: 0.5rem;
+  filter: drop-shadow(3px 3px 1px black);
+  border: none;
+  display: flex;
+}
+
+.clue-submit-button:hover {
+  filter: brightness(120%) drop-shadow(3px 3px 1px black);
+}
+
+.dark-red-color {
+  color: rgb(140, 41, 42);
+}
+
+.dark-blue-color {
+  color: rgb(53, 94, 127);
+}
+
+.dark-red-background-color {
+  background-color: rgb(140, 41, 42);
+}
+
+.dark-blue-background-color {
+  background-color: rgb(53, 94, 127);
+}
+
+/*   !!!!!!!! COLOR CHEAT SHEET !!!!!!!
+dark red - #8c292a   rgb(140,41,42)
+dark blue -  #355e7f    rgb(53,94,127) 
+yellow - #e2c78d    rgb(226,199,141)
+*/

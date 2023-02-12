@@ -1,36 +1,38 @@
 import React, { useState } from 'react';
-import { setCurrentClue } from '../../store/clueSlice';
-import { useDispatch } from 'react-redux';
-import { database } from '../../utils/firebase';
-import { ref, child, push, update } from 'firebase/database';
-import { useSelector } from 'react-redux';
 import pluralize from 'pluralize';
-import { Button } from '@mui/material';
-import { RootState } from '../../store';
-import { ClueType } from '../../utils/interfaces';
+import { ClueType } from '../../../utils/interfaces'; // for Typescript interface
+//firebase:
+import { database } from '../../../utils/firebase';
+import { ref, child, push, update } from 'firebase/database';
+//redux:
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentClue } from '../../../store/clueSlice';
+import { RootState } from '../../../store';
+//CSS:
+import './clue.css';
 
 const Clue = () => {
+  // useStates:
   const [clueString, setClueString] = useState<string>('');
   const [clueNumber, setClueNumber] = useState<number | null>(null);
 
-  const playerId = useSelector((state: RootState) => state.player.playerId);
-  const roomId = useSelector((state: RootState) => state.player.roomId);
+  // redux:
+  const dispatch = useDispatch();
   const gameStatus = useSelector((state: RootState) => state.game.status);
-
+  const { playerId, roomId, teamId } = useSelector((state: RootState) => state.player);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const gameboard = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
-  let gameRef = ref(database, 'rooms/' + roomId + '/game/');
+  const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
+  // firebase:
+  let gameRef = ref(database, `rooms/${roomId}/game/`);
   let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
 
+  // This is an array of all the cards' words in play. It is used to make sure
+  // that the spy does not give a clue that is one of these words.
   let arrayToCheck: string[] = [];
-  //push all words in gameboard into an array
-  for (let i = 0; i < gameboard.length; i++) {
-    arrayToCheck.push(gameboard[i].wordString.toUpperCase());
+  for (let i = 0; i < wordsInGame.length; i++) {
+    arrayToCheck.push(wordsInGame[i].wordString.toUpperCase());
   }
-  let cluesRef = ref(database, 'rooms/' + roomId + '/clues/');
-
-  const dispatch = useDispatch();
 
   const handleClueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //trim any extra space so users cannot submit "   clue" or '    ',
@@ -38,10 +40,10 @@ const Clue = () => {
     setClueString(event.target.value.trim().toUpperCase());
   };
 
-  //please also help me rephrase all these alert messages
   const handleNumberChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setClueNumber(Number(event.target.value));
   };
+
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const regex = /[\s-]+/g;
@@ -67,7 +69,7 @@ const Clue = () => {
       const clueData = {
         clueString,
         clueNumber,
-        playerSubmitting: playerId,
+        teamSubmitted: teamId, //change to teamSubmitted
       };
       const newClueKey = push(child(ref(database), 'clues')).key;
       if (newClueKey) {
@@ -95,74 +97,55 @@ const Clue = () => {
     }
   };
 
-  return (
-    <div className="MessageInput">
-      <form>
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
-          <>
-            <input
-              type="text"
-              placeholder="Clue..."
-              onChange={(e) => {
-                handleClueChange(e);
-              }}
-            />
-            <select
-              onChange={(e) => {
-                handleNumberChange(e);
-              }}
-            >
-              <option>select a number</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-            </select>
-          </>
-        )}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
-          <>
-            <input
-              type="text"
-              placeholder="Clue..."
-              onChange={(e) => {
-                handleClueChange(e);
-              }}
-            />
-            <select
-              onChange={(e) => {
-                handleNumberChange(e);
-              }}
-            >
-              <option>select a number</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-            </select>
-          </>
-        )}
-        {/* is team 1 spy's turn and player is team1spymaster */}
-        {gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId && (
-          <button onClick={handleSubmit}>submit clue</button>
-        )}
+  // This is used to conditionally style - if they're red, they get red styling. Else, blue styling.
+  const imRedSpy = teamOneSpymaster?.playerId === playerId;
 
-        {/* is team 2 spy's turn and player is team2spymaster */}
-        {gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId && (
-          <Button variant="contained" onClick={handleSubmit}>
-            submit clue
-          </Button>
-        )}
+  // Calculate here if we should show this component or not.
+  /* Note: I do think this logic should be done outside the component and conditionally renders it there,
+    rather than in here, and choosing to render a fragment instead, but for now... */
+  let showClue = false; // start it with false
+  const iAmSpy1AndItsMyTurn = gameStatus === 'team1SpyTurn' && teamOneSpymaster?.playerId === playerId;
+  const iAmSpy2AndItsMyTurn = gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId;
+  // If either of these above are true, show the Clue component!
+  if (iAmSpy1AndItsMyTurn || iAmSpy2AndItsMyTurn) showClue = true;
+
+  if (!showClue) return <></>;
+  return (
+    <div className="clue-container">
+      <form className="clue-form">
+        <input
+          className={imRedSpy ? 'clue-input-text dark-red-color' : 'clue-input-text dark-blue-color'}
+          type="text"
+          placeholder="Type your clue here..."
+          onChange={(e) => {
+            handleClueChange(e);
+          }}
+        />
+        <select
+          className={imRedSpy ? 'clue-input-number dark-red-color' : 'clue-input-number dark-blue-color'}
+          onChange={(e) => {
+            handleNumberChange(e);
+          }}
+        >
+          <option>#</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+        </select>
+        <button
+          className={
+            imRedSpy ? 'clue-submit-button dark-red-background-color' : 'clue-submit-button dark-blue-background-color'
+          }
+          onClick={handleSubmit}
+        >
+          Submit Clue
+        </button>
       </form>
     </div>
   );

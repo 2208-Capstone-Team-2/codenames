@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './teamOneBox.css';
-import { get, ref, set, child, onValue, onDisconnect } from 'firebase/database';
+import { get, ref, set, child, onValue, onDisconnect, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';
@@ -19,6 +19,7 @@ const TeamOneBox = () => {
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const teamOneRemainingCards = useSelector((state: RootState) => state.game.team1RemainingCards);
 
@@ -52,12 +53,12 @@ const TeamOneBox = () => {
           } else {
             onDisconnect(playerOnTeamOneOperativesRef).remove();
             set(child(teamOneOperativesRef, playerId), { playerId, username });
-            dispatch(setTeamIdOnPlayer(team1Id));
+            update(nestedPlayerRef, { teamId: team1Id });
           }
         } else {
           onDisconnect(playerOnTeamOneOperativesRef).remove();
           set(child(teamOneOperativesRef, playerId), { playerId, username });
-          dispatch(setTeamIdOnPlayer(team1Id));
+          update(nestedPlayerRef, { teamId: team1Id });
         }
       });
     }
@@ -92,12 +93,12 @@ const TeamOneBox = () => {
           } else {
             onDisconnect(teamOneSpymasterRef).remove();
             set(teamOneSpymasterRef, { playerId, username });
-            dispatch(setTeamIdOnPlayer(team1Id));
+            update(nestedPlayerRef, { teamId: team1Id });
           }
         } else {
           onDisconnect(teamOneSpymasterRef).remove();
           set(teamOneSpymasterRef, { playerId, username });
-          dispatch(setTeamIdOnPlayer(team1Id));
+          update(nestedPlayerRef, { teamId: team1Id });
         }
       });
     }
