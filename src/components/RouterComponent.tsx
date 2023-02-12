@@ -16,7 +16,7 @@ const RouterComponent = () => {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/*" element={<Error />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
