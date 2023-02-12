@@ -5,6 +5,7 @@ import Footer from './Footer/Footer';
 import Home from './Home/Home';
 import Leaderboard from './Leaderboard/Leaderboard';
 import RoomContainer from './Room/RoomContainer';
+import UsernameModal from './RoomView/UserNameModal/UsernameModal';
 const RouterComponent = () => {
   return (
     <>
@@ -15,6 +16,7 @@ const RouterComponent = () => {
         <Route path="/room/:roomId" element={<RoomContainer />} />
         <Route path="/404" element={<Error />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/usernameModal" element={<UsernameModal />} />
         <Route path="/*" element={<Error />} />
       </Routes>
       <Footer />
