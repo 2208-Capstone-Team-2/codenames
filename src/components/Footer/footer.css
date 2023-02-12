@@ -1,13 +1,12 @@
 .bottomFooter {
   display: flex;
-  position: absolute;
-  bottom: 0;
-  z-index: 1;
+  position: fixed;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   border-top: 0.1px solid rgba(0, 0, 0, 0.4);
   font-weight: 100;
   width: 100%;
+  bottom: 0;
 }
 .icons {
   display: flex;

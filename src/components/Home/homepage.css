@@ -4,12 +4,14 @@
 }
 
 body {
+  position: relative;
   background-image: url(../RoomView/bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
 }
+
 .codenames {
   font-size: 84px;
   font-family: myFirstFont;
@@ -36,7 +38,7 @@ body {
   justify-content: center;
   justify-items: center;
   height: auto;
-  width: 30%;
+  width: 100%;
   margin: auto;
   margin-top: 10vh;
 }
