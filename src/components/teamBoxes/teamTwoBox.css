@@ -1,6 +1,5 @@
 .blueBoxCard {
   height: fit-content;
-  width: 15%;
   color: #d2dcde;
   padding: 15px;
   font-size: 16px;
@@ -11,9 +10,6 @@
   font-family: 'Oswald';
   font-weight: 400;
   letter-spacing: 1px;
-  order:2;
-  display: flex;
-  flex-direction: column;
 }
 .blueBoxCard h3 {
   display: flex;
@@ -62,8 +58,8 @@
   margin: 4px !important;
 }
 /*---------------------------------------------mobile----------------------------*/
-@media only screen and (max-width: 600px){.blueBoxCard {
-  width: 26%;
+@media only screen and (max-width: 600px){
+  .blueBoxCard {
   padding: 10px;
   font-size: 10px;
   border-radius: 0px;
@@ -71,8 +67,7 @@
   height: 200px;
   border:none;
   font-weight: 300;
-  letter-spacing: 1px;
-  order:1;
+  
 }
 .blueOpsAndSpys{display: flex;
     flex-direction: column;

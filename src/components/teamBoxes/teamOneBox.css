@@ -1,6 +1,5 @@
 .redBoxCard {
   height: fit-content;
-  width: 15%;
   color: #d2dcde;
   padding: 15px;
   font-size: 16px;
@@ -11,9 +10,6 @@
   font-family: 'Oswald';
   font-weight: 400;
   letter-spacing: 1px;
-  order: 0;
-  display: flex;
-  flex-direction: column;
 }
 .redBoxCard h3 {
   display: flex;
@@ -42,9 +38,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   width: 250px;
-  margin-top: 20px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  margin-top: 30px;
 }
 .redOpsAndSpys p {
   margin: 8px 0 8px;
@@ -66,7 +60,6 @@
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
   .redBoxCard {
-    width: 26%;
     padding: 10px;
     font-size: 12px;
     border-radius: 0px;
@@ -74,8 +67,6 @@
     height: 200px;
     border: none;
     font-weight: 300;
-    letter-spacing: 1px;
-    order: 1;
   }
   .redBoxCard h3 {
    font-size: 10px;

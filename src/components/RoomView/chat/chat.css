@@ -3,14 +3,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 200px;
   height: 400px;
   margin-top: 2%;
   margin-left: 2%;
   padding: 15px;
   border-radius: 6px;
   background-color: gainsboro;
-  order: 5;
 }
 
 .chat-header {
@@ -35,7 +33,7 @@
   margin-left: 0;
   padding-left: 5px;
   margin-top: 5px;
-  width: 200px;
+  width: 100%;
   padding: 10px;
 }
 
@@ -56,18 +54,19 @@
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
   .chat-container {
-    width: 100vw;
     height: 200px;
+    border-radius: 0;
+    padding:10px;
   }
   .messages {
     height: 120px;
   }
 }
 /*---------------------------------------------tablet----------------------------*/
-@media only screen and (min-width: 600px) and (max-width: 768px) {
+@media only screen and (min-width: 601px) and (max-width: 768px) {
   .chat-container {
-    width: 15%;
     height: 200px;
+    padding:10px;
   }
   .messages {
     height: 120px;
@@ -75,14 +74,12 @@
     font-size: 12px;
   }
   .message-input {
-    width: 110px;
     font-size: 12px;
   }
 }
 /*---------------------------------------------tablet/small laptop----------------------------*/
-@media only screen and (min-width: 768px) and (max-width: 1040px) {
+@media only screen and (min-width: 769px) and (max-width: 1040px) {
   .chat-container {
-    width: 15%;
     height: 200px;
   }
   .messages {

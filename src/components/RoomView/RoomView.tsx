@@ -140,8 +140,6 @@ const RoomView = (props: ClassName) => {
         }
       }
     });
-
-   
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
@@ -179,7 +177,7 @@ const RoomView = (props: ClassName) => {
   OnValueTeamDispatch();
 
   return (
-    <div className={`${props.className} roomViewBG`}>
+    <>
       <Navbar />
       <div className="gameStatusClaimHost">
         <GameStatus />
@@ -193,8 +191,11 @@ const RoomView = (props: ClassName) => {
       </div>
       {isHost && showStartGame && <SetupGame />}
       <div className="flexBox">
-        <TeamOneBox />
-        <div className="placeholder">
+        <div className="leftContainer">
+          <TeamOneBox />
+          <GameLog />
+        </div>
+        <div className="boardContainer">
           {/* player is operative && show operative board, otherwise theyre a spymaster*/}
           {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
             <SpyMasterBoard />
@@ -202,18 +203,17 @@ const RoomView = (props: ClassName) => {
             <OperativeBoard />
           )}
         </div>
-        <TeamTwoBox />
-        <div className="break"></div>
-        <GameLog />
-        <div className="placeholder2"></div>
-        <Chat />
+        <div className="rightContainer">
+          <TeamTwoBox />
+          <Chat />
+        </div>
       </div>
       <Clue />
       <Loser />
       <Winner />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
       {/* {isHost && everyonesHere &&  <SetupGame />*/}
-    </div>
+    </>
   );
 };
 export default RoomView;

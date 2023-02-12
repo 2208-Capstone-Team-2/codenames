@@ -1,37 +1,32 @@
 body {
   margin: 0;
 }
-.roomViewBG {
-  background-image: url(./bg.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
 
 .flexBox {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content:space-around;
   width: 100vw;
   flex-wrap: wrap;
+  height: fit-content;
 }
 
-.placeholder {
-  width: 50vw;
-  height: 400px;
-  visibility: hidden;
-  position: relative;
+.leftContainer, 
+.rightContainer {
+flex-direction: column;
+}
+.leftContainer {
+order:0;
+flex-shrink: 1;
+}
+.boardContainer {
   order:1;
-  display: flex;
-}
-.placeholder2 {
-  width: 50vw;
-  height: 400px;
-  visibility: hidden;
-  position: relative;
-  order:4;
-  display: flex;
-}
+  flex-shrink: 1;
+  }
+.rightContainer {
+    order:2;
+    flex-shrink: 1;
+    }
 .board {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
@@ -40,38 +35,30 @@ body {
   margin: auto;
   visibility: visible;
 }
+
 .gameLog {
-  width: 15%;
   height: 400px;
   margin-top: 2%;
   margin-right: 2%;
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
-  display:flex;
-  order:3;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 .gameHistoryTitle {
   margin-top: 1%;
   text-align: center;
   border-bottom: solid black 2px;
   font-weight: 400;
-  max-height: 30px;
+
 }
 .scrollContent {
+max-width: 250px;
   height: 300px;
   font-size: 16px;
   overflow-x: hidden;
   overflow-y: auto;
   font-family: 'Montserrat';
   padding: 0 2%;
-}
-.MessageInput {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
 }
 
 .setUpContainer {
@@ -163,17 +150,23 @@ body {
 }
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
-.flexBox {
-  justify-content: center;
-}
-.placeholder {
-order:0;
-width: 100vw;
-height: 320px;}
+
+  .leftContainer {
+  order:1;
+  width: 50%;
+  margin-top: 2%;
+  }
+  .boardContainer {
+    order:0;
+    }
+  .rightContainer {
+      order:2;
+      width: 50%;
+      margin-top: 2%;
+      }
 
 .board{gap: 0;}
 .gameLog {
-  width: 25%;
   height: 200px;
   margin-top: 0;
   margin-right: 0;
@@ -184,7 +177,7 @@ height: 320px;}
   flex-wrap: wrap;
   justify-content: center;
 }
-.scrollContent{font-size: 10px;height: 200px;width: 80px;}
+.scrollContent{font-size: 10px;height: 200px;}
 .gameHistoryTitle {
   margin-top: 1%;
   text-align: center;
@@ -198,7 +191,21 @@ height: 320px;}
 }
 }
 /*---------------------------------tablet-------------------------------------*/
-@media only screen and  (min-width: 600px)and (max-width: 768px){
+@media only screen and  (min-width: 601px)and (max-width: 768px){
+  .leftContainer {
+    order:1;
+    width: 50%;
+    margin-top: 2%;
+    }
+    .boardContainer {
+      order:0;
+      width:100vw;
+      }
+    .rightContainer {
+        order:2;
+        width: 50%;
+        margin-top: 2%;
+        }
   .board {
  gap:0.5%}
  .placeholder {
@@ -217,11 +224,19 @@ height: 320px;}
   text-align: center;
   border-bottom: solid black 2px;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   max-height: 18px;
 }}
 /*---------------------------------------------tablet/small laptop----------------------------*/
-@media only screen and (min-width: 768px) and (max-width: 1040px) {
+@media only screen and (min-width: 769px) and (max-width: 1040px) {
+  .flexBox{justify-content: space-evenly;}
+  .leftContainer {
+    width: 20%;
+    }
+
+    .rightContainer {
+        width: 20%;
+        }
   .board {
     gap:0.5%}
     .placeholder {
