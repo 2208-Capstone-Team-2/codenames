@@ -8,7 +8,7 @@ import SignInAnonymously from '../FirebaseAuth/SignInAnonymously';
 import OnAuthStateChanged from '../FirebaseAuth/OnAuthStateChanged';
 import DocumentTitleChange from './DocumentTitleChange';
 import './userForm.css';
-import UsernameModal from '../RoomView/UserNameModal/UsernameModal'
+import UsernameModal from '../RoomView/UserNameModal/UsernameModal';
 import Navbar from '../Navbar/Navbar';
 
 function RoomContainer() {
@@ -28,14 +28,14 @@ function RoomContainer() {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="roomContainer">
-      <FetchRoom />
-      <UsernameModal />
-      {/* <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup"> */}
-      {/* <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} /> */}
-      {/* </Popup> */}
-      {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
+        <FetchRoom />
+        <UsernameModal />
+        {/* <Popup trigger={timedPopup} setTrigger={setTimedPopup} className="userformPopup"> */}
+        {/* <UsernameForm canBeClosed={canBeClosed} setCanBeClosed={setCanBeClosed} /> */}
+        {/* </Popup> */}
+        {isSignedIn && <RoomView className={timedPopup ? 'disabled' : ''} />}
       </div>
     </div>
   );
