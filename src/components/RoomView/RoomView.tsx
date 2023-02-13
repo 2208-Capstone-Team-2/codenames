@@ -116,7 +116,7 @@ const RoomView = (props: ClassName) => {
           // Update game state to "complete" in firebase
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
-          // dispatch(setGuessesRemaining(0));
+          dispatch(setGuessesRemaining(0));
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
@@ -134,7 +134,7 @@ const RoomView = (props: ClassName) => {
           //Set redux winner to team 2
           dispatch(setWinner('team-2'));
           set(child(gameRef, 'winner'), 'team-2');
-          // dispatch(setGuessesRemaining(0));
+          dispatch(setGuessesRemaining(0));
           //Set redux loser to team 1
           dispatch(setLoser('team-1'));
           set(child(gameRef, 'loser'), 'team-1');
