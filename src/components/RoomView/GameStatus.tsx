@@ -121,7 +121,7 @@ const GameStatus = () => {
           break;
       }
     }
-  }, [gameStatus, guessesRemaining]);
+  }, [gameStatus]);
 
   if (gameStatus === 'ready') return <p className="gameStatus">Waiting to begin the game!</p>;
   else if (gameStatus === 'complete') return <p className="gameStatus">Game over!</p>
