@@ -8,19 +8,19 @@ import RoomContainer from './Room/RoomContainer';
 import CardFlip from './RoomView/CardFlip';
 const RouterComponent = () => {
   return (
-    <CardFlip />
-    // <>
-    //   <Routes>
-    //     {/*-------------------- home page---------------------*/}
-    //     <Route path="/" element={<Home />} />
-    //     {/*--------------------a page for room initialization---------------------*/}
-    //     <Route path="/room/:roomId" element={<RoomContainer />} />
-    //     <Route path="/404" element={<Error />} />
-    //     <Route path="/leaderboard" element={<Leaderboard />} />
-    //     <Route path="/*" element={<Error />} />
-    //   </Routes>
-    //   <Footer />
-    // </>
+    // <CardFlip />
+    <>
+      <Routes>
+        {/*-------------------- home page---------------------*/}
+        <Route path="/" element={<Home />} />
+        {/*--------------------a page for room initialization---------------------*/}
+        <Route path="/room/:roomId" element={<RoomContainer />} />
+        <Route path="/404" element={<Error />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/*" element={<Error />} />
+      </Routes>
+      <Footer />
+    </>
   );
 };
 export default RouterComponent;

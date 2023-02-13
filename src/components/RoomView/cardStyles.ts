@@ -12,7 +12,7 @@ const notYetRevealed = {
   border: 'solid 3px black',
 };
 
-const redUrl = { url: require('./red.svg') };
+//const redUrl = { url: require('./red.svg') };
 const redRevealed = {
   width: '120pt',
   height: '96pt',
@@ -21,7 +21,8 @@ const redRevealed = {
   textIndent: '-9999px',
   margin: '0',
   border: 'none',
-  backgroundImage: `url(${redUrl.url})`,
+  backgroundImage: `url(./red.svg)`,
+  backgroundColor: 'red',
 };
 
 const blueUrl = { url: require('./blue.svg') };
@@ -34,6 +35,7 @@ const blueRevealed = {
   margin: '0',
   textindent: '-9999px',
   border: 'none',
+  backgroundColor: 'blue',
 };
 
 const beigeUrl = { url: require('./beige.svg') };
@@ -46,6 +48,7 @@ const beigeRevealed = {
   margin: '0',
   textindent: '-9999px',
   border: 'none',
+  backgroundColor: 'brown',
 };
 
 const blackUrl = { url: require('./black.svg') };
@@ -58,9 +61,14 @@ const blackRevealed = {
   margin: '0',
   textindent: '-9999px',
   border: 'none',
+  backgroundColor: 'black',
 };
 
-// These are the 4 possible cards with fronts and backs
+// These are the 4 possible cards with fronts and backs once the teamId is known
+const unknownCardStyles = {
+  front: notYetRevealed,
+  back: notYetRevealed,
+};
 const redCardStyles = {
   front: notYetRevealed,
   back: redRevealed,
@@ -78,5 +86,5 @@ const blackCardStyles = {
   back: blackRevealed,
 };
 
-const allCardStyles = { redCardStyles, blueCardStyles, beigeCardStyles, blackCardStyles };
+const allCardStyles = { unknownCardStyles, redCardStyles, blueCardStyles, beigeCardStyles, blackCardStyles };
 export default allCardStyles;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import './card.css';
 import { ref, update, get, set, child, push } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
@@ -20,7 +19,6 @@ const Card = (word: CardObj) => {
   const gameStatus = useSelector((state: RootState) => state.game.status);
   const assassinTeamId = useSelector((state: RootState) => state.assassinAndBystander.assassinTeamId);
   const bystanderTeamId = useSelector((state: RootState) => state.assassinAndBystander.bystanderTeamId);
-  const [teamsCard, setTeamsCard] = useState<number>(0);
   const guessesRemaining = useSelector((state: RootState) => state.game.guessesRemaining);
 
   // firebase room  & players reference
@@ -35,14 +33,13 @@ const Card = (word: CardObj) => {
   });
 
   const submitAnswer = async (e: MouseEvent) => {
+    console.log('clicked!');
     e.preventDefault();
     let wordId = word.id;
     // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
     let revealedCard = cardToReveal.data;
     let cardBelongsTo = revealedCard.teamId;
-
-    setTeamsCard(cardBelongsTo);
 
     //  if its team 1 ops turn and they are the one who clicked on the card...
     if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
@@ -158,16 +155,35 @@ const Card = (word: CardObj) => {
   };
 
   let cardStyles = {};
-  if (word.teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
-  if (word.teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
-  if (word.teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
-  if (word.teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
-
+  if (word.teamId === team1Id) {
+    console.log('giving red revealed styles');
+    cardStyles = allCardStyles.redCardStyles;
+  }
+  if (word.teamId === team2Id) {
+    console.log('giving blue revealed styles');
+    cardStyles = allCardStyles.blueCardStyles;
+  }
+  if (word.teamId === bystanderTeamId) {
+    console.log('giving beige revealed styles');
+    cardStyles = allCardStyles.beigeCardStyles;
+  }
+  if (word.teamId === assassinTeamId) {
+    console.log('giving black revealed styles');
+    cardStyles = allCardStyles.blackCardStyles;
+  }
+  if (!word.teamId) {
+    console.log('team id is undef most likely');
+    cardStyles = allCardStyles.unknownCardStyles;
+  }
+  console.log(cardStyles);
+  console.log(word.teamId);
   return (
-    <ReactCardFlip isFlipped={!word.isVisibleToAll} flipDirection="vertical" cardStyles={cardStyles}>
-      <div> {word.wordString} </div>
-      <div> back of card!!</div>
-    </ReactCardFlip>
+    <div onClick={submitAnswer}>
+      <ReactCardFlip isFlipped={word.isVisibleToAll} flipDirection="vertical" cardStyles={cardStyles}>
+        <div> {word.wordString} </div>
+        <div> back of card!!</div>
+      </ReactCardFlip>
+    </div>
   );
 
   // return (
