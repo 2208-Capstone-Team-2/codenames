@@ -89,6 +89,7 @@ const RoomView = () => {
         dispatch(setTeam1RemainingCards(game.team1RemainingCards));
         dispatch(setTeam2RemainingCards(game.team2RemainingCards));
         dispatch(setGuessesRemaining(game.guessesRemaining));
+
         if (game.guessesRemaining <= 0) {
           endTurn();
         }
@@ -105,6 +106,8 @@ const RoomView = () => {
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
           dispatch(setShowStartGame(true));
+          dispatch(setWinner(''));
+          dispatch(setLoser(''));
         }
 
         if (game.team1RemainingCards === 0) {
@@ -114,7 +117,6 @@ const RoomView = () => {
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
           dispatch(setGuessesRemaining(0));
-
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');

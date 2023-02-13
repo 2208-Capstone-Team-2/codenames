@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { database } from '../../utils/firebase';
-import { ref, get, onValue } from 'firebase/database';
+import { ref, get } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import { setRoomId } from '../../store/playerSlice';
 import { RootState } from '../../store';
@@ -11,19 +11,22 @@ interface TeamInfo {
 const Winner: React.FC = () => {
   const { roomId } = useParams();
   setRoomId(roomId);
+
   const playerId = useSelector((state: RootState) => state.player.playerId);
   const gameStatus = useSelector((state: RootState) => state.game.status);
-  const winnerRef = ref(database, `rooms/${roomId}/game/winner`);
   const [playerIdArray, setPlayerIdArray] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState(true);
+  const winner = useSelector((state: RootState) => state.game.winner);
+
+// i started refactoring this since we now have access to teamIds but don't want to touch too much of heidi's code
+// we should be able to just check if the player is on the team that won in redux instead of making a firebase call, but either way works!
   useEffect(() => {
-    onValue(winnerRef, async (winnerSnapshot) => {
-      if (winnerSnapshot.exists()) {
-        const teamWinner = winnerSnapshot.val();
-        const teamWinnerRef = ref(database, `rooms/${roomId}/${teamWinner}/`);
-        get(teamWinnerRef).then(async (winnerMemberSnapshot) => {
-          if (winnerMemberSnapshot.exists()) {
-            const winnerMember = winnerMemberSnapshot.val();
+      if (winner !== '') {
+        const teamThatWonRef = ref(database, `rooms/${roomId}/${winner}/`);
+        get(teamThatWonRef).then(async (winningTeamSnapshot) => {
+          if (winningTeamSnapshot.exists()) {
+            const winningMembers = winningTeamSnapshot.val();
+            console.log({winningMembers})
             const getPlayerIds = (obj: TeamInfo): string[] => {
               let playerIds: string[] = [];
               for (const key in obj) {
@@ -35,13 +38,11 @@ const Winner: React.FC = () => {
               }
               return playerIds;
             };
-            setPlayerIdArray(getPlayerIds(winnerMember));
-            console.log(playerIdArray);
+            setPlayerIdArray(getPlayerIds(winningMembers));
           }
         });
       }
-    });
-  }, []);
+  }, [winner]);
 
   return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
     <div className="winner">
