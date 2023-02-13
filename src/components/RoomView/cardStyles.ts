@@ -1,5 +1,10 @@
 //************** Stylings for OPERATIVES****************//
 const notYetRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundColor: '#e2c78d',
@@ -13,6 +18,11 @@ const notYetRevealed = {
   border: 'solid 3px black',
 };
 const redRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/red.svg)`,
@@ -23,6 +33,11 @@ const redRevealed = {
   border: 'none',
 };
 const blueRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/blue.svg)`,
@@ -34,6 +49,11 @@ const blueRevealed = {
   backgroundColor: 'blue',
 };
 const beigeRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/beige.svg)`,
@@ -45,6 +65,11 @@ const beigeRevealed = {
   backgroundColor: 'beige',
 };
 const blackRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/black.svg)`,

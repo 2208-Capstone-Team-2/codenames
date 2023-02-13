@@ -1,5 +1,10 @@
 //************** Stylings for FRONT of SPY CARDS ****************//
 const redStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   backgroundColor: '#8c2a2a',
   width: '120pt',
   height: '96pt',
@@ -13,6 +18,11 @@ const redStyle = {
   border: 'solid 3px black',
 };
 const blueStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   backgroundColor: '#365e7f',
   width: '120pt',
   height: '96pt',
@@ -26,6 +36,11 @@ const blueStyle = {
   border: 'solid 3px black',
 };
 const beigeStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   backgroundColor: '#e2c78d',
   width: '120pt',
   height: '96pt',
@@ -39,6 +54,11 @@ const beigeStyle = {
   border: 'solid 3px black',
 };
 const blackStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   backgroundColor: 'rgb(0, 0, 0)',
   width: '120pt',
   height: '96pt',
@@ -54,6 +74,11 @@ const blackStyle = {
 
 //************** Stylings for BACK of SPY CARDS ****************//
 const redRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/red.svg)`,
@@ -64,6 +89,11 @@ const redRevealed = {
   border: 'none',
 };
 const blueRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/blue.svg)`,
@@ -75,6 +105,11 @@ const blueRevealed = {
   backgroundColor: 'blue',
 };
 const beigeRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/beige.svg)`,
@@ -86,6 +121,11 @@ const beigeRevealed = {
   backgroundColor: 'beige',
 };
 const blackRevealed = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   width: '120pt',
   height: '96pt',
   backgroundImage: `url(/images/black.svg)`,
