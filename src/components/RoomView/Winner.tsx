@@ -21,6 +21,9 @@ const Winner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const winner = useSelector((state: RootState) => state.game.winner);
   const loser = useSelector((state: RootState) => state.game.loser);
+
+// i started refactoring this since we now have access to teamIds but don't want to touch too much of heidi's code
+// we should be able to just check if the player is on the team that won in redux instead of making a firebase call, but either way works!
   useEffect(() => {
       if (winner !== '') {
         const teamThatWonRef = ref(database, `rooms/${roomId}/${winner}/`);
