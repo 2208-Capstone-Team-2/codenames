@@ -177,7 +177,7 @@ const RoomView = () => {
   OnValueTeamDispatch();
 
   return (
-    <div className={`roomViewBG`}>
+    <div className="roomViewContainer">
       <Navbar />
       <div className="gameStatusClaimHost">
         <GameStatus />

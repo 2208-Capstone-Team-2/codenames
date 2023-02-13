@@ -8,6 +8,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: auto;
+  width: auto;
 }
 .codenames {
   font-size: 84px;
@@ -33,10 +35,9 @@ body {
   align-items: center;
   justify-content: center;
   justify-items: center;
-  height: auto;
+  height: 100vh;
   width: 30%;
   margin: auto;
-  margin-top: 10vh;
 }
 .loginContainer {
   display: flex;
