@@ -1,5 +1,4 @@
 import React from 'react';
-import '../RoomView/card.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 const WelcomeBoard = () => {

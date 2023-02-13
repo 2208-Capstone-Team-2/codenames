@@ -6,8 +6,8 @@ import axios from 'axios';
 import { RootState } from '../../store';
 import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
 import { MouseEvent } from 'react';
-import allCardStyles from './cardStyles';
 import ReactCardFlip from 'react-card-flip';
+import allCardStyles from './cardStyles';
 
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
@@ -153,26 +153,11 @@ const Card = (word: CardObj) => {
   };
 
   let cardStyles = {};
-  if (word.teamId === team1Id) {
-    console.log('giving red revealed styles');
-    cardStyles = allCardStyles.redCardStyles;
-  }
-  if (word.teamId === team2Id) {
-    console.log('giving blue revealed styles');
-    cardStyles = allCardStyles.blueCardStyles;
-  }
-  if (word.teamId === bystanderTeamId) {
-    console.log('giving beige revealed styles');
-    cardStyles = allCardStyles.beigeCardStyles;
-  }
-  if (word.teamId === assassinTeamId) {
-    console.log('giving black revealed styles');
-    cardStyles = allCardStyles.blackCardStyles;
-  }
-  if (!word.teamId) {
-    console.log('team id is undef most likely');
-    cardStyles = allCardStyles.unknownCardStyles;
-  }
+  if (word.teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
+  if (word.teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
+  if (word.teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
+  if (word.teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
+  if (!word.teamId) cardStyles = allCardStyles.unknownCardStyles;
 
   return (
     <div onClick={submitAnswer}>
