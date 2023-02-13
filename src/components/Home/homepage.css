@@ -9,7 +9,8 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  height:100vh;
+  height: auto;
+  width: auto;
 }
 .codenames {
   font-size: 84px;
@@ -38,7 +39,6 @@ body {
   height: 100vh;
   width: 30%;
   margin: auto;
-  margin-top: 10vh;
 }
 .loginContainer {
   display: flex;

@@ -43,11 +43,11 @@ import { RootState } from '../../store/index.js';
 
 // CSS:
 import './roomView.css';
-interface ClassName {
-  className: string;
-}
+// interface ClassName {
+//   className: string;
+// }
 
-const RoomView = (props: ClassName) => {
+const RoomView = () => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
@@ -89,6 +89,7 @@ const RoomView = (props: ClassName) => {
         dispatch(setTeam1RemainingCards(game.team1RemainingCards));
         dispatch(setTeam2RemainingCards(game.team2RemainingCards));
         dispatch(setGuessesRemaining(game.guessesRemaining));
+
         if (game.guessesRemaining <= 0) {
           endTurn();
         }
@@ -105,6 +106,8 @@ const RoomView = (props: ClassName) => {
           dispatch(setGuessesRemaining(0));
           dispatch(setShowResetButton(false));
           dispatch(setShowStartGame(true));
+          dispatch(setWinner(''));
+          dispatch(setLoser(''));
         }
 
         if (game.team1RemainingCards === 0) {
@@ -114,7 +117,6 @@ const RoomView = (props: ClassName) => {
           update(gameRef, { gameStatus: 'complete' });
           // Update game state to "complete" in redux
           dispatch(setGuessesRemaining(0));
-
           //Set redux winner to team 1
           dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
@@ -177,7 +179,7 @@ const RoomView = (props: ClassName) => {
   OnValueTeamDispatch();
 
   return (
-    <>
+    <div className="roomViewContainer">
       <Navbar />
       <div className="gameStatusClaimHost">
         <GameStatus />
