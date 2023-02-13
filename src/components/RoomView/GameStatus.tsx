@@ -41,7 +41,7 @@ const GameStatus = () => {
           setPlayerNote(otherTeamOperativesNote);
           break;
         case 'complete':
-          setPlayerNote('game over!');
+          setPlayerNote('game over!')
           break;
       }
     }
@@ -60,8 +60,8 @@ const GameStatus = () => {
           setPlayerNote(sameTeamOperativesNote);
           break;
         case 'complete':
-          setPlayerNote('game over!');
-          break;
+        setPlayerNote('game over!')
+        break;
       }
     }
     if (isPlayerTeamOneOperative) {
@@ -79,7 +79,7 @@ const GameStatus = () => {
           setPlayerNote(otherTeamOperativesNote);
           break;
         case 'complete':
-          setPlayerNote('game over!');
+          setPlayerNote('game over!')
           break;
       }
     }
@@ -98,38 +98,38 @@ const GameStatus = () => {
           setPlayerNote(operativeGuessingNote);
           break;
         case 'complete':
-          setPlayerNote('game over!');
+          setPlayerNote('game over!')
           break;
       }
     }
     if (!teamId) {
       switch (gameStatus) {
         case 'team1SpyTurn':
-          setPlayerNote("Team one spymaster's turn");
+          setPlayerNote('Team one spymaster\'s turn');
           break;
         case 'team2SpyTurn':
-          setPlayerNote("Team two spymaster's turn");
+          setPlayerNote('Team two spymaster\'s turn');
           break;
         case 'team1OpsTurn':
-          setPlayerNote("Team one operative's turn");
+          setPlayerNote('Team one operative\'s turn');
           break;
         case 'team2OpsTurn':
-          setPlayerNote("Team two operative's turn");
+          setPlayerNote('Team two operative\'s turn');
           break;
         case 'complete':
-          setPlayerNote('game over!');
+          setPlayerNote('game over!')
           break;
       }
     }
   }, [gameStatus]);
 
   if (gameStatus === 'ready') return <p className="gameStatus">Waiting to begin the game!</p>;
-  else if (gameStatus === 'complete') return <p className="gameStatus">Game over!</p>;
+  else if (gameStatus === 'complete') return <p className="gameStatus">Game over!</p>
   else
     return (
       <p className="gameStatus">
         {playerNote}
-        {guessesRemaining !== 0 ? <>: {guessesRemaining} guesses remaining </> : null}
+        {guessesRemaining && <>: {guessesRemaining} guesses remaining </>}
       </p>
     );
 };
