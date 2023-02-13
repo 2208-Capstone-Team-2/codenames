@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { database } from '../../utils/firebase';
-import { ref, get, onValue } from 'firebase/database';
+import { ref, get } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import { setRoomId } from '../../store/playerSlice';
 import { RootState } from '../../store';
@@ -12,10 +12,7 @@ const Winner: React.FC = () => {
   const { roomId } = useParams();
   setRoomId(roomId);
 
-  const winnerRef = ref(database, `rooms/${roomId}/game/winner`);
-
   const playerId = useSelector((state: RootState) => state.player.playerId);
-  const teamId = useSelector((state: RootState) => state.player.teamId);
   const gameStatus = useSelector((state: RootState) => state.game.status);
   const [playerIdArray, setPlayerIdArray] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState(true);
