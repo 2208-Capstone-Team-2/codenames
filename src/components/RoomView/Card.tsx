@@ -8,7 +8,8 @@ import { useState } from 'react';
 import { RootState } from '../../store';
 import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
 import { MouseEvent } from 'react';
-
+import allCardStyles from './cardStyles';
+import ReactCardFlip from 'react-card-flip';
 
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
@@ -35,8 +36,7 @@ const Card = (word: CardObj) => {
 
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
-    const target: string = (e.target as HTMLButtonElement).value
-    let wordId = Number(target);
+    let wordId = word.id;
     // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
     let revealedCard = cardToReveal.data;
@@ -49,11 +49,7 @@ const Card = (word: CardObj) => {
       // update word to visible on FIREBASE
       get(singleCardRef).then((snapshot) => {
         const doesCardExist: boolean = snapshot.exists();
-        if (doesCardExist) {
-          update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-        } else {
-          console.log('no card');
-        }
+        if (doesCardExist) update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
       });
 
       if (cardBelongsTo === assassinTeamId) {
@@ -161,26 +157,37 @@ const Card = (word: CardObj) => {
     }
   };
 
+  let cardStyles = {};
+  if (word.teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
+  if (word.teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
+  if (word.teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
+  if (word.teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
+
   return (
-    <>
-      {/* if card hasnt been revealed, show this beige version and submit answer on click */}
-      {!word.isVisibleToAll && (
-        <button className="notYetRevealed" value={word.id} onClick={submitAnswer}>
-          {word.wordString}
-        </button>
-      )}
-      {/* if it is visible, show the color for the team, and make it not clickable 
-      (buttons made them more visually appealing for the time being but we can edit css obviously) */}
-      {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.wordString}</button>}
-      {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.wordString}</button>}
-      {word.isVisibleToAll && word.teamId === bystanderTeamId && (
-        <button className="beigeRevealed">{word.wordString}</button>
-      )}
-      {word.isVisibleToAll && word.teamId === assassinTeamId && (
-        <button className="blackRevealed">{word.wordString}</button>
-      )}
-    </>
+    <ReactCardFlip isFlipped={!word.isVisibleToAll} flipDirection="vertical" cardStyles={cardStyles}>
+      <div> {word.wordString} </div>
+      <div> back of card!!</div>
+    </ReactCardFlip>
   );
+
+  // return (
+  //   <>
+  //     {!word.isVisibleToAll && (
+  //       <button className="notYetRevealed" value={word.id} onClick={submitAnswer}>
+  //         {word.wordString}
+  //       </button>
+  //     )}
+
+  //     {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.wordString}</button>}
+  //     {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.wordString}</button>}
+  //     {word.isVisibleToAll && word.teamId === bystanderTeamId && (
+  //       <button className="beigeRevealed">{word.wordString}</button>
+  //     )}
+  //     {word.isVisibleToAll && word.teamId === assassinTeamId && (
+  //       <button className="blackRevealed">{word.wordString}</button>
+  //     )}
+  //   </>
+  // );
 };
 
 export default Card;
