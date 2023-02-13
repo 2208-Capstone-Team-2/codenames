@@ -15,21 +15,19 @@ const Winner: React.FC = () => {
   const winnerRef = ref(database, `rooms/${roomId}/game/winner`);
 
   const playerId = useSelector((state: RootState) => state.player.playerId);
+  const teamId = useSelector((state: RootState) => state.player.teamId);
   const gameStatus = useSelector((state: RootState) => state.game.status);
   const [playerIdArray, setPlayerIdArray] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const winner = useSelector((state: RootState) => state.game.winner);
   const loser = useSelector((state: RootState) => state.game.loser);
   useEffect(() => {
-    onValue(winnerRef, async (winnerSnapshot) => {
-      console.log({winner})
-      console.log({loser})
-
       if (winner !== '') {
-        const teamWinnerRef = ref(database, `rooms/${roomId}/${winner}/`);
-        get(teamWinnerRef).then(async (winnerMemberSnapshot) => {
-          if (winnerMemberSnapshot.exists()) {
-            const winnerMember = winnerMemberSnapshot.val();
+        const teamThatWonRef = ref(database, `rooms/${roomId}/${winner}/`);
+        get(teamThatWonRef).then(async (winningTeamSnapshot) => {
+          if (winningTeamSnapshot.exists()) {
+            const winningMembers = winningTeamSnapshot.val();
+            console.log({winningMembers})
             const getPlayerIds = (obj: TeamInfo): string[] => {
               let playerIds: string[] = [];
               for (const key in obj) {
@@ -41,33 +39,10 @@ const Winner: React.FC = () => {
               }
               return playerIds;
             };
-            setPlayerIdArray(getPlayerIds(winnerMember));
-            // console.log(playerIdArray);
+            setPlayerIdArray(getPlayerIds(winningMembers));
           }
         });
-      // if (winnerSnapshot.exists()) {
-      //   const teamWinner = winnerSnapshot.val();
-      //   const teamWinnerRef = ref(database, `rooms/${roomId}/${teamWinner}/`);
-      //   get(teamWinnerRef).then(async (winnerMemberSnapshot) => {
-      //     if (winnerMemberSnapshot.exists()) {
-      //       const winnerMember = winnerMemberSnapshot.val();
-      //       const getPlayerIds = (obj: TeamInfo): string[] => {
-      //         let playerIds: string[] = [];
-      //         for (const key in obj) {
-      //           if (obj[key].hasOwnProperty('playerId')) {
-      //             playerIds.push(obj[key].playerId);
-      //           } else {
-      //             playerIds = playerIds.concat(getPlayerIds(obj[key]));
-      //           }
-      //         }
-      //         return playerIds;
-      //       };
-      //       setPlayerIdArray(getPlayerIds(winnerMember));
-      //       console.log(playerIdArray);
-      //     }
-      //   });
       }
-    });
   }, [winner, loser]);
 
   return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
