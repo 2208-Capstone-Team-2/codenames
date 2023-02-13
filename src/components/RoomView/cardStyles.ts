@@ -21,7 +21,7 @@ const redRevealed = {
   textIndent: '-9999px',
   margin: '0',
   border: 'none',
-  backgroundImage: `url(./red.svg)`,
+  backgroundImage: `url(/images/red.svg)`,
   backgroundColor: 'red',
 };
 
