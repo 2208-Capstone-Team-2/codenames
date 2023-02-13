@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useDispatch } from 'react-redux';
 import { setTeamIdOnPlayer } from '../../store/playerSlice';
+import './resetButtons.css';
 
 const MakeSpectator = () => {
   const { roomId, playerId } = useSelector((state: RootState) => state.player);
@@ -51,11 +52,9 @@ const MakeSpectator = () => {
   };
 
   return (
-    <div>
-        <button className="welcomeBoardButton" onClick={makeMeSpectator}>
+        <button className="gameSettingsButton" onClick={makeMeSpectator}>
           Become a spectator
         </button>
-    </div>
   );
 };
 

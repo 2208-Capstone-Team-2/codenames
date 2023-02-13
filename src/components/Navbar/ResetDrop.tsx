@@ -1,13 +1,12 @@
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import ResetGame from './ResetGame';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import ResetTeams from '../RoomView/ResetTeams';
-import MakeSpectator from '../RoomView/MakeSpectator';
+import ResetTeams from './ResetTeams';
+import MakeSpectator from '../Navbar/MakeSpectator';
 export default function BasicPopover() {
   const { isHost, teamId } = useSelector((state: RootState) => state.player);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -27,7 +26,10 @@ export default function BasicPopover() {
           //Most stylings should go here
           paper: {
             border: '1px solid black',
-            width: '400px',
+            width: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'gainsboro',
           },
           root: {},
         },
