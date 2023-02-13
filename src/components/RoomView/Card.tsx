@@ -183,25 +183,6 @@ const Card = (word: CardObj) => {
       </ReactCardFlip>
     </div>
   );
-
-  // return (
-  //   <>
-  //     {!word.isVisibleToAll && (
-  //       <button className="notYetRevealed" value={word.id} onClick={submitAnswer}>
-  //         {word.wordString}
-  //       </button>
-  //     )}
-
-  //     {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.wordString}</button>}
-  //     {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.wordString}</button>}
-  //     {word.isVisibleToAll && word.teamId === bystanderTeamId && (
-  //       <button className="beigeRevealed">{word.wordString}</button>
-  //     )}
-  //     {word.isVisibleToAll && word.teamId === assassinTeamId && (
-  //       <button className="blackRevealed">{word.wordString}</button>
-  //     )}
-  //   </>
-  // );
 };
 
 export default Card;

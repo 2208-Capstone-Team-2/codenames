@@ -45,21 +45,6 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
       </ReactCardFlip>
     </div>
   );
-  // return (
-  //   <>
-  //     {!word.isVisibleToAll && teamId === team1Id && <button className="redStyle">{word.wordString}</button>}
-  //     {!word.isVisibleToAll && teamId === team2Id && <button className="blueStyle">{word.wordString}</button>}
-  //     {!word.isVisibleToAll && teamId === bystanderTeamId && <button className="beigeStyle">{word.wordString}</button>}
-  //     {!word.isVisibleToAll && teamId === assassinTeamId && <button className="blackStyle">{word.wordString}</button>}
-
-  //     {word.isVisibleToAll && teamId === team1Id && <button className="redRevealed">{word.wordString}</button>}
-  //     {word.isVisibleToAll && teamId === team2Id && <button className="blueRevealed">{word.wordString}</button>}
-  //     {word.isVisibleToAll && teamId === bystanderTeamId && (
-  //       <button className="beigeRevealed">{word.wordString}</button>
-  //     )}
-  //     {word.isVisibleToAll && teamId === assassinTeamId && <button className="blackRevealed">{word.wordString}</button>}
-  //   </>
-  // );
 };
 
 export default SpyCard;
