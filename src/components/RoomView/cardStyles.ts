@@ -1,3 +1,4 @@
+//************** Stylings for OPERATIVES****************//
 const notYetRevealed = {
   width: '120pt',
   height: '96pt',
@@ -11,25 +12,20 @@ const notYetRevealed = {
   textDecoration: 'underline',
   border: 'solid 3px black',
 };
-
-//const redUrl = { url: require('./red.svg') };
 const redRevealed = {
   width: '120pt',
   height: '96pt',
+  backgroundImage: `url(/images/red.svg)`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   textIndent: '-9999px',
   margin: '0',
   border: 'none',
-  backgroundImage: `url(/images/red.svg)`,
-  backgroundColor: 'red',
 };
-
-const blueUrl = { url: require('./blue.svg') };
 const blueRevealed = {
   width: '120pt',
   height: '96pt',
-  backgroundimage: `url(${blueUrl.url})`,
+  backgroundimage: `url(/images/blue.svg)`,
   backgroundrepeat: 'no-repeat',
   backgroundsize: 'cover',
   margin: '0',
@@ -37,12 +33,10 @@ const blueRevealed = {
   border: 'none',
   backgroundColor: 'blue',
 };
-
-const beigeUrl = { url: require('./beige.svg') };
 const beigeRevealed = {
   width: '120pt',
   height: '96pt',
-  backgroundimage: `url(${beigeUrl.url})`,
+  backgroundimage: `url(/images/beige.svg)`,
   backgroundrepeat: 'no-repeat',
   backgroundsize: 'cover',
   margin: '0',
@@ -50,12 +44,10 @@ const beigeRevealed = {
   border: 'none',
   backgroundColor: 'brown',
 };
-
-const blackUrl = { url: require('./black.svg') };
 const blackRevealed = {
   width: '120pt',
   height: '96pt',
-  backgroundimage: `url(${blackUrl.url})`,
+  backgroundimage: `url(/images/black.svg)`,
   backgroundrepeat: 'no-repeat',
   backgroundsize: 'cover',
   margin: '0',
@@ -63,7 +55,6 @@ const blackRevealed = {
   border: 'none',
   backgroundColor: 'black',
 };
-
 // These are the 4 possible cards with fronts and backs once the teamId is known
 const unknownCardStyles = {
   front: notYetRevealed,
@@ -84,6 +75,63 @@ const beigeCardStyles = {
 const blackCardStyles = {
   front: notYetRevealed,
   back: blackRevealed,
+};
+
+//************** Stylings for SPYMASTERS ****************//
+const redStyle = {
+  backgroundColor: '#8c2a2a',
+  width: '120pt',
+  height: '96pt',
+  textAlign: 'center',
+  alignContent: 'center',
+  margin: '0',
+  color: 'black',
+  fontSize: '15px',
+  fontFamily: 'Montserrat',
+  textDecoration: 'underline',
+  border: 'solid 3px black',
+};
+
+const blueStyle = {
+  backgroundColor: '#365e7f',
+  width: '120pt',
+  height: '96pt',
+  textAlign: 'center',
+  alignContent: 'center',
+  margin: '0',
+  color: 'black',
+  fontSize: '15px',
+  fontFamily: 'Montserrat',
+  textDecoration: 'underline',
+  border: 'solid 3px black',
+};
+
+const beigeStyle = {
+  backgroundColor: '#e2c78d',
+  width: '120pt',
+  height: '96pt',
+  textAlign: 'center',
+  alignContent: 'center',
+  margin: '0',
+  color: 'black',
+  fontSize: '15px',
+  fontFamily: 'Montserrat',
+  textDecoration: 'underline',
+  border: 'solid 3px black',
+};
+
+const blackStyle = {
+  backgroundColor: 'rgb(0, 0, 0)',
+  width: '120pt',
+  height: '96pt',
+  textAlign: 'center',
+  alignContent: 'center',
+  margin: '0',
+  color: 'white',
+  fontSize: '15px',
+  fontFamily: 'Montserrat',
+  textDecoration: 'underline',
+  border: 'solid 3px white',
 };
 
 const allCardStyles = { unknownCardStyles, redCardStyles, blueCardStyles, beigeCardStyles, blackCardStyles };
