@@ -1,17 +1,58 @@
-//************** Stylings for OPERATIVES****************//
-const notYetRevealed = {
+//************** Stylings for FRONT of SPY CARDS ****************//
+const redStyle = {
+  backgroundColor: '#8c2a2a',
   width: '120pt',
   height: '96pt',
-  backgroundColor: '#e2c78d',
+  textAlign: 'center',
   alignContent: 'center',
   margin: '0',
   color: 'black',
-  textAlign: 'center',
   fontSize: '15px',
   fontFamily: 'Montserrat',
   textDecoration: 'underline',
   border: 'solid 3px black',
 };
+const blueStyle = {
+  backgroundColor: '#365e7f',
+  width: '120pt',
+  height: '96pt',
+  textAlign: 'center',
+  alignContent: 'center',
+  margin: '0',
+  color: 'black',
+  fontSize: '15px',
+  fontFamily: 'Montserrat',
+  textDecoration: 'underline',
+  border: 'solid 3px black',
+};
+const beigeStyle = {
+  backgroundColor: '#e2c78d',
+  width: '120pt',
+  height: '96pt',
+  textAlign: 'center',
+  alignContent: 'center',
+  margin: '0',
+  color: 'black',
+  fontSize: '15px',
+  fontFamily: 'Montserrat',
+  textDecoration: 'underline',
+  border: 'solid 3px black',
+};
+const blackStyle = {
+  backgroundColor: 'rgb(0, 0, 0)',
+  width: '120pt',
+  height: '96pt',
+  textAlign: 'center',
+  alignContent: 'center',
+  margin: '0',
+  color: 'white',
+  fontSize: '15px',
+  fontFamily: 'Montserrat',
+  textDecoration: 'underline',
+  border: 'solid 3px white',
+};
+
+//************** Stylings for BACK of SPY CARDS ****************//
 const redRevealed = {
   width: '120pt',
   height: '96pt',
@@ -55,27 +96,24 @@ const blackRevealed = {
   border: 'none',
   backgroundColor: 'black',
 };
-// These are the 5 possible cards with fronts and backs once the teamId is known
-const unknownCardStyles = {
-  front: notYetRevealed,
-  back: notYetRevealed,
-};
+
+// These are the 4 possible cards with fronts and backs
 const redCardStyles = {
-  front: notYetRevealed,
+  front: redStyle,
   back: redRevealed,
 };
 const blueCardStyles = {
-  front: notYetRevealed,
+  front: blueStyle,
   back: blueRevealed,
 };
 const beigeCardStyles = {
-  front: notYetRevealed,
+  front: beigeStyle,
   back: beigeRevealed,
 };
 const blackCardStyles = {
-  front: notYetRevealed,
+  front: blackStyle,
   back: blackRevealed,
 };
 
-const allCardStyles = { unknownCardStyles, redCardStyles, blueCardStyles, beigeCardStyles, blackCardStyles };
+const allCardStyles = { redCardStyles, blueCardStyles, beigeCardStyles, blackCardStyles };
 export default allCardStyles;

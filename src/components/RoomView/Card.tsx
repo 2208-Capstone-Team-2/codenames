@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { ref, update, get, set, child, push } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
-import { useState } from 'react';
 import { RootState } from '../../store';
 import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
 import { MouseEvent } from 'react';
@@ -175,8 +174,7 @@ const Card = (word: CardObj) => {
     console.log('team id is undef most likely');
     cardStyles = allCardStyles.unknownCardStyles;
   }
-  console.log(cardStyles);
-  console.log(word.teamId);
+
   return (
     <div onClick={submitAnswer}>
       <ReactCardFlip isFlipped={word.isVisibleToAll} flipDirection="vertical" cardStyles={cardStyles}>
