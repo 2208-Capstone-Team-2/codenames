@@ -43,11 +43,11 @@ import { RootState } from '../../store/index.js';
 
 // CSS:
 import './roomView.css';
-interface ClassName {
-  className: string;
-}
+// interface ClassName {
+//   className: string;
+// }
 
-const RoomView = (props: ClassName) => {
+const RoomView = () => {
   // for room nav
   const { roomId } = useParams();
   setRoomId(roomId);
@@ -142,8 +142,6 @@ const RoomView = (props: ClassName) => {
         }
       }
     });
-
-   
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
@@ -181,7 +179,7 @@ const RoomView = (props: ClassName) => {
   OnValueTeamDispatch();
 
   return (
-    <div className={`${props.className} roomViewBG`}>
+    <div className="roomViewContainer">
       <Navbar />
       <div className="gameStatusClaimHost">
         <GameStatus />
