@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import GuessesRemaining from './GuessesRemaining';
 import { useState } from 'react';
 import { RootState } from '../../store';
 const GameStatus = () => {
   const gameStatus = useSelector((state: RootState) => state.game.status);
-  const { playerId } = useSelector((state: RootState) => state.player);
+  const guessesRemaining = useSelector((state: RootState) => state.game.guessesRemaining);
+  const { playerId, teamId } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const [playerNote, setPlayerNote] = useState<string>('');
-
-  // will use below prior to user joining game && game being 'ready
-  const joinTeamNote: string = 'Join a team to play the game';
 
   const otherTeamSpymasterNote: string = 'The opponent spymaster is playing...wait for your turn';
   const sameTeamSpymasterNote: string = 'Wait for spymaster to give you a clue';
@@ -22,8 +19,12 @@ const GameStatus = () => {
   const operativeGuessingNote: string = 'guess a word or click end turn';
 
   useEffect(() => {
-    const isPlayerTeamOneOperative: boolean = teamOneOperatives.map((operative) => operative.playerId).includes(playerId);
-    const isPlayerTeamTwoOperative: boolean = teamTwoOperatives.map((operative) => operative.playerId).includes(playerId);
+    const isPlayerTeamOneOperative: boolean = teamOneOperatives
+      .map((operative) => operative.playerId)
+      .includes(playerId);
+    const isPlayerTeamTwoOperative: boolean = teamTwoOperatives
+      .map((operative) => operative.playerId)
+      .includes(playerId);
 
     if (teamOneSpymaster?.playerId === playerId) {
       switch (gameStatus) {
@@ -38,6 +39,9 @@ const GameStatus = () => {
           break;
         case 'team2OpsTurn':
           setPlayerNote(otherTeamOperativesNote);
+          break;
+        case 'complete':
+          setPlayerNote('game over!')
           break;
       }
     }
@@ -55,6 +59,9 @@ const GameStatus = () => {
         case 'team2OpsTurn':
           setPlayerNote(sameTeamOperativesNote);
           break;
+        case 'complete':
+        setPlayerNote('game over!')
+        break;
       }
     }
     if (isPlayerTeamOneOperative) {
@@ -70,6 +77,9 @@ const GameStatus = () => {
           break;
         case 'team2OpsTurn':
           setPlayerNote(otherTeamOperativesNote);
+          break;
+        case 'complete':
+          setPlayerNote('game over!')
           break;
       }
     }
@@ -87,22 +97,41 @@ const GameStatus = () => {
         case 'team2OpsTurn':
           setPlayerNote(operativeGuessingNote);
           break;
+        case 'complete':
+          setPlayerNote('game over!')
+          break;
+      }
+    }
+    if (!teamId) {
+      switch (gameStatus) {
+        case 'team1SpyTurn':
+          setPlayerNote('Team one spymaster\'s turn');
+          break;
+        case 'team2SpyTurn':
+          setPlayerNote('Team two spymaster\'s turn');
+          break;
+        case 'team1OpsTurn':
+          setPlayerNote('Team one operative\'s turn');
+          break;
+        case 'team2OpsTurn':
+          setPlayerNote('Team two operative\'s turn');
+          break;
+        case 'complete':
+          setPlayerNote('game over!')
+          break;
       }
     }
   }, [gameStatus]);
 
-  return (
-    <>
-        {gameStatus !== 'ready' && (
-          <p className='gameStatus'>
-            {playerNote}
-            {'\u00A0'}
-            <GuessesRemaining />
-          </p>
-        )}
-        {gameStatus === 'ready' && <p className='gameStatus'>Waiting to begin the game!</p>}
-    </>
-  );
+  if (gameStatus === 'ready') return <p className="gameStatus">Waiting to begin the game!</p>;
+  else if (gameStatus === 'complete') return <p className="gameStatus">Game over!</p>
+  else
+    return (
+      <p className="gameStatus">
+        {playerNote}
+        {guessesRemaining && <>: {guessesRemaining} guesses remaining </>}
+      </p>
+    );
 };
 
 export default GameStatus;

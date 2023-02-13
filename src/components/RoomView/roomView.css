@@ -1,12 +1,6 @@
 body {
   margin: 0;
 }
-.roomViewBG {
-  background-image: url(./bg.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
 
 .flexBox {
   display: flex;
@@ -74,34 +68,48 @@ body {
   justify-content: center;
   margin-top: 2%;
 }
-.setUpGame {
+
+.setUpContainer {
   display: flex;
   justify-content: center;
-  margin-top: 2%;
+  position: relative;
+  z-index: 0;
+  margin: 0 auto;
 }
 
-.setupGamePopup {
-  background-color: #dec160;
+.setUpGame {
   position: absolute;
-  width: 20%;
-  height: 10%;
-  padding: 3%;
-  display: flex;
-  margin: 5% auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  right: 50;
-  align-items: center;
+  background-color: #e2c78d;
+  padding: 1rem;
   border-radius: 5px;
-  z-index: 0;
+}
+
+.setUpForm {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  margin-top: 10px;
 }
-.setupGamePopup .close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
+
+.wordPackSelection {
+  font-family: 'Montserrat';
+  font-size: smaller;
 }
+
+.startGameButton {
+  width: fit-content;
+  height: 30px;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+  place-self: center;
+  margin-top: 10px;
+}
+
 .loser {
   top: 50%;
   left: 50%;
@@ -142,17 +150,8 @@ body {
   width: 5%;
   height: 15%;
 }
-.setUpGame {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
-}
+
 .MessageInput {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
-}
-.setUpGame {
   display: flex;
   justify-content: center;
   margin-top: 2%;

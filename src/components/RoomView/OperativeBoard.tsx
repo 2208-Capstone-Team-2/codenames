@@ -1,11 +1,11 @@
 import React from 'react';
 import Card from './Card';
 import { useSelector } from 'react-redux';
-import { ref, update } from 'firebase/database';
+import { child, push, ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
 import { RootState } from '../../store/index.js';
-import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces';
+import { CardObj, SingleHistoryObject } from '../../utils/interfaces';
 
 const OperativeBoard = () => {
   const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
@@ -17,7 +17,7 @@ const OperativeBoard = () => {
   const { teamOneOperatives } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives } = useSelector((state: RootState) => state.teamTwo);
   let gameRef = ref(database, 'rooms/' + roomId + '/game/');
-
+  let gameHistoryRef = ref(database, 'rooms/' + roomId + '/game/' + 'history');
   interface PlayerObj {
     playerId: string;
   }
@@ -36,10 +36,21 @@ const OperativeBoard = () => {
     if (teamOneRemainingCards && teamTwoRemainingCards) {
       if (gameStatus === 'team1OpsTurn') {
         nextStatus = 'team2SpyTurn';
+        const newGameHistory: string = 'Team 1 operatives ended their turn prematurely';
+        const newHistoryKey = push(child(ref(database), 'history')).key;
+        console.log(newGameHistory);
+        const updates = {} as SingleHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
+        update(gameHistoryRef, updates);
         update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
       if (gameStatus === 'team2OpsTurn') {
         nextStatus = 'team1SpyTurn';
+        const newGameHistory: string = 'Team 2 operatives ended their turn prematurely';
+        const newHistoryKey = push(child(ref(database), 'history')).key;
+        const updates = {} as SingleHistoryObject;
+        updates[`${newHistoryKey}`] = newGameHistory;
+        update(gameHistoryRef, updates);
         update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
       }
     }
@@ -48,7 +59,18 @@ const OperativeBoard = () => {
   return (
     <div className="board">
       {words.map((word: CardObj) => {
-        return <Card key={word.id} word={word.word} id={word.id} isVisibleToAll={word.isVisibleToAll} wordString={word.wordString} wordId={word.wordId} boardId={word.boardId} teamId={word.teamId}  />;
+        return (
+          <Card
+            key={word.id}
+            word={word.word}
+            id={word.id}
+            isVisibleToAll={word.isVisibleToAll}
+            wordString={word.wordString}
+            wordId={word.wordId}
+            boardId={word.boardId}
+            teamId={word.teamId}
+          />
+        );
       })}
 
       {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (

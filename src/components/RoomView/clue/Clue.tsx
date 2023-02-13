@@ -19,7 +19,7 @@ const Clue = () => {
   // redux:
   const dispatch = useDispatch();
   const gameStatus = useSelector((state: RootState) => state.game.status);
-  const { playerId, roomId } = useSelector((state: RootState) => state.player);
+  const { playerId, roomId, teamId } = useSelector((state: RootState) => state.player);
   const { teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
@@ -69,7 +69,7 @@ const Clue = () => {
       const clueData = {
         clueString,
         clueNumber,
-        playerSubmitting: playerId,
+        teamSubmitted: teamId, //change to teamSubmitted
       };
       const newClueKey = push(child(ref(database), 'clues')).key;
       if (newClueKey) {
