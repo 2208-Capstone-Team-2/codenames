@@ -5,16 +5,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.svg/,
-        use: {
-          loader: 'svg-url-loader',
-          options: {
-            // make all svg images to work in IE
-            iesafe: true,
-          },
-        },
-      },
-      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },

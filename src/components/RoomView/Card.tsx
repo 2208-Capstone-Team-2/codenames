@@ -32,7 +32,6 @@ const Card = (word: CardObj) => {
   });
 
   const submitAnswer = async (e: MouseEvent) => {
-    console.log('clicked!');
     e.preventDefault();
     let wordId = word.id;
     // update word to visible on BACKEND

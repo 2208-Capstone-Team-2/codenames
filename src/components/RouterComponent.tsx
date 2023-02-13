@@ -5,10 +5,8 @@ import Footer from './Footer/Footer';
 import Home from './Home/Home';
 import Leaderboard from './Leaderboard/Leaderboard';
 import RoomContainer from './Room/RoomContainer';
-import CardFlip from './RoomView/CardFlip';
 const RouterComponent = () => {
   return (
-    // <CardFlip />
     <>
       <Routes>
         {/*-------------------- home page---------------------*/}
