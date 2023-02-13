@@ -3,6 +3,7 @@ import { ref, remove, update, get, child } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import './resetButtons.css';
 
 const ResetTeams = () => {
     const { roomId } = useSelector((state: RootState) => state.player);
@@ -40,7 +41,7 @@ const ResetTeams = () => {
     return (
         <>
         {status === 'ready' && 
-        <button onClick={resetTeams}>Reset Teams</button>
+        <button className="gameSettingsButton" onClick={resetTeams}>Reset Teams</button>
         }
         </>
     );
