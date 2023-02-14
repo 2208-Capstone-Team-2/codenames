@@ -23,7 +23,7 @@ export default function BasicPopover() {
       // Name of the component
       MuiPopover: {
         styleOverrides: {
-          //Most stylings should go here
+          // Most stylings should go here
           paper: {
             border: '1px solid black',
             padding: 0,
