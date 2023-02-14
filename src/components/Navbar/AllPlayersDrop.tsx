@@ -26,8 +26,11 @@ export default function BasicPopover() {
           //Most stylings should go here
           paper: {
             border: '1px solid black',
-            padding: 0,
+            padding: '1rem',
             margin: 0,
+            fontSize: '0.75rem',
+            backgroundColor: 'gainsboro',
+            width: '8rem'
           },
           root: {},
         },
@@ -54,10 +57,7 @@ export default function BasicPopover() {
             horizontal: 'center',
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}>Players In Room</div>
-          <Typography sx={{ p: 2 }}>
             <AllPlayersNav />
-          </Typography>
         </Popover>
       </ThemeProvider>
     </div>
