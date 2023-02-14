@@ -34,8 +34,8 @@ function OnValueCardsRef() {
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
-
             if (spymaster.playerId === playerId) {
+              console.log('setting spy board...');
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -109,10 +109,10 @@ function OnValueCardsRef() {
         });
         get(nestedPlayerRef).then((snapshot) => {
           if (snapshot.exists()) {
-              console.log('setting spectator board...');
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
+            console.log('setting spectator board...');
+            const cardsFromSnapshot = cardSnapshot.val();
+            const values = Object.values(cardsFromSnapshot);
+            dispatch(setWordsInGame(values));
           }
         });
       }
