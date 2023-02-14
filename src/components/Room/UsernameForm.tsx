@@ -16,7 +16,9 @@ import * as yup from 'yup';
 interface UsernameFormProps {
   handleClose: Function;
 }
-
+const validationSchema = yup.object({
+  username: yup.string().required('Username is required'),
+});
 function UsernameForm({ handleClose }: UsernameFormProps) {
   const dispatch = useDispatch();
   const { roomId } = useParams() as { roomId: string };
