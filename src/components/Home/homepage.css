@@ -50,6 +50,23 @@ body {
   justify-content: center;
   justify-items: center;
 }
+.startGameBtn {
+  width: fit-content;
+  height: 50px;
+  width: 12rem;
+  font-size: 20px;
+  letter-spacing: 2px;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+}
+.startGameBtn:hover {
+  cursor: pointer;
+}
 
 @keyframes typing {
   from {
