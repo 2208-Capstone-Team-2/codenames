@@ -8,7 +8,7 @@ const HomeNav = () => {
     <div className="homeNav">
       <HomeToPlayPop />
       <Link to={'/leaderboard'}>
-        <button>Leaderboard</button>
+        <button className="leaderboardBtn">Leaderboard</button>
       </Link>
     </div>
   );

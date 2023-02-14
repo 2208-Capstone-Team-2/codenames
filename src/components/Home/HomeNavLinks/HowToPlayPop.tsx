@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import HowToPlay from '../HowToPlay';
+import './homeNav.css';
 export default function HomeToPlayPop() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
@@ -35,7 +36,7 @@ export default function HomeToPlayPop() {
     },
   });
   return (
-    <div>
+    <div className="htpPop">
       <button aria-describedby={id} onClick={handleClick}>
         How To Play
       </button>

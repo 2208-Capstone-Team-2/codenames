@@ -16,3 +16,31 @@
   border-radius: 5px 10px;
   font-family: 'oswald';
 }
+.htpPop button:hover {
+  width: fit-content;
+  height: 30px;
+  width: 12rem;
+  color: white;
+  background-color: #8e494a;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+  cursor: pointer;
+}
+.leaderboardBtn:hover {
+  width: fit-content;
+  height: 30px;
+  width: 12rem;
+  color: white;
+  background-color: #517992;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+  cursor: pointer;
+}
