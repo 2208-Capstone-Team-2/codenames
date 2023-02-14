@@ -20,17 +20,12 @@ export default function BasicPopover() {
   const id = open ? 'simple-popover' : undefined;
   const theme = createTheme({
     components: {
-      // Name of the component
       MuiPopover: {
         styleOverrides: {
-          //Most stylings should go here
           paper: {
             border: '1px solid black',
-            padding: '.5rem',
+            padding: 0,
             margin: 0,
-            fontSize: '0.75rem',
-            backgroundColor: 'gainsboro',
-            width: '8rem'
           },
           root: {},
         },
@@ -57,7 +52,10 @@ export default function BasicPopover() {
             horizontal: 'center',
           }}
         >
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}>Players In Room</div>
+          <Typography sx={{ p: 2 }}>
             <AllPlayersNav />
+          </Typography>
         </Popover>
       </ThemeProvider>
     </div>
