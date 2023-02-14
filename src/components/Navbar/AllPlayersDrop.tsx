@@ -26,7 +26,7 @@ export default function BasicPopover() {
           //Most stylings should go here
           paper: {
             border: '1px solid black',
-            padding: '1rem',
+            padding: '.5rem',
             margin: 0,
             fontSize: '0.75rem',
             backgroundColor: 'gainsboro',
