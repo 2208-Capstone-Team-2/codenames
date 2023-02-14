@@ -36,8 +36,8 @@ export default function HomeToPlayPop() {
     },
   });
   return (
-    <div className="htpPop">
-      <button aria-describedby={id} onClick={handleClick}>
+    <>
+      <button aria-describedby={id} onClick={handleClick} className="htpPop">
         How To Play
       </button>
       <ThemeProvider theme={theme}>
@@ -61,6 +61,6 @@ export default function HomeToPlayPop() {
           </Typography>
         </Popover>
       </ThemeProvider>
-    </div>
+    </>
   );
 }

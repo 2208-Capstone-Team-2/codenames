@@ -16,12 +16,11 @@ body {
   font-family: myFirstFont;
   letter-spacing: 8px;
   color: white;
-  margin-bottom: 50px;
+  margin-bottom: 2%;
   user-select: none;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   border-right: 0.15em solid rgb(255, 255, 255); /* The typwriter cursor */
   white-space: nowrap; /* Keeps the content on a single line */
-
   animation: typing 1.5s steps(12, end), blink-caret 0.75s step-end infinite;
 }
 
@@ -53,9 +52,8 @@ body {
 .startGameBtn {
   width: fit-content;
   height: 50px;
-  width: 12rem;
   font-size: 20px;
-  letter-spacing: 2px;
+ padding:5px 20px;
   background-color: white;
   border-top: solid black 1px;
   border-left: solid black 1px;
