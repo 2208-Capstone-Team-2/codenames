@@ -72,3 +72,9 @@
   color: red;
   padding: 0;
 }
+.usernameInput:focus {
+  outline: none;
+}
+.errorUsernameInput {
+  outline: 1px solid red;
+}

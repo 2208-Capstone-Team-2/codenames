@@ -34,7 +34,7 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
     initialValues: {
       username: '',
     },
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: async (values) => {
       const trimmedInputtedUsername: string = values.username.trim();
       // Update our player's model with this new username
@@ -88,7 +88,6 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
       handleClose(false);
     },
   });
-  console.log(formik.errors.username);
   if (!playerId) return <p>loading user form popup...</p>;
   return (
     <div className="wrapper">
@@ -98,7 +97,7 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
           <p>Enter a username...</p>
           <form onSubmit={formik.handleSubmit}>
             <input
-              className="usernameInput"
+              className={!formik.errors.username ? 'usernameInput' : 'errorUsernameInput'}
               name="username"
               type="username"
               value={formik.values.username}
