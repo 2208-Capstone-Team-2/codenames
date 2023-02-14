@@ -25,6 +25,8 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
   if (teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
 
   if (!word) return <></>;
+  if (!teamId) return <></>;
+
   return (
     <div>
       <ReactCardFlip isFlipped={word.isVisibleToAll} flipDirection="vertical" cardStyles={cardStyles}>
