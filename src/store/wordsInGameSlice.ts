@@ -16,8 +16,15 @@ export const wordsInGameSlice = createSlice({
     setWordsInGame: (state, action) => {
       state.wordsInGame = action.payload;
     },
+    revealCard: (state, action) => {
+      const id = action.payload;
+      console.log('payload', action.payload)
+      console.log('card id', id)
+      const cardToFlip = state.wordsInGame.find((card) => card.id === id) 
+      if (cardToFlip) cardToFlip.isVisibleToAll = true;
+    }
   },
 });
 
-export const { setWordsInGame } = wordsInGameSlice.actions;
+export const { setWordsInGame, revealCard } = wordsInGameSlice.actions;
 export default wordsInGameSlice.reducer;
