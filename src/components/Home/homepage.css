@@ -3,22 +3,24 @@
   src: url('./fonts/death-from-above-font/DeathFromAbove-Ow9P.ttf') format('truetype');
 }
 
-body{background-image: url(./bg.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed
-  }
-  .codenames{
-    font-size: 84px;
-    font-family:  myFirstFont;
-    letter-spacing: 8px;
-    color: white;
-    margin-bottom: 50px;
-    user-select: none;
-    overflow: hidden; /* Ensures the content is not revealed until the animation */
-    border-right: .15em solid rgb(255, 255, 255); /* The typwriter cursor */
-    white-space: nowrap; /* Keeps the content on a single line */
+body {
+  background-image: url(../RoomView/bg.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: auto;
+  width: auto;
+}
+.codenames {
+  font-size: 84px;
+  font-family: myFirstFont;
+  letter-spacing: 8px;
+  color: white;
+  margin-bottom: 50px;
+  user-select: none;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: 0.15em solid rgb(255, 255, 255); /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
 
   animation: typing 1.5s steps(12, end), blink-caret 0.75s step-end infinite;
 }
@@ -33,10 +35,9 @@ body{background-image: url(./bg.svg);
   align-items: center;
   justify-content: center;
   justify-items: center;
-  height: auto;
+  height: 100vh;
   width: 30%;
   margin: auto;
-  margin-top: 10vh;
 }
 .loginContainer {
   display: flex;

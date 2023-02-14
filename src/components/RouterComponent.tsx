@@ -19,7 +19,7 @@ const RouterComponent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/*" element={<Error />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -1,0 +1,13 @@
+.gameSettingsButton {
+  border: none;
+  background-color: #e2c78d;
+  color: black;
+  width: 10rem;
+  padding: 0.5rem;
+  font-family: 'Montserrat';
+  font-size: 0.75rem;
+}
+
+.gameSettingsButton:hover {
+  background-color: gainsboro;
+}

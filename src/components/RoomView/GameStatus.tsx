@@ -10,9 +10,6 @@ const GameStatus = () => {
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const [playerNote, setPlayerNote] = useState<string>('');
 
-  // will use below prior to user joining game && game being 'ready
-  const joinTeamNote: string = 'Join a team to play the game';
-
   const otherTeamSpymasterNote: string = 'The opponent spymaster is playing...wait for your turn';
   const sameTeamSpymasterNote: string = 'Wait for spymaster to give you a clue';
   const spyGivingClueNote: string = 'give your operatives a clue';
@@ -43,6 +40,9 @@ const GameStatus = () => {
         case 'team2OpsTurn':
           setPlayerNote(otherTeamOperativesNote);
           break;
+        case 'complete':
+          setPlayerNote('game over!');
+          break;
       }
     }
     if (teamTwoSpymaster?.playerId === playerId) {
@@ -58,6 +58,9 @@ const GameStatus = () => {
           break;
         case 'team2OpsTurn':
           setPlayerNote(sameTeamOperativesNote);
+          break;
+        case 'complete':
+          setPlayerNote('game over!');
           break;
       }
     }
@@ -75,6 +78,9 @@ const GameStatus = () => {
         case 'team2OpsTurn':
           setPlayerNote(otherTeamOperativesNote);
           break;
+        case 'complete':
+          setPlayerNote('game over!');
+          break;
       }
     }
     if (isPlayerTeamTwoOperative) {
@@ -91,32 +97,39 @@ const GameStatus = () => {
         case 'team2OpsTurn':
           setPlayerNote(operativeGuessingNote);
           break;
+        case 'complete':
+          setPlayerNote('game over!');
+          break;
       }
     }
     if (!teamId) {
       switch (gameStatus) {
         case 'team1SpyTurn':
-          setPlayerNote('Team one spymaster\'s turn');
+          setPlayerNote("Team one spymaster's turn");
           break;
         case 'team2SpyTurn':
-          setPlayerNote('Team two spymaster\'s turn');
+          setPlayerNote("Team two spymaster's turn");
           break;
         case 'team1OpsTurn':
-          setPlayerNote('Team one operative\'s turn');
+          setPlayerNote("Team one operative's turn");
           break;
         case 'team2OpsTurn':
-          setPlayerNote('Team two operative\'s turn');
+          setPlayerNote("Team two operative's turn");
+          break;
+        case 'complete':
+          setPlayerNote('game over!');
           break;
       }
     }
   }, [gameStatus]);
 
   if (gameStatus === 'ready') return <p className="gameStatus">Waiting to begin the game!</p>;
+  else if (gameStatus === 'complete') return <p className="gameStatus">Game over!</p>;
   else
     return (
       <p className="gameStatus">
         {playerNote}
-        {guessesRemaining && <>: {guessesRemaining} guesses remaining </>}
+        {guessesRemaining !== 0 ? <>: {guessesRemaining} guesses remaining </> : null}
       </p>
     );
 };

@@ -13,7 +13,7 @@ const Navbar = () => {
         <TimerNav />
       </div>
       <WelcomeBoard />
-      <div className="navBarButtons">
+      <div className="resetAndHTPBtns">
         <ResetsDrop />
         <HowToPlayDrop />
       </div>

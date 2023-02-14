@@ -13,11 +13,52 @@
   justify-content: center;
 }
 .popupContent {
+<<<<<<< HEAD
   color: #d2dcde;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+=======
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.popupContent form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.popupContent form input {
+  width: 10rem;
+  height: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 5px;
+  filter: drop-shadow(3px 3px 1px black);
+  border: none;
+}
+.popupContent form button {
+  margin-top: 20px;
+  width: fit-content;
+  height: 30px;
+  width: 12rem;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+}
+.userformPopup .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+>>>>>>> origin/main
 .userformPopup .close-btn {
   position: absolute;
   top: 15px;
@@ -26,3 +67,10 @@
 .disabled {
   pointer-events: none;
 }
+<<<<<<< HEAD
+=======
+.roomContainer {
+  margin: 2rem;
+  margin-top: 8rem;
+}
+>>>>>>> origin/main

@@ -3,6 +3,9 @@ import { ref, set } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import './resetButtons.css';
+
+
 const ResetGame = () => {
   const { roomId } = useSelector((state: RootState) => state.player);
   const gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -16,11 +19,9 @@ const ResetGame = () => {
   };
 
   return (
-    <div>
-      <button className="welcomeBoardButton" onClick={resetGame}>
+      <button className="gameSettingsButton" onClick={resetGame}>
         Reset Game
       </button>
-    </div>
   );
 };
 
