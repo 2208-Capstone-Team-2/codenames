@@ -93,8 +93,8 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
     <div className="wrapper">
       {!usernameSubmissionDone && (
         <div className="popupContent">
-          <p>Welcome to room {roomId} !</p>
-          <p>Enter a username...</p>
+          <p>Welcome, please enter a username...</p>
+          {/* <p>Enter a username...</p> */}
           <form onSubmit={formik.handleSubmit}>
             <input
               className={!formik.errors.username ? 'usernameInput' : 'errorUsernameInput'}
