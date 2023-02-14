@@ -3,9 +3,9 @@ import Card from './Card';
 import { useSelector } from 'react-redux';
 import { child, push, ref, update } from 'firebase/database';
 import { database } from '../../utils/firebase';
-import { Button } from '@mui/material';
 import { RootState } from '../../store/index.js';
 import { CardObj, SingleHistoryObject } from '../../utils/interfaces';
+import './endTurnButton.css'
 
 const OperativeBoard = () => {
   const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
@@ -74,14 +74,14 @@ const OperativeBoard = () => {
       })}
 
       {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (
-        <Button variant="contained" onClick={endTurn}>
+        <button className="btn btn-background-circle" onClick={endTurn}>
           End Turn{' '}
-        </Button>
+        </button>
       )}
       {gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId) && (
-        <Button variant="contained" onClick={endTurn}>
+        <button className="btn btn-background-circle" onClick={endTurn}>
           End Turn{' '}
-        </Button>
+        </button>
       )}
     </div>
   );
