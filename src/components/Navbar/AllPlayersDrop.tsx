@@ -20,7 +20,6 @@ export default function BasicPopover() {
   const id = open ? 'simple-popover' : undefined;
   const theme = createTheme({
     components: {
-      // Name of the component
       MuiPopover: {
         styleOverrides: {
           // Most stylings should go here
