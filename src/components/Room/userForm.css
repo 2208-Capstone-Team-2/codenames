@@ -13,13 +13,6 @@
   justify-content: center;
 }
 .popupContent {
-<<<<<<< HEAD
-  color: #d2dcde;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-=======
   color: black;
   display: flex;
   flex-direction: column;
@@ -58,7 +51,6 @@
   top: 15px;
   right: 15px;
 }
->>>>>>> origin/main
 .userformPopup .close-btn {
   position: absolute;
   top: 15px;
@@ -67,10 +59,7 @@
 .disabled {
   pointer-events: none;
 }
-<<<<<<< HEAD
-=======
 .roomContainer {
   margin: 2rem;
   margin-top: 8rem;
 }
->>>>>>> origin/main

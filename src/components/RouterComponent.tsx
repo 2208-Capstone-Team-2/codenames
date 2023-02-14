@@ -5,7 +5,7 @@ import Footer from './Footer/Footer';
 import Home from './Home/Home';
 import Leaderboard from './Leaderboard/Leaderboard';
 import RoomContainer from './Room/RoomContainer';
-import About from'./Home/About';
+import About from './Home/About';
 const RouterComponent = () => {
   return (
     <>
@@ -19,7 +19,7 @@ const RouterComponent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/*" element={<Error />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

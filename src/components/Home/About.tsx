@@ -9,13 +9,27 @@ const About = () => {
       </Link>
       <div className="aboutPage">
         <div className="aboutIntro">
-          <h2>About Us</h2>
+          <h2>About The Game</h2>
           <p>
             We are proud to introduce Codenames - the final project for our fullstack web development cohort that
             showcases our hard work, creativity, and dedication to computer science.
-            <br></br>
-            You can more find details about us and the project below
-          </p>{' '}
+          </p>
+          Language and Frameworks:
+          <div className="flex-container">
+            <img src="https://img.shields.io/badge/Typescript-027bcd?&logo=typescript&logoColor=white" />
+            <img src="https://img.shields.io/badge/Firebase-red?&logo=firebase" />
+            <img src="https://img.shields.io/badge/ts–node-242526?&logo=tsnode" />
+            <img src="https://img.shields.io/badge/Express-yellowgreen?&logo=express" />
+            <img src="https://img.shields.io/badge/Sequelize-2e3b69?&logo=sequelize" />
+            <img src="https://img.shields.io/badge/Redux-764abc?&logo=redux" />
+            <img src="https://img.shields.io/badge/Webpack-darkgreen?&logo=webpack" />
+            <img src="https://img.shields.io/badge/Babel-red?&logo=babel" />
+            <img src="https://img.shields.io/badge/ESLint-764abc?&logo=eslint" />
+          </div>
+          <p>
+            More technical details about this project can be found on
+            <a href="https://github.com/2208-Capstone-Team-2/codenames"> Github</a>
+          </p>
         </div>
         <div className="break"></div>
         <div className="aboutTeam">
@@ -56,14 +70,21 @@ const About = () => {
             </p>
           </div>
           <div className="aboutTeamMember">
-            <img src="/images/heidi.jpg" alt="heidi" />
-            <span>Member 3</span>
+            <img src="/images/olivia.png" alt="olivia" />
+            <span>Olivia</span>
+            <div className="contacts">
+              <a href="https://www.linkedin.com/in/olivia-jarman-4908a468/" target="_blank">
+                Linkedin
+              </a>
+              <a href="https://github.com/ocjarman" target="_blank">
+                Github
+              </a>
+              <p>ocjarman@gmail.com</p>
+            </div>
             <p className="memberContent">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
+              As a former teacher and program manager, I know how important it is to collaborate with others on big
+              projects. Through building Codenames , I've learned how to work with a team of engineers, reinforce proper
+              git hygiene, and to utilize our individual strengths to make an impressive app
             </p>
           </div>
           <div className="break"></div>
