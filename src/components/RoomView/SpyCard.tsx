@@ -25,11 +25,11 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
   if (teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
 
   if (!word) return <></>;
-  if (!teamId) return <></>;
+  if (!teamId) return <></>; // this stops a dispatch to the screen that looks weird
 
   return (
     <div>
-      <ReactCardFlip isFlipped={word.isVisibleToAll} flipDirection="vertical" cardStyles={cardStyles}>
+      <ReactCardFlip isFlipped={word.isVisibleToAll} cardStyles={cardStyles}>
         <div> {word.wordString} </div>
         <div> back of card!!</div>
       </ReactCardFlip>

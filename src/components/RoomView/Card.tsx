@@ -33,6 +33,7 @@ const Card = (word: CardObj) => {
 
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
+    if (word.isVisibleToAll) return; // Don't let player submit answer for an already revealed card
     let wordId = word.id;
     // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
@@ -161,7 +162,7 @@ const Card = (word: CardObj) => {
 
   return (
     <div onClick={submitAnswer}>
-      <ReactCardFlip isFlipped={word.isVisibleToAll} flipDirection="vertical" cardStyles={cardStyles}>
+      <ReactCardFlip isFlipped={word.isVisibleToAll} cardStyles={cardStyles}>
         <div> {word.wordString} </div>
         <div> back of card!!</div>
       </ReactCardFlip>
