@@ -6,7 +6,6 @@ import { database } from '../../utils/firebase';
 import { Button } from '@mui/material';
 import { RootState } from '../../store/index.js';
 import { CardObj, SingleHistoryObject } from '../../utils/interfaces';
-import './endTurnButton.css';
 
 const OperativeBoard = () => {
   const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
@@ -75,14 +74,14 @@ const OperativeBoard = () => {
       })}
 
       {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (
-        <button className="btn btn-background-circle" onClick={endTurn}>
+        <Button variant="contained" onClick={endTurn}>
           End Turn{' '}
-        </button>
+        </Button>
       )}
       {gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId) && (
-        <button className="btn btn-background-circle" onClick={endTurn}>
+        <Button variant="contained" onClick={endTurn}>
           End Turn{' '}
-        </button>
+        </Button>
       )}
     </div>
   );
