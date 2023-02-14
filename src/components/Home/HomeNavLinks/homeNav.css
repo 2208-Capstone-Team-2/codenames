@@ -17,6 +17,8 @@
   font-size: 15px;
   padding: 5px;
 }
+.htpPop{margin-right:10px;}
+/* when hovering, only need to add the css rules that you want to change, others will inhereit from the defaut setting*/
 .htpPop:hover {
   background-color: #517992;
   color:white;
