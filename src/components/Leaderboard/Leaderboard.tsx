@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { PageClickEvent, Player } from './leaderboard.types';
 import './leaderboard.css';
 import { Link } from 'react-router-dom';
+import CustomLoader from '../CustomLoader/CustomLoader';
 const Leaderboard = () => {
   // eslint-disable-next-line no-unused-vars
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
@@ -19,7 +20,7 @@ const Leaderboard = () => {
     // Sort in place based on wins, then set it to local state, although this can later be redux state
     data.sort((a, b) => b.wins - a.wins);
     setAllPlayers(data);
-    setLoading(false);
+    // setLoading(false);
   };
   // PAGINATION
   // Hardcoded # of results, if in the future we wanted the user to be able to change the # of items per page
@@ -41,7 +42,7 @@ const Leaderboard = () => {
   useEffect(() => {
     getPlayers();
   }, []);
-  if (loading) return <p>'Loading...';</p>;
+  if (loading) return <CustomLoader />;
   return (
     <div className="leaderboardContainer">
       <div className="homeButton">
