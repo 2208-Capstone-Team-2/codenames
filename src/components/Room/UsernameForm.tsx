@@ -29,7 +29,8 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
-      username: username || '',
+      enableReinitialize: true,
+      username: username ? username : '',
     },
     validationSchema,
     onSubmit: async (values: { username: string }) => {
