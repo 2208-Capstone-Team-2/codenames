@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get, set, child, push, onValue } from 'firebase/database';
+import { ref, update, get, set, child, push, onValue, off } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
@@ -11,7 +11,6 @@ import { MouseEvent } from 'react';
 import { revealCard } from '../../store/wordsInGameSlice';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setGameboardHasLoaded } from '../../store/wordsInGameSlice';
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
   const { team1Id, teamOneOperatives } = useSelector((state: RootState) => state.teamOne);
@@ -34,22 +33,20 @@ const Card = (word: CardObj) => {
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: Operative) => {
     return operative.playerId;
   });
+  const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const dispatch = useDispatch()
   
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(setGameboardHasLoaded(true))
     const target: string = (e.target as HTMLButtonElement).value;
     let wordId = Number(target);
-    // dispatch(revealCard(wordId))
     // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
     let revealedCard = cardToReveal.data;
     let cardBelongsTo = revealedCard.teamId;
 
     setTeamsCard(cardBelongsTo);
-
     //  if its team 1 ops turn and they are the one who clicked on the card...
     if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
       // update word to visible on FIREBASE
@@ -173,7 +170,6 @@ const Card = (word: CardObj) => {
       let revealed = snapshot.val().isVisibleToAll
       let wordId = snapshot.val().id
       let teamId = snapshot.val().teamId
-      console.log('snapshot', snapshot.val())
       if (revealed) {
         dispatch(revealCard({wordId, teamId}))
       }

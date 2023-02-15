@@ -20,7 +20,7 @@ import Navbar from '../Navbar/Navbar';
 import Chat from './chat/Chat';
 // Firebase:
 import { database } from '../../utils/firebase';
-import { onValue, ref, set, get, child, update } from 'firebase/database';
+import { onValue, ref, set, get, child, update, off } from 'firebase/database';
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -43,9 +43,8 @@ import { RootState } from '../../store/index.js';
 
 // CSS:
 import './roomView.css';
-// interface ClassName {
-//   className: string;
-// }
+import words from 'random-words';
+
 
 const RoomView = () => {
   // for room nav
@@ -58,10 +57,12 @@ const RoomView = () => {
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { host, showStartGame } = useSelector((state: RootState) => state.game);
+  const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
+  const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -109,6 +110,12 @@ const RoomView = () => {
           dispatch(setWinner(''));
           dispatch(setLoser(''));
         }
+        if (game.gameStatus !== 'ready') {
+          console.log('not ready')
+          // this is preventing the board from being 
+          // set by turning off the listener too early i think?
+            // off(cardsRef)
+        }
 
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
@@ -142,6 +149,7 @@ const RoomView = () => {
         }
       }
     });
+
   }, []);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
@@ -174,9 +182,11 @@ const RoomView = () => {
   };
 
   OnValueHostRef();
-  OnValueCardsRef();
   OnValueGameHistoryRef();
   OnValueTeamDispatch();
+  OnValueCardsRef();
+  
+
 
   return (
     <div className="roomViewContainer">
