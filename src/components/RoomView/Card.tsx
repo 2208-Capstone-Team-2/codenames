@@ -165,8 +165,6 @@ const Card = (word: CardObj) => {
 
   useEffect(() => {
     onValue(singleCardRef, (snapshot) => {
-      console.log('hi!');
-  
       if (snapshot.exists()) {
         let revealed = snapshot.val().isVisibleToAll;
         let wordId = snapshot.val().id;

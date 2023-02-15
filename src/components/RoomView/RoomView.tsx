@@ -65,12 +65,6 @@ const RoomView = () => {
   let hostRef = ref(database, `rooms/${roomId}/host`);
   const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
-  const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
-  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
-  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
-  const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
-  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
-
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
@@ -153,12 +147,6 @@ const RoomView = () => {
           dispatch(setShowStartGame(true));
           dispatch(setWinner(''));
           dispatch(setLoser(''));
-        }
-
-        if (game.gameStatus !== 'ready') {
-          // this is preventing the board from being
-          // set by turning off the listener too early i think?
-          //off(cardsRef);
         }
 
         if (game.team1RemainingCards === 0) {
