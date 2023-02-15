@@ -57,7 +57,6 @@ const Card = (word: CardObj) => {
         const doesCardExist: boolean = snapshot.exists();
         if (doesCardExist) {
           update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-          dispatch(revealCard(wordId))
         } else {
           console.log('no card');
         }
@@ -173,9 +172,10 @@ const Card = (word: CardObj) => {
     if (snapshot.exists()) {
       let revealed = snapshot.val().isVisibleToAll
       let wordId = snapshot.val().id
+      let teamId = snapshot.val().teamId
       console.log('snapshot', snapshot.val())
       if (revealed) {
-        dispatch(revealCard(wordId))
+        dispatch(revealCard({wordId, teamId}))
       }
     }
   })

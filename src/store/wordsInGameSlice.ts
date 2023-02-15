@@ -20,20 +20,16 @@ export const wordsInGameSlice = createSlice({
       state.wordsInGame = action.payload;
     },
     revealCard: (state, action) => {
-      const id = action.payload;
-      const found = current(state.wordsInGame).find(card => {return card.id === id});
-      
-      // console.log(current(state.wordsInGame))
+      let found = state.wordsInGame.find(card => card.id === action.payload.wordId);
+      let teamId = action.payload.teamId
       console.log({found})
-      console.log('found?')
-      // const newWords = [...state.wordsInGame]; 
-      // newWords[index].isVisibleToAll = true
-      // console.log({newWords})
-      // state.wordsInGame = newWords
-      // const cardToFlip = state.wordsInGame.find((card) => card.id === id) 
-      // console.log({cardToFlip})
-      // if (cardToFlip) cardToFlip.isVisibleToAll = true;
-
+     if (found) {
+      found.isVisibleToAll = true
+      found.teamId = teamId
+       console.log('item changed')
+     } else {
+      console.log('no change')
+     }
     },
     setGameboardHasLoaded: (state, action) => {
       state.gameboardHasLoaded = action.payload;

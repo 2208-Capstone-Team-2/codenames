@@ -42,6 +42,8 @@ function OnValueCardsRef() {
 
     if (!gameboardHasLoaded) {
       onValue(cardsRef, async (cardSnapshot) => {
+        console.log({gameboardHasLoaded})
+        console.log({status})
         console.log('first run')
         if (cardSnapshot.exists()) {
             get(teamOneSpymasterRef).then(async (snapshot) => {
