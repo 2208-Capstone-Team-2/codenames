@@ -21,7 +21,7 @@ const FAQ = () => {
           <li>Q: The timer button is not working.</li>
           <p>A: Timer function is in our roadmap but unfortunately it is currently unavailable.</p>
           <br />
-          <li>Q: It takes very long time for the website to.</li>
+          <li>Q: It takes very long time for the website to load.</li>
           <p>
             A: This site is using a free hosting service with limited capacities. If you want a more seamless
             experience, you can play it locally by follow our step by step guide in our github repository.{' '}
