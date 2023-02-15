@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get, set, child, push, onValue, off } from 'firebase/database';
+import { ref, update, get, set, child, push, onValue } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
@@ -33,7 +33,6 @@ const Card = (word: CardObj) => {
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: Operative) => {
     return operative.playerId;
   });
-  const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   const dispatch = useDispatch()
   

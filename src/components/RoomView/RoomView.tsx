@@ -40,7 +40,6 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-
 // CSS:
 import './roomView.css';
 import words from 'random-words';
@@ -110,12 +109,13 @@ const RoomView = () => {
           dispatch(setWinner(''));
           dispatch(setLoser(''));
         }
-        if (game.gameStatus !== 'ready') {
-          console.log('not ready')
-          // this is preventing the board from being 
-          // set by turning off the listener too early i think?
-            // off(cardsRef)
-        }
+        
+        // if (game.gameStatus !== 'ready') {
+        //   console.log('not ready')
+        //   // this is preventing the board from being 
+        //   // set by turning off the listener too early i think?
+        //   //off(cardsRef)
+        // }
 
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
@@ -185,9 +185,8 @@ const RoomView = () => {
   OnValueGameHistoryRef();
   OnValueTeamDispatch();
   OnValueCardsRef();
+
   
-
-
   return (
     <div className="roomViewContainer">
       <Navbar />
