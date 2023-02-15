@@ -12,7 +12,7 @@ const FAQ = () => {
         <ul className="ulContainer">
           <li>Q: What's spectator?</li>
           <p>
-            A: a spectatr can see the board but not able to make guesses or give clues. This is designed for friends
+            A: a spectator can see the board but not able to make guesses or give clues. This is designed for friends
             that are late to the game but still wants to participate
           </p>
           <li>Q: I am inside a room and the game has started, but I can't see the cards.</li>
