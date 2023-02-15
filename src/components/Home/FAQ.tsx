@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './faq.css';
+import './faqTerms.css';
 const FAQ = () => {
   return (
     <div>
