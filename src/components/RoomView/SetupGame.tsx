@@ -7,6 +7,7 @@ import { RootState } from '../../store';
 import { setShowStartGame } from '../../store/gameSlice';
 import { useDispatch } from 'react-redux';
 import './roomView.css';
+import { setGameboardHasLoaded } from '../../store/wordsInGameSlice';
 
 interface WordPackType {
   id: number;

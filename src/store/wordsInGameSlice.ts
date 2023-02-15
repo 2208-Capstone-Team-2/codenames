@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CardObj } from '../utils/interfaces';
+import { current } from '@reduxjs/toolkit'
 
 interface InitialStateType {
   wordsInGame: CardObj[];
+  gameboardHasLoaded: boolean,
 }
 
 const initialState: InitialStateType = {
   wordsInGame: [],
+  gameboardHasLoaded: false,
 };
 
 export const wordsInGameSlice = createSlice({
@@ -18,13 +21,25 @@ export const wordsInGameSlice = createSlice({
     },
     revealCard: (state, action) => {
       const id = action.payload;
-      console.log('payload', action.payload)
-      console.log('card id', id)
-      const cardToFlip = state.wordsInGame.find((card) => card.id === id) 
-      if (cardToFlip) cardToFlip.isVisibleToAll = true;
+      const found = current(state.wordsInGame).find(card => {return card.id === id});
+      
+      // console.log(current(state.wordsInGame))
+      console.log({found})
+      console.log('found?')
+      // const newWords = [...state.wordsInGame]; 
+      // newWords[index].isVisibleToAll = true
+      // console.log({newWords})
+      // state.wordsInGame = newWords
+      // const cardToFlip = state.wordsInGame.find((card) => card.id === id) 
+      // console.log({cardToFlip})
+      // if (cardToFlip) cardToFlip.isVisibleToAll = true;
+
+    },
+    setGameboardHasLoaded: (state, action) => {
+      state.gameboardHasLoaded = action.payload;
     }
   },
 });
 
-export const { setWordsInGame, revealCard } = wordsInGameSlice.actions;
+export const { setWordsInGame, revealCard, setGameboardHasLoaded } = wordsInGameSlice.actions;
 export default wordsInGameSlice.reducer;

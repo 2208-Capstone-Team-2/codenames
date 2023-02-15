@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './card.css';
-import { ref, update, get, set, child, push } from 'firebase/database';
+import { ref, update, get, set, child, push, onValue } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { useState } from 'react';
@@ -10,6 +10,8 @@ import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces'
 import { MouseEvent } from 'react';
 import { revealCard } from '../../store/wordsInGameSlice';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { setGameboardHasLoaded } from '../../store/wordsInGameSlice';
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
   const { team1Id, teamOneOperatives } = useSelector((state: RootState) => state.teamOne);
@@ -37,9 +39,10 @@ const Card = (word: CardObj) => {
   
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
+    dispatch(setGameboardHasLoaded(true))
     const target: string = (e.target as HTMLButtonElement).value;
     let wordId = Number(target);
-    dispatch(revealCard(wordId))
+    // dispatch(revealCard(wordId))
     // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
     let revealedCard = cardToReveal.data;
@@ -54,6 +57,7 @@ const Card = (word: CardObj) => {
         const doesCardExist: boolean = snapshot.exists();
         if (doesCardExist) {
           update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
+          dispatch(revealCard(wordId))
         } else {
           console.log('no card');
         }
@@ -163,6 +167,19 @@ const Card = (word: CardObj) => {
       }
     }
   };
+
+  useEffect(() => {
+  onValue(singleCardRef, (snapshot) => {
+    if (snapshot.exists()) {
+      let revealed = snapshot.val().isVisibleToAll
+      let wordId = snapshot.val().id
+      console.log('snapshot', snapshot.val())
+      if (revealed) {
+        dispatch(revealCard(wordId))
+      }
+    }
+  })
+  }, [])
 
   return (
     <>
