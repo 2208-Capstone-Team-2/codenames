@@ -28,8 +28,8 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
   // If we have a username in redux slice, start it with that. else, start it with empty string.
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      enableReinitialize: true,
       username: username ? username : '',
     },
     validationSchema,
