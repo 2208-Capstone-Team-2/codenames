@@ -15,7 +15,10 @@ function Footer() {
           <Link to={'./faq'}>
             <p>FAQ</p>
           </Link>
-          <p>Terms of Service</p>
+          <Link to={'./terms'}>
+            {' '}
+            <p>Terms of Service</p>{' '}
+          </Link>
         </div>
         <div className="groupInfo">
           <p>© 2023 Codenames | Powered by Full Stack Academy Web Dev - Part Time - 2208 - Capstone Group 2</p>
