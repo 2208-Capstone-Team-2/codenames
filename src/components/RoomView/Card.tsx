@@ -163,19 +163,20 @@ const Card = (word: CardObj) => {
     }
   };
 
-  onValue(singleCardRef, (snapshot) => {
-    console.log('hi!');
-
-    if (snapshot.exists()) {
-      let revealed = snapshot.val().isVisibleToAll;
-      let wordId = snapshot.val().id;
-      let teamId = snapshot.val().teamId;
-      if (revealed) {
-        dispatch(revealCard({ wordId, teamId }));
+  useEffect(() => {
+    onValue(singleCardRef, (snapshot) => {
+      console.log('hi!');
+  
+      if (snapshot.exists()) {
+        let revealed = snapshot.val().isVisibleToAll;
+        let wordId = snapshot.val().id;
+        let teamId = snapshot.val().teamId;
+        if (revealed) {
+          dispatch(revealCard({ wordId, teamId }));
+        }
       }
-    }
-  });
-  useEffect(() => {}, []);
+    });
+  }, []);
 
   return (
     <>
