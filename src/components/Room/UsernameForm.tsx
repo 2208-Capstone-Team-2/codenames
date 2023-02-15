@@ -14,7 +14,7 @@ import './userForm.css';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 interface UsernameFormProps {
-  handleClose: Function;
+  handleClose: (bool: boolean) => void;
 }
 const validationSchema = yup.object({
   username: yup.string().required('Username is required'),
