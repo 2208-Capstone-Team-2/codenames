@@ -26,16 +26,13 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
 
   // If we have a username in redux slice, start it with that. else, start it with empty string.
-  const [inputtedUsername, setInputtedUsername] = useState<string>(username ? username : '');
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
-  const [creationFailure, setCreationFailure] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const formik = useFormik({
     initialValues: {
-      username: '',
+      username,
     },
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values: { username: string }) => {
       const trimmedInputtedUsername: string = values.username.trim();
       // Update our player's model with this new username
       const bodyToSubmit: { username: string; roomId: string } = {
@@ -94,7 +91,6 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
       {!usernameSubmissionDone && (
         <div className="popupContent">
           <p>Welcome, please enter a username...</p>
-          {/* <p>Enter a username...</p> */}
           <form onSubmit={formik.handleSubmit}>
             <input
               className={!formik.errors.username ? 'usernameInput' : 'errorUsernameInput'}
