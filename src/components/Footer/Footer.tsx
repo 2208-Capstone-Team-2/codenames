@@ -1,15 +1,20 @@
 import React from 'react';
 import { Facebook, Instagram, Twitter, GitHub } from '@mui/icons-material';
 import './footer.css';
+import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <div className="footerContainer">
       <div className="topFooter"></div>
       <div className="bottomFooter">
         <div className="miscInfo">
-          <p>About Us</p>
+          <Link to={'./about'}>
+            <p>About Us</p>
+          </Link>
           <p>Contact Us</p>
-          <p>FAQ</p>
+          <Link to={'./faq'}>
+            <p>FAQ</p>
+          </Link>
           <p>Terms of Service</p>
         </div>
         <div className="groupInfo">
