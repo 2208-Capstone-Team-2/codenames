@@ -5,6 +5,7 @@ import Footer from './Footer/Footer';
 import Home from './Home/Home';
 import Leaderboard from './Leaderboard/Leaderboard';
 import RoomContainer from './Room/RoomContainer';
+import FAQ from './Home/FAQ';
 const RouterComponent = () => {
   return (
     <>
@@ -15,6 +16,7 @@ const RouterComponent = () => {
         <Route path="/room/:roomId" element={<RoomContainer />} />
         <Route path="/404" element={<Error />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/*" element={<Error />} />
       </Routes>
       {/* <Footer /> */}
