@@ -34,8 +34,8 @@ const Card = (word: CardObj) => {
     return operative.playerId;
   });
 
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
     const target: string = (e.target as HTMLButtonElement).value;
@@ -163,18 +163,19 @@ const Card = (word: CardObj) => {
     }
   };
 
-  useEffect(() => {
   onValue(singleCardRef, (snapshot) => {
+    console.log('hi!');
+
     if (snapshot.exists()) {
-      let revealed = snapshot.val().isVisibleToAll
-      let wordId = snapshot.val().id
-      let teamId = snapshot.val().teamId
+      let revealed = snapshot.val().isVisibleToAll;
+      let wordId = snapshot.val().id;
+      let teamId = snapshot.val().teamId;
       if (revealed) {
-        dispatch(revealCard({wordId, teamId}))
+        dispatch(revealCard({ wordId, teamId }));
       }
     }
-  })
-  }, [])
+  });
+  useEffect(() => {}, []);
 
   return (
     <>

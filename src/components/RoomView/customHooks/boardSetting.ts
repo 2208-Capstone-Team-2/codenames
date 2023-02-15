@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/index.js';
 import { setWordsInGame } from '../../../store/wordsInGameSlice';
 
-function OnValueCardsRef() {
+function boardSetting() {
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const { playerId } = useSelector((state: RootState) => state.player);
@@ -23,9 +23,8 @@ function OnValueCardsRef() {
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
 
-  useEffect(() => {
-    // ONVALUE START
-    onValue(cardsRef, async (cardSnapshot) => {
+  if (playerId) {
+    const unSubscribeAllCardsListener = onValue(cardsRef, async (cardSnapshot) => {
       if (cardSnapshot.exists()) {
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
@@ -33,6 +32,7 @@ function OnValueCardsRef() {
             if (spymaster.playerId === playerId) {
               console.log('setting spy board...');
               off(cardsRef); // don't listen to this listener anymore.
+
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -59,6 +59,7 @@ function OnValueCardsRef() {
             if (spymaster.playerId === playerId) {
               console.log('setting spy board...');
               off(cardsRef); // don't listen to this listener anymore.
+
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -121,8 +122,8 @@ function OnValueCardsRef() {
         });
       }
     });
-    // ONVALUE END
-  }, [playerId]);
+    return unSubscribeAllCardsListener;
+  }
 }
 
-export default OnValueCardsRef;
+export default boardSetting;

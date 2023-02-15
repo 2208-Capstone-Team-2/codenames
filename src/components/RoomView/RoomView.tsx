@@ -43,7 +43,9 @@ import { RootState } from '../../store/index.js';
 // CSS:
 import './roomView.css';
 import words from 'random-words';
-
+import boardSetting from './customHooks/boardSetting';
+import axios from 'axios';
+import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces'; // For TS
 
 const RoomView = () => {
   // for room nav
@@ -55,13 +57,19 @@ const RoomView = () => {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host, showStartGame } = useSelector((state: RootState) => state.game);
+  const { host, showStartGame, status } = useSelector((state: RootState) => state.game);
   const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
   const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+
+  const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
+  const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
+  const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
+  const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
+  const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -97,6 +105,106 @@ const RoomView = () => {
         /* when game is 'reset' it sets the firebase game status 
         to 'ready' which triggers the redux cleanup below */
         if (game.gameStatus === 'ready') {
+          // OnValueCardsRef(); // re listen incase it got turned off from a previous game session
+          // boardSetting(); //listen for all cards being loaded
+          // ONVALUE START
+          onValue(cardsRef, async (cardSnapshot) => {
+            if (cardSnapshot.exists()) {
+              get(teamOneSpymasterRef).then(async (snapshot) => {
+                if (snapshot.exists()) {
+                  let spymaster = snapshot.val();
+                  if (spymaster.playerId === playerId) {
+                    console.log('setting spy board...');
+                    off(cardsRef); // don't listen to this listener anymore.
+                    //get set of cards with team ids from backend and set spymaster words
+                    let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
+                    let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+                    spyWords.data.forEach(
+                      (card: CardObj) =>
+                        (wordsWithTeamIds[card.id] = {
+                          id: card.id,
+                          isVisibleToAll: card.isVisibleToAll,
+                          wordString: card.word.word,
+                          word: card.word,
+                          wordId: card.wordId,
+                          boardId: card.boardId,
+                          teamId: card.teamId,
+                        }),
+                    );
+                    const values = Object.values(wordsWithTeamIds);
+                    dispatch(setWordsInGame(values));
+                  }
+                }
+              });
+              get(teamTwoSpymasterRef).then(async (snapshot) => {
+                if (snapshot.exists()) {
+                  let spymaster = snapshot.val();
+                  if (spymaster.playerId === playerId) {
+                    console.log('setting spy board...');
+                    off(cardsRef); // don't listen to this listener anymore.
+                    //get set of cards with team ids from backend and set spymaster words
+                    let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
+                    let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+                    spyWords.data.forEach(
+                      (card: CardObj) =>
+                        (wordsWithTeamIds[card.id] = {
+                          id: card.id,
+                          isVisibleToAll: card.isVisibleToAll,
+                          wordString: card.word.word,
+                          word: card.word,
+                          wordId: card.wordId,
+                          boardId: card.boardId,
+                          teamId: card.teamId,
+                        }),
+                    );
+                    const values = Object.values(wordsWithTeamIds);
+                    dispatch(setWordsInGame(values));
+                  }
+                }
+              });
+              get(teamOneOperativesRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                  let operatives = snapshot.val();
+                  let operativesIds = Object.keys(operatives);
+                  if (operativesIds.includes(playerId)) {
+                    console.log('setting opertive board...');
+                    off(cardsRef); // don't listen to this listener anymore.
+
+                    //update our redux to reflect that
+                    const cardsFromSnapshot = cardSnapshot.val();
+                    const values = Object.values(cardsFromSnapshot);
+                    dispatch(setWordsInGame(values));
+                  }
+                }
+              });
+              get(teamTwoOperativesRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                  let operatives = snapshot.val();
+                  let operativesIds = Object.keys(operatives);
+                  if (operativesIds.includes(playerId)) {
+                    console.log('setting operative board...');
+                    off(cardsRef); // don't listen to this listener anymore.
+
+                    //update our redux to reflect that
+                    const cardsFromSnapshot = cardSnapshot.val();
+                    const values = Object.values(cardsFromSnapshot);
+                    dispatch(setWordsInGame(values));
+                  }
+                }
+              });
+              get(nestedPlayerRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                  console.log('setting spectator board...');
+                  off(cardsRef); // don't listen to this listener anymore.
+
+                  const cardsFromSnapshot = cardSnapshot.val();
+                  const values = Object.values(cardsFromSnapshot);
+                  dispatch(setWordsInGame(values));
+                }
+              });
+            }
+          });
+          // ONVALUE END
           dispatch(setStatus('ready'));
           dispatch(setTeam1RemainingCards(9));
           dispatch(setTeam2RemainingCards(8));
@@ -109,13 +217,12 @@ const RoomView = () => {
           dispatch(setWinner(''));
           dispatch(setLoser(''));
         }
-        
-        // if (game.gameStatus !== 'ready') {
-        //   console.log('not ready')
-        //   // this is preventing the board from being 
-        //   // set by turning off the listener too early i think?
-        //   //off(cardsRef)
-        // }
+
+        if (game.gameStatus !== 'ready') {
+          // this is preventing the board from being
+          // set by turning off the listener too early i think?
+          //off(cardsRef);
+        }
 
         if (game.team1RemainingCards === 0) {
           // set firebase gameStatus to 'complete'
@@ -149,8 +256,7 @@ const RoomView = () => {
         }
       }
     });
-
-  }, []);
+  }, [status]);
 
   // this function works everywhere else without having to 'get' the gamestatus from firebase
   // it would NOT cooperate or pull accurate game status from redux. :|
@@ -186,7 +292,7 @@ const RoomView = () => {
   OnValueTeamDispatch();
   OnValueCardsRef();
 
-  
+  //const unSubscribeAllCardsListener = boardSetting();
   return (
     <div className="roomViewContainer">
       <Navbar />
