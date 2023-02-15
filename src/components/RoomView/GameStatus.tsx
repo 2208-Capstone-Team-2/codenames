@@ -123,13 +123,15 @@ const GameStatus = () => {
     }
   }, [gameStatus]);
 
+  const showGuessesRemaining = !(guessesRemaining === 0 || guessesRemaining === undefined);
+
   if (gameStatus === 'ready') return <p className="gameStatus">Waiting to begin the game!</p>;
   else if (gameStatus === 'complete') return <p className="gameStatus">Game over!</p>;
   else
     return (
       <p className="gameStatus">
         {playerNote}
-        {guessesRemaining !== 0 ? <>: {guessesRemaining} guesses remaining </> : null}
+        {showGuessesRemaining && <> - {guessesRemaining} guesses remaining</>}
       </p>
     );
 };
