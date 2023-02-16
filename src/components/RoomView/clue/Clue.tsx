@@ -144,7 +144,7 @@ const Clue = () => {
           }
           type={'submit'}
           onClick={handleSubmit}
-          onKeyUp={(e) => { e.keyCode===13 && handleSubmit(e) } }
+          onKeyUp={(e) => {handleSubmit(e) } }
         >
           Submit Clue
         </button>
