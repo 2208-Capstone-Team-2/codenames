@@ -6,7 +6,6 @@ import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
-import { setTeamIdOnPlayer } from '../../store/playerSlice';
 
 const TeamOneBox = () => {
   // redux
@@ -21,7 +20,7 @@ const TeamOneBox = () => {
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
-  
+
   const dispatch = useDispatch();
 
   // On click event for a player to be able to join team-1 team as a operative
