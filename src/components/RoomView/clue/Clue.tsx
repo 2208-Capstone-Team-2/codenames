@@ -112,7 +112,7 @@ const Clue = () => {
   if (!showClue) return <></>;
   return (
     <div className="clue-container">
-      <form className="clue-form">
+      <form className="clue-form" method="post">
         <input
           className={imRedSpy ? 'clue-input-text dark-red-color' : 'clue-input-text dark-blue-color'}
           type="text"
@@ -142,6 +142,7 @@ const Clue = () => {
           className={
             imRedSpy ? 'clue-submit-button dark-red-background-color' : 'clue-submit-button dark-blue-background-color'
           }
+          type={'submit'}
           onClick={handleSubmit}
           onKeyUp={(e) => { e.keyCode===13 && handleSubmit(e) } }
         >
