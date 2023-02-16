@@ -6,10 +6,15 @@ import './homeNav.css';
 const HomeNav = () => {
   return (
     <div className="homeNav">
-      <HomeToPlayPop />
-      <Link to={'/leaderboard'}>
-        <button>Leaderboard</button>
+      <Link to={'/about'}>
+        <button className="aboutBtn">About Us</button>
       </Link>
+      <div>
+        <HomeToPlayPop />
+        <Link to={'/leaderboard'}>
+          <button className="leaderboardBtn">Leaderboard</button>
+        </Link>
+      </div>
     </div>
   );
 };

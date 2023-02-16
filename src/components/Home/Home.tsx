@@ -14,10 +14,7 @@ function Home() {
       <HomeNav />
       <div className="homeContainer">
         <div className="codenames">CODENAMES</div>
-        <div className="loginContainer">
-          <img className="logo" src="/images/logoCircle.png" alt="codenames" />
-          <CreateRoomButton />
-        </div>
+        <CreateRoomButton />
         {/* <ClueTestingDesign /> */}
       </div>
     </div>

@@ -7,7 +7,7 @@ import { setIsHost } from '../../store/playerSlice';
 // firebase imports
 import { database } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
-
+import './homepage.css';
 function CreateRoomButton() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,8 +34,11 @@ function CreateRoomButton() {
     return navigate(`/room/${roomId}`);
   };
 
-  return <button onClick={clickHandler}>Create Room</button>
-
+  return (
+    <button className="startGameBtn" onClick={clickHandler}>
+      Create Room
+    </button>
+  );
 }
 
 export default CreateRoomButton;

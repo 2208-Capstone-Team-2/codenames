@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Error from './Error';
 import Footer from './Footer/Footer';
 import Home from './Home/Home';
+// import About from './About';
 import Leaderboard from './Leaderboard/Leaderboard';
 import RoomContainer from './Room/RoomContainer';
 import FAQ from './Home/FAQ';
@@ -20,6 +21,7 @@ const RouterComponent = () => {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/*" element={<Error />} />
+        {/* <Route path="/about" element={<About />} /> */}
       </Routes>
       {/* <Footer /> */}
     </>
