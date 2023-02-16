@@ -23,7 +23,6 @@ function OnValueCardsRef() {
   const playerIsSpymaster = teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId;
 
   useEffect(() => {
-    // ONVALUE START
     onValue(cardsRef, async (cardSnapshot) => {
       if (cardSnapshot.exists()) {
         if (playerIsSpymaster) {
@@ -47,7 +46,7 @@ function OnValueCardsRef() {
           const values = Object.values(wordsWithTeamIds);
           dispatch(setWordsInGame(values));
         } else {
-          console.log('setting opertive board...');
+          console.log('setting operative board...');
           off(cardsRef); // don't listen to this listener anymore.
           //update our redux to reflect that
           const cardsFromSnapshot = cardSnapshot.val();
@@ -56,7 +55,6 @@ function OnValueCardsRef() {
         }
       }
     });
-    // ONVALUE END
   }, [playerId, teamOneSpymaster, teamTwoSpymaster]);
 }
 
