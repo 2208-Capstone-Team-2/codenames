@@ -69,6 +69,15 @@ router.post('/make25DEMO/forRoom/:roomId', async (req: Request, res: Response, n
      - the pre-chosen wordIds
   */
 
+    //  const lucy = await Students.create({
+    //   firstName: 'lucy',
+    //   lastName: 'van ormer',
+    //   email: 'luckylucy@hotmail.com',
+    //   imageUrl: '/img/lucy.jpg',
+    //   gpa: 4.0,
+    // });
+
+    // Everything below is the same as non-demo route:
     /****** At this point the cards have been seeded!
     We just need to: 
      - query so we can get the word ON to the card, from the Word Model association
