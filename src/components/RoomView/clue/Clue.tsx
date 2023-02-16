@@ -147,8 +147,15 @@ const Clue = () => {
           Submit Clue
         </button>
       </form>
-    </div>
+    </div> 
   );
+
+  // addEventListener to make the enter key to submit
+  // clueData.addEventListener('submit', handleSubmit)
+  // clueData.addEventListener('keyup', (e) => {
+  //   if (e.keyCode === 13) {
+  //     handleSubmit(e)
+  // }
 };
 
 export default Clue;
