@@ -1,5 +1,5 @@
 .chatBoxGridCell{  grid-area:chatBox;display: flex;
-  justify-content: center;margin-top:15%
+  justify-content: center;margin:2% 0 10% 0;
 
 }.chat-container {
   display: flex;
@@ -7,11 +7,10 @@
   align-items: center;
   justify-content: center;
   width: 60%;
-  margin-top: 2%;
-  margin-left: 2%;
   padding: 15px;
   border-radius: 6px;
   background-color: gainsboro;
+  height: 80%;
 }
 
 .chat-header {
@@ -22,7 +21,7 @@
 .messages {
   overflow-wrap: break-word;
   height: 300px;
-  width: 200px;
+  width: 100%;
   font-family: 'Montserrat', sans-serif;
   font-size: smaller;
   font-weight: 400;
@@ -36,7 +35,7 @@
   margin-left: 0;
   padding-left: 5px;
   margin-top: 5px;
-  width: 200px;
+  width: 90%;
   padding: 10px;
 }
 

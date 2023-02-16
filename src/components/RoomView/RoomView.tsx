@@ -182,7 +182,7 @@ const RoomView = () => {
   return (
     <div className="roomViewGrid">
       <Navbar />
-      <div className="gameStatusClaimHost">
+      <div className="gameStatusContainer">
         <GameStatus />
         <div className="gameStatus">
           {!host && (
@@ -209,11 +209,12 @@ const RoomView = () => {
       <Chat />
 
       <Clue />
-      <Footer />
+
       <Loser />
       <Winner />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
       {/* {isHost && everyonesHere &&  <SetupGame />*/}
+      <Footer />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-.gameStatusClaimHost {
+.gameStatusContainer {
     font-family: 'Montserrat';
     color: white;
     display: flex;
@@ -24,7 +24,7 @@
   .gameStatus:last-child {
     margin-left: 10%;
   }
-  .gameStatusClaimHost button {
+  .gameStatusContainer button {
     border-right: solid black 3px;
     border-bottom: solid black 3px;
     background-color: white;
