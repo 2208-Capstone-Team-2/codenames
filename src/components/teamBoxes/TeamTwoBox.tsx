@@ -8,16 +8,18 @@ import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
 
 const TeamTwoBox = () => {
+  // redux
   const { roomId } = useParams();
   const { playerId, username, teamId } = useSelector((state: RootState) => state.player);
-  const { team2Id } = useSelector((state: RootState) => state.teamTwo);
+  const { team2Id, teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
+  const {team2RemainingCards} = useSelector((state: RootState) => state.game);
+  
+  // firebase refs
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
   const teamTwoSpymasterRef = ref(database, `rooms/${roomId}/team-2/spymaster/`);
   const teamOneRef = ref(database, `rooms/${roomId}/team-1/`);
-  const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const playerOnTeamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/${playerId}`);
-  const teamTwoRemainingCards = useSelector((state: RootState) => state.game.team2RemainingCards);
 
   const dispatch = useDispatch();
 
@@ -51,7 +53,6 @@ const TeamTwoBox = () => {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
-
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
@@ -133,7 +134,7 @@ const TeamTwoBox = () => {
   return (
     <div className="blueBoxCard">
       <h3>Team 2</h3>
-      <h3>Remaining Cards: {teamTwoRemainingCards}</h3>
+      <h3>Remaining Cards: {team2RemainingCards}</h3>
       <div className="blueOpsAndSpys">
         <div>
           <p>Operative(s)</p>
@@ -150,7 +151,6 @@ const TeamTwoBox = () => {
         <div>
           <p>Spymaster(s)</p>
           {teamTwoSpymaster && <span className="playerName">{teamTwoSpymaster.username}</span>}
-
           <br />
           {!teamTwoSpymaster && !teamId && <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>}
         </div>
