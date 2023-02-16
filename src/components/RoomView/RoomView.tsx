@@ -43,9 +43,7 @@ import { RootState } from '../../store/index.js';
 
 // CSS:
 import './roomView.css';
-// interface ClassName {
-//   className: string;
-// }
+
 
 const RoomView = () => {
   // for room nav
@@ -57,11 +55,10 @@ const RoomView = () => {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host, showStartGame } = useSelector((state: RootState) => state.game);
+  const { showStartGame } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
-  let hostRef = ref(database, `rooms/${roomId}/host`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -168,10 +165,7 @@ const RoomView = () => {
     });
   };
 
-  const claimHost = () => {
-    update(hostRef, { playerId, username });
-    update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
-  };
+
 
   OnValueHostRef();
   OnValueCardsRef();
@@ -181,16 +175,7 @@ const RoomView = () => {
   return (
     <div className="roomViewContainer">
       <Navbar />
-      <div className="gameStatusClaimHost">
-        <GameStatus />
-        <div className="gameStatus">
-          {!host && (
-            <p>
-              The host has left, need a <button onClick={claimHost}>New Host</button> to begin game.
-            </p>
-          )}
-        </div>
-      </div>
+      <GameStatus />
       {isHost && showStartGame && <SetupGame />}
       <div className="flexBox">
         <TeamOneBox />

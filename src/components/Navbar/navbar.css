@@ -56,40 +56,40 @@
   width: 30px;
   border-radius: 50%;
 }
-.gameStatusClaimHost {
+.gameStatusContainer {
   font-family: 'Montserrat';
   color: white;
   display: flex;
+  flex-direction: column;
   height: fit-content;
-  justify-content: center;
-  align-items: center;
-  margin: 2% auto 5%;
+  width: fit-content;
+  padding: 0rem 1.25rem 0rem 1rem;
+  margin: 2% auto;
   background-color: #483d3d4a;
-  height: 40px;
-  width: 70vw;
   border-radius: 40px;
   box-shadow: 4px 4px black;
 }
-.gameStatus {
+.gameStatusItem {
   align-self: center;
   margin-right: -5%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0.5rem;
 }
 .gameStatus:last-child {
   margin-left: 10%;
 }
-.gameStatusClaimHost button {
+.claimHostButton {
   border-right: solid black 3px;
   border-bottom: solid black 3px;
   background-color: white;
   color: black;
-  width: fit-content;
-  padding: 1px 5px;
   font-family: 'Oswald';
-  font-size: 16px;
+  font-size: 1rem;
   border-radius: 5px 10px;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
 }
 .copyBtn {
   display: flex;
