@@ -32,14 +32,10 @@ function OnValueCardsRef() {
       //  data even though it exists on firebase and redux
       // tried a few diff ways and this is what i could get to work. bulky :(
       if (cardSnapshot.exists()) {
-        let isSpectator = true;
-
-        console.log('first?');
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
             if (spymaster.playerId === playerId) {
-              isSpectator = false;
               console.log('setting spy board...');
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
@@ -61,13 +57,11 @@ function OnValueCardsRef() {
             }
           }
         });
-        console.log('2nd?');
 
         get(teamTwoSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
             if (spymaster.playerId === playerId) {
-              isSpectator = false;
               console.log('setting spy board...');
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
@@ -89,14 +83,12 @@ function OnValueCardsRef() {
             }
           }
         });
-        console.log('3rd?');
 
         get(teamOneOperativesRef).then((snapshot) => {
           if (snapshot.exists()) {
             let operatives = snapshot.val();
             let operativesIds = Object.keys(operatives);
             if (operativesIds.includes(playerId)) {
-              isSpectator = false;
               console.log('setting opertive board...');
               //update our redux to reflect that
               const cardsFromSnapshot = cardSnapshot.val();
@@ -105,15 +97,12 @@ function OnValueCardsRef() {
             }
           }
         });
-        console.log('4th?');
 
         get(teamTwoOperativesRef).then((snapshot) => {
           if (snapshot.exists()) {
             let operatives = snapshot.val();
             let operativesIds = Object.keys(operatives);
             if (operativesIds.includes(playerId)) {
-              isSpectator = false;
-
               console.log('setting operative board...');
               //update our redux to reflect that
               const cardsFromSnapshot = cardSnapshot.val();
@@ -124,12 +113,10 @@ function OnValueCardsRef() {
         });
         get(nestedPlayerRef).then((snapshot) => {
           if (snapshot.exists()) {
-            if (isSpectator) {
-              console.log('setting spectator board...');
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
-            }
+            console.log('setting spectator board...');
+            const cardsFromSnapshot = cardSnapshot.val();
+            const values = Object.values(cardsFromSnapshot);
+            dispatch(setWordsInGame(values));
           }
         });
       }
