@@ -66,12 +66,11 @@
   white-space: nowrap; /* Keeps the content on a single line */
   animation: typing-leaderboard 1.5s steps(12, end), blink-caret-l 0.75s step-end infinite;
 }
-.homeButton {
-  /* border: 2px solid black; */
-  margin-top: 16px;
+.backHomeButton {
   width: 96vw;
+  margin: 16px;
 }
-.homeButton button {
+.backHomeButton button {
   border-right: solid black 3px;
   border-bottom: solid black 3px;
   background-color: white;
