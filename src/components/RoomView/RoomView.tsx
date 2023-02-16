@@ -69,7 +69,7 @@ const RoomView = () => {
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
   const playerIsSpymaster = teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId;
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // whenever users are added to specific room, update frontend redux store
@@ -176,7 +176,6 @@ const RoomView = () => {
     });
   }, [status]);
 
-
   const endTurn = () => {
     let nextStatus;
     // get gameref
@@ -225,9 +224,7 @@ const RoomView = () => {
       {isHost && showStartGame && <SetupGame />}
       <div className="flexBox">
         <TeamOneBox />
-        <div className="boardContainer">
-          {playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}
-        </div>
+        <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
         <TeamTwoBox />
         <div className="break"></div>
         <GameLog />

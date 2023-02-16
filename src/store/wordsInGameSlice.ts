@@ -1,15 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CardObj } from '../utils/interfaces';
-import { current } from '@reduxjs/toolkit'
 
 interface InitialStateType {
   wordsInGame: CardObj[];
-  gameboardHasLoaded: boolean,
 }
 
 const initialState: InitialStateType = {
   wordsInGame: [],
-  gameboardHasLoaded: false,
 };
 
 export const wordsInGameSlice = createSlice({
