@@ -17,11 +17,13 @@
   font-size: 15px;
   padding: 5px;
 }
-.htpPop{margin-right:10px;}
+.htpPop {
+  margin-right: 10px;
+}
 /* when hovering, only need to add the css rules that you want to change, others will inhereit from the defaut setting*/
 .htpPop:hover {
   background-color: #517992;
-  color:white;
+  color: white;
   cursor: pointer;
 }
 .leaderboardBtn:hover {
@@ -29,6 +31,36 @@
   background-color: #517992;
   cursor: pointer;
 }
-.aboutBtn:hover{ color: white;
+.aboutBtn:hover {
+  color: white;
   background-color: #8c292a;
-  cursor: pointer;}
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .homeNav {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .htpPop:hover .leaderboardBtn:hover .aboutBtn:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+  .htpPop .leaderboardBtn .aboutBtn {
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    border-top: solid black 1px;
+    border-left: solid black 1px;
+    border-right: solid black 3px;
+    border-bottom: solid black 3px;
+    border-radius: 5px 10px;
+    font-family: 'oswald';
+    font-size: 15px;
+    padding: 5px;
+    color: black;
+  }
+}

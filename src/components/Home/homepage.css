@@ -1,3 +1,21 @@
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 130%;
+  }
+}
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(255, 255, 255);
+  }
+}
 @font-face {
   font-family: myFirstFont;
   src: url('./fonts/death-from-above-font/DeathFromAbove-Ow9P.ttf') format('truetype');
@@ -66,22 +84,30 @@ body {
   cursor: pointer;
   background-color: #e2c78d;
 }
-
-@keyframes typing {
-  from {
-    width: 0;
+@media only screen and (max-width: 600px) {
+  body {
+    overflow: hidden;
   }
-  to {
-    width: 130%;
+  .codenames {
+    font-size: 24px;
+    font-family: myFirstFont;
+    letter-spacing: 8px;
+    color: white;
+    margin-bottom: 2%;
+    user-select: none;
+    animation: none;
+    white-space: nowrap;
+    border-right: none;
   }
-}
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: rgb(255, 255, 255);
+  .homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    height: 90vh;
+    width: 90vw;
+    margin: auto;
+    overflow-y: none;
   }
 }
