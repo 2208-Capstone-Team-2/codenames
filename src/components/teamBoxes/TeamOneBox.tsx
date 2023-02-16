@@ -11,7 +11,7 @@ import { setTeamIdOnPlayer } from '../../store/playerSlice';
 const TeamOneBox = () => {
   const { roomId } = useParams();
 
-  const { playerId, username } = useSelector((state: RootState) => state.player);
+  const { playerId, username, teamId } = useSelector((state: RootState) => state.player);
   const { team1Id } = useSelector((state: RootState) => state.teamOne);
 
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
@@ -146,13 +146,13 @@ const TeamOneBox = () => {
             );
           })}{' '}
           <br />
-          <button onClick={joinTeamOneOp}>Join as Operative</button>
+          {!teamId && <button onClick={joinTeamOneOp}>Join as Operative</button>}
         </div>
         <div>
           <p>Spymaster(s)</p>
           {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
           <br />
-          {!teamOneSpymaster && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
+          {!teamOneSpymaster && !teamId && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
         </div>
       </div>
     </div>
