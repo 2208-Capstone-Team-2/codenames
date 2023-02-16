@@ -42,7 +42,7 @@ const Leaderboard = () => {
   useEffect(() => {
     getPlayers();
   }, []);
-  // if (loading) return <CustomLoader />;
+  if (loading) return <CustomLoader />;
   return (
     <div className="leaderboardContainer">
       <div className="backHomeButton">
