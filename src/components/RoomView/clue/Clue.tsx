@@ -3,7 +3,7 @@ import pluralize from 'pluralize';
 import { ClueType } from '../../../utils/interfaces'; // for Typescript interface
 //firebase:
 import { database } from '../../../utils/firebase';
-import { ref, child, push, update } from 'firebase/database';
+import { ref, child, push, update, off } from 'firebase/database';
 //redux:
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentClue } from '../../../store/clueSlice';
@@ -26,6 +26,7 @@ const Clue = () => {
   // firebase:
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
+  const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   // This is an array of all the cards' words in play. It is used to make sure
   // that the spy does not give a clue that is one of these words.
@@ -46,6 +47,8 @@ const Clue = () => {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    off(cardsRef)
+
     const regex = /[\s-]+/g;
     if (clueString === '') {
       return alert('you have to enter a clue');

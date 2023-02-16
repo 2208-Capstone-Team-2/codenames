@@ -21,7 +21,7 @@ import Chat from './chat/Chat';
 import Footer from '../Footer/Footer';
 // Firebase:
 import { database } from '../../utils/firebase';
-import { onValue, ref, set, get, child, update } from 'firebase/database';
+import { onValue, ref, set, get, child, update, off } from 'firebase/database';
 // Redux:
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -41,12 +41,11 @@ import {
 } from '../../store/gameSlice';
 import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
-
 // CSS:
 import './roomView.css';
-// interface ClassName {
-//   className: string;
-// }
+
+import axios from 'axios';
+import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces'; // For TS
 
 const RoomView = () => {
   // for room nav
@@ -58,15 +57,19 @@ const RoomView = () => {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host, showStartGame } = useSelector((state: RootState) => state.game);
+  const { host, showStartGame, status } = useSelector((state: RootState) => state.game);
+  const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
+  const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
+
+  const playerIsSpymaster = teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -98,6 +101,35 @@ const RoomView = () => {
         /* when game is 'reset' it sets the firebase game status 
         to 'ready' which triggers the redux cleanup below */
         if (game.gameStatus === 'ready') {
+          onValue(cardsRef, async (cardSnapshot) => {
+            if (cardSnapshot.exists()) {
+              if (playerIsSpymaster) {
+                off(cardsRef); // don't listen to this listener anymore
+                let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
+                let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
+                spyWords.data.forEach(
+                  (card: CardObj) =>
+                    (wordsWithTeamIds[card.id] = {
+                      id: card.id,
+                      isVisibleToAll: card.isVisibleToAll,
+                      wordString: card.word.word,
+                      word: card.word,
+                      wordId: card.wordId,
+                      boardId: card.boardId,
+                      teamId: card.teamId,
+                    }),
+                );
+                const values = Object.values(wordsWithTeamIds);
+                dispatch(setWordsInGame(values));
+              } else {
+                off(cardsRef); // don't listen to this listener anymore.
+                const cardsFromSnapshot = cardSnapshot.val();
+                const values = Object.values(cardsFromSnapshot);
+                dispatch(setWordsInGame(values));
+              }
+            }
+          });
+          // ONVALUE END
           dispatch(setStatus('ready'));
           dispatch(setTeam1RemainingCards(9));
           dispatch(setTeam2RemainingCards(8));
@@ -132,10 +164,8 @@ const RoomView = () => {
         }
       }
     });
-  }, []);
+  }, [status]);
 
-  // this function works everywhere else without having to 'get' the gamestatus from firebase
-  // it would NOT cooperate or pull accurate game status from redux. :|
   const endTurn = () => {
     let nextStatus;
     // get gameref
@@ -164,9 +194,9 @@ const RoomView = () => {
   };
 
   OnValueHostRef();
-  OnValueCardsRef();
   OnValueGameHistoryRef();
   OnValueTeamDispatch();
+  OnValueCardsRef();
 
   return (
     <div className="roomViewGrid">
@@ -182,16 +212,8 @@ const RoomView = () => {
         </div>
       </div>
       {isHost && showStartGame && <SetupGame />}
-
       <TeamOneBox />
-      <div className="boardContainer">
-        {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-        {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
-          <SpyMasterBoard />
-        ) : (
-          <OperativeBoard />
-        )}
-      </div>
+       <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
       <TeamTwoBox />
       <div className="break"></div>
       <GameLog />
