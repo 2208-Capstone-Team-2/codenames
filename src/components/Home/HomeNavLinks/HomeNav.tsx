@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './homeNav.css';
 const HomeNav = () => {
   return (
-    <div className="homeNav">
+    <div className="homeGrid1stRow">
       <HomeToPlayPop />
       <Link to={'/leaderboard'}>
         <button>Leaderboard</button>

@@ -1,0 +1,37 @@
+.gameStatusClaimHost {
+    font-family: 'Montserrat';
+    color: white;
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: #483d3d4a;
+    height: 40px;
+    width: 70vw;
+    border-radius: 40px;
+    box-shadow: 4px 4px black;
+    grid-area:gameStatus;
+    margin-top:2%;
+  }
+  .gameStatus {
+    align-self: center;
+    margin-right: -5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gameStatus:last-child {
+    margin-left: 10%;
+  }
+  .gameStatusClaimHost button {
+    border-right: solid black 3px;
+    border-bottom: solid black 3px;
+    background-color: white;
+    color: black;
+    width: fit-content;
+    padding: 1px 5px;
+    font-family: 'Oswald';
+    font-size: 16px;
+    border-radius: 5px 10px;
+  }

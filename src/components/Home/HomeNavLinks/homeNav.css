@@ -1,6 +1,7 @@
-.homeNav{
-    padding: 12px;
+.homeGrid1stRow{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    grid-area: first;
+    width: 100vw;
 }

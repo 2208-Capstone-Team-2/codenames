@@ -65,42 +65,44 @@ const Chat = () => {
   };
 
   return (
-    <div className="chat-container">
-      <h3 className="chat-header">Chatroom</h3>
-      <div className="chat">
-        <div className="messages" ref={divRef}>
-          {Object.keys(messages).map((message) => {
-            if (messages[message]['teamId'] === team1Id)
-              return (
-                <div key={message} className="team-one-message">
-                  <span className="sender">{messages[message]['username']}: </span>
-                  {messages[message]['msg']}
-                </div>
-              );
-            else if (messages[message]['teamId'] === team2Id)
-              return (
-                <div key={message} className="team-two-message">
-                  <span className="sender">{messages[message]['username']}: </span>
-                  {messages[message]['msg']}
-                </div>
-              );
-            else
-              return (
-                <div key={message} className="spectator-message">
-                  <span className="sender">{messages[message]['username']}: </span>
-                  {messages[message]['msg']}
-                </div>
-              );
-          })}
+    <div className="chatBoxGridCell">
+      <div className="chat-container">
+        <h3 className="chat-header">Chatroom</h3>
+        <div className="chat">
+          <div className="messages" ref={divRef}>
+            {Object.keys(messages).map((message) => {
+              if (messages[message]['teamId'] === team1Id)
+                return (
+                  <div key={message} className="team-one-message">
+                    <span className="sender">{messages[message]['username']}: </span>
+                    {messages[message]['msg']}
+                  </div>
+                );
+              else if (messages[message]['teamId'] === team2Id)
+                return (
+                  <div key={message} className="team-two-message">
+                    <span className="sender">{messages[message]['username']}: </span>
+                    {messages[message]['msg']}
+                  </div>
+                );
+              else
+                return (
+                  <div key={message} className="spectator-message">
+                    <span className="sender">{messages[message]['username']}: </span>
+                    {messages[message]['msg']}
+                  </div>
+                );
+            })}
+          </div>
         </div>
+        <input
+          className="message-input"
+          placeholder="Type message & press enter"
+          onChange={handleMsgChange}
+          onKeyDown={handleKeyDown}
+          value={msg}
+        />
       </div>
-      <input
-        className="message-input"
-        placeholder="Type message & press enter"
-        onChange={handleMsgChange}
-        onKeyDown={handleKeyDown}
-        value={msg}
-      />
     </div>
   );
 };

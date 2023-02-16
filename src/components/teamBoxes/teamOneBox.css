@@ -1,16 +1,18 @@
+.redGridCell{  grid-area: redTeam;
+display: flex;
+justify-content: center;margin-top:15%}
 .redBoxCard {
   height: fit-content;
-  width: 15%;
   color: #d2dcde;
   padding: 15px;
   font-size: 16px;
   background-color: #8c2a2a;
   border-radius: 6px;
-  margin: 0 2% 0 0;
   border: black solid 1px;
   font-family: 'Oswald';
   font-weight: 400;
   letter-spacing: 1px;
+width:60% 
 }
 .redBoxCard h3 {
   display: flex;

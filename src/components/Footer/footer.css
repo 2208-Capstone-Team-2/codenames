@@ -1,41 +1,29 @@
-.topFooter {
-  margin-top: 200px;
-}
-.bottomFooter {
+.lastRow {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-self: baseline;
-  margin-top: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  width: 100%;
   height: 50px;
+  background-color: rgba(0, 0, 0, 0.2);
   color: white;
   border-top: 0.1px solid rgba(0, 0, 0, 0.4);
   font-weight: 100;
+  grid-area:footer;
 }
 .icons {
-  display: flex;
-  width: 20vw;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 50px;
-}
-.bottomFooter img {
-  height: 100px;
-  width: auto;
+  margin: auto;
+  display: flex;
+  align-items: center;
 }
 .miscInfo {
   display: flex;
-  flex-direction: row;
   user-select: none;
   font-size: 14px;
   gap: 16px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: auto;
   width: 20vw;
+  align-items: center;
+  color:white
 }
+.miscInfo a{color:inherit}
 .groupInfo {
   display: flex;
   justify-content: center;

@@ -9,14 +9,31 @@ body {
   background-size: cover;
   background-position: center;
   height: auto;
-  width: auto;
+  max-width: 100%;
+}
+.homeGrid{display: grid;
+grid-template-rows: 10fr 90fr 51px;
+grid-template-areas: 
+'first' 'second' 'footer';
+width: 100vw;
+justify-content: center;
+align-content: center;
+height: 100vh;
+}
+.homeGrid2ndRow{
+  grid-area: second;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
 }
 .codenames {
   font-size: 84px;
   font-family: myFirstFont;
   letter-spacing: 8px;
   color: white;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   user-select: none;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   border-right: 0.15em solid rgb(255, 255, 255); /* The typwriter cursor */
@@ -25,38 +42,14 @@ body {
   animation: typing 1.5s steps(12, end), blink-caret 0.75s step-end infinite;
 }
 
-.logo {
-  margin: 60px;
-  width: 100px;
-}
-.homeContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  height: 100vh;
-  width: 30%;
-  margin: auto;
-}
-.loginContainer {
-  display: flex;
-  flex-direction: column;
-  padding: 2vw;
-  border: 1px solid gray;
-  border-radius: 5px;
-  background-color: white;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-}
+
 
 @keyframes typing {
   from {
     width: 0;
   }
   to {
-    width: 130%;
+    width: 50%;
   }
 }
 /* The typewriter cursor effect */

@@ -18,6 +18,7 @@ import Loser from './Loser';
 import Winner from './Winner';
 import Navbar from '../Navbar/Navbar';
 import Chat from './chat/Chat';
+import Footer from '../Footer/Footer';
 // Firebase:
 import { database } from '../../utils/firebase';
 import { onValue, ref, set, get, child, update } from 'firebase/database';
@@ -179,7 +180,7 @@ const RoomView = () => {
   OnValueTeamDispatch();
 
   return (
-    <div className="roomViewContainer">
+    <div className="roomViewGrid">
       <Navbar />
       <div className="gameStatusClaimHost">
         <GameStatus />
@@ -192,22 +193,23 @@ const RoomView = () => {
         </div>
       </div>
       {isHost && showStartGame && <SetupGame />}
-      <div className="flexBox">
-        <TeamOneBox />
-        <div className="boardContainer">
-          {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-          {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
-            <SpyMasterBoard />
-          ) : (
-            <OperativeBoard />
-          )}
-        </div>
-        <TeamTwoBox />
-        <div className="break"></div>
-        <GameLog />
-        <Chat />
+
+      <TeamOneBox />
+      <div className="boardContainer">
+        {/* player is operative && show operative board, otherwise theyre a spymaster*/}
+        {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
+          <SpyMasterBoard />
+        ) : (
+          <OperativeBoard />
+        )}
       </div>
+      <TeamTwoBox />
+      <div className="break"></div>
+      <GameLog />
+      <Chat />
+
       <Clue />
+      <Footer />
       <Loser />
       <Winner />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}

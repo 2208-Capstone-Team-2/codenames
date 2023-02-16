@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Error from './Error';
-import Footer from './Footer/Footer';
+
 import Home from './Home/Home';
 import Leaderboard from './Leaderboard/Leaderboard';
 import RoomContainer from './Room/RoomContainer';
@@ -21,7 +21,6 @@ const RouterComponent = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/*" element={<Error />} />
       </Routes>
-      {/* <Footer /> */}
     </>
   );
 };
