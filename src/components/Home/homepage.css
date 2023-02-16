@@ -64,6 +64,7 @@ body {
 }
 .startGameBtn:hover {
   cursor: pointer;
+  background-color: #e2c78d;
 }
 
 @keyframes typing {
