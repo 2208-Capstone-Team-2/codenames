@@ -14,8 +14,7 @@ import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import Clue from './clue/Clue';
 import GameLog from './gameLog';
 import GameStatus from './GameStatus';
-import Loser from './Loser';
-import Winner from './Winner';
+import WinnerLoserPopup from './WinnerLoserPopup';
 import Navbar from '../Navbar/Navbar';
 import Chat from './chat/Chat';
 // Firebase:
@@ -197,8 +196,7 @@ const RoomView = () => {
         <Chat />
       </div>
       <Clue />
-      {/* <Loser /> */}
-      <Winner />
+      <WinnerLoserPopup />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
       {/* {isHost && everyonesHere &&  <SetupGame />*/}
     </div>

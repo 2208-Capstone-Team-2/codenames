@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { database } from '../../utils/firebase';
-import { ref, get } from 'firebase/database';
 import { useSelector } from 'react-redux';
 import { setRoomId } from '../../store/playerSlice';
 import { RootState } from '../../store';
-interface TeamInfo {
-  [property: string]: any;
-}
+
 const Winner: React.FC = () => {
   const { roomId } = useParams();
   setRoomId(roomId);
-  const { playerId, teamId } = useSelector((state: RootState) => state.player);
+  const { teamId } = useSelector((state: RootState) => state.player);
   const { status, winner } = useSelector((state: RootState) => state.game);
   const { team1Id } = useSelector((state: RootState) => state.teamOne);
   const { team2Id } = useSelector((state: RootState) => state.teamTwo);
-  const [winnerPopup, setWinnerPopup] = useState(false);
-  const [loserPopup, setLoserPopup] = useState(false);
+  const [winnerPopup, setWinnerPopup] = useState<boolean>(false);
+  const [loserPopup, setLoserPopup] = useState<boolean>(false);
 
   const playerWon = (winner === 'team-1' && teamId === team1Id) || (winner === 'team-2' && teamId === team2Id)
   const playerLost = (winner === 'team-1' && teamId !== team1Id) || (winner === 'team-2' && teamId !== team2Id)
