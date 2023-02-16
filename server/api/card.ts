@@ -15,7 +15,7 @@ router.post('/make25DEMO/forRoom/:roomId', async (req: Request, res: Response, n
     // Get stuff out of req.body
     const { roomId } = req.params;
 
-    // For the demo, we will pull from the default pack.
+    // For the demo, we will ALWAYS USE from the default pack.
 
     // We need the teamIds that we will need to seed our cards - these are on room.
     // Find the room with this 'roomId' (is actually a name like jolly-panda)
@@ -35,7 +35,7 @@ router.post('/make25DEMO/forRoom/:roomId', async (req: Request, res: Response, n
     room.setBoard(board);
 
     /*
-    [
+  [
   { boardId: 1, wordId: 198, teamId: 2 },
   { boardId: 1, wordId: 64, teamId: 2 },
   { boardId: 1, wordId: 52, teamId: 2 },
@@ -61,15 +61,18 @@ router.post('/make25DEMO/forRoom/:roomId', async (req: Request, res: Response, n
   { boardId: 1, wordId: 153, teamId: 1 },
   { boardId: 1, wordId: 278, teamId: 3 },
   { boardId: 1, wordId: 39, teamId: 4 }
-]
-*/
+  ]
+  */
     /* Await and create the 25 cards that have:
      - the boardId of the board just created,
      - the teamIds mapped on correctly,
      - the pre-chosen wordIds
-  */
+    */
 
-    //  const lucy = await Students.create({
+    const card1 = await Card.create({ boardId: board.id, wordId: 198, teamId: team2id });
+    // do until card25
+
+    // const lucy = await Students.create({
     //   firstName: 'lucy',
     //   lastName: 'van ormer',
     //   email: 'luckylucy@hotmail.com',
