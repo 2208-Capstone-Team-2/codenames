@@ -34,41 +34,6 @@ router.post('/make25DEMO/forRoom/:roomId', async (req: Request, res: Response, n
     const board = await Board.create(); // Create a new board to put the 25 cards into
     room.setBoard(board);
 
-    /*
-  [
-  { boardId: 1, wordId: 198, teamId: 2 },
-  { boardId: 1, wordId: 64, teamId: 2 },
-  { boardId: 1, wordId: 52, teamId: 2 },
-  { boardId: 1, wordId: 27, teamId: 1 },
-  { boardId: 1, wordId: 90, teamId: 2 },
-  { boardId: 1, wordId: 183, teamId: 2 },
-  { boardId: 1, wordId: 316, teamId: 3 },
-  { boardId: 1, wordId: 174, teamId: 2 },
-  { boardId: 1, wordId: 169, teamId: 1 },
-  { boardId: 1, wordId: 376, teamId: 1 },
-  { boardId: 1, wordId: 367, teamId: 1 },
-  { boardId: 1, wordId: 284, teamId: 2 },
-  { boardId: 1, wordId: 312, teamId: 1 },
-  { boardId: 1, wordId: 24, teamId: 1 },
-  { boardId: 1, wordId: 91, teamId: 3 },
-  { boardId: 1, wordId: 58, teamId: 3 },
-  { boardId: 1, wordId: 116, teamId: 3 },
-  { boardId: 1, wordId: 201, teamId: 1 },
-  { boardId: 1, wordId: 369, teamId: 3 },
-  { boardId: 1, wordId: 395, teamId: 1 },
-  { boardId: 1, wordId: 332, teamId: 2 },
-  { boardId: 1, wordId: 93, teamId: 3 },
-  { boardId: 1, wordId: 153, teamId: 1 },
-  { boardId: 1, wordId: 278, teamId: 3 },
-  { boardId: 1, wordId: 39, teamId: 4 }
-  ]
-  */
-    /* Await and create the 25 cards that have:
-     - the boardId of the board just created,
-     - the teamIds mapped on correctly,
-     - the pre-chosen wordIds
-    */
-
     // Create the pre-determined 25 cards
     await Card.create({ boardId: board.id, wordId: 198, teamId: team2id });
     await Card.create({ boardId: board.id, wordId: 64, teamId: team2id });
@@ -95,14 +60,6 @@ router.post('/make25DEMO/forRoom/:roomId', async (req: Request, res: Response, n
     await Card.create({ boardId: board.id, wordId: 153, teamId: team1id });
     await Card.create({ boardId: board.id, wordId: 278, teamId: team3id });
     await Card.create({ boardId: board.id, wordId: 39, teamId: team4id });
-
-    // const lucy = await Students.create({
-    //   firstName: 'lucy',
-    //   lastName: 'van ormer',
-    //   email: 'luckylucy@hotmail.com',
-    //   imageUrl: '/img/lucy.jpg',
-    //   gpa: 4.0,
-    // });
 
     // Everything below is the same as non-demo route:
     /****** At this point the cards have been seeded!
