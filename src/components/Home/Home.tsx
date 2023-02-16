@@ -10,12 +10,12 @@ import Footer from '../Footer/Footer';
 function Home() {
   SignInAnonymously();
   return (
-    <div className="homeGrid">
+    <div className="homeContainer">
       <HomeNav />
-      <div className="homeGrid2ndRow">
-        <div className="codenames">CODENAMES</div>
-        <CreateRoomButton />
-      </div>
+
+      <div className="codenames">CODENAMES</div>
+      <CreateRoomButton />
+
       <Footer />
     </div>
   );

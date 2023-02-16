@@ -5,11 +5,16 @@ import { Link } from 'react-router-dom';
 import './homeNav.css';
 const HomeNav = () => {
   return (
-    <div className="homeGrid1stRow">
-      <HomeToPlayPop />
-      <Link to={'/leaderboard'}>
-        <button>Leaderboard</button>
+    <div className="homeNav">
+      <Link to={'/about'}>
+        <button className="aboutBtn">About Us</button>
       </Link>
+      <div>
+        <HomeToPlayPop />
+        <Link to={'/leaderboard'}>
+          <button className="leaderboardBtn">Leaderboard</button>
+        </Link>
+      </div>
     </div>
   );
 };
