@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux';
 import { isEveryRoleFilled } from '../../utils/utilFunctions';
 import { RootState } from '../../store';
 import { PlayerType } from '../../utils/interfaces';
-import './allPlayers.css'
+import './allPlayers.css';
+import Typography from '@mui/material/Typography';
+
 const AllPlayersNav = () => {
   const { allPlayers } = useSelector((state: RootState) => state.allPlayers);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
@@ -19,7 +21,9 @@ const AllPlayersNav = () => {
   return (
     <div className="playersInRoom">
       {allPlayers?.map((player: PlayerType) => (
-        <p key={player.playerId}>{player.username}</p>
+        <Typography sx={{ p: 2 }} key={player.playerId}>
+          {player.username}
+        </Typography>
       ))}
     </div>
   );

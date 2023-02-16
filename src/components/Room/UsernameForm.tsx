@@ -11,11 +11,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../../store/playerSlice';
 import { setHost } from '../../store/gameSlice';
 import './userForm.css';
-
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 interface UsernameFormProps {
-  handleClose: Function;
+  handleClose: (bool: boolean) => void;
 }
-
+const validationSchema = yup.object({
+  username: yup.string().required('Username is required'),
+});
 function UsernameForm({ handleClose }: UsernameFormProps) {
   const dispatch = useDispatch();
   const { roomId } = useParams() as { roomId: string };
@@ -23,19 +26,15 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
 
   // If we have a username in redux slice, start it with that. else, start it with empty string.
-  const [inputtedUsername, setInputtedUsername] = useState<string>(username ? username : '');
   const [usernameSubmissionDone, setUsernameSubmissionDone] = useState<boolean>(false);
-
-  const submitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
-    // TODO: Validation - may want to use formik/yup?
-    // Make sure the username they gave isn't empty / made of only white spaces
-    const trimmedInputtedUsername: string = inputtedUsername.trim();
-    if (trimmedInputtedUsername === '') {
-      console.log('cannot have empty username');
-      // stop now! and display error. user needs to resubmit. - Or use formik/yup
-    } else {
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      username: username ? username : '',
+    },
+    validationSchema,
+    onSubmit: async (values: { username: string }) => {
+      const trimmedInputtedUsername: string = values.username.trim();
       // Update our player's model with this new username
       const bodyToSubmit: { username: string; roomId: string } = {
         username: trimmedInputtedUsername,
@@ -85,31 +84,30 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
       // Change the piece of state that hides this popup
       setUsernameSubmissionDone(true);
       handleClose(false);
-    }
-  };
+    },
+  });
   if (!playerId) return <p>loading user form popup...</p>;
   return (
     <div className="wrapper">
       {!usernameSubmissionDone && (
         <div className="popupContent">
-          <p>Welcome to room {roomId} !</p>
-          <p>Enter a username...</p>
-          <form>
+          <p>Welcome, please enter a username...</p>
+          <form onSubmit={formik.handleSubmit}>
             <input
-              value={inputtedUsername}
-              onChange={(event) => {
-                setInputtedUsername(event.target.value);
-              }}
-              placeholder="username"
+              className={!formik.errors.username ? 'usernameInput' : 'errorUsernameInput'}
+              name="username"
+              type="username"
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter Username"
               autoFocus
             ></input>
-            <button type="submit" onClick={submitHandler}>
-              continue
-            </button>
+            <p className="errorText">{formik.errors.username ? '*Username is required' : ' '}</p>
+            <button type="submit">continue</button>
           </form>
         </div>
       )}
-      {usernameSubmissionDone && <div className="popupContent">Welcome, {inputtedUsername}</div>}
     </div>
   );
 }
