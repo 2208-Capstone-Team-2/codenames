@@ -90,7 +90,7 @@ const RoomView = () => {
         dispatch(setTeam1RemainingCards(game.team1RemainingCards));
         dispatch(setTeam2RemainingCards(game.team2RemainingCards));
         dispatch(setGuessesRemaining(game.guessesRemaining));
-
+      
         if (game.guessesRemaining <= 0) {
           endTurn();
         }
@@ -112,34 +112,23 @@ const RoomView = () => {
         }
 
         if (game.team1RemainingCards === 0) {
-          // set firebase gameStatus to 'complete'
-          // set winner / set loser to redux
-          // Update game state to "complete" in firebase
+          // set firebase gameStatus to 'complete' && respective winner/loser
           update(gameRef, { gameStatus: 'complete' });
-          // Update game state to "complete" in redux
-          dispatch(setGuessesRemaining(0));
-          //Set redux winner to team 1
-          dispatch(setWinner('team-1'));
           set(child(gameRef, 'winner'), 'team-1');
-          //Set redux loser to team 2
-          dispatch(setLoser('team-2'));
           set(child(gameRef, 'loser'), 'team-2');
-          dispatch(setShowResetButton(true));
         }
+
         if (game.team2RemainingCards === 0) {
-          // set firebase gameStatus to 'complete'
-          // set winner / set loser to redux
-          // Update game state to "complete" in firebase
+          // set firebase gameStatus to 'complete' && respective winner/loser
           update(gameRef, { gameStatus: 'complete' });
-          // Update game state to "complete" in redux
-          //Set redux winner to team 2
-          dispatch(setWinner('team-2'));
           set(child(gameRef, 'winner'), 'team-2');
-          dispatch(setGuessesRemaining(0));
-          //Set redux loser to team 1
-          dispatch(setLoser('team-1'));
           set(child(gameRef, 'loser'), 'team-1');
+        }
+
+        if (game.gameStatus === 'complete') {
           dispatch(setShowResetButton(true));
+          dispatch(setWinner(game.winner));
+          dispatch(setLoser(game.loser));
         }
       }
     });
