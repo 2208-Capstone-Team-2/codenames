@@ -45,7 +45,7 @@ const Leaderboard = () => {
   // if (loading) return <CustomLoader />;
   return (
     <div className="leaderboardContainer">
-      <div className="homeButton">
+      <div className="backHomeButton">
         <Link to={'/'}>
           <button>&larr;&nbsp;Home</button>
         </Link>
