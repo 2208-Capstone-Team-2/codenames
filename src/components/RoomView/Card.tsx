@@ -55,10 +55,6 @@ const Card = (word: CardObj) => {
         updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-        /* below sets the cards to 0 and declares opposing team as winner in 
-        roomview seems dishonest bc they dont actually have 0 remaining cards, 
-        but it'll  trigger code that is doing what we want it to in roomview 
-        instead of writing redundant logic*/
         update(gameRef, { gameStatus: 'complete'});
         set(child(gameRef, 'winner'), 'team-2');
         set(child(gameRef, 'loser'), 'team-1');
@@ -140,8 +136,6 @@ const Card = (word: CardObj) => {
     }
   };
 
-  // changing turns depending on who clicks on the end turn button.
-  // only operatives should see this button when its their 'turn'
   const endTurn = () => {
     console.log('ending turn');
     let nextStatus;
