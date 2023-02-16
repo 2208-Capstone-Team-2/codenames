@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import './card.css';
 import { ref, update, get, set, child, push, onValue } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';

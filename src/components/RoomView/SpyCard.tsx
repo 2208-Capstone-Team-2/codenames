@@ -1,5 +1,4 @@
 import React from 'react';
-import './card.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { CardObj } from '../../utils/interfaces';
