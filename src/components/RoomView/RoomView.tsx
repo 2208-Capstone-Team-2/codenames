@@ -197,7 +197,7 @@ const RoomView = () => {
         <Chat />
       </div>
       <Clue />
-      <Loser />
+      {/* <Loser /> */}
       <Winner />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
       {/* {isHost && everyonesHere &&  <SetupGame />*/}

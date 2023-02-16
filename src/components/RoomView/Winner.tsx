@@ -11,48 +11,46 @@ interface TeamInfo {
 const Winner: React.FC = () => {
   const { roomId } = useParams();
   setRoomId(roomId);
+  const { playerId, teamId } = useSelector((state: RootState) => state.player);
+  const { status, winner } = useSelector((state: RootState) => state.game);
+  const { team1Id } = useSelector((state: RootState) => state.teamOne);
+  const { team2Id } = useSelector((state: RootState) => state.teamTwo);
+  const [winnerPopup, setWinnerPopup] = useState(false);
+  const [loserPopup, setLoserPopup] = useState(false);
 
-  const playerId = useSelector((state: RootState) => state.player.playerId);
-  const gameStatus = useSelector((state: RootState) => state.game.status);
-  const [playerIdArray, setPlayerIdArray] = useState<string[]>([]);
-  const [isVisible, setIsVisible] = useState(true);
-  const winner = useSelector((state: RootState) => state.game.winner);
+  const playerWon = (winner === 'team-1' && teamId === team1Id) || (winner === 'team-2' && teamId === team2Id)
+  const playerLost = (winner === 'team-1' && teamId !== team1Id) || (winner === 'team-2' && teamId !== team2Id)
 
-// i started refactoring this since we now have access to teamIds but don't want to touch too much of heidi's code
-// we should be able to just check if the player is on the team that won in redux instead of making a firebase call, but either way works!
   useEffect(() => {
-      if (winner !== '') {
-        const teamThatWonRef = ref(database, `rooms/${roomId}/${winner}/`);
-        get(teamThatWonRef).then(async (winningTeamSnapshot) => {
-          if (winningTeamSnapshot.exists()) {
-            const winningMembers = winningTeamSnapshot.val();
-            console.log({winningMembers})
-            const getPlayerIds = (obj: TeamInfo): string[] => {
-              let playerIds: string[] = [];
-              for (const key in obj) {
-                if (obj[key].hasOwnProperty('playerId')) {
-                  playerIds.push(obj[key].playerId);
-                } else {
-                  playerIds = playerIds.concat(getPlayerIds(obj[key]));
-                }
-              }
-              return playerIds;
-            };
-            setPlayerIdArray(getPlayerIds(winningMembers));
-          }
-        });
+    if (winner !== '') {
+      if (playerWon) {
+        setWinnerPopup(true);
       }
-  }, [winner]);
+      if (playerLost) {
+        setLoserPopup(true);
+      }
+    }
+  }, [winner, teamId]);
 
-  return isVisible && playerIdArray.includes(playerId) && gameStatus === 'complete' ? (
-    <div className="winner">
-      <h1>Congratulations! Your team won! Play again?</h1>
-      <button className="closeButton" onClick={() => setIsVisible(false)}>
-        X
-      </button>
-    </div>
-  ) : (
-    <div />
+  return (
+    <>
+      {winnerPopup && status === 'complete' && (
+        <div className="winner">
+          <h1>Congratulations! Your team won! Play again?</h1>
+          <button className="closeButton" onClick={() => setWinnerPopup(false)}>
+            X
+          </button>
+        </div>
+      )}
+      {loserPopup && status === 'complete' && (
+        <div className="loser">
+          <h1>Your team lost! Play again!</h1>
+          <button className="closeButton" onClick={() => setLoserPopup(false)}>
+            X
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 export default Winner;
