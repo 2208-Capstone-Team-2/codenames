@@ -3,7 +3,7 @@ import CreateRoomButton from './CreateRoomButton';
 import SignInAnonymously from '../FirebaseAuth/SignInAnonymously';
 import HomeNav from './HomeNavLinks/HomeNav';
 import './homepage.css';
-import ClueTestingDesign from '../RoomView/clue/ClueTestingDesign';
+import Footer from '../Footer/Footer';
 
 //idk our static folder is so weird and I can't get the image to show
 
@@ -15,8 +15,8 @@ function Home() {
       <div className="homeContainer">
         <div className="codenames">CODENAMES</div>
         <CreateRoomButton />
-        {/* <ClueTestingDesign /> */}
       </div>
+      <Footer />
     </div>
   );
 }
