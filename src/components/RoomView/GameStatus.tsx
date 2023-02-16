@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { RootState } from '../../store';
 import { child, update, ref } from 'firebase/database';
 import { database } from '../../utils/firebase';
+import './gameStatus.css'
 
 const GameStatus = () => {
   const {status, guessesRemaining, host} = useSelector((state: RootState) => state.game);
@@ -12,12 +13,14 @@ const GameStatus = () => {
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const [playerNote, setPlayerNote] = useState<string>('');
 
+  // firebase references
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let hostRef = ref(database, `rooms/${roomId}/host`);
+
+  // possible game status strings
   const otherTeamSpymasterNote: string = 'The opponent spymaster is playing...wait for your turn';
   const sameTeamSpymasterNote: string = 'Wait for spymaster to give you a clue';
   const spyGivingClueNote: string = 'give your operatives a clue';
-
   const sameTeamOperativesNote: string = 'Your operatives are guessing now';
   const otherTeamOperativesNote: string = 'the opponent operative is playing...wait for your turn';
   const operativeGuessingNote: string = 'guess a word or click end turn';
@@ -137,20 +140,17 @@ const GameStatus = () => {
   const gameReady = (status === 'ready')
   const gameComplete = (status === 'complete')
 
-
     return (
-
-      
       <div className="gameStatusContainer">
         {gameReady && <p className="gameStatusItem">Waiting to begin the game!</p>}
         {gameComplete && <p className="gameStatusItem">Game over!</p>}
         {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
         {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
-        {!host && <p className="gameStatusItem">
-          The host has left, be <button className="claimHostButton" onClick={claimHost}>New Host</button> for next game.
+        {!host && <p className="gameStatusItem claimHostText">
+          The host left the room! 
+          <button className="claimHostButton" onClick={claimHost}>Claim Host</button> for the next game.
         </p>}
       </div>
-      
     );
 };
 

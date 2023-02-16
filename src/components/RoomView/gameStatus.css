@@ -1,0 +1,35 @@
+.gameStatusContainer {
+  font-family: 'Montserrat';
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: fit-content;
+  padding: 0rem 1.25rem 0rem 1rem;
+  margin: 2% auto;
+  background-color: #483d3d4a;
+  border-radius: 40px;
+  box-shadow: 4px 4px black;
+}
+.gameStatusItem {
+  align-self: center;
+  margin-right: -5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+}
+.gameStatus:last-child {
+  margin-left: 10%;
+}
+.claimHostButton {
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  background-color: white;
+  color: black;
+  font-family: 'Oswald';
+  font-size: 1rem;
+  border-radius: 5px 10px;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
