@@ -87,13 +87,7 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
       handleClose(false);
     },
   });
-  if (!playerId)
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <p>Loading...</p>
-        <CustomLoader classname="loaderSmall" colorPair="redBlue" />
-      </div>
-    );
+  if (!playerId) return <CustomLoader classname="loaderSmall" colorPair="redBlue" />;
   return (
     <div className="wrapper">
       {!usernameSubmissionDone && (
