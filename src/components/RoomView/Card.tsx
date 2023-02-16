@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import './card.css';
 import { ref, update, get, set, child, push } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
-import { useState } from 'react';
 import { RootState } from '../../store';
 import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
 import { MouseEvent } from 'react';
+import ReactCardFlip from 'react-card-flip';
+import allCardStyles from './cardStyles';
 
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
@@ -18,7 +18,6 @@ const Card = (word: CardObj) => {
   const gameStatus = useSelector((state: RootState) => state.game.status);
   const assassinTeamId = useSelector((state: RootState) => state.assassinAndBystander.assassinTeamId);
   const bystanderTeamId = useSelector((state: RootState) => state.assassinAndBystander.bystanderTeamId);
-  const [teamsCard, setTeamsCard] = useState<number>(0);
   const guessesRemaining = useSelector((state: RootState) => state.game.guessesRemaining);
 
   // firebase room  & players reference
@@ -34,25 +33,19 @@ const Card = (word: CardObj) => {
 
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
-    const target: string = (e.target as HTMLButtonElement).value;
-    let wordId = Number(target);
+    if (word.isVisibleToAll) return; // Don't let player submit answer for an already revealed card
+    let wordId = word.id;
     // update word to visible on BACKEND
     let cardToReveal = await axios.put(`/api/card/${wordId}`, { roomId });
     let revealedCard = cardToReveal.data;
     let cardBelongsTo = revealedCard.teamId;
-
-    setTeamsCard(cardBelongsTo);
 
     //  if its team 1 ops turn and they are the one who clicked on the card...
     if (gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId)) {
       // update word to visible on FIREBASE
       get(singleCardRef).then((snapshot) => {
         const doesCardExist: boolean = snapshot.exists();
-        if (doesCardExist) {
-          update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-        } else {
-          console.log('no card');
-        }
+        if (doesCardExist) update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
       });
 
       if (cardBelongsTo === assassinTeamId) {
@@ -160,25 +153,20 @@ const Card = (word: CardObj) => {
     }
   };
 
+  let cardStyles = {};
+  if (word.teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
+  if (word.teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
+  if (word.teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
+  if (word.teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
+  if (!word.teamId) cardStyles = allCardStyles.unknownCardStyles;
+
   return (
-    <>
-      {/* if card hasnt been revealed, show this beige version and submit answer on click */}
-      {!word.isVisibleToAll && (
-        <button className="notYetRevealed" value={word.id} onClick={submitAnswer}>
-          {word.wordString}
-        </button>
-      )}
-      {/* if it is visible, show the color for the team, and make it not clickable 
-      (buttons made them more visually appealing for the time being but we can edit css obviously) */}
-      {word.isVisibleToAll && word.teamId === team1Id && <button className="redRevealed">{word.wordString}</button>}
-      {word.isVisibleToAll && word.teamId === team2Id && <button className="blueRevealed">{word.wordString}</button>}
-      {word.isVisibleToAll && word.teamId === bystanderTeamId && (
-        <button className="beigeRevealed">{word.wordString}</button>
-      )}
-      {word.isVisibleToAll && word.teamId === assassinTeamId && (
-        <button className="blackRevealed">{word.wordString}</button>
-      )}
-    </>
+    <div onClick={submitAnswer}>
+      <ReactCardFlip isFlipped={word.isVisibleToAll} cardStyles={cardStyles}>
+        <div> {word.wordString} </div>
+        <div> back of card!!</div>
+      </ReactCardFlip>
+    </div>
   );
 };
 

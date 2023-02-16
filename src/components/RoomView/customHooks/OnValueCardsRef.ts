@@ -26,6 +26,7 @@ function OnValueCardsRef() {
 
   useEffect(() => {
     // Look to see if there are cards already loaded for the room
+
     onValue(cardsRef, async (cardSnapshot) => {
       // for some reason, i'm having trouble accessing the redux teams
       //  data even though it exists on firebase and redux
@@ -34,8 +35,8 @@ function OnValueCardsRef() {
         get(teamOneSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
-
             if (spymaster.playerId === playerId) {
+              console.log('setting spy board...');
               //get set of cards with team ids from backend and set spymaster words
               let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
               let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -56,6 +57,7 @@ function OnValueCardsRef() {
             }
           }
         });
+
         get(teamTwoSpymasterRef).then(async (snapshot) => {
           if (snapshot.exists()) {
             let spymaster = snapshot.val();
@@ -81,6 +83,7 @@ function OnValueCardsRef() {
             }
           }
         });
+
         get(teamOneOperativesRef).then((snapshot) => {
           if (snapshot.exists()) {
             let operatives = snapshot.val();
@@ -94,6 +97,7 @@ function OnValueCardsRef() {
             }
           }
         });
+
         get(teamTwoOperativesRef).then((snapshot) => {
           if (snapshot.exists()) {
             let operatives = snapshot.val();
@@ -109,10 +113,10 @@ function OnValueCardsRef() {
         });
         get(nestedPlayerRef).then((snapshot) => {
           if (snapshot.exists()) {
-              console.log('setting spectator board...');
-              const cardsFromSnapshot = cardSnapshot.val();
-              const values = Object.values(cardsFromSnapshot);
-              dispatch(setWordsInGame(values));
+            console.log('setting spectator board...');
+            const cardsFromSnapshot = cardSnapshot.val();
+            const values = Object.values(cardsFromSnapshot);
+            dispatch(setWordsInGame(values));
           }
         });
       }
