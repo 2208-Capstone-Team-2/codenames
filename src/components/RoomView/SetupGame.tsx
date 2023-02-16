@@ -80,7 +80,7 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  if (isLoading) return <CustomLoader classname="loaderSmall" colorPair="redBlue" />;
+  if (isLoading) return <CustomLoader classname="loaderSmall" colorPair="greyBeige" />;
   else
     return (
       <div className="setUpContainer">
