@@ -38,7 +38,7 @@ function CreateRoomButton() {
     return navigate(`/room/${roomId}`);
   };
 
-  if (loading) return <CustomLoader classname="loaderSmall" colorPair="redBlue" />;
+  if (loading) return <CustomLoader classname="loaderSmall" colorPair="greyBeige" />;
   return (
     <button className="startGameBtn" onClick={clickHandler}>
       Create Room

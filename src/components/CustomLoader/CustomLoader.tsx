@@ -2,31 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { GridLoader, SquareLoader, BounceLoader } from 'react-spinners';
 import './customLoader.css';
 const CustomLoader = (props: { colorPair: any; classname: string }) => {
-  // Color values
-  const red = '#8c292a';
-  const blue = '#355e7f';
-  const grey = '#DCDCDC';
-  const beige = '#e2c78d';
-
   // Props
   const classname = props.classname; // this will be either loaderLarge or loaderSmall
   const colorPair = props.colorPair; // this will be either greyBeige or redBlue
+  // Color values
+  const grey = '#DCDCDC';
+  const beige = '#e2c78d';
+  const red = '#8c292a';
+  const blue = '#355e7f';
 
-  // State
+  // Default 1st and 2nd colors are grey and beige
   let firstColor = grey;
-  if (colorPair === 'redBlue') firstColor = red;
+  let secondColor = beige;
+  if (colorPair === 'redBlue') {
+    firstColor = red;
+    secondColor = blue;
+  }
+
   const [color, setColor] = useState(firstColor);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (colorPair === 'greyBeige') {
-        if (color === grey) setColor(beige);
-        else setColor(grey);
-      }
-      if (colorPair === 'redBlue') {
-        if (color === red) setColor(blue);
-        else setColor(red);
-      }
+      if (color === firstColor) setColor(secondColor);
+      else setColor(firstColor);
     }, 1000);
     return () => clearInterval(interval);
   }, [color]);

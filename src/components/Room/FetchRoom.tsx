@@ -38,8 +38,7 @@ function FetchRoom() {
     fetchRoom();
   }, []);
 
-  if (loading) return <CustomLoader classname="loaderLarge" colorPair="beigeGrey" />;
-  // if (loading) return <p>Loading room information...</p>;
+  if (loading) return <CustomLoader classname="loaderLarge" colorPair="greyBeige" />;
   else return <div></div>;
 }
 

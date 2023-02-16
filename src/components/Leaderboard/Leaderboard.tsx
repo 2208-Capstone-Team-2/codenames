@@ -42,7 +42,7 @@ const Leaderboard = () => {
   useEffect(() => {
     getPlayers();
   }, []);
-  if (loading) return <CustomLoader classname="loaderLarge" colorPair="beigeGrey" />;
+  if (loading) return <CustomLoader classname="loaderLarge" colorPair="greyBeige" />;
   return (
     <div className="leaderboardContainer">
       <div className="backHomeButton">

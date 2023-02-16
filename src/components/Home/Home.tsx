@@ -6,8 +6,6 @@ import './homepage.css';
 import ClueTestingDesign from '../RoomView/clue/ClueTestingDesign';
 import CustomLoader from '../CustomLoader/CustomLoader';
 
-//idk our static folder is so weird and I can't get the image to show
-
 function Home() {
   SignInAnonymously();
   return (
@@ -16,8 +14,8 @@ function Home() {
       <div className="homeContainer">
         <div className="codenames">CODENAMES</div>
         <CreateRoomButton />
-        <CustomLoader classname="loaderSmall" colorPair="greyBeige" />
-        <CustomLoader classname="loaderSmall" colorPair="redBlue" />
+        {/* <CustomLoader classname="loaderSmall" colorPair="greyBeige" />
+        <CustomLoader classname="loaderSmall" colorPair="redBlue" /> */}
       </div>
     </div>
   );

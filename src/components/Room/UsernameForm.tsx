@@ -13,6 +13,7 @@ import { setHost } from '../../store/gameSlice';
 import './userForm.css';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import CustomLoader from '../CustomLoader/CustomLoader';
 interface UsernameFormProps {
   handleClose: (bool: boolean) => void;
 }
@@ -86,7 +87,13 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
       handleClose(false);
     },
   });
-  if (!playerId) return <p>loading user form popup...</p>;
+  if (!playerId)
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <p>Loading...</p>
+        <CustomLoader classname="loaderSmall" colorPair="redBlue" />
+      </div>
+    );
   return (
     <div className="wrapper">
       {!usernameSubmissionDone && (
