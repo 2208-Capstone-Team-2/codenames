@@ -1,11 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { ref, update, get, set, child, push } from 'firebase/database';
+import { ref, update, get, set, child, push, onValue } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import axios from 'axios';
 import { RootState } from '../../store';
 import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
 import { MouseEvent } from 'react';
+import { revealCard } from '../../store/wordsInGameSlice';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import allCardStyles from './cardStyles';
 
@@ -30,6 +33,8 @@ const Card = (word: CardObj) => {
   const teamTwoOperativesIds = Object.values(teamTwoOperatives).map((operative: Operative) => {
     return operative.playerId;
   });
+
+  const dispatch = useDispatch();
 
   const submitAnswer = async (e: MouseEvent) => {
     e.preventDefault();
@@ -151,6 +156,19 @@ const Card = (word: CardObj) => {
       }
     }
   };
+
+  useEffect(() => {
+    onValue(singleCardRef, (snapshot) => {
+      if (snapshot.exists()) {
+        let revealed = snapshot.val().isVisibleToAll;
+        let wordId = snapshot.val().id;
+        let teamId = snapshot.val().teamId;
+        if (revealed) {
+          dispatch(revealCard({ wordId, teamId }));
+        }
+      }
+    });
+  }, []);
 
   let cardStyles = {};
   if (word.teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
