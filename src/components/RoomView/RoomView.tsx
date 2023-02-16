@@ -42,8 +42,7 @@ import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
 // CSS:
 import './roomView.css';
-import words from 'random-words';
-import boardSetting from './customHooks/boardSetting';
+
 import axios from 'axios';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces'; // For TS
 
@@ -106,7 +105,6 @@ const RoomView = () => {
           onValue(cardsRef, async (cardSnapshot) => {
             if (cardSnapshot.exists()) {
               if (playerIsSpymaster) {
-                console.log('setting spy board...');
                 off(cardsRef); // don't listen to this listener anymore.
                 //get set of cards with team ids from backend and set spymaster words
                 let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
@@ -126,7 +124,6 @@ const RoomView = () => {
                 const values = Object.values(wordsWithTeamIds);
                 dispatch(setWordsInGame(values));
               } else {
-                console.log('setting opertive board...');
                 off(cardsRef); // don't listen to this listener anymore.
                 //update our redux to reflect that
                 const cardsFromSnapshot = cardSnapshot.val();
