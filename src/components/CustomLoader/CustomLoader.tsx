@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { GridLoader, SquareLoader, BounceLoader } from 'react-spinners';
 import './customLoader.css';
 const CustomLoader = () => {
-  const [color, setColor] = useState('black');
+  const [color, setColor] = useState('#DCDCDC');
   useEffect(() => {
     setInterval(() => {
-      if (color === '#517992') {
-        setColor('#8e494a');
-      } else if (color === '#8e494a') {
-        setColor('#517992');
+      if (color === '#DCDCDC') {
+        setColor('#e2c78d');
+      } else if (color === '#e2c78d') {
+        setColor('#DCDCDC');
       }
-    }, 1200);
+    }, 1000);
   });
   return (
     <div className="loader">
