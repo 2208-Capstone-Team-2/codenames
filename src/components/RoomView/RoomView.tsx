@@ -69,6 +69,7 @@ const RoomView = () => {
   const everyonesHere = isEveryRoleFilled(teamOneOperatives, teamTwoOperatives, teamOneSpymaster, teamTwoSpymaster);
 
   const playerIsSpymaster = teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId;
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     // whenever users are added to specific room, update frontend redux store
@@ -99,14 +100,10 @@ const RoomView = () => {
         /* when game is 'reset' it sets the firebase game status 
         to 'ready' which triggers the redux cleanup below */
         if (game.gameStatus === 'ready') {
-          // OnValueCardsRef(); // re listen incase it got turned off from a previous game session
-          // boardSetting(); //listen for all cards being loaded
-          // ONVALUE START
           onValue(cardsRef, async (cardSnapshot) => {
             if (cardSnapshot.exists()) {
               if (playerIsSpymaster) {
-                off(cardsRef); // don't listen to this listener anymore.
-                //get set of cards with team ids from backend and set spymaster words
+                off(cardsRef); // don't listen to this listener anymore
                 let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
                 let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
                 spyWords.data.forEach(
@@ -125,7 +122,6 @@ const RoomView = () => {
                 dispatch(setWordsInGame(values));
               } else {
                 off(cardsRef); // don't listen to this listener anymore.
-                //update our redux to reflect that
                 const cardsFromSnapshot = cardSnapshot.val();
                 const values = Object.values(cardsFromSnapshot);
                 dispatch(setWordsInGame(values));
@@ -180,8 +176,7 @@ const RoomView = () => {
     });
   }, [status]);
 
-  // this function works everywhere else without having to 'get' the gamestatus from firebase
-  // it would NOT cooperate or pull accurate game status from redux. :|
+
   const endTurn = () => {
     let nextStatus;
     // get gameref
@@ -214,7 +209,6 @@ const RoomView = () => {
   OnValueTeamDispatch();
   OnValueCardsRef();
 
-  //const unSubscribeAllCardsListener = boardSetting();
   return (
     <div className="roomViewContainer">
       <Navbar />
@@ -232,12 +226,7 @@ const RoomView = () => {
       <div className="flexBox">
         <TeamOneBox />
         <div className="boardContainer">
-          {/* player is operative && show operative board, otherwise theyre a spymaster*/}
-          {teamOneSpymaster?.playerId === playerId || teamTwoSpymaster?.playerId === playerId ? (
-            <SpyMasterBoard />
-          ) : (
-            <OperativeBoard />
-          )}
+          {playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}
         </div>
         <TeamTwoBox />
         <div className="break"></div>

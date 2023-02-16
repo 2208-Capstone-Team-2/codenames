@@ -26,7 +26,6 @@ function OnValueCardsRef() {
     onValue(cardsRef, async (cardSnapshot) => {
       if (cardSnapshot.exists()) {
         if (playerIsSpymaster) {
-          console.log('setting spy board...');
           off(cardsRef); // don't listen to this listener anymore.
           //get set of cards with team ids from backend and set spymaster words
           let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
@@ -46,7 +45,6 @@ function OnValueCardsRef() {
           const values = Object.values(wordsWithTeamIds);
           dispatch(setWordsInGame(values));
         } else {
-          console.log('setting operative board...');
           off(cardsRef); // don't listen to this listener anymore.
           //update our redux to reflect that
           const cardsFromSnapshot = cardSnapshot.val();
