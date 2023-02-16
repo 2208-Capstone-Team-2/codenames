@@ -36,15 +36,63 @@
   background-color: #8c292a;
   cursor: pointer;
 }
-
-@media only screen and (max-width: 600px) {
+/* Mobile screen views */
+@media only screen and (max-width: 500px) {
   .homeNav {
     padding: 12px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
   }
-  .htpPop:hover .leaderboardBtn:hover .aboutBtn:hover {
+  .htpPop:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+  .leaderboardBtn:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+  .aboutBtn:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+  .htpPop .leaderboardBtn .aboutBtn {
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    border-top: solid black 1px;
+    border-left: solid black 1px;
+    border-right: solid black 3px;
+    border-bottom: solid black 3px;
+    border-radius: 5px 10px;
+    font-family: 'oswald';
+    font-size: 15px;
+    padding: 5px;
+    color: black;
+  }
+}
+/* Ipad, vertical */
+@media only screen and (max-width: 800px) {
+  .homeNav {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .htpPop:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+  .leaderboardBtn:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+  .aboutBtn:hover {
     background-color: white;
     color: black;
     cursor: pointer;
