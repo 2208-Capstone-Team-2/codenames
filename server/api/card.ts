@@ -69,32 +69,32 @@ router.post('/make25DEMO/forRoom/:roomId', async (req: Request, res: Response, n
      - the pre-chosen wordIds
     */
 
-    const card1 = await Card.create({ boardId: board.id, wordId: 198, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 64, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 52, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 27, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 90, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 183, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 316, teamId: team3id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 174, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 169, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 376, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 367, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 284, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 312, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 24, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 91, teamId: team3id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 58, teamId: team3id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 116, teamId: team3id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 201, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 369, teamId: team3id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 395, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 332, teamId: team2id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 93, teamId: team3id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 153, teamId: team1id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 278, teamId: team3id });
-    const card1 = await Card.create({ boardId: board.id, wordId: 39, teamId: team4id });
-    // do until card25
+    // Create the pre-determined 25 cards
+    await Card.create({ boardId: board.id, wordId: 198, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 64, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 52, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 27, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 90, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 183, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 316, teamId: team3id });
+    await Card.create({ boardId: board.id, wordId: 174, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 169, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 376, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 367, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 284, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 312, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 24, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 91, teamId: team3id });
+    await Card.create({ boardId: board.id, wordId: 58, teamId: team3id });
+    await Card.create({ boardId: board.id, wordId: 116, teamId: team3id });
+    await Card.create({ boardId: board.id, wordId: 201, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 369, teamId: team3id });
+    await Card.create({ boardId: board.id, wordId: 395, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 332, teamId: team2id });
+    await Card.create({ boardId: board.id, wordId: 93, teamId: team3id });
+    await Card.create({ boardId: board.id, wordId: 153, teamId: team1id });
+    await Card.create({ boardId: board.id, wordId: 278, teamId: team3id });
+    await Card.create({ boardId: board.id, wordId: 39, teamId: team4id });
 
     // const lucy = await Students.create({
     //   firstName: 'lucy',

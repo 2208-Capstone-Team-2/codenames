@@ -53,6 +53,9 @@ const SetupGame = () => {
   //-------------get the res.send data from the backend and set it up in the store
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    // Demo version:
+    //const { data } = await axios.post(`/api/card/make25DEMO/forRoom/${roomId}`);
+    // Non-Demo version:
     const { data } = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackIds });
     const updates: any = {};
     data.forEach(
