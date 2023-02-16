@@ -147,7 +147,7 @@ const GameStatus = () => {
         {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
         {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
         {!host && <p className="gameStatusItem">
-          The host has left, need a <button className="claimHostButton" onClick={claimHost}>New Host</button> to begin game.
+          The host has left, be <button className="claimHostButton" onClick={claimHost}>New Host</button> for next game.
         </p>}
       </div>
       
