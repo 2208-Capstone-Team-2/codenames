@@ -59,7 +59,10 @@ const Card = (word: CardObj) => {
         roomview seems dishonest bc they dont actually have 0 remaining cards, 
         but it'll  trigger code that is doing what we want it to in roomview 
         instead of writing redundant logic*/
-        update(gameRef, { gameStatus: 'complete', team2RemainingCards: 0 });
+        update(gameRef, { gameStatus: 'complete'});
+        set(child(gameRef, 'winner'), 'team-2');
+        set(child(gameRef, 'loser'), 'team-1');
+
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory: string = 'Team 1 hits a bystander! Turn is over!';
@@ -102,7 +105,9 @@ const Card = (word: CardObj) => {
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
         // team 1 wins if team 2 hits assassin. logic is triggered on roomview
-        update(gameRef, { gameStatus: 'complete', team1RemainingCards: 0 });
+        update(gameRef, { gameStatus: 'complete'});
+        set(child(gameRef, 'winner'), 'team-1');
+        set(child(gameRef, 'loser'), 'team-2');
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory: string = 'team 2 hits a bystander! Turn is over!';
