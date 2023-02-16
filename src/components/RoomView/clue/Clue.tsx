@@ -44,7 +44,7 @@ const Clue = () => {
     setClueNumber(Number(event.target.value));
   };
 
-  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     const regex = /[\s-]+/g;
     if (clueString === '') {
@@ -143,6 +143,7 @@ const Clue = () => {
             imRedSpy ? 'clue-submit-button dark-red-background-color' : 'clue-submit-button dark-blue-background-color'
           }
           onClick={handleSubmit}
+          onKeyUp={(e) => { e.keyCode===13 && handleSubmit(e) } }
         >
           Submit Clue
         </button>
