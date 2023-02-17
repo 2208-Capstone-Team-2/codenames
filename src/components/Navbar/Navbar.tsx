@@ -7,13 +7,13 @@ import WelcomeBoard from './WelcomeBoard';
 import ResetsDrop from './ResetDrop';
 const Navbar = () => {
   return (
-    <div className="navbarContainer">
+    <div className="navRow">
       <div className="navBarButtons">
         <AllPlayersDrop />
         <TimerNav />
       </div>
       <WelcomeBoard />
-      <div className="navBarButtons">
+      <div className="resetAndHTPBtns">
         <ResetsDrop />
         <HowToPlayDrop />
       </div>

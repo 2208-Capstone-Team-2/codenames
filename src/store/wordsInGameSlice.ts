@@ -16,8 +16,16 @@ export const wordsInGameSlice = createSlice({
     setWordsInGame: (state, action) => {
       state.wordsInGame = action.payload;
     },
+    revealCard: (state, action) => {
+      let found = state.wordsInGame.find(card => card.id === action.payload.wordId);
+      let teamId = action.payload.teamId
+     if (found) {
+      found.isVisibleToAll = true
+      found.teamId = teamId
+     } 
+    },
   },
 });
 
-export const { setWordsInGame } = wordsInGameSlice.actions;
+export const { setWordsInGame, revealCard } = wordsInGameSlice.actions;
 export default wordsInGameSlice.reducer;

@@ -7,6 +7,7 @@ import { RootState } from '../../store';
 import { setShowStartGame } from '../../store/gameSlice';
 import { useDispatch } from 'react-redux';
 import './roomView.css';
+import CustomLoader from '../CustomLoader/CustomLoader';
 
 interface WordPackType {
   id: number;
@@ -53,6 +54,9 @@ const SetupGame = () => {
   //-------------get the res.send data from the backend and set it up in the store
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    // Demo version:
+    // const { data } = await axios.post(`/api/card/make25DEMO/forRoom/${roomId}`);
+    // Non-Demo version:
     const { data } = await axios.post(`/api/card/make25/forRoom/${roomId}`, { selectedWordPackIds });
     const updates: any = {};
     data.forEach(
@@ -79,29 +83,27 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <CustomLoader classname="loaderSmall" colorPair="greyBeige" />;
   else
     return (
-      <div className="setUpContainer">
-        <div className="setUpGame">
-          Please select a pack of words
-          <form className="setUpForm" onSubmit={submitHandler}>
-            {wordpacks.map((wordpack) => (
-              <div className="wordPackSelection" key={wordpack.id}>
-                <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
-                <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
-              </div>
-            ))}
-            <button
-              className="startGameButton"
-              type="submit"
-              disabled={selectedWordPackIds.length === 0 ? true : false}
-              onClick={startGame}
-            >
-              Start game
-            </button>
-          </form>
-        </div>
+      <div className="setUpGame">
+        Please select a pack of words
+        <form className="setUpForm" onSubmit={submitHandler}>
+          {wordpacks.map((wordpack) => (
+            <div className="wordPackSelection" key={wordpack.id}>
+              <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
+              <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
+            </div>
+          ))}
+          <button
+            className="startGameButton"
+            type="submit"
+            disabled={selectedWordPackIds.length === 0 ? true : false}
+            onClick={startGame}
+          >
+            Start game
+          </button>
+        </form>
       </div>
     );
 };

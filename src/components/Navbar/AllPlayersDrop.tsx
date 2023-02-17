@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
 import AllPlayersNav from './AllPlayersNav';
 import './navbar.css';
 import { createTheme } from '@mui/material';
@@ -20,10 +19,9 @@ export default function BasicPopover() {
   const id = open ? 'simple-popover' : undefined;
   const theme = createTheme({
     components: {
-      // Name of the component
       MuiPopover: {
         styleOverrides: {
-          //Most stylings should go here
+          // Most stylings should go here
           paper: {
             border: '1px solid black',
             padding: 0,
@@ -55,9 +53,7 @@ export default function BasicPopover() {
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}>Players In Room</div>
-          <Typography sx={{ p: 2 }}>
-            <AllPlayersNav />
-          </Typography>
+          <AllPlayersNav />
         </Popover>
       </ThemeProvider>
     </div>

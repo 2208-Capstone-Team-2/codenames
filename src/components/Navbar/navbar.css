@@ -1,4 +1,4 @@
-.navbarContainer {
+.navRow {
   font-weight: 500;
   display: flex;
   justify-content: space-between;
@@ -9,6 +9,7 @@
   height: 50px;
   border-radius: 5px;
   font-size: 16px;
+  grid-area: topBar;
 }
 .welcomeBoard {
   font-family: 'Oswald';
@@ -56,38 +57,36 @@
   width: 30px;
   border-radius: 50%;
 }
-.gameStatusClaimHost {
-  font-family: 'Montserrat';
-  color: white;
-  display: flex;
-  height: fit-content;
-  justify-content: center;
-  align-items: center;
-  margin: 2% auto 5%;
-  background-color: #483d3d4a;
-  height: 40px;
-  width: 70vw;
-  border-radius: 40px;
-  box-shadow: 4px 4px black;
-}
-.gameStatus {
-  align-self: center;
-  margin-right: -5%;
+.copyBtn {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid black;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
-.gameStatus:last-child {
-  margin-left: 10%;
+.resetAndHTPBtns {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-grow: 0.1;
 }
-.gameStatusClaimHost button {
+.resetAndHTPBtns button {
+  width: fit-content;
+  height: 30px;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
   border-right: solid black 3px;
   border-bottom: solid black 3px;
-  background-color: white;
-  color: black;
-  width: fit-content;
-  padding: 1px 5px;
-  font-family: 'Oswald';
-  font-size: 16px;
   border-radius: 5px 10px;
+  font-family: 'oswald';
 }

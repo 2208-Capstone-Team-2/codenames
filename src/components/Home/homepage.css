@@ -1,3 +1,21 @@
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 130%;
+  }
+}
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(255, 255, 255);
+  }
+}
 @font-face {
   font-family: myFirstFont;
   src: url('./fonts/death-from-above-font/DeathFromAbove-Ow9P.ttf') format('truetype');
@@ -16,12 +34,11 @@ body {
   font-family: myFirstFont;
   letter-spacing: 8px;
   color: white;
-  margin-bottom: 50px;
+  margin-bottom: 2%;
   user-select: none;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   border-right: 0.15em solid rgb(255, 255, 255); /* The typwriter cursor */
   white-space: nowrap; /* Keeps the content on a single line */
-
   animation: typing 1.5s steps(12, end), blink-caret 0.75s step-end infinite;
 }
 
@@ -35,7 +52,7 @@ body {
   align-items: center;
   justify-content: center;
   justify-items: center;
-  height: 100vh;
+  height: 90vh;
   width: 30%;
   margin: auto;
 }
@@ -50,22 +67,75 @@ body {
   justify-content: center;
   justify-items: center;
 }
-
-@keyframes typing {
-  from {
-    width: 0;
+.startGameBtn {
+  width: fit-content;
+  height: 50px;
+  font-size: 20px;
+  padding: 5px 20px;
+  background-color: white;
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 10px;
+  font-family: 'oswald';
+}
+.startGameBtn:hover {
+  cursor: pointer;
+  background-color: #e2c78d;
+}
+@media only screen and (max-width: 500px) {
+  body {
+    overflow: hidden;
   }
-  to {
-    width: 130%;
+  .codenames {
+    font-size: 24px;
+    font-family: myFirstFont;
+    letter-spacing: 8px;
+    color: white;
+    margin-bottom: 2%;
+    user-select: none;
+    animation: none;
+    white-space: nowrap;
+    border-right: none;
+  }
+  .homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    height: 90vh;
+    width: 90vw;
+    margin: auto;
+    overflow-y: none;
   }
 }
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
+/* Ipad, vertical */
+@media only screen and (max-width: 800px) {
+  body {
+    overflow: hidden;
   }
-  50% {
-    border-color: rgb(255, 255, 255);
+  .codenames {
+    font-size: 46px;
+    font-family: myFirstFont;
+    letter-spacing: 8px;
+    color: white;
+    margin-bottom: 2%;
+    user-select: none;
+    animation: none;
+    white-space: nowrap;
+    border-right: none;
+  }
+  .homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    height: 100vh;
+    width: 90vw;
+    margin: auto;
+    overflow-y: none;
   }
 }
