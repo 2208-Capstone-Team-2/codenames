@@ -43,9 +43,9 @@ import { setCurrentClue } from '../../store/clueSlice';
 import { RootState } from '../../store/index.js';
 // CSS:
 import './roomView.css';
-
 import axios from 'axios';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces'; // For TS
+
 
 const RoomView = () => {
   // for room nav
@@ -57,13 +57,14 @@ const RoomView = () => {
   const { playerId, username, isHost } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const { host, showStartGame, status } = useSelector((state: RootState) => state.game);
-  const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
+
+  const { showStartGame } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
-  let hostRef = ref(database, `rooms/${roomId}/host`);
+  const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
   const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -188,10 +189,7 @@ const RoomView = () => {
     });
   };
 
-  const claimHost = () => {
-    update(hostRef, { playerId, username });
-    update(child(playersInRoomRef, playerId), { playerId, username, isHost: true });
-  };
+
 
   OnValueHostRef();
   OnValueGameHistoryRef();
@@ -201,16 +199,7 @@ const RoomView = () => {
   return (
     <div className="roomViewGrid">
       <Navbar />
-      <div className="gameStatusContainer">
-        <GameStatus />
-        <div className="gameStatus">
-          {!host && (
-            <p>
-              The host has left, need a <button onClick={claimHost}>New Host</button> to begin game.
-            </p>
-          )}
-        </div>
-      </div>
+      <GameStatus />
       {isHost && showStartGame && <SetupGame />}
       <TeamOneBox />
        <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
