@@ -6,22 +6,22 @@ import { database } from '../../utils/firebase';
 import { setTeamOneOperatives, setTeamOneSpymaster } from '../../store/teamOneSlice';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../store';
-import { setTeamIdOnPlayer } from '../../store/playerSlice';
 
 const TeamOneBox = () => {
+  // redux
   const { roomId } = useParams();
+  const { playerId, username, teamId } = useSelector((state: RootState) => state.player);
+  const { team1Id, teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
+  const { team1RemainingCards } = useSelector((state: RootState) => state.game);
 
-  const { playerId, username } = useSelector((state: RootState) => state.player);
-  const { team1Id } = useSelector((state: RootState) => state.teamOne);
-
+  // firebase refs
   const playerOnTeamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/${playerId}`);
-  const dispatch = useDispatch();
   const teamTwoRef = ref(database, `rooms/${roomId}/team-2/`);
   const teamOneOperativesRef = ref(database, `rooms/${roomId}/team-1/operatives/`);
   const teamOneSpymasterRef = ref(database, `rooms/${roomId}/team-1/spymaster/`);
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}/`);
-  const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
-  const teamOneRemainingCards = useSelector((state: RootState) => state.game.team1RemainingCards);
+
+  const dispatch = useDispatch();
 
   // On click event for a player to be able to join team-1 team as a operative
   const joinTeamOneOp = async () => {
@@ -135,7 +135,7 @@ const TeamOneBox = () => {
     <div className="redGridCell">
       <div className="redBoxCard">
         <h3>Team 1</h3>
-        <h3>Remaining Cards: {teamOneRemainingCards}</h3>
+        <h3>Remaining Cards: {team1RemainingCards}</h3>
         <div className="redOpsAndSpys">
           <div>
             <p>Operative(s)</p>
@@ -147,13 +147,13 @@ const TeamOneBox = () => {
               );
             })}{' '}
             <br />
-            <button onClick={joinTeamOneOp}>Join as Operative</button>
+            {!teamId && <button onClick={joinTeamOneOp}>Join as Operative</button>}
           </div>
           <div>
             <p>Spymaster(s)</p>
             {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
             <br />
-            {!teamOneSpymaster && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
+            {!teamOneSpymaster && !teamId && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
           </div>
         </div>
       </div>
