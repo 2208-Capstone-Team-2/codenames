@@ -7,6 +7,7 @@ import { RootState } from '../../store';
 import { setShowStartGame } from '../../store/gameSlice';
 import { useDispatch } from 'react-redux';
 import './roomView.css';
+import CustomLoader from '../CustomLoader/CustomLoader';
 
 interface WordPackType {
   id: number;
@@ -82,7 +83,7 @@ const SetupGame = () => {
     update(gameRef, { gameStatus: 'team1SpyTurn' });
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <CustomLoader classname="loaderSmall" colorPair="greyBeige" />;
   else
     return (
       <div className="setUpGame">
