@@ -10,6 +10,7 @@
   background-color: #483d3d4a;
   border-radius: 40px;
   box-shadow: 4px 4px black;
+  grid-area: gameStatus;
 }
 .gameStatusItem {
   align-self: center;

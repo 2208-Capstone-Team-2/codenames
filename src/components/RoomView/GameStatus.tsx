@@ -5,7 +5,6 @@ import { RootState } from '../../store';
 import { child, update, ref } from 'firebase/database';
 import { database } from '../../utils/firebase';
 import './gameStatus.css'
-
 const GameStatus = () => {
   const {status, guessesRemaining, host} = useSelector((state: RootState) => state.game);
   const { playerId, teamId, username, roomId } = useSelector((state: RootState) => state.player);
