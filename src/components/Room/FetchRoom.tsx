@@ -6,6 +6,7 @@ import { setTeam1Id } from '../../store/teamOneSlice';
 import { setTeam2Id } from '../../store/teamTwoSlice';
 import { setBystanderTeamId, setAssassinTeamId } from '../../store/assassinAndBystanderSlice';
 import { setRoomId } from '../../store/playerSlice';
+import CustomLoader from '../CustomLoader/CustomLoader';
 
 function FetchRoom() {
   const { roomId } = useParams();
@@ -37,7 +38,7 @@ function FetchRoom() {
     fetchRoom();
   }, []);
 
-  if (loading) return <p>Loading room information...</p>;
+  if (loading) return <CustomLoader classname="loaderLarge" colorPair="greyBeige" />;
   else return <div></div>;
 }
 

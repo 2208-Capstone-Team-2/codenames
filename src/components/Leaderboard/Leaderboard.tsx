@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { PageClickEvent, Player } from './leaderboard.types';
 import './leaderboard.css';
 import { Link } from 'react-router-dom';
+import CustomLoader from '../CustomLoader/CustomLoader';
 const Leaderboard = () => {
   // eslint-disable-next-line no-unused-vars
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
@@ -41,10 +42,10 @@ const Leaderboard = () => {
   useEffect(() => {
     getPlayers();
   }, []);
-  if (loading) return <p>'Loading...';</p>;
+  if (loading) return <CustomLoader classname="loaderLarge" colorPair="greyBeige" />;
   return (
     <div className="leaderboardContainer">
-      <div className="homeButton">
+      <div className="backHomeButton">
         <Link to={'/'}>
           <button>&larr;&nbsp;Home</button>
         </Link>

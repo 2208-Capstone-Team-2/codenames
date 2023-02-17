@@ -23,6 +23,7 @@ export default function BasicPopover() {
           paper: {
             border: '1px solid black',
             width: '400px',
+            backgroundColor: 'gainsboro',
           },
           root: {},
         },

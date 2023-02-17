@@ -1,6 +1,6 @@
 .gameSettingsButton {
   border: none;
-  background-color: #e2c78d;
+  background-color: gainsboro;
   color: black;
   width: 10rem;
   padding: 0.5rem;
@@ -9,5 +9,5 @@
 }
 
 .gameSettingsButton:hover {
-  background-color: gainsboro;
+  background-color: #e2c78d;
 }

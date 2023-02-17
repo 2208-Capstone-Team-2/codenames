@@ -1,39 +1,32 @@
 body {
   margin: 0;
 }
-.flexBox {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-.break {
-  flex-basis: 100%;
-  height: 0;
-}
-.placeHolder {
-  width: 40vw;
-  height: 400px;
-  visibility: hidden;
-  position: relative;
-}
+.roomViewGrid{display:grid;
+grid-template-columns: 25fr 50fr 25fr;
+grid-template-rows: 5fr 5fr 25fr 35fr 51px;
+grid-template-areas: 
+'topBar topBar topBar' 
+'gameStatus gameStatus gameStatus' 
+'redTeam gameBoard blueTeam'
+'gameLog gameBoard chatBox'
+'footer footer footer';
+justify-content: center;
+align-content: start;
+overflow: hidden;}
+.boardContainer{grid-area:gameBoard;  margin-top:8%}
 .board {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
-  gap: 2%;
+  gap: 1.5%;
   justify-content: center;
   align-items: center;
   visibility: visible;
 }
-.break {
-  flex-basis: 100%;
-  height: 0;
-}
+.gameLogGridcell{  grid-area: gameLog;display: flex;
+  justify-content: center;margin:2% 0 10% 0;}
 .gameLog {
-  float: left;
-  width: 15%;
-  height: 400px;
-  margin-top: 2%;
-  margin-right: 2%;
+ width:60%;
+ height: 80%;
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
@@ -52,35 +45,16 @@ body {
   font-family: 'Montserrat';
   padding: 0 2%;
 }
-.chatBox {
-  float: left;
-  width: 15%;
-  height: 400px;
-  margin-top: 2%;
-  margin-left: 2%;
-  padding: 15px;
-  border-radius: 6px;
-  background-color: gainsboro;
-}
-.MessageInput {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
-}
-
-.setUpContainer {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 0;
-  margin: 0 auto;
-}
 
 .setUpGame {
-  position: absolute;
+  height: fit-content;
+  width: fit-content;
   background-color: #e2c78d;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 5px; 
+  z-index: 0;
+  grid-area: gameBoard;
+  margin:5% auto;
 }
 
 .setUpForm {
@@ -109,49 +83,46 @@ body {
   margin-top: 10px;
 }
 
-.loser {
-  top: 50%;
+.loser {  top: 50%;
   left: 50%;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, -50%);
   position: absolute;
   z-index: 1;
-  width: 50vw;
-  height: 30vh;
-  background-color: black;
-  color: #dec160;
+  width: fit-content;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.51);
+  color: #e2c78d;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2% 5%;
+  padding: 5%;
+  font-size: 14px;
+
 }
 .winner {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, -50%);
   position: absolute;
   z-index: 1;
-  width: 50vw;
-  height: 30vh;
-  background-color: #dec160;
+  width: fit-content;
+  height: fit-content;
+  background-color: #e2c78dc7;
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2% 5%;
+  padding: 3%;
+  font-size: 14px;
 }
 .closeButton {
   position: absolute;
   top: 15px;
   right: 15px;
-  background-color: #dec160;
+  background-color: #e2c78d;
   color: black;
   border: none;
   width: 5%;
   height: 15%;
-}
-
-.MessageInput {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
+  border:solid black 1px;
 }
