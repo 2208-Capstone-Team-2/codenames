@@ -11,15 +11,26 @@
   }
   
   button {
-    margin: 1rem;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-grow: 0.2;
   }
   
   .btn {
+    width: fit-content;
+   height: 30px;
+   border-top: solid black 1px;
+   border-left: solid black 1px;
+   border-right: solid black 3px;
+   border-bottom: solid black 3px;
+   border-radius: 5px 10px;
+   font-family: 'oswald';
     background-color: var(--background-color);
     color: #222;
     padding: .5em 1em;
-    border: none;
-    outline: none;
     position: relative;
     cursor: pointer;
   
@@ -57,5 +68,5 @@
   .btn.btn-background-circle:hover,
   .btn.btn-background-circle:focus {
     color: white;
-  }
+  } 
   
