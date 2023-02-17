@@ -12,8 +12,8 @@ const TeamTwoBox = () => {
   const { roomId } = useParams();
   const { playerId, username, teamId } = useSelector((state: RootState) => state.player);
   const { team2Id, teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
-  const {team2RemainingCards} = useSelector((state: RootState) => state.game);
-  
+  const { team2RemainingCards } = useSelector((state: RootState) => state.game);
+
   // firebase refs
   const nestedPlayerRef = ref(database, `rooms/${roomId}/players/${playerId}`);
   const teamTwoOperativesRef = ref(database, `rooms/${roomId}/team-2/operatives/`);
@@ -130,29 +130,30 @@ const TeamTwoBox = () => {
     });
   }, [playerId]);
 
-
   return (
-    <div className="blueBoxCard">
-      <h3>Team 2</h3>
-      <h3>Remaining Cards: {team2RemainingCards}</h3>
-      <div className="blueOpsAndSpys">
-        <div>
-          <p>Operative(s)</p>
-          {teamTwoOperatives?.map((player) => {
-            return (
-              <span className="playerName" key={player.playerId}>
-                {player.username}
-              </span>
-            );
-          })}
-          <br />
-          {!teamId && <button onClick={joinTeamTwoOp}>Join as Operative</button>}
-        </div>
-        <div>
-          <p>Spymaster(s)</p>
-          {teamTwoSpymaster && <span className="playerName">{teamTwoSpymaster.username}</span>}
-          <br />
-          {!teamTwoSpymaster && !teamId && <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>}
+    <div className="blueGridCell">
+      <div className="blueBoxCard">
+        <h3>Team 2</h3>
+        <h3>Remaining Cards: {team2RemainingCards}</h3>
+        <div className="blueOpsAndSpys">
+          <div>
+            <p>Operative(s)</p>
+            {teamTwoOperatives?.map((player) => {
+              return (
+                <span className="playerName" key={player.playerId}>
+                  {player.username}
+                </span>
+              );
+            })}
+            <br />
+            {!teamId && <button onClick={joinTeamTwoOp}>Join as Operative</button>}
+          </div>
+          <div>
+            <p>Spymaster(s)</p>
+            {teamTwoSpymaster && <span className="playerName">{teamTwoSpymaster.username}</span>}
+            <br />
+            {!teamTwoSpymaster && !teamId && <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>}
+          </div>
         </div>
       </div>
     </div>
