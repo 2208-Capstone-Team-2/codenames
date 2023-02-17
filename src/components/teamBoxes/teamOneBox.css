@@ -1,6 +1,6 @@
 .redGridCell{  grid-area: redTeam;
 display: flex;
-justify-content: center;margin-top:15%}
+justify-content: center;}
 .redBoxCard {
   height: fit-content;
   color: #d2dcde;

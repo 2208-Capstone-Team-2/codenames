@@ -1,7 +1,7 @@
 .blueGridCell{
   grid-area: blueTeam;
   display: flex;
-  justify-content: center;margin-top:15%
+  justify-content: center;
 }
 .blueBoxCard {
   height: fit-content;

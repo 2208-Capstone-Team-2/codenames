@@ -3,7 +3,7 @@ body {
 }
 .roomViewGrid{display:grid;
 grid-template-columns: 25fr 50fr 25fr;
-grid-template-rows: 5fr 5fr 25fr 35fr 51px;
+grid-template-rows: .1fr .1fr 2fr 3fr 51px;
 grid-template-areas: 
 'topBar topBar topBar' 
 'gameStatus gameStatus gameStatus' 
@@ -13,7 +13,7 @@ grid-template-areas:
 justify-content: center;
 align-content: start;
 overflow: hidden;}
-.boardContainer{grid-area:gameBoard;  margin-top:8%}
+.boardContainer{grid-area:gameBoard; }
 .board {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
