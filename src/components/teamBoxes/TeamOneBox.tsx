@@ -137,21 +137,21 @@ const TeamOneBox = () => {
         <h3>Team 1</h3>
         <h3>Remaining Cards: {team1RemainingCards}</h3>
         <div className="redOpsAndSpys">
-          <div>
+          <div className="redOpsContainer">
             <p>Operative(s)</p>
             {teamOneOperatives?.map((player) => {
               return (
-                <span className="playerName" key={player.playerId}>
+                <div className="playerName" key={player.playerId}>
                   {player.username}
-                </span>
+                </div>
               );
             })}{' '}
             <br />
             {!teamId && <button onClick={joinTeamOneOp}>Join as Operative</button>}
           </div>
-          <div>
+          <div className="redSpyContainer">
             <p>Spymaster(s)</p>
-            {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
+            {teamOneSpymaster && <div className="playerName">{teamOneSpymaster.username}</div>}
             <br />
             {!teamOneSpymaster && !teamId && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
           </div>
