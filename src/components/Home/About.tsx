@@ -31,9 +31,8 @@ const About = () => {
             <a href="https://github.com/2208-Capstone-Team-2/codenames"> Github</a>
           </p>
         </div>
-        <div className="break"></div>
         <div className="aboutTeam">
-          <div className="aboutTeamMember">
+          <div className="heidi aboutTeamMember">
             <img src="/images/heidi.jpg" alt="heidi" />
             <span>Heidi Lyu</span>
             <div className="contacts">
@@ -52,7 +51,7 @@ const About = () => {
               with unstructured data.
             </p>
           </div>
-          <div className="aboutTeamMember">
+          <div className="rose aboutTeamMember">
             <img src="/images/rose.jpg" alt="Rose" />
             <span>Rose</span>
             <div className="contacts">
@@ -69,7 +68,7 @@ const About = () => {
               were how firebase and SQL can be used together... and how buggy multiplayer games can be! 😂
             </p>
           </div>
-          <div className="aboutTeamMember">
+          <div className="olivia aboutTeamMember">
             <img src="/images/olivia.png" alt="olivia" />
             <span>Olivia</span>
             <div className="contacts">
@@ -87,19 +86,26 @@ const About = () => {
               git hygiene, and to utilize our individual strengths to make an impressive app
             </p>
           </div>
-          <div className="break"></div>
-          <div className="aboutTeamMember">
-            <img src="/images/heidi.jpg" alt="heidi" />
-            <span>Member 4</span>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
+          <div className="jose aboutTeamMember">
+            <img src="/images/josh.png" alt="josh" />
+            <span>Josh</span>
+            <div className="contacts">
+              <a href="https://www.linkedin.com/in/olivia-jarman-4908a468/" target="_blank">
+                Linkedin
+              </a>
+              <a href="https://github.com/ocjarman" target="_blank">
+                Github
+              </a>
+              <p>ocjarman@gmail.com</p>
+            </div>
+            <p className="memberContent">
+              Developing Codenames has been a challenging and very rewarding experience. I have had the opportunity
+              throughout this project to learn new technologies like Firebase and TypeScript and continue to build upon
+              the my skills in the tech stack I had previous experience with. Collaborating with an awesome team of
+              developers has also been an invaluable experience for myself as a developer.
             </p>
           </div>
-          <div className="aboutTeamMember">
+          <div className="topher aboutTeamMember">
             <img src="/images/heidi.jpg" alt="heidi" />
             <span>Member 5</span>
             <p>
