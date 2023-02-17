@@ -35,6 +35,8 @@ const Clue = () => {
   const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
   // MUI Alert stuff
   const [open, setOpen] = React.useState<boolean>(false);
+  const vertical = 'bottom';
+  const horizontal = 'center';
   const [alertMessage, setAlertMessage] = React.useState<string>('');
   const handleOpen = (message: string) => {
     setAlertMessage(message);
@@ -176,8 +178,8 @@ const Clue = () => {
         </button>
       </form>
       <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical, horizontal }}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
             {alertMessage}
           </Alert>
         </Snackbar>
