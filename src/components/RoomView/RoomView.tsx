@@ -100,18 +100,12 @@ const RoomView = () => {
         to 'ready' which triggers the redux cleanup below */
         if (game.gameStatus === 'ready') {
           onValue(cardsRef, async (cardSnapshot) => {
-            console.log('above cardSnapshot exists');
-
             if (cardSnapshot.exists()) {
-              console.log(playerIsSpymaster);
-
               if (playerIsSpymaster) {
-                // console.log('playerIsSpymaster passed');
-
                 off(cardsRef); // don't listen to this listener anymore
                 let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
-                console.log('making get25 req!');
 
+                console.log('making get25 req!');
                 let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
                 spyWords.data.forEach(
                   (card: CardObj) =>
