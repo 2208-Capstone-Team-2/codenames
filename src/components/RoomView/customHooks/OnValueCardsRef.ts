@@ -29,6 +29,8 @@ function OnValueCardsRef() {
           off(cardsRef); // don't listen to this listener anymore.
           //get set of cards with team ids from backend and set spymaster words
           let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
+
+          console.log('making get25 req!');
           let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
           spyWords.data.forEach(
             (card: CardObj) =>
