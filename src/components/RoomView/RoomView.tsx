@@ -18,6 +18,7 @@ import Loser from './Loser';
 import Winner from './Winner';
 import Navbar from '../Navbar/Navbar';
 import Chat from './chat/Chat';
+import Footer from '../Footer/Footer';
 // Firebase:
 import { database } from '../../utils/firebase';
 import { onValue, ref, set, get, child, update, off } from 'firebase/database';
@@ -198,9 +199,9 @@ const RoomView = () => {
   OnValueCardsRef();
 
   return (
-    <div className="roomViewContainer">
+    <div className="roomViewGrid">
       <Navbar />
-      <div className="gameStatusClaimHost">
+      <div className="gameStatusContainer">
         <GameStatus />
         <div className="gameStatus">
           {!host && (
@@ -211,19 +212,20 @@ const RoomView = () => {
         </div>
       </div>
       {isHost && showStartGame && <SetupGame />}
-      <div className="flexBox">
-        <TeamOneBox />
-        <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
-        <TeamTwoBox />
-        <div className="break"></div>
-        <GameLog />
-        <Chat />
-      </div>
+      <TeamOneBox />
+       <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
+      <TeamTwoBox />
+      <div className="break"></div>
+      <GameLog />
+      <Chat />
+
       <Clue />
+
       <Loser />
       <Winner />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
       {/* {isHost && everyonesHere &&  <SetupGame />*/}
+      <Footer />
     </div>
   );
 };

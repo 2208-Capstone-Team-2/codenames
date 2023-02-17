@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { RootState } from '../../store';
+import './gameStatus.css';
 const GameStatus = () => {
   const gameStatus = useSelector((state: RootState) => state.game.status);
   const guessesRemaining = useSelector((state: RootState) => state.game.guessesRemaining);

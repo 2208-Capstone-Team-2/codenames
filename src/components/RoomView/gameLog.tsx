@@ -21,29 +21,31 @@ const GameLog: React.FC = () => {
       });
   }, [gameHistory]);
   return (
-    <div className="gameLog">
-      <h3 className="gameHistoryTitle">Game History</h3>
-      <div className="scrollContent" ref={divRef}>
-        {gameHistory.map((singleHistory, index) => {
-          if (typeof singleHistory === 'object' && singleHistory.clueNumber != null) {
-            if (team1.team1Id === singleHistory.teamSubmitted)
-              return (
-                <p key={index}>
-                  team 1's clue is {singleHistory.clueString} and their operators have {singleHistory.clueNumber + 1}{' '}
-                  guess(es)
-                </p>
-              );
-            if (team2.team2Id === singleHistory.teamSubmitted)
-              return (
-                <p key={index}>
-                  team 2's clue is {singleHistory.clueString} and their operators have {singleHistory.clueNumber + 1}{' '}
-                  guess(es)
-                </p>
-              );
-          } else if (typeof singleHistory === 'string') {
-            return <p key={index}>{singleHistory}</p>;
-          }
-        })}
+    <div className="gameLogGridcell">
+      <div className="gameLog">
+        <h3 className="gameHistoryTitle">Game History</h3>
+        <div className="scrollContent" ref={divRef}>
+          {gameHistory.map((singleHistory, index) => {
+            if (typeof singleHistory === 'object' && singleHistory.clueNumber != null) {
+              if (team1.team1Id === singleHistory.teamSubmitted)
+                return (
+                  <p key={index}>
+                    team 1's clue is {singleHistory.clueString} and their operators have {singleHistory.clueNumber + 1}{' '}
+                    guess(es)
+                  </p>
+                );
+              if (team2.team2Id === singleHistory.teamSubmitted)
+                return (
+                  <p key={index}>
+                    team 2's clue is {singleHistory.clueString} and their operators have {singleHistory.clueNumber + 1}{' '}
+                    guess(es)
+                  </p>
+                );
+            } else if (typeof singleHistory === 'string') {
+              return <p key={index}>{singleHistory}</p>;
+            }
+          })}
+        </div>
       </div>
     </div>
   );

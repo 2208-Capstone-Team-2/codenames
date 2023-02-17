@@ -132,27 +132,29 @@ const TeamOneBox = () => {
   }, [playerId]);
 
   return (
-    <div className="redBoxCard">
-      <h3>Team 1</h3>
-      <h3>Remaining Cards: {teamOneRemainingCards}</h3>
-      <div className="redOpsAndSpys">
-        <div>
-          <p>Operative(s)</p>
-          {teamOneOperatives?.map((player) => {
-            return (
-              <span className="playerName" key={player.playerId}>
-                {player.username}
-              </span>
-            );
-          })}{' '}
-          <br />
-          <button onClick={joinTeamOneOp}>Join as Operative</button>
-        </div>
-        <div>
-          <p>Spymaster(s)</p>
-          {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
-          <br />
-          {!teamOneSpymaster && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
+    <div className="redGridCell">
+      <div className="redBoxCard">
+        <h3>Team 1</h3>
+        <h3>Remaining Cards: {teamOneRemainingCards}</h3>
+        <div className="redOpsAndSpys">
+          <div>
+            <p>Operative(s)</p>
+            {teamOneOperatives?.map((player) => {
+              return (
+                <span className="playerName" key={player.playerId}>
+                  {player.username}
+                </span>
+              );
+            })}{' '}
+            <br />
+            <button onClick={joinTeamOneOp}>Join as Operative</button>
+          </div>
+          <div>
+            <p>Spymaster(s)</p>
+            {teamOneSpymaster && <span className="playerName">{teamOneSpymaster.username}</span>}
+            <br />
+            {!teamOneSpymaster && <button onClick={joinTeamOneSpy}>Join as Spymaster</button>}
+          </div>
         </div>
       </div>
     </div>

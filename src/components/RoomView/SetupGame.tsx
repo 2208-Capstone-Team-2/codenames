@@ -83,26 +83,24 @@ const SetupGame = () => {
   if (isLoading) return <CustomLoader classname="loaderSmall" colorPair="greyBeige" />;
   else
     return (
-      <div className="setUpContainer">
-        <div className="setUpGame">
-          Please select a pack of words
-          <form className="setUpForm" onSubmit={submitHandler}>
-            {wordpacks.map((wordpack) => (
-              <div className="wordPackSelection" key={wordpack.id}>
-                <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
-                <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
-              </div>
-            ))}
-            <button
-              className="startGameButton"
-              type="submit"
-              disabled={selectedWordPackIds.length === 0 ? true : false}
-              onClick={startGame}
-            >
-              Start game
-            </button>
-          </form>
-        </div>
+      <div className="setUpGame">
+        Please select a pack of words
+        <form className="setUpForm" onSubmit={submitHandler}>
+          {wordpacks.map((wordpack) => (
+            <div className="wordPackSelection" key={wordpack.id}>
+              <input type="checkbox" onChange={handleWordPackSelection} value={wordpack.id} />
+              <label htmlFor={wordpack.name}> {wordpack.name} Word Pack</label>
+            </div>
+          ))}
+          <button
+            className="startGameButton"
+            type="submit"
+            disabled={selectedWordPackIds.length === 0 ? true : false}
+            onClick={startGame}
+          >
+            Start game
+          </button>
+        </form>
       </div>
     );
 };

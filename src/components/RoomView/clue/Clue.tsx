@@ -114,7 +114,7 @@ const Clue = () => {
 
   if (!showClue) return <></>;
   return (
-    <div className="clue-container">
+    <div className="clueWrapper">
       <form className="clue-form">
         <input
           className={imRedSpy ? 'clue-input-text dark-red-color' : 'clue-input-text dark-blue-color'}
