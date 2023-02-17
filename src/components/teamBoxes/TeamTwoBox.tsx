@@ -52,7 +52,6 @@ const TeamTwoBox = () => {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
             update(nestedPlayerRef, { teamId: team2Id });
-
           }
         } else {
           onDisconnect(playerOnTeamTwoOperativesRef).remove();
@@ -130,30 +129,31 @@ const TeamTwoBox = () => {
     });
   }, [playerId]);
 
-
   return (
-    <div className="blueBoxCard">
-      <h3>Team 2</h3>
-      <h3>Remaining Cards: {teamTwoRemainingCards}</h3>
-      <div className="blueOpsAndSpys">
-        <div>
-          <p>Operative(s)</p>
-          {teamTwoOperatives?.map((player) => {
-            return (
-              <span className="playerName" key={player.playerId}>
-                {player.username}
-              </span>
-            );
-          })}
-          <br />
-          <button onClick={joinTeamTwoOp}>Join as Operative</button>
-        </div>
-        <div>
-          <p>Spymaster(s)</p>
-          {teamTwoSpymaster && <span className="playerName">{teamTwoSpymaster.username}</span>}
+    <div className="blueGridCell">
+      <div className="blueBoxCard">
+        <h3>Team 2</h3>
+        <h3>Remaining Cards: {teamTwoRemainingCards}</h3>
+        <div className="blueOpsAndSpys">
+          <div>
+            <p>Operative(s)</p>
+            {teamTwoOperatives?.map((player) => {
+              return (
+                <span className="playerName" key={player.playerId}>
+                  {player.username}
+                </span>
+              );
+            })}
+            <br />
+            <button onClick={joinTeamTwoOp}>Join as Operative</button>
+          </div>
+          <div>
+            <p>Spymaster(s)</p>
+            {teamTwoSpymaster && <span className="playerName">{teamTwoSpymaster.username}</span>}
 
-          <br />
-          {!teamTwoSpymaster && <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>}
+            <br />
+            {!teamTwoSpymaster && <button onClick={joinTeamTwoSpy}>Join as Spymaster</button>}
+          </div>
         </div>
       </div>
     </div>

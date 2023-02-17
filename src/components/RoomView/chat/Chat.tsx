@@ -65,9 +65,9 @@ const Chat = () => {
   };
 
   return (
-    <div className="chat-container">
-      <h3 className="chat-header">Chatroom</h3>
-      <div className="chat">
+    <div className="chatBoxGridCell">
+      <div className="chat-container">
+        <h3 className="chat-header">Chatroom</h3>
         <div className="messages" ref={divRef}>
           {Object.keys(messages).map((message) => {
             if (messages[message]['teamId'] === team1Id)
@@ -93,14 +93,14 @@ const Chat = () => {
               );
           })}
         </div>
+        <input
+          className="message-input"
+          placeholder="Type message & press enter"
+          onChange={handleMsgChange}
+          onKeyDown={handleKeyDown}
+          value={msg}
+        />
       </div>
-      <input
-        className="message-input"
-        placeholder="Type message & press enter"
-        onChange={handleMsgChange}
-        onKeyDown={handleKeyDown}
-        value={msg}
-      />
     </div>
   );
 };

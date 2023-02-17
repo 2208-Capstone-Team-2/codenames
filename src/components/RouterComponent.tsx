@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Error from './Error';
-import Footer from './Footer/Footer';
+
 import Home from './Home/Home';
 // import About from './About';
 import Leaderboard from './Leaderboard/Leaderboard';
@@ -23,7 +23,6 @@ const RouterComponent = () => {
         <Route path="/*" element={<Error />} />
         {/* <Route path="/about" element={<About />} /> */}
       </Routes>
-      {/* <Footer /> */}
     </>
   );
 };
