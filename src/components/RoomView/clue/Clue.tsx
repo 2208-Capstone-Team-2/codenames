@@ -45,9 +45,9 @@ const Clue = () => {
     setClueNumber(Number(event.target.value));
   };
 
-  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    off(cardsRef)
+    off(cardsRef);
 
     const regex = /[\s-]+/g;
     if (clueString === '') {
@@ -115,7 +115,7 @@ const Clue = () => {
   if (!showClue) return <></>;
   return (
     <div className="clueWrapper">
-      <form className="clue-form">
+      <form className="clue-form" method="post">
         <input
           className={imRedSpy ? 'clue-input-text dark-red-color' : 'clue-input-text dark-blue-color'}
           type="text"
@@ -145,7 +145,11 @@ const Clue = () => {
           className={
             imRedSpy ? 'clue-submit-button dark-red-background-color' : 'clue-submit-button dark-blue-background-color'
           }
+          type={'submit'}
           onClick={handleSubmit}
+          onKeyUp={(e) => {
+            handleSubmit(e);
+          }}
         >
           Submit Clue
         </button>
