@@ -24,8 +24,12 @@ function OnValueCardsRef() {
 
   useEffect(() => {
     onValue(cardsRef, async (cardSnapshot) => {
+      console.log('above cardSnapshot exists');
       if (cardSnapshot.exists()) {
+        console.log(playerIsSpymaster);
         if (playerIsSpymaster) {
+          console.log('playerIsSpymaster passed');
+
           off(cardsRef); // don't listen to this listener anymore.
           //get set of cards with team ids from backend and set spymaster words
           let wordsWithTeamIds = {} as WordsWithTeamIdsObj;

@@ -45,7 +45,6 @@ import './roomView.css';
 import axios from 'axios';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces'; // For TS
 
-
 const RoomView = () => {
   // for room nav
   const { roomId } = useParams();
@@ -57,13 +56,12 @@ const RoomView = () => {
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
 
-  const { showStartGame } = useSelector((state: RootState) => state.game);
+  const { status, showStartGame } = useSelector((state: RootState) => state.game);
   // firebase room  & players reference
   let playersInRoomRef = ref(database, `rooms/${roomId}/players/`);
   let gameRef = ref(database, `rooms/${roomId}/game/`);
   const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
   const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
-
 
   // below will be used once we allow host & everyones here to show button
   // DO NOT DELETE
@@ -93,7 +91,7 @@ const RoomView = () => {
         dispatch(setTeam1RemainingCards(game.team1RemainingCards));
         dispatch(setTeam2RemainingCards(game.team2RemainingCards));
         dispatch(setGuessesRemaining(game.guessesRemaining));
-      
+
         if (game.guessesRemaining <= 0) {
           endTurn();
         }
@@ -102,8 +100,14 @@ const RoomView = () => {
         to 'ready' which triggers the redux cleanup below */
         if (game.gameStatus === 'ready') {
           onValue(cardsRef, async (cardSnapshot) => {
+            console.log('above cardSnapshot exists');
+
             if (cardSnapshot.exists()) {
+              console.log(playerIsSpymaster);
+
               if (playerIsSpymaster) {
+                console.log('playerIsSpymaster passed');
+
                 off(cardsRef); // don't listen to this listener anymore
                 let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
                 let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
@@ -164,7 +168,7 @@ const RoomView = () => {
         }
       }
     });
-  }, [status]);
+  }, [status, teamOneSpymaster, teamOneSpymaster]);
 
   const endTurn = () => {
     let nextStatus;
@@ -188,8 +192,6 @@ const RoomView = () => {
     });
   };
 
-
-
   OnValueHostRef();
   OnValueGameHistoryRef();
   OnValueTeamDispatch();
@@ -201,7 +203,7 @@ const RoomView = () => {
       <GameStatus />
       {isHost && showStartGame && <SetupGame />}
       <TeamOneBox />
-       <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
+      <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
       <TeamTwoBox />
       <div className="break"></div>
       <GameLog />
