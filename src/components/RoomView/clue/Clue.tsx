@@ -47,7 +47,7 @@ const Clue = () => {
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    off(cardsRef)
+    off(cardsRef);
 
     const regex = /[\s-]+/g;
     if (clueString === '') {
@@ -147,20 +147,15 @@ const Clue = () => {
           }
           type={'submit'}
           onClick={handleSubmit}
-          onKeyUp={(e) => {handleSubmit(e) } }
+          onKeyUp={(e) => {
+            handleSubmit(e);
+          }}
         >
           Submit Clue
         </button>
       </form>
-    </div> 
+    </div>
   );
-
-  // addEventListener to make the enter key to submit
-  // clueData.addEventListener('submit', handleSubmit)
-  // clueData.addEventListener('keyup', (e) => {
-  //   if (e.keyCode === 13) {
-  //     handleSubmit(e)
-  // }
 };
 
 export default Clue;
