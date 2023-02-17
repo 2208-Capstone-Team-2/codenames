@@ -49,10 +49,9 @@
   margin: 8px 0 8px;
   padding: 0;
 }
-.redOpsContainer,
-.redSpyContainer {
+.playerNameContainer {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 }
 .playerName {
   color: white;
@@ -67,4 +66,5 @@
   padding-right: 6px !important;
   margin: 4px !important;
   word-break: break-all;
+  width: fit-content;
 }
