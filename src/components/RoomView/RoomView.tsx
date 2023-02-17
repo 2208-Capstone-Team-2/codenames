@@ -106,10 +106,12 @@ const RoomView = () => {
               console.log(playerIsSpymaster);
 
               if (playerIsSpymaster) {
-                console.log('playerIsSpymaster passed');
+                // console.log('playerIsSpymaster passed');
 
                 off(cardsRef); // don't listen to this listener anymore
                 let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
+                console.log('making get25 req!');
+
                 let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
                 spyWords.data.forEach(
                   (card: CardObj) =>
