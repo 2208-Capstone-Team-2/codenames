@@ -30,6 +30,7 @@ overflow: hidden;}
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
+  border:black solid 1px;
 }
 .gameHistoryTitle {
   margin-top: 1%;
