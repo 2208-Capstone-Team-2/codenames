@@ -34,3 +34,15 @@
   margin-left: 0.2rem;
   margin-right: 0.2rem;
 }
+/*-------------------------mobile-------------------------*/
+@media only screen and (max-width: 600px) {
+  .gameStatusContainer {
+    font-size: 12px;
+    height: min-content;
+    width: 70%;
+    margin: 2% auto;
+  }
+  .claimHostButton {
+ font-size: 0.4rem;
+  }
+}

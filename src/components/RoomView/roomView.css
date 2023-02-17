@@ -126,3 +126,27 @@ overflow: hidden;}
   height: 15%;
   border:solid black 1px;
 }
+/*---------------------------------------------mobile----------------------------*/
+@media only screen and (max-width: 600px) {
+  .roomViewGrid{    display: grid;
+    grid-template-columns: 50% 50%;
+  /* below rows fraction is temptorary, it could change once we actually set up each element */
+    grid-template-rows: 100px 20% 60fr 20fr 20fr 51px;
+    grid-template-areas:
+        'topBar topBar'
+        'gameStatus gameStatus'
+        'gameBoard gameBoard'
+        'redTeam blueTeam'
+        'gameLog chatBox'
+        'footer footer';   
+    height: 100vh;
+    overflow: scroll;}
+.boardContainer{margin-top: 5%;height:60fr;}
+ /* 2% was the default desktop setting, if it is too big, you can change it in below gap:value */
+  .board {
+    gap: 0;
+  }
+.gameLog {
+    width:100%;
+   } 
+}
