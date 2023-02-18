@@ -8,7 +8,7 @@ const Winner: React.FC = () => {
   const { roomId } = useParams();
   setRoomId(roomId);
   const { teamId } = useSelector((state: RootState) => state.player);
-  const { status, winner } = useSelector((state: RootState) => state.game);
+  const { status, winner, loser } = useSelector((state: RootState) => state.game);
   const { team1Id } = useSelector((state: RootState) => state.teamOne);
   const { team2Id } = useSelector((state: RootState) => state.teamTwo);
   const [winnerPopup, setWinnerPopup] = useState<boolean>(false);
@@ -18,15 +18,15 @@ const Winner: React.FC = () => {
   const playerLost = (winner === 'team-1' && teamId !== team1Id) || (winner === 'team-2' && teamId !== team2Id)
 
   useEffect(() => {
-    if (winner !== '') {
+    if (winner !== '' && loser !== '') {
       if (playerWon) {
         setWinnerPopup(true);
       }
       if (playerLost) {
         setLoserPopup(true);
       }
-    }
-  }, [winner, teamId]);
+    } 
+  }, [winner, loser, teamId]);
 
   return (
     <>

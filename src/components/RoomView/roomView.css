@@ -94,6 +94,7 @@ body {
 
 .loser {
   display: flex;
+  flex-direction: column;
   background-color: rgba(0, 0, 0, 0.71);
   color: #e2c78d;
   text-align: center;
@@ -104,6 +105,7 @@ body {
   place-self: center;
   border-radius: 5px;
   padding: 1vw;
+  align-items: center;
 }
 
 .winnerItem,
@@ -114,6 +116,7 @@ body {
 
 .winner {
   display: flex;
+  flex-direction: column;
   text-align: center;
   grid-area: gameBoard;
   z-index: 1;
@@ -124,6 +127,7 @@ body {
   color: black;
   border-radius: 5px;
   padding: 1vw;
+  align-items: center;
 }
 .closeButton {
   background-color: 'gainsboro';
@@ -132,6 +136,7 @@ body {
   height: 2vh;
   width: 2vw;
   border-radius: 5px;
+  padding: 5%;
 }
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
@@ -169,22 +174,20 @@ body {
     text-align: center;
     grid-area: gameBoard;
     z-index: 1;
-    width: 13vw;
-    height: 13vh;
+    width: fit-content;
+    height: fit-content;
     place-self: center;
   }
 
   .winner {
-    display: flex;
+    background-color: rgba(217, 215, 209, 0.71);
+    color: black;
+    font-size: 0.8rem;
     text-align: center;
     grid-area: gameBoard;
     z-index: 1;
     width: fit-content;
     height: fit-content;
     place-self: center;
-    background-color: 'gainsboro';
-    color: black;
-    border-radius: 5px;
-    padding: 1vw;
   }
 }
