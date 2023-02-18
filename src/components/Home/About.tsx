@@ -113,13 +113,13 @@ const About = () => {
             <img src="/images/topher.jpeg" alt="topher" />
             <div className="contacts">
               <span>Topher</span>
-              <a href="/" target="_blank">
+              <a href="/https://www.linkedin.com/in/christopher-ou-53897bb5/" target="_blank">
                 Linkedin
               </a>
-              <a href="/" target="_blank">
+              <a href="/https://github.com/Bingdongsanchi" target="_blank">
                 Github
               </a>
-              <p className="email">email@gmail.com</p>
+              <p className="email">chrisau418@gmail.com</p>
             </div>
             <p className="memberContent">
               It has been an incredible four months of hard work and dedication that have culminated in the completion
