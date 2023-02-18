@@ -2,7 +2,6 @@
   grid-area: blueTeam;
   display: flex;
   justify-content: center;
-  margin-top: 15%;
 }
 .blueBoxCard {
   height: fit-content;
