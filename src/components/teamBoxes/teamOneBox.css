@@ -1,6 +1,6 @@
 .redGridCell{  grid-area: redTeam;
 display: flex;
-justify-content: center;margin-top:15%}
+justify-content: center;}
 .redBoxCard {
   height: fit-content;
   color: #d2dcde;
@@ -59,4 +59,19 @@ width:60%
   padding-left: 6px !important;
   padding-right: 6px !important;
   margin: 4px !important;
+}
+/*---------------------------------------------mobile----------------------------*/
+
+@media only screen and (max-width: 600px) {
+/*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
+ /*try take of border radius on the box and see how it looks*/
+  .redBoxCard {
+    font-size: 12px;
+    font-weight: 200;
+    width:50vw;
+  }
+  .redBoxCard button {
+  font-size: 12px;
+  }
+  .redOpsAndSpys{width: 100%;}
 }

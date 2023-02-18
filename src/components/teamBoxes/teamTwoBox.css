@@ -1,7 +1,7 @@
 .blueGridCell{
   grid-area: blueTeam;
   display: flex;
-  justify-content: center;margin-top:15%
+  justify-content: center;
 }
 .blueBoxCard {
   height: fit-content;
@@ -62,4 +62,18 @@
   padding-left: 6px !important;
   padding-right: 6px !important;
   margin: 4px !important;
+}
+/*---------------------------------------------mobile----------------------------*/
+@media only screen and (max-width: 600px) {
+  /*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
+  /*try take of border radius on the box and see how it looks*/
+  .blueBoxCard {
+    font-size: 12px;
+    font-weight: 200;
+    width: 50vw;
+  }
+  .blueBoxCard button  {
+  font-size: 12px;
+  }
+  .blueOpsAndSpys{width: 100%;}
 }

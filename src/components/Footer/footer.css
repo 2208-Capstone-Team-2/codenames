@@ -34,3 +34,22 @@
   border-right: 0.5px solid rgba(0, 0, 0, 1);
   height: 50px;
 }
+/*-------------------------mobile-------------------------*/
+@media only screen and (max-width: 600px) {
+
+  .lastRow {
+    width: 100vw;
+  }
+  .icons {
+    height: 20px;
+  }
+  .miscInfo {
+    font-size: 9px;
+    gap: 5px;
+  }
+  .groupInfo {
+
+    font-size: 9px;
+
+  }
+}
