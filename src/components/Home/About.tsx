@@ -1,13 +1,14 @@
 import React from 'react';
 import './about.css';
+import Footer from '../Footer/Footer';
 import { Link } from 'react-router-dom';
 const About = () => {
   return (
     <>
-      <Link to={'/'} className="homeButton">
-        Home
-      </Link>
       <div className="aboutPage">
+        <Link to={'/'} className="homeButton">
+          Home
+        </Link>
         <div className="aboutIntro">
           <h2>About The Game</h2>
           <p>
@@ -33,16 +34,16 @@ const About = () => {
         </div>
         <div className="aboutTeam">
           <div className="heidi aboutTeamMember">
-            <img src="/images/heidi.jpg" alt="heidi" />
-            <span>Heidi Lyu</span>
+            <img src="/images/heidi.png" alt="heidi" />
             <div className="contacts">
+              <span>Heidi Lyu</span>
               <a href="https://www.linkedin.com/in/heidilyu/" target="_blank">
                 Linkedin
               </a>
               <a href="https://github.com/Heidi9287" target="_blank">
                 Github
               </a>
-              <p>lyu9287@gmail.com</p>
+              <p className="email">lyu9287@gmail.com</p>
             </div>
             <p className="memberContent">
               My biggest take on this project is learning typescript and firebase. Typescript helps me write codes that
@@ -53,15 +54,16 @@ const About = () => {
           </div>
           <div className="rose aboutTeamMember">
             <img src="/images/rose.jpg" alt="Rose" />
-            <span>Rose</span>
+
             <div className="contacts">
-              <a href="/" target="_blank">
+              <span>Rose</span>
+              <a href="https://www.linkedin.com/in/rosalie-newman-rn/" target="_blank">
                 Linkedin
               </a>
-              <a href="/" target="_blank">
+              <a href="https://github.com/rosalie0?tab=overview&from=2023-02-01&to=2023-02-17" target="_blank">
                 Github
               </a>
-              <p>email@gmail.com</p>
+              <p className="email">email@gmail.com</p>
             </div>
             <p className="memberContent">
               Rose here! So thankful to be part of such a great group & such a fun project. My two biggest takeaways
@@ -70,15 +72,16 @@ const About = () => {
           </div>
           <div className="olivia aboutTeamMember">
             <img src="/images/olivia.png" alt="olivia" />
-            <span>Olivia</span>
+
             <div className="contacts">
+              <span>Olivia</span>
               <a href="https://www.linkedin.com/in/olivia-jarman-4908a468/" target="_blank">
                 Linkedin
               </a>
               <a href="https://github.com/ocjarman" target="_blank">
                 Github
               </a>
-              <p>ocjarman@gmail.com</p>
+              <p className="email">ocjarman@gmail.com</p>
             </div>
             <p className="memberContent">
               As a former teacher and program manager, I know how important it is to collaborate with others on big
@@ -86,17 +89,18 @@ const About = () => {
               git hygiene, and to utilize our individual strengths to make an impressive app
             </p>
           </div>
-          <div className="jose aboutTeamMember">
+          <div className="josh aboutTeamMember">
             <img src="/images/josh.png" alt="josh" />
-            <span>Josh</span>
+
             <div className="contacts">
-              <a href="https://www.linkedin.com/in/olivia-jarman-4908a468/" target="_blank">
+              <span>Josh</span>
+              <a href="https://www.linkedin.com/in/joshowens97/" target="_blank">
                 Linkedin
               </a>
-              <a href="https://github.com/ocjarman" target="_blank">
+              <a href="https://github.com/Joshowens16?tab=overview&from=2023-02-01&to=2023-02-17/" target="_blank">
                 Github
               </a>
-              <p>ocjarman@gmail.com</p>
+              <p className="email">email@gmail.com</p>
             </div>
             <p className="memberContent">
               Developing Codenames has been a challenging and very rewarding experience. I have had the opportunity
@@ -106,9 +110,18 @@ const About = () => {
             </p>
           </div>
           <div className="topher aboutTeamMember">
-            <img src="/images/heidi.jpg" alt="heidi" />
-            <span>Member 5</span>
-            <p>
+            <img src="/images/placeholder.jpg" alt="heidi" />
+            <div className="contacts">
+              <span>Member5</span>
+              <a href="/" target="_blank">
+                Linkedin
+              </a>
+              <a href="/" target="_blank">
+                Github
+              </a>
+              <p className="email">email@gmail.com</p>
+            </div>
+            <p className="memberContent">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
               ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
@@ -117,6 +130,7 @@ const About = () => {
             </p>
           </div>
         </div>
+        <Footer />
       </div>
     </>
   );

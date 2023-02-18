@@ -1,8 +1,9 @@
 .aboutPage {
   display: grid;
-  grid-template-rows: auto 51px;
-  grid-template-columns: 30% 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 25% 75%;
   grid-template-areas:
+  'home aboutMember'
     'aboutIntro aboutMember'
     'footer footer';
 }
@@ -11,8 +12,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  border-right: solid 1px white;
-  padding: 1% 10%;
+  padding: 0 10%;
   color: white;
   font-weight: 300;
 }
@@ -21,67 +21,81 @@
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 2%;
+  justify-content: flex-start;
 }
 .flex-container img {
-  margin-left: 10px;
+  margin: 5px;
 }
 .aboutTeam {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-      'member1 member2 member3'
-      'member4 member5 member5';
-    color: white;
-    font-weight: 300;
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto auto;
+  grid-template-areas:
+    'member1 member2 member3'
+    'member4 member5 member5';
+  background-color: #ffffff70;
   grid-area: aboutMember;
-align-items: start;
-justify-content: center;
-margin-left:5vw;
-
+  align-items: start;
 }
 
 .aboutTeamMember {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   align-items: center;
   color: white;
-  font-size:15px;
-  width: 80%;
+  width: 85%;
+  padding-top: 32px;
+  font-family: 'Montserrat';
 }
-.heidi{grid-area: member1;}
-.rose{grid-area: member2;}
-.olivia{grid-area: member3;}
-.josh{grid-area: member4;
+.heidi {
+  grid-area: member1;
+  margin:0 auto;
+ 
 }
-.topher{grid-area: member5;}
-.aboutTeamMember span {
-  border-bottom: solid white 1px;
-  width: 300px;
-  text-align: center;
-  margin-top: 16px;
+.rose {
+  grid-area: member2;
+  margin:0 auto;
+
+}
+.olivia {
+  grid-area: member3;
+  margin:0 auto;
+
+}
+.josh {
+  grid-area: member4;
+  margin:0 auto;
+  border-top: white 1px solid;
+}
+.topher {
+  grid-area: member5; 
+  width:45% !important;
+  border-top:white 1px solid;
 }
 .contacts {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 300px;
-  color: white;
+flex-direction: column;
+  font-size: 16px;
+  color: white;;
+  height: 120px;
+  justify-content: space-evenly;
 }
 .contacts a {
-  color: white;
+  color: white;;
 }
 .aboutTeamMember img {
-  width: 100px;
+  width: 150px;
   border-radius: 100px;
 }
 .memberContent {
-  color: white;
-  background-color: #e6e6e62e;
-  padding: 16px;
-  border-radius: 10px 40px;
-  margin-top: 0;
+  color: white;;
+  padding: 12px;
+  line-height: 28px;
+  margin-top:16px;
+font-size: 16px;
+font-family: 'Montserrat';
 }
 .homeButton {
   border-right: solid black 3px;
@@ -95,4 +109,7 @@ margin-left:5vw;
   font-size: 16px;
   border-radius: 5px 10px;
   margin-left: 2vw;
+  grid-area: home;
+  height:fit-content;
 }
+.email{margin:0;}
