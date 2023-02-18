@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import pluralize from 'pluralize';
 import { ClueType } from '../../../utils/interfaces'; // for Typescript interface
-//firebase:
+// firebase:
 import { database } from '../../../utils/firebase';
 import { ref, child, push, update, off } from 'firebase/database';
-//redux:
+// redux:
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentClue } from '../../../store/clueSlice';
 import { RootState } from '../../../store';
-//CSS:
+// CSS:
 import './clue.css';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const Clue = () => {
   // useStates:
   const [clueString, setClueString] = useState<string>('');
@@ -24,20 +30,37 @@ const Clue = () => {
   const { teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
   const { wordsInGame } = useSelector((state: RootState) => state.wordsInGame);
   // firebase:
-  let gameRef = ref(database, `rooms/${roomId}/game/`);
-  let gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
+  const gameRef = ref(database, `rooms/${roomId}/game/`);
+  const gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
   const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+  // MUI Alert stuff
+  const [open, setOpen] = React.useState<boolean>(false);
+  const vertical = 'bottom';
+  const horizontal = 'center';
+  const [alertMessage, setAlertMessage] = React.useState<string>('');
+  const handleOpen = (message: string) => {
+    setAlertMessage(message);
+    setOpen(true);
+  };
 
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+  //
   // This is an array of all the cards' words in play. It is used to make sure
   // that the spy does not give a clue that is one of these words.
-  let arrayToCheck: string[] = [];
+  const arrayToCheck: string[] = [];
   for (let i = 0; i < wordsInGame.length; i++) {
     arrayToCheck.push(wordsInGame[i].wordString.toUpperCase());
   }
 
   const handleClueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //trim any extra space so users cannot submit "   clue" or '    ',
-    //then convert all to uppercase to avoid case sensitive issue
+    // trim any extra space so users cannot submit "   clue" or '    ',
+    // then convert all to uppercase to avoid case sensitive issue
     setClueString(event.target.value.trim().toUpperCase());
   };
 
@@ -51,28 +74,28 @@ const Clue = () => {
 
     const regex = /[\s-]+/g;
     if (clueString === '') {
-      return alert('you have to enter a clue');
+      handleOpen('Cannot give an empty clue');
     }
-    //then convert all to singular so users cannot use 'apples' or 'feet' to indicate 'apple','foot'
-    //not sure how accurate .singular() is tho
+    // then convert all to singular so users cannot use 'apples' or 'feet' to indicate 'apple','foot'
+    // not sure how accurate .singular() is tho
     else if (arrayToCheck.includes(clueString) || arrayToCheck.includes(pluralize.singular(clueString))) {
-      return alert('this word is already on the gameboard, you cannot use it as your clue');
+      handleOpen('Cannot give a clue that includes a word on the gameboard');
     }
-    //here we make rules to only allow compound word that is a union of 3(and less) words so people won't type a whole sentence,
+    // here we make rules to only allow compound word that is a union of 3(and less) words so people won't type a whole sentence,
     // i.e "New York" or 'mother-in-law'
     else if (clueString.match(regex) && (clueString.match(regex)?.length || 0) > 2) {
-      return alert('you can only use a compound word that is made of less than 3 words');
+      handleOpen('A clue can only be 3 words or less');
     }
-    //this is to prevent users from submitting 'select a number'
+    // this is to prevent users from submitting 'select a number'
     // either null(when user not selecting this at all) or select 'select a number'
-    //clueNumber>0 will return false
+    // clueNumber>0 will return false
     else if (!clueNumber || clueNumber <= 0) {
-      return alert('please select a valid number');
+      handleOpen('Please select a valid number');
     } else {
       const clueData = {
         clueString,
         clueNumber,
-        teamSubmitted: teamId, //change to teamSubmitted
+        teamSubmitted: teamId, // change to teamSubmitted
       };
       const newClueKey = push(child(ref(database), 'clues')).key;
       if (newClueKey) {
@@ -154,6 +177,13 @@ const Clue = () => {
           Submit Clue
         </button>
       </form>
+      <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical, horizontal }}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            {alertMessage}
+          </Alert>
+        </Snackbar>
+      </Stack>
     </div>
   );
 };
