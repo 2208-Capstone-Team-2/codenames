@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store';
-import { CardObj } from '../../utils/interfaces';
+import { RootState } from '../../../store';
+import { CardObj } from '../../../utils/interfaces';
 import { ref, onValue } from 'firebase/database';
 import { useEffect } from 'react';
-import { database } from '../../utils/firebase';
-import { revealCard } from '../../store/wordsInGameSlice';
+import { database } from '../../../utils/firebase';
+import { revealCard } from '../../../store/wordsInGameSlice';
 import ReactCardFlip from 'react-card-flip';
 import allCardStyles from './spyCardStyles';
+import { useMediaQuery } from '@mui/material';
 
 interface WrapperProps {
   word: CardObj;
@@ -39,13 +40,24 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
     });
   }, []);
 
+  interface CardStylesType {
+    front: {};
+    back: {};
+  }
+
   // decide on the styling based on these comparisons
-  let cardStyles = {};
+  let cardStyles: any = {};
   if (teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
   if (teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
   if (teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
   if (teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
 
+  // Use mediaquery to adjust card height and width - 600px is our 'small screen' breakpoint
+  const isSmallScreen = useMediaQuery('(max-width:600px');
+  if (isSmallScreen) {
+    //cardStyles.front.width = ';
+    cardStyles.front.backgroundColor = 'green';
+  }
   if (!word) return <></>;
   if (!teamId) return <></>; // this stops a dispatch to the screen that looks weird
 

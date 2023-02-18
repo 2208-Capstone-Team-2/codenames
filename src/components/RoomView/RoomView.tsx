@@ -7,8 +7,8 @@ import OnValueGameHistoryRef from './customHooks/OnValueGameHistoryRef';
 import OnValueTeamDispatch from './customHooks/OnValueTeamDispatch';
 // Components:
 import SetupGame from './SetupGame';
-import OperativeBoard from './OperativeBoard';
-import SpyMasterBoard from './SpyMasterBoard';
+import OperativeBoard from './boardAndCardsOperatives/OperativeBoard';
+import SpyMasterBoard from './boardAndCardsSpy/SpyMasterBoard';
 import TeamOneBox from '../teamBoxes/TeamOneBox';
 import TeamTwoBox from '../teamBoxes/TeamTwoBox';
 import Clue from './clue/Clue';

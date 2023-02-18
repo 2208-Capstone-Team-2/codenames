@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { ref, update, get, set, child, push, onValue } from 'firebase/database';
-import { database } from '../../utils/firebase';
+import { database } from '../../../utils/firebase';
 import axios from 'axios';
-import { RootState } from '../../store';
-import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
+import { RootState } from '../../../store';
+import { Operative, CardObj, SingleHistoryObject } from '../../../utils/interfaces';
 import { MouseEvent } from 'react';
-import { revealCard } from '../../store/wordsInGameSlice';
+import { revealCard } from '../../../store/wordsInGameSlice';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import ReactCardFlip from 'react-card-flip';
@@ -60,10 +60,9 @@ const Card = (word: CardObj) => {
         updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-        update(gameRef, { gameStatus: 'complete'});
+        update(gameRef, { gameStatus: 'complete' });
         set(child(gameRef, 'winner'), 'team-2');
         set(child(gameRef, 'loser'), 'team-1');
-
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory: string = 'Team 1 hits a bystander! Turn is over!';
@@ -106,7 +105,7 @@ const Card = (word: CardObj) => {
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
         // team 1 wins if team 2 hits assassin. logic is triggered on roomview
-        update(gameRef, { gameStatus: 'complete'});
+        update(gameRef, { gameStatus: 'complete' });
         set(child(gameRef, 'winner'), 'team-1');
         set(child(gameRef, 'loser'), 'team-2');
       }
