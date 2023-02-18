@@ -13,7 +13,22 @@ function getRandomIntArray(length: number, arrayOfIds: number[]) {
   }
   return arr;
 }
+function shuffle(array: number[]) {
+  let currentIndex = array.length,
+    randomIndex;
 
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
 /**
  *  Creates an array of 25 elements that are teamIds.
 team1's id appears 9 times
@@ -73,7 +88,8 @@ function createRandomLayout(team1id: number, team2id: number, team3id: number, t
       randomLayout.push(team4id);
     }
   }
-  return randomLayout;
+  const shuffledArray = shuffle(randomLayout);
+  return shuffledArray;
 }
 
 export { getRandomIntArray, createRandomLayout };
