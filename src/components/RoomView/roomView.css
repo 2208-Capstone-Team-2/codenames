@@ -141,7 +141,7 @@ body {
     display: grid;
     grid-template-columns: 50% 50%;
     /* below rows fraction is temptorary, it could change once we actually set up each element */
-    grid-template-rows: 100px 20% 60fr 20fr 20fr 51px;
+    grid-template-rows: 100px 10% 60fr 20fr 20fr 51px;
     grid-template-areas:
       'topBar topBar'
       'gameStatus gameStatus'
