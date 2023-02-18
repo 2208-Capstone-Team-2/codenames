@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import allCardStyles from './cardStyles';
+import { useMediaQuery } from '@mui/material';
 
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
@@ -169,12 +170,33 @@ const Card = (word: CardObj) => {
     });
   }, []);
 
-  let cardStyles = {};
+  // decide on the styling based on these comparisons
+
+  let cardStyles: any = {}; // Todo: give this an actual interface
   if (word.teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
   if (word.teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
   if (word.teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
   if (word.teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
   if (!word.teamId) cardStyles = allCardStyles.unknownCardStyles;
+
+  // Use mediaquery to adjust card height and width - 600px is our 'small screen' breakpoint
+  const isSmallScreen = useMediaQuery('(max-width:600px');
+  if (isSmallScreen) {
+    console.log('Small screen detected!');
+    //cardStyles.front.backgroundColor = 'green';
+    cardStyles.front.width = '48pt';
+    cardStyles.front.height = '38.4pt';
+    cardStyles.back.width = '48pt';
+    cardStyles.back.height = '38.4pt';
+  }
+  if (!isSmallScreen) {
+    console.log('Big screen detected!');
+    //cardStyles.front.backgroundColor = 'pink';
+    cardStyles.front.width = '120pt';
+    cardStyles.front.height = '96pt';
+    cardStyles.back.width = '120pt';
+    cardStyles.back.height = '96pt';
+  }
 
   return (
     <div onClick={submitAnswer}>
