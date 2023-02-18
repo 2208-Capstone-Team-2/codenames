@@ -62,6 +62,12 @@ const OperativeBoard = () => {
 
   return (
     <div className="boardContainer">
+      {imOperativeAndItsMyTurn && (
+        <button className="btn btn-background-circle" onClick={endTurn}>
+          End Turn{' '}
+        </button>
+      )}
+
       <div className="board">
         {words.map((word: CardObj) => {
           return (
@@ -78,12 +84,6 @@ const OperativeBoard = () => {
           );
         })}
       </div>
-
-      {imOperativeAndItsMyTurn && (
-        <button className="btn btn-background-circle" onClick={endTurn}>
-          End Turn{' '}
-        </button>
-      )}
     </div>
   );
 };

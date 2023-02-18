@@ -9,14 +9,14 @@ const SpyMasterBoard = () => {
   const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
   return (
     <div className="boardContainer">
+      {/* Todo: want to move logic for if to show clue, here!  */}
+      <Clue />
+
       <div className="board">
         {words.map((word) => {
           return <SpyCard key={word.id} word={word} teamId={word.teamId} />;
         })}
       </div>
-
-      {/* Todo: want to move logic for if to show clue, here!  */}
-      <Clue />
     </div>
   );
 };
