@@ -1,5 +1,12 @@
+.gameStatusRow {
+  grid-area: gameStatus;
+  display: flex;
+  place-items: center;
+}
+
 .gameStatusContainer {
   font-family: 'Montserrat';
+  font-size: 1rem;
   color: white;
   display: flex;
   flex-direction: column;
@@ -10,7 +17,6 @@
   background-color: #483d3d4a;
   border-radius: 40px;
   box-shadow: 4px 4px black;
-  grid-area: gameStatus;
 }
 .gameStatusItem {
   align-self: center;
@@ -37,14 +43,9 @@
 /*-------------------------mobile-------------------------*/
 @media only screen and (max-width: 600px) {
   .gameStatusContainer {
-    font-size: 12px;
-    height: min-content;
-    width: 70%;
-    margin: 2% auto;
+    font-size: 0.6rem;
   }
   .claimHostButton {
-    /* seems like we can't just set font size to a rem value and expect it to be responsive 
-   /* because without the below rule font in game status looks huge on chrome phone view*/
-    font-size: 0.4rem;
+    font-size: 0.7rem;
   }
 }

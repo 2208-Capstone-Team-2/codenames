@@ -42,12 +42,15 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 250px;
   margin-top: 30px;
 }
 .redOpsAndSpys p {
   margin: 8px 0 8px;
   padding: 0;
+}
+.playerNameContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 .playerName {
   color: white;
@@ -61,7 +64,10 @@
   padding-left: 6px !important;
   padding-right: 6px !important;
   margin: 4px !important;
+  word-break: break-all;
+  width: fit-content;
 }
+
 /*---------------------------------------------mobile----------------------------*/
 
 @media only screen and (max-width: 600px) {
