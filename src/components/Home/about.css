@@ -3,10 +3,9 @@
   grid-template-rows: 50fr 50fr auto;
   grid-template-columns: 25% 75%;
   grid-template-areas:
-  'home aboutMember'
+    'home aboutMember'
     'aboutIntro aboutMember'
     'footer footer';
-
 }
 .aboutIntro {
   grid-area: aboutIntro;
@@ -52,50 +51,47 @@
 }
 .heidi {
   grid-area: member1;
-  margin:0 auto;
- 
+  margin: 0 auto;
 }
 .rose {
   grid-area: member2;
-  margin:0 auto;
-
+  margin: 0 auto;
 }
 .olivia {
   grid-area: member3;
-  margin:0 auto;
-
+  margin: 0 auto;
 }
 .josh {
   grid-area: member4;
-  margin:0 auto;
+  margin: 0 auto;
   border-top: white 1px solid;
 }
 .topher {
-  grid-area: member5; 
-  width:45% !important;
-  border-top:white 1px solid;
+  grid-area: member5;
+  width: 45% !important;
+  border-top: white 1px solid;
 }
 .contacts {
   display: flex;
-flex-direction: column;
+  flex-direction: column;
   font-size: 14px;
-  color: white;;
+  color: white;
   height: 120px;
   justify-content: space-evenly;
 }
 .contacts a {
-  color: white;;
+  color: white;
 }
 .aboutTeamMember img {
   width: 150px;
   border-radius: 100px;
 }
 .memberContent {
-  color: white;;
+  color: white;
   line-height: 24px;
-  margin-top:16px;
-font-size: 14px;
-font-family: 'Montserrat';
+  margin-top: 16px;
+  font-size: 14px;
+  font-family: 'Montserrat';
 }
 .homeButton {
   border-right: solid black 3px;
@@ -110,16 +106,19 @@ font-family: 'Montserrat';
   border-radius: 5px 10px;
   margin-left: 2vw;
   grid-area: home;
-  height:fit-content;
+  height: fit-content;
 }
-.email{margin:0;}
+.email {
+  margin: 0;
+}
 @media only screen and (max-width: 1500px) {
-  .aboutPage{overflow: hidden;}
+  .aboutPage {
+    overflow: hidden;
+  }
   .aboutTeamMember img {
     width: 100px;
   }
   .aboutTeamMember {
- justify-content: flex-start;
+    justify-content: flex-start;
   }
-
 }

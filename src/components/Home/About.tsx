@@ -63,7 +63,7 @@ const About = () => {
               <a href="https://github.com/rosalie0?tab=overview&from=2023-02-01&to=2023-02-17" target="_blank">
                 Github
               </a>
-              <p className="email">email@gmail.com</p>
+              <p className="email">rosalienewman0@gmail.com</p>
             </div>
             <p className="memberContent">
               Rose here! So thankful to be part of such a great group & such a fun project. My two biggest takeaways
