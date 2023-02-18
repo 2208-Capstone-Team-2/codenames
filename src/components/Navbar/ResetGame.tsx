@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import './resetButtons.css';
 
-
 const ResetGame = () => {
   const { roomId } = useSelector((state: RootState) => state.player);
   const gameRef = ref(database, 'rooms/' + roomId + '/game/');
@@ -19,9 +18,9 @@ const ResetGame = () => {
   };
 
   return (
-      <button className="gameSettingsButton" onClick={resetGame}>
-        Reset Game
-      </button>
+    <button className="gameSettingsButton" onClick={resetGame}>
+      Reset Game
+    </button>
   );
 };
 
