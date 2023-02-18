@@ -62,7 +62,7 @@ const OperativeBoard = () => {
   const imOperativeAndItsMyTurn = imTeamOneOperativeAndItsMyTurn || imTeamTwoOperativeAndItsMyTurn;
 
   return (
-    <div>
+    <div className="boardContainer">
       <div className="board">
         {words.map((word: CardObj) => {
           return (

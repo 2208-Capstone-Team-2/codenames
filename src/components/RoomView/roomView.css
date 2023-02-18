@@ -17,7 +17,12 @@ body {
 }
 .boardContainer {
   grid-area: gameBoard;
-  margin-top: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem; /* Temporary, I think this is because the current card size overflows out of the grid area?*/
+  place-content: baseline;
 }
 .board {
   display: grid;
