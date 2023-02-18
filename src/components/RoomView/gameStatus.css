@@ -34,17 +34,3 @@
   margin-left: 0.2rem;
   margin-right: 0.2rem;
 }
-/*-------------------------mobile-------------------------*/
-@media only screen and (max-width: 600px) {
-  .gameStatusContainer {
-    font-size: 12px;
-    height: min-content;
-    width: 70%;
-    margin: 2% auto;
-  }
-  .claimHostButton {
-    /* seems like we can't just set font size to a rem value and expect it to be responsive 
-   /* because without the below rule font in game status looks huge on chrome phone view*/
-    font-size: 0.4rem;
-  }
-}

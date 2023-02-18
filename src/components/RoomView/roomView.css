@@ -1,23 +1,19 @@
 body {
   margin: 0;
 }
-.roomViewGrid {
-  display: grid;
-  grid-template-columns: 25fr 50fr 25fr;
-  grid-template-rows: 0.1fr 0.1fr 2fr 3fr 51px;
-  grid-template-areas:
-    'topBar topBar topBar'
-    'gameStatus gameStatus gameStatus'
-    'redTeam gameBoard blueTeam'
-    'gameLog gameBoard chatBox'
-    'footer footer footer';
-  justify-content: center;
-  align-content: start;
-  overflow: hidden;
-}
-.boardContainer {
-  grid-area: gameBoard;
-}
+.roomViewGrid{display:grid;
+grid-template-columns: 25fr 50fr 25fr;
+grid-template-rows: 5fr 5fr 25fr 35fr 51px;
+grid-template-areas: 
+'topBar topBar topBar' 
+'gameStatus gameStatus gameStatus' 
+'redTeam gameBoard blueTeam'
+'gameLog gameBoard chatBox'
+'footer footer footer';
+justify-content: center;
+align-content: start;
+overflow: hidden;}
+.boardContainer{grid-area:gameBoard;  margin-top:8%}
 .board {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
@@ -26,19 +22,14 @@ body {
   align-items: center;
   visibility: visible;
 }
-.gameLogGridcell {
-  grid-area: gameLog;
-  display: flex;
-  justify-content: center;
-  margin: 2% 0 10% 0;
-}
+.gameLogGridcell{  grid-area: gameLog;display: flex;
+  justify-content: center;margin:2% 0 10% 0;}
 .gameLog {
-  width: 60%;
-  height: 80%;
+ width:60%;
+ height: 80%;
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
-  border: black solid 1px;
 }
 .gameHistoryTitle {
   margin-top: 1%;
@@ -60,10 +51,10 @@ body {
   width: fit-content;
   background-color: #e2c78d;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 5px; 
   z-index: 0;
   grid-area: gameBoard;
-  margin: 5% auto;
+  margin:5% auto;
 }
 
 .setUpForm {
@@ -92,8 +83,7 @@ body {
   margin-top: 10px;
 }
 
-.loser {
-  top: 50%;
+.loser {  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
@@ -107,6 +97,7 @@ body {
   align-items: center;
   padding: 5%;
   font-size: 14px;
+
 }
 .winner {
   top: 50%;
@@ -133,34 +124,5 @@ body {
   border: none;
   width: 5%;
   height: 15%;
-  border: solid black 1px;
-}
-/*---------------------------------------------mobile----------------------------*/
-@media only screen and (max-width: 600px) {
-  .roomViewGrid {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    /* below rows fraction is temptorary, it could change once we actually set up each element */
-    grid-template-rows: 100px 20% 60fr 20fr 20fr 51px;
-    grid-template-areas:
-      'topBar topBar'
-      'gameStatus gameStatus'
-      'gameBoard gameBoard'
-      'redTeam blueTeam'
-      'gameLog chatBox'
-      'footer footer';
-    height: 100vh;
-    overflow: scroll;
-  }
-  .boardContainer {
-    margin-top: 5%;
-    height: 60fr;
-  }
-  /* 2% was the default desktop setting, if it is too big, you can change it in below gap:value */
-  .board {
-    gap: 0;
-  }
-  .gameLog {
-    width: 100%;
-  }
+  border:solid black 1px;
 }
