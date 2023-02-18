@@ -1,5 +1,5 @@
 .navRow {
-  font-weight: 500;
+  font-weight: 400;
   display: flex;
   justify-content: space-between;
   padding: 7px;
@@ -118,3 +118,15 @@
   }
   .resetAndHTPBtns {order:2}
 }
+/*------------------------------------tablet and small laptop-------------------------------------*/
+@media only screen and (min-width: 601px) and (max-width:1400px) {
+.navRow {
+justify-content: space-around;
+}
+.welcomeBoard {
+  width: fit-content;
+}
+.welcomeBoardItem img {
+  align-self: center;
+  width: 45px;
+}}
