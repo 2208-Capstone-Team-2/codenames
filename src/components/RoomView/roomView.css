@@ -168,7 +168,7 @@ body {
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
   .roomViewGrid {display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 100px 20% 60fr 20fr 20fr 51px;
+    grid-template-rows: auto auto 4fr 2fr 2fr auto;
     grid-template-areas:
       'topBar topBar'
       'gameStatus gameStatus'
@@ -176,16 +176,10 @@ body {
       'redTeam blueTeam'
       'gameLog chatBox'
       'footer footer';
-    height: 100vh;
-    overflow: scroll;
   }
 }
 /*------------------------------------tablet and small laptop-------------------------------------*/
 @media only screen and (min-width: 1025px) and (max-width: 1400px) {
-  .roomViewGrid {
-    display: grid;
-    overflow: scroll;
-  }
   .roomViewGrid {
     grid-template-columns: 20% 60% 20%;
   }
