@@ -177,13 +177,11 @@ const Clue = () => {
           Submit Clue
         </button>
       </form>
-      <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical, horizontal }}>
-          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-            {alertMessage}
-          </Alert>
-        </Snackbar>
-      </Stack>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical, horizontal }}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
