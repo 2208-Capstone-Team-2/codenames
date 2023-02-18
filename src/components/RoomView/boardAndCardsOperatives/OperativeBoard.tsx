@@ -30,7 +30,6 @@ const OperativeBoard = () => {
   });
 
   const endTurn = () => {
-    console.log('ending turn');
     let nextStatus;
     // if cards remain on both sides, swap to the next teams turn
     if (teamOneRemainingCards && teamTwoRemainingCards) {
