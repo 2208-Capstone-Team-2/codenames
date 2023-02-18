@@ -120,7 +120,7 @@ body {
   width: fit-content;
   height: fit-content;
   place-self: center;
-  background-color: #e2c78dc7;
+  background-color: rgba(217, 215, 209, 0.71);
   color: black;
   border-radius: 5px;
   padding: 1vw;
@@ -172,5 +172,19 @@ body {
     width: 13vw;
     height: 13vh;
     place-self: center;
+  }
+
+  .winner {
+    display: flex;
+    text-align: center;
+    grid-area: gameBoard;
+    z-index: 1;
+    width: fit-content;
+    height: fit-content;
+    place-self: center;
+    background-color: 'gainsboro';
+    color: black;
+    border-radius: 5px;
+    padding: 1vw;
   }
 }
