@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { RootState } from '../../store';
 import { child, update, ref } from 'firebase/database';
 import { database } from '../../utils/firebase';
-import './gameStatus.css'
+import './gameStatus.css';
 const GameStatus = () => {
-  const {status, guessesRemaining, host} = useSelector((state: RootState) => state.game);
+  const { status, guessesRemaining, host } = useSelector((state: RootState) => state.game);
   const { playerId, teamId, username, roomId } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
@@ -135,25 +135,29 @@ const GameStatus = () => {
   }, [status]);
 
   const showGuessesRemaining = !(guessesRemaining === 0 || guessesRemaining === undefined);
-  const gameInProgress = (status !== 'ready' && status !== 'complete')
-  const gameReady = (status === 'ready')
-  const gameComplete = (status === 'complete')
+  const gameInProgress = status !== 'ready' && status !== 'complete';
+  const gameReady = status === 'ready';
+  const gameComplete = status === 'complete';
 
-    return (
-        <div className="gameStatusRow">
-        <div className="gameStatusContainer">
-          {gameReady && <p className="gameStatusItem">Waiting to begin the game!</p>}
-          {gameComplete && <p className="gameStatusItem">Game over!</p>}
-          {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
-          {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
-          {!host && 
-          (<p className="gameStatusItem claimHostText">
-            The host left the room! 
-            <button className="claimHostButton" onClick={claimHost}>Claim Host</button> for the next game.
-          </p>)}
-        </div>
+  return (
+    <div className="gameStatusRow">
+      <div className="gameStatusContainer">
+        {gameReady && <p className="gameStatusItem">Waiting to begin the game!</p>}
+        {gameComplete && <p className="gameStatusItem">Game over!</p>}
+        {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
+        {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
+        {!host && (
+          <p className="gameStatusItem claimHostText">
+            The host left the room!
+            <button className="claimHostButton" onClick={claimHost}>
+              Claim Host
+            </button>{' '}
+            for the next game.
+          </p>
+        )}
       </div>
-    );
+    </div>
+  );
 };
 
 export default GameStatus;

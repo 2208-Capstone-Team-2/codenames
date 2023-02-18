@@ -1,5 +1,5 @@
 import React from 'react';
-import './gameRules.css'
+import './gameRules.css';
 const GameRules = () => {
   return (
     <div className="gameRules">
@@ -11,8 +11,8 @@ const GameRules = () => {
         </li>
         <li>If the operative clicks a bystander or the other teams card, the turn ends.</li>
         <li>
-          If an operative chooses a card that belongs to the other team, their turn ends and the
-          other team's card is revealed.
+          If an operative chooses a card that belongs to the other team, their turn ends and the other team's card is
+          revealed.
         </li>
         <li>If the operative clicks the Assassin card, the other team wins, so be careful with your hints!</li>
         <li>First team to reveal all their cards wins!</li>
