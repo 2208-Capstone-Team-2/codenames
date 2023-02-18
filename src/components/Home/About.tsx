@@ -100,7 +100,7 @@ const About = () => {
               <a href="https://github.com/Joshowens16?tab=overview&from=2023-02-01&to=2023-02-17/" target="_blank">
                 Github
               </a>
-              <p className="email">email@gmail.com</p>
+              <p className="email">joshowens16@gmail.com</p>
             </div>
             <p className="memberContent">
               Developing Codenames has been a challenging and very rewarding experience. I have had the opportunity
