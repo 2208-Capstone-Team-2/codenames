@@ -78,6 +78,7 @@
   color: white;
   height: 120px;
   justify-content: space-evenly;
+  margin-left: 8px;
 }
 .contacts a {
   color: white;
@@ -107,6 +108,7 @@
   margin-left: 2vw;
   grid-area: home;
   height: fit-content;
+  margin-top: 12px;
 }
 .email {
   margin: 0;
