@@ -1,5 +1,6 @@
 .gameStatusContainer {
   font-family: 'Montserrat';
+  font-size: 1rem;
   color: white;
   display: flex;
   flex-direction: column;
@@ -37,14 +38,12 @@
 /*-------------------------mobile-------------------------*/
 @media only screen and (max-width: 600px) {
   .gameStatusContainer {
-    font-size: 12px;
+    font-size: 0.6rem;
     height: min-content;
     width: 70%;
     margin: 2% auto;
   }
   .claimHostButton {
-    /* seems like we can't just set font size to a rem value and expect it to be responsive 
-   /* because without the below rule font in game status looks huge on chrome phone view*/
     font-size: 0.4rem;
   }
 }

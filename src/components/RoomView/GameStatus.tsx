@@ -145,10 +145,11 @@ const GameStatus = () => {
         {gameComplete && <p className="gameStatusItem">Game over!</p>}
         {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
         {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
-        {!host && <p className="gameStatusItem claimHostText">
+        {!host && 
+        (<p className="gameStatusItem claimHostText">
           The host left the room! 
           <button className="claimHostButton" onClick={claimHost}>Claim Host</button> for the next game.
-        </p>}
+        </p>)}
       </div>
     );
 };
