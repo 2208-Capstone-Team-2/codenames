@@ -24,9 +24,9 @@ const Team = db.define<TeamModel>('team', {
     type: STRING,
     allowNull: true,
   },
-  roomId:{
-    type: INTEGER
-  }
+  roomId: {
+    type: INTEGER,
+  },
 });
 
 export default Team;

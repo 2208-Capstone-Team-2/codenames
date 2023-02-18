@@ -1,6 +1,6 @@
 import data from '../index';
 const Player = data.Player;
-``
+``;
 
 const playerSeed = async () => {
   interface User {
@@ -8,7 +8,7 @@ const playerSeed = async () => {
     username: string;
     wins: number;
   }
-  const dummyData: User[]= [
+  const dummyData: User[] = [
     {
       id: 1,
       username: 'Ben',
@@ -85,7 +85,7 @@ const playerSeed = async () => {
       wins: 19,
     },
   ];
-  await Promise.all(dummyData.map((player:any) => (Player as any).create(player)));
+  await Promise.all(dummyData.map((player: any) => (Player as any).create(player)));
   console.log('DONE SEEDING PLAYERS..');
 };
 

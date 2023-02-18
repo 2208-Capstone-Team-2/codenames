@@ -27,7 +27,7 @@ const Word = db.define<WordModel>('word', {
   wordpackId: {
     type: INTEGER,
     allowNull: true,
-  }
+  },
 });
 
 export default Word;
