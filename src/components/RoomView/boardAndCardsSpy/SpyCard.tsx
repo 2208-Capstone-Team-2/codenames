@@ -50,16 +50,14 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
   // Use mediaquery to adjust card height and width - 600px is our 'small screen' breakpoint
   const isSmallScreen = useMediaQuery('(max-width:600px');
   if (isSmallScreen && teamId) {
-    console.log('Small screen detected!');
-    //cardStyles.front.backgroundColor = 'green';
+    // What you want for <600px screen styling on card front and back props goes here.
     cardStyles.front.width = '48pt';
     cardStyles.front.height = '38.4pt';
     cardStyles.back.width = '48pt';
     cardStyles.back.height = '38.4pt';
   }
   if (!isSmallScreen && teamId) {
-    console.log('Big screen detected!');
-    //cardStyles.front.backgroundColor = 'pink';
+    // What you want for >600px screen styling on card front and back props goes here.
     cardStyles.front.width = '120pt';
     cardStyles.front.height = '96pt';
     cardStyles.back.width = '120pt';

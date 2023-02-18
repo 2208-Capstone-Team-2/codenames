@@ -155,7 +155,5 @@ const blackCardStyles = {
   back: blackRevealed,
 };
 
-// Do media query
-
 const allCardStyles = { redCardStyles, blueCardStyles, beigeCardStyles, blackCardStyles };
 export default allCardStyles;
