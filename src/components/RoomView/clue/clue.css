@@ -1,14 +1,14 @@
 .clueWrapper {
   display: flex;
   justify-content: center;
-  grid-area:gameBoard;
+  grid-area: gameBoard;
   align-items: flex-end;
 }
 
 .clue-form {
   display: flex;
   flex-wrap: wrap;
-  grid-area:gameBoard;
+  grid-area: gameBoard;
   justify-content: center;
   align-items: center;
   font-family: 'Montserrat', sans-serif;
@@ -82,6 +82,6 @@ dark blue -  #355e7f    rgb(53,94,127)
 yellow - #e2c78d    rgb(226,199,141)
 */
 
- /*------------------------------mobile-------------------------------*/
+/*------------------------------mobile-------------------------------*/
 
- /* I didn't do mobile css because we need to wait to see how the board will look like and where is the best place to add clue input */
+/* I didn't do mobile css because we need to wait to see how the board will look like and where is the best place to add clue input */

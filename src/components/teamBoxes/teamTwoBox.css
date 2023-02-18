@@ -1,4 +1,4 @@
-.blueGridCell{
+.blueGridCell {
   grid-area: blueTeam;
   display: flex;
   justify-content: center;
@@ -72,8 +72,10 @@
     font-weight: 200;
     width: 50vw;
   }
-  .blueBoxCard button  {
-  font-size: 12px;
+  .blueBoxCard button {
+    font-size: 12px;
   }
-  .blueOpsAndSpys{width: 100%;}
+  .blueOpsAndSpys {
+    width: 100%;
+  }
 }

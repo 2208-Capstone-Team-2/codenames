@@ -1,6 +1,8 @@
-.redGridCell{  grid-area: redTeam;
-display: flex;
-justify-content: center;}
+.redGridCell {
+  grid-area: redTeam;
+  display: flex;
+  justify-content: center;
+}
 .redBoxCard {
   height: fit-content;
   color: #d2dcde;
@@ -12,7 +14,7 @@ justify-content: center;}
   font-family: 'Oswald';
   font-weight: 400;
   letter-spacing: 1px;
-width:60% 
+  width: 60%;
 }
 .redBoxCard h3 {
   display: flex;
@@ -63,15 +65,17 @@ width:60%
 /*---------------------------------------------mobile----------------------------*/
 
 @media only screen and (max-width: 600px) {
-/*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
- /*try take of border radius on the box and see how it looks*/
+  /*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
+  /*try take of border radius on the box and see how it looks*/
   .redBoxCard {
     font-size: 12px;
     font-weight: 200;
-    width:50vw;
+    width: 50vw;
   }
   .redBoxCard button {
-  font-size: 12px;
+    font-size: 12px;
   }
-  .redOpsAndSpys{width: 100%;}
+  .redOpsAndSpys {
+    width: 100%;
+  }
 }
