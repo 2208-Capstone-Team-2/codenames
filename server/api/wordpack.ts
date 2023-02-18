@@ -1,6 +1,6 @@
-import express, { NextFunction, Request, Response, Router } from "express";
+import express, { NextFunction, Request, Response, Router } from 'express';
 const router = Router();
-import db from "../db";
+import db from '../db';
 const Wordpack = db.Wordpack;
 
 // GET - /api/wordpack/

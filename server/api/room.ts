@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from 'express';
 const router = Router();
-import db from "../db";
+import db from '../db';
 const Room = db.Room;
 const Team = db.Team;
-import randomWords  from 'random-words';
+import randomWords from 'random-words';
 
 // const randomWords = require('random-words'); // used for room name generation
 
@@ -47,15 +47,15 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       slug = randomWords({ exactly: 3, join: '-' }); // Make another random slug
       roomWithThisSlug = await Room.findOne({ where: { name: slug } }); // See if there's a room that exists with this name again.
     }
-    
+
     const room = await Room.create({ name: slug });
-    
+
     // Creates four teams models (aka the 4 card colors)
     const team1 = await Team.create({ name: 'team red', roomId: room.id });
     const team2 = await Team.create({ name: 'team blue', roomId: room.id });
     const team3 = await Team.create({ name: 'team white', roomId: room.id });
     const team4 = await Team.create({ name: 'team black', roomId: room.id });
-    
+
     // Update the room object to have the ids of the teams we created
     // These are needed for creating the board layout, as:
     // team1 is team red, who will be the team that goes first, meaning they has 9 cards
@@ -65,7 +65,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       team3id: team3.id,
       team4id: team4.id,
     });
-    
+
     res.send(updatedRoom);
   } catch (err) {
     next(err);

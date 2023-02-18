@@ -1,12 +1,7 @@
 import Sequelize from 'sequelize';
 import db from '../db';
 import Team from './team';
-import {
-  CreationOptional,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from "sequelize";
+import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import { BoardModel } from './board';
 
 interface ResponseError extends Error {
@@ -15,11 +10,7 @@ interface ResponseError extends Error {
 
 const { STRING, INTEGER } = Sequelize;
 
-export interface RoomModel
-  extends Model<
-    InferAttributes<RoomModel>,
-    InferCreationAttributes<RoomModel>
-  > {
+export interface RoomModel extends Model<InferAttributes<RoomModel>, InferCreationAttributes<RoomModel>> {
   setBoard(board: BoardModel): unknown;
   id: CreationOptional<number>;
   name: string;

@@ -31,6 +31,5 @@ export const playerSlice = createSlice({
   },
 });
 
-
-export const { setUsername, setRoomId, setPlayerId, setIsHost, setTeamIdOnPlayer } = playerSlice.actions; 
+export const { setUsername, setRoomId, setPlayerId, setIsHost, setTeamIdOnPlayer } = playerSlice.actions;
 export default playerSlice.reducer;

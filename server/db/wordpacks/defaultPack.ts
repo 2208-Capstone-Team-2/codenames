@@ -399,4 +399,3 @@ Witch
 Worm
 Yard`;
 export default defaultPackString;
-
