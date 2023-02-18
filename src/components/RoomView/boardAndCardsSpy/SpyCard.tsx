@@ -40,13 +40,8 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
     });
   }, []);
 
-  interface CardStylesType {
-    front: {};
-    back: {};
-  }
-
   // decide on the styling based on these comparisons
-  let cardStyles: any = {};
+  let cardStyles: any = {}; // Todo: give this an actual interface
   if (teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
   if (teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
   if (teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
@@ -54,10 +49,18 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
 
   // Use mediaquery to adjust card height and width - 600px is our 'small screen' breakpoint
   const isSmallScreen = useMediaQuery('(max-width:600px');
-  if (isSmallScreen) {
+  if (isSmallScreen && teamId) {
+    console.log('small screen?!');
+    console.log(cardStyles);
     //cardStyles.front.width = ';
     cardStyles.front.backgroundColor = 'green';
   }
+  if (!isSmallScreen && teamId) {
+    console.log('big screen?!');
+    console.log(cardStyles);
+    cardStyles.front.backgroundColor = 'pink';
+  }
+
   if (!word) return <></>;
   if (!teamId) return <></>; // this stops a dispatch to the screen that looks weird
 
