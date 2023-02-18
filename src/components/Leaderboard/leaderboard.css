@@ -137,3 +137,130 @@
     border-color: rgb(255, 255, 255);
   }
 }
+/* Phone Media Queries */
+@media only screen and (max-width: 500px) {
+  .leaderboardContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+  }
+  .leaderboardContainer h1 {
+    font-size: 24px;
+    font-family: myFirstFont;
+    letter-spacing: 8px;
+    height: fit-content;
+    color: white;
+    margin: 0 0 32px;
+    user-select: none;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: none;
+    white-space: nowrap; /* Keeps the content on a single line */
+    animation: none;
+  }
+  .players {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Oswald';
+    height: 50vh;
+    width: 50vw;
+    padding: 36px;
+    align-items: center;
+    border: 0.5px solid black;
+    background-color: white;
+    border-radius: 10px;
+  }
+  #headers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50vw;
+    border-bottom: 1px solid black;
+  }
+  .playerRow {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    width: 50vw;
+  }
+  .playerUsername {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 0;
+  }
+  .pagination a {
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: 4px;
+    background-color: white;
+    font-family: 'Dogfish', sans-serif;
+    color: black;
+  }
+}
+/* Tablet Media Queries */
+@media only screen and (max-width: 800px) {
+  .leaderboardContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .leaderboardContainer h1 {
+    font-size: 2rem;
+    font-family: myFirstFont;
+    letter-spacing: 8px;
+    height: fit-content;
+    color: white;
+    margin: 0 0 32px;
+    user-select: none;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: none;
+    white-space: nowrap; /* Keeps the content on a single line */
+    animation: none;
+  }
+  .players {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Oswald';
+    height: 50vh;
+    width: 50vw;
+    padding: 36px;
+    align-items: center;
+    border: 0.5px solid black;
+    background-color: white;
+    border-radius: 10px;
+  }
+  #headers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50vw;
+    border-bottom: 1px solid black;
+  }
+  .playerRow {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    width: 50vw;
+  }
+  .playerUsername {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 0;
+  }
+  .pagination a {
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: 4px;
+    background-color: white;
+    font-family: 'Dogfish', sans-serif;
+    color: black;
+  }
+}

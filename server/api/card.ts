@@ -87,7 +87,6 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     const { roomId } = req.params;
     const { selectedWordPackIds } = req.body;
 
-    console.log({ selectedWordPackIds });
     // Find which pack users select and put all the candidate words in an array
     const allWords = await Word.findAll({
       where: {
@@ -134,7 +133,6 @@ router.post('/make25/forRoom/:roomId', async (req: Request, res: Response, next:
     // Let these 25 Card Model creations run async, and await for them ALL to finish.
     const cardPromises = cards.map((card) => Card.create(card));
 
-    console.log(cards);
     await Promise.all(cardPromises);
 
     /****** At this point the cards have been seeded!

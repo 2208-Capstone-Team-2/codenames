@@ -1,4 +1,4 @@
-.blueGridCell{
+.blueGridCell {
   grid-area: blueTeam;
   display: flex;
   justify-content: center;
@@ -43,12 +43,15 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 250px;
   margin-top: 30px;
 }
 .blueOpsAndSpys p {
   margin: 8px 0 8px;
   padding: 0;
+}
+.playerNameContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 .playerName {
   color: white;
@@ -62,7 +65,10 @@
   padding-left: 6px !important;
   padding-right: 6px !important;
   margin: 4px !important;
+  word-break: break-all;
+  width: fit-content;
 }
+
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
   /*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
@@ -72,8 +78,8 @@
     font-weight: 200;
     width: 50vw;
   }
-  .blueBoxCard button  {
-  font-size: 12px;
+  .blueBoxCard button {
+    font-size: 12px;
   }
   .blueOpsAndSpys{width: 100%;}
 }
@@ -81,4 +87,8 @@
 @media only screen and (min-width: 601px) and (max-width:1400px) {
   .blueGridCell {
 
-  }}
+  }
+  .blueOpsAndSpys {
+    width: 100%;
+  }
+}

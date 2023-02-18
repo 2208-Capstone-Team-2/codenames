@@ -14,7 +14,7 @@
   border-radius: 6px;
   background-color: gainsboro;
   height: 80%;
-  border:black solid 1px;
+  border: black solid 1px;
 }
 
 .chat-header {
@@ -58,8 +58,8 @@
 }
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
-   /*try take of border radius on the box and see how it looks*/
-    /*font and padding need to change*/
+  /*try take of border radius on the box and see how it looks*/
+  /*font and padding need to change*/
   .chat-container {
     width: 100%;
   }

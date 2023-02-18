@@ -140,15 +140,18 @@ const GameStatus = () => {
   const gameComplete = (status === 'complete')
 
     return (
-      <div className="gameStatusContainer">
-        {gameReady && <p className="gameStatusItem">Waiting to begin the game!</p>}
-        {gameComplete && <p className="gameStatusItem">Game over!</p>}
-        {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
-        {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
-        {!host && <p className="gameStatusItem claimHostText">
-          The host left the room! 
-          <button className="claimHostButton" onClick={claimHost}>Claim Host</button> for the next game.
-        </p>}
+        <div className="gameStatusRow">
+        <div className="gameStatusContainer">
+          {gameReady && <p className="gameStatusItem">Waiting to begin the game!</p>}
+          {gameComplete && <p className="gameStatusItem">Game over!</p>}
+          {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
+          {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
+          {!host && 
+          (<p className="gameStatusItem claimHostText">
+            The host left the room! 
+            <button className="claimHostButton" onClick={claimHost}>Claim Host</button> for the next game.
+          </p>)}
+        </div>
       </div>
     );
 };

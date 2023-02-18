@@ -1,16 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { ref, update, get, set, child, push, onValue } from 'firebase/database';
-import { database } from '../../utils/firebase';
+import { database } from '../../../utils/firebase';
 import axios from 'axios';
-import { RootState } from '../../store';
-import { Operative, CardObj, SingleHistoryObject } from '../../utils/interfaces';
+import { RootState } from '../../../store';
+import { Operative, CardObj, SingleHistoryObject } from '../../../utils/interfaces';
 import { MouseEvent } from 'react';
-import { revealCard } from '../../store/wordsInGameSlice';
+import { revealCard } from '../../../store/wordsInGameSlice';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import allCardStyles from './cardStyles';
+import { useMediaQuery } from '@mui/material';
 
 const Card = (word: CardObj) => {
   const { playerId, roomId } = useSelector((state: RootState) => state.player);
@@ -60,10 +61,9 @@ const Card = (word: CardObj) => {
         updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
-        update(gameRef, { gameStatus: 'complete'});
+        update(gameRef, { gameStatus: 'complete' });
         set(child(gameRef, 'winner'), 'team-2');
         set(child(gameRef, 'loser'), 'team-1');
-
       }
       if (cardBelongsTo === bystanderTeamId) {
         const newGameHistory: string = 'Team 1 hits a bystander! Turn is over!';
@@ -106,7 +106,7 @@ const Card = (word: CardObj) => {
         update(gameHistoryRef, updates);
         update(singleCardRef, { isVisibleToAll: true, teamId: cardBelongsTo });
         // team 1 wins if team 2 hits assassin. logic is triggered on roomview
-        update(gameRef, { gameStatus: 'complete'});
+        update(gameRef, { gameStatus: 'complete' });
         set(child(gameRef, 'winner'), 'team-1');
         set(child(gameRef, 'loser'), 'team-2');
       }
@@ -170,12 +170,30 @@ const Card = (word: CardObj) => {
     });
   }, []);
 
-  let cardStyles = {};
+  // Decide on the styling based on these comparisons
+  let cardStyles: any = {}; // Todo: give this an actual interface
   if (word.teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
   if (word.teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
   if (word.teamId === bystanderTeamId) cardStyles = allCardStyles.beigeCardStyles;
   if (word.teamId === assassinTeamId) cardStyles = allCardStyles.blackCardStyles;
   if (!word.teamId) cardStyles = allCardStyles.unknownCardStyles;
+
+  // Use mediaquery to adjust card height and width - 600px is our 'small screen' breakpoint
+  const isSmallScreen = useMediaQuery('(max-width:600px');
+  if (isSmallScreen) {
+    // What you want for <600px screen styling on card front and back props goes here.
+    cardStyles.front.width = '48pt';
+    cardStyles.front.height = '38.4pt';
+    cardStyles.back.width = '48pt';
+    cardStyles.back.height = '38.4pt';
+  }
+  if (!isSmallScreen) {
+    // What you want for >600px screen styling on card front and back props goes here.
+    cardStyles.front.width = '120pt';
+    cardStyles.front.height = '96pt';
+    cardStyles.back.width = '120pt';
+    cardStyles.back.height = '96pt';
+  }
 
   return (
     <div onClick={submitAnswer}>
