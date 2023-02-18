@@ -2,7 +2,6 @@
   grid-area: redTeam;
   display: flex;
   justify-content: center;
-  margin-top: 15%;
 }
 .redBoxCard {
   height: fit-content;
@@ -67,4 +66,38 @@
   margin: 4px !important;
   word-break: break-all;
   width: fit-content;
+}
+/*---------------------------------------------mobile----------------------------*/
+
+@media only screen and (max-width: 600px) {
+  /*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
+  /*try take of border radius on the box and see how it looks*/
+  .redBoxCard {
+    font-size: 12px;
+    font-weight: 200;
+    width: 50vw;
+  }
+  .redBoxCard button {
+    font-size: 12px;
+  }
+  .redOpsAndSpys {
+    width: 100%;
+  }
+}
+/*---------------------------------------------mobile----------------------------*/
+
+@media only screen and (max-width: 600px) {
+  /*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
+  /*try take of border radius on the box and see how it looks*/
+  .redBoxCard {
+    font-size: 12px;
+    font-weight: 200;
+    width: 50vw;
+  }
+  .redBoxCard button {
+    font-size: 12px;
+  }
+  .redOpsAndSpys {
+    width: 100%;
+  }
 }

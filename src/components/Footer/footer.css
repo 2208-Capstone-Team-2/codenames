@@ -5,7 +5,7 @@
   color: white;
   border-top: 0.1px solid rgba(0, 0, 0, 0.4);
   font-weight: 100;
-  grid-area:footer;
+  grid-area: footer;
 }
 .icons {
   height: 50px;
@@ -21,9 +21,11 @@
   margin: auto;
   width: 20vw;
   align-items: center;
-  color:white
+  color: white;
 }
-.miscInfo a{color:inherit}
+.miscInfo a {
+  color: inherit;
+}
 .groupInfo {
   display: flex;
   justify-content: center;
@@ -33,4 +35,20 @@
   border-left: 0.5px solid rgba(0, 0, 0, 1);
   border-right: 0.5px solid rgba(0, 0, 0, 1);
   height: 50px;
+}
+/*-------------------------mobile-------------------------*/
+@media only screen and (max-width: 600px) {
+  .lastRow {
+    width: 100vw;
+  }
+  .icons {
+    height: 20px;
+  }
+  .miscInfo {
+    font-size: 9px;
+    gap: 5px;
+  }
+  .groupInfo {
+    font-size: 9px;
+  }
 }
