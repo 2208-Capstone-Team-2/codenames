@@ -4,7 +4,7 @@ body {
 .roomViewGrid {
   display: grid;
   grid-template-columns: 25fr 50fr 25fr;
-  grid-template-rows: 0.1fr 0.1fr 2fr 3fr 51px;
+  grid-template-rows: 0.1fr 0.1fr 2fr 3fr auto;
   grid-template-areas:
     'topBar topBar topBar'
     'gameStatus gameStatus gameStatus'
@@ -13,7 +13,8 @@ body {
     'footer footer footer';
   justify-content: center;
   align-content: start;
-  overflow: hidden;
+  overflow-x: hidden;
+  height: 100vh;
 }
 .boardContainer {
   grid-area: gameBoard;
