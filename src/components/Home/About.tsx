@@ -110,9 +110,9 @@ const About = () => {
             </p>
           </div>
           <div className="topher aboutTeamMember">
-            <img src="/images/placeholder.jpg" alt="heidi" />
+            <img src="/images/topher.jpeg" alt="topher" />
             <div className="contacts">
-              <span>Member5</span>
+              <span>Topher</span>
               <a href="/" target="_blank">
                 Linkedin
               </a>
@@ -122,11 +122,11 @@ const About = () => {
               <p className="email">email@gmail.com</p>
             </div>
             <p className="memberContent">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
+              It has been an incredible four months of hard work and dedication that have culminated in the completion
+              of our final project. As a team, we have built a game called "Codenames" from scratch, and it has been an
+              incredibly rewarding experience. We have faced many challenges along the way, but it has been extremely
+              satisfying to overcome them together. Throughout the process, we have encouraged and supported each other,
+              and have learned a great deal from each other in the process.
             </p>
           </div>
         </div>
