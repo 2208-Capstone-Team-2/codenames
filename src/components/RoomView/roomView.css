@@ -164,7 +164,7 @@ body {
     width: 100%;
   }
 }
-/*------------------------------------tablet and small laptop-------------------------------------*/
+/*------------------------------------tablet-------------------------------------*/
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
   .roomViewGrid {display: grid;
     grid-template-columns: 50% 50%;
@@ -178,11 +178,10 @@ body {
       'footer footer';
   }
 }
-/*------------------------------------tablet and small laptop-------------------------------------*/
+/*------------------------------------small laptop-------------------------------------*/
+/* this will just be a smaller version of our current desktop*/
+/* I don't think we need too much changes other than change the board/card size*/
 @media only screen and (min-width: 1025px) and (max-width: 1400px) {
-  .roomViewGrid {
-    grid-template-columns: 20% 60% 20%;
-  }
   .setUpGame {
     z-index: 1;
     top: 50%;

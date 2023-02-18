@@ -84,6 +84,9 @@
   .redOpsAndSpys{width: 100%;}
 }
 /*------------------------------------tablet and small laptop-------------------------------------*/
+
+/* i'm not sure what do we need to change here to make it look good, this is basically a larger version of mobile view*/
+/* might need to see what the board would be like first*/
 @media only screen and (min-width: 601px) and (max-width:1024px) {
   .redGridCell {
 

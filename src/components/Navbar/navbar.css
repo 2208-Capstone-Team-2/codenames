@@ -120,4 +120,7 @@
     order: 2;
   }
 }
-@media only screen and (min-width: 601px) and (max-width:1400px){}
+@media only screen and (min-width: 601px) and (max-width:1400px){
+  /* I only see this become a problem wehn someone has a crazy long username then the welcome, username part could get messy*/
+  /* might want to add in username length limit instead of changing this*/
+}
