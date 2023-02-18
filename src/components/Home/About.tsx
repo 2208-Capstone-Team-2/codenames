@@ -60,7 +60,7 @@ const About = () => {
               <a href="https://www.linkedin.com/in/rosalie-newman-rn/" target="_blank">
                 Linkedin
               </a>
-              <a href="https://github.com/rosalie0?tab=overview&from=2023-02-01&to=2023-02-17" target="_blank">
+              <a href="https://github.com/rosalie0" target="_blank">
                 Github
               </a>
               <p className="email">rosalienewman0@gmail.com</p>
@@ -97,7 +97,7 @@ const About = () => {
               <a href="https://www.linkedin.com/in/joshowens97/" target="_blank">
                 Linkedin
               </a>
-              <a href="https://github.com/Joshowens16?tab=overview&from=2023-02-01&to=2023-02-17/" target="_blank">
+              <a href="https://github.com/Joshowens16" target="_blank">
                 Github
               </a>
               <p className="email">joshowens16@gmail.com</p>
