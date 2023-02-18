@@ -40,7 +40,7 @@ const SpyCard = ({ word, teamId }: WrapperProps) => {
     });
   }, []);
 
-  // decide on the styling based on these comparisons
+  // Decide on the styling based on these comparisons
   let cardStyles: any = {}; // Todo: give this an actual interface
   if (teamId === team1Id) cardStyles = allCardStyles.redCardStyles;
   if (teamId === team2Id) cardStyles = allCardStyles.blueCardStyles;
