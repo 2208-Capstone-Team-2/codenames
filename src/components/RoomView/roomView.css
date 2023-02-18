@@ -93,47 +93,45 @@ body {
 }
 
 .loser {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  z-index: 1;
-  width: fit-content;
-  height: fit-content;
-  background-color: rgba(0, 0, 0, 0.51);
-  color: #e2c78d;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5%;
-  font-size: 14px;
-}
-.winner {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
+  background-color: rgba(0, 0, 0, 0.71);
+  color: #e2c78d;
+  text-align: center;
+  grid-area: gameBoard;
   z-index: 1;
   width: fit-content;
   height: fit-content;
+  place-self: center;
+  border-radius: 5px;
+  padding: 1vw;
+}
+
+.winnerItem,
+.loserItem {
+  text-align: center;
+  place-self: center;
+}
+
+.winner {
+  display: flex;
+  text-align: center;
+  grid-area: gameBoard;
+  z-index: 1;
+  width: fit-content;
+  height: fit-content;
+  place-self: center;
   background-color: #e2c78dc7;
   color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3%;
-  font-size: 14px;
+  border-radius: 5px;
+  padding: 1vw;
 }
 .closeButton {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: #e2c78d;
+  background-color: 'gainsboro';
   color: black;
-  border: none;
-  width: 5%;
-  height: 15%;
   border: solid black 1px;
+  height: 2vh;
+  width: 2vw;
+  border-radius: 5px;
 }
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
@@ -162,5 +160,17 @@ body {
   }
   .gameLog {
     width: 100%;
+  }
+
+  .loser {
+    background-color: rgba(0, 0, 0, 0.71);
+    color: #e2c78d;
+    font-size: 0.8rem;
+    text-align: center;
+    grid-area: gameBoard;
+    z-index: 1;
+    width: 13vw;
+    height: 13vh;
+    place-self: center;
   }
 }

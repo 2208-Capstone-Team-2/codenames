@@ -32,7 +32,7 @@ const Winner: React.FC = () => {
     <>
       {winnerPopup && status === 'complete' && (
         <div className="winner">
-          <h1>Congratulations! Your team won! Play again?</h1>
+          <h1 className="winnerItem">Congratulations! Your team won! Play again?</h1>
           <button className="closeButton" onClick={() => setWinnerPopup(false)}>
             X
           </button>
@@ -40,7 +40,7 @@ const Winner: React.FC = () => {
       )}
       {loserPopup && status === 'complete' && (
         <div className="loser">
-          <h1>Your team lost! Play again!</h1>
+          <h1 className="loserItem">Your team lost! Play again!</h1>
           <button className="closeButton" onClick={() => setLoserPopup(false)}>
             X
           </button>
