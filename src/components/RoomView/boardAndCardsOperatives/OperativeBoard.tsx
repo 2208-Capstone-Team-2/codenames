@@ -2,10 +2,10 @@ import React from 'react';
 import Card from './Card';
 import { useSelector } from 'react-redux';
 import { child, push, ref, update } from 'firebase/database';
-import { database } from '../../utils/firebase';
-import { RootState } from '../../store/index.js';
-import { CardObj, SingleHistoryObject } from '../../utils/interfaces';
-import './endTurnButton.css';
+import { database } from '../../../utils/firebase';
+import { RootState } from '../../../store/index.js';
+import { CardObj, SingleHistoryObject } from '../../../utils/interfaces';
+import '../endTurnButton.css';
 
 const OperativeBoard = () => {
   const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
