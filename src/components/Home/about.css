@@ -1,11 +1,12 @@
 .aboutPage {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 50fr 50fr auto;
   grid-template-columns: 25% 75%;
   grid-template-areas:
   'home aboutMember'
     'aboutIntro aboutMember'
     'footer footer';
+
 }
 .aboutIntro {
   grid-area: aboutIntro;
@@ -91,7 +92,6 @@ flex-direction: column;
 }
 .memberContent {
   color: white;;
-  padding: 12px;
   line-height: 24px;
   margin-top:16px;
 font-size: 14px;
@@ -113,3 +113,13 @@ font-family: 'Montserrat';
   height:fit-content;
 }
 .email{margin:0;}
+@media only screen and (max-width: 1500px) {
+  .aboutPage{overflow: hidden;}
+  .aboutTeamMember img {
+    width: 100px;
+  }
+  .aboutTeamMember {
+ justify-content: flex-start;
+  }
+
+}
