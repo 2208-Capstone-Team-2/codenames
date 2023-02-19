@@ -14,6 +14,8 @@ body {
   justify-content: center;
   align-content: start;
   overflow-x: hidden;
+  /* this is try to fix the floating footer when screen height is longer than 1080, let me know if this works, I can't tell from my screen*/
+  height:100vh;
 }
 .boardContainer {
   grid-area: gameBoard;
