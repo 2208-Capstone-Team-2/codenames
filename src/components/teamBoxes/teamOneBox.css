@@ -15,6 +15,7 @@
   font-weight: 400;
   letter-spacing: 1px;
   width: 60%;
+  height: 30vh;
 }
 .redBoxCard h3 {
   display: flex;
@@ -77,6 +78,7 @@
     font-size: 12px;
     font-weight: 200;
     width: 50vw;
+    height: auto;
   }
   .redBoxCard button {
     font-size: 12px;

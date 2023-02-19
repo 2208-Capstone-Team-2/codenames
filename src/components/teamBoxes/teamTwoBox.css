@@ -16,6 +16,7 @@
   letter-spacing: 1px;
   grid-area: blueTeam;
   width: 60%;
+  height: 30vh;
 }
 .blueBoxCard h3 {
   display: flex;
@@ -77,6 +78,7 @@
     font-size: 12px;
     font-weight: 200;
     width: 50vw;
+    height: auto;
   }
   .blueBoxCard button {
     font-size: 12px;
