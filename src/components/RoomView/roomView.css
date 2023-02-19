@@ -14,10 +14,15 @@ body {
   justify-content: center;
   align-content: start;
   overflow-x: hidden;
-  height: 100vh;
 }
 .boardContainer {
   grid-area: gameBoard;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem; /* Temporary, I think this is because the current card size overflows out of the grid area?*/
+  place-content: baseline;
 }
 .board {
   display: grid;
@@ -142,7 +147,7 @@ body {
     display: grid;
     grid-template-columns: 50% 50%;
     /* below rows fraction is temptorary, it could change once we actually set up each element */
-    grid-template-rows: 100px 10% 60fr 20fr 20fr 51px;
+    grid-template-rows: auto auto 60fr 20fr 20fr auto;
     grid-template-areas:
       'topBar topBar'
       'gameStatus gameStatus'
@@ -151,14 +156,14 @@ body {
       'gameLog chatBox'
       'footer footer';
     height: 100vh;
-    overflow: scroll;
   }
   .boardContainer {
     margin-top: 5%;
   }
   /* 2% was the default desktop setting, if it is too big, you can change it in below gap:value */
   .board {
-    gap: 0;
+    gap: 0.5%;
+    margin-bottom: 5%;
   }
   .gameLog {
     width: 100%;

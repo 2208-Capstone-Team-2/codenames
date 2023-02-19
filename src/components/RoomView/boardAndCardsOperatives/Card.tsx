@@ -186,6 +186,8 @@ const Card = (word: CardObj) => {
     cardStyles.front.height = '38.4pt';
     cardStyles.back.width = '48pt';
     cardStyles.back.height = '38.4pt';
+    cardStyles.front.border = 'solid 1px black';
+    cardStyles.front.fontSize = '10px';
   }
   if (!isSmallScreen) {
     // What you want for >600px screen styling on card front and back props goes here.

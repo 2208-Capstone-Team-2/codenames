@@ -199,13 +199,11 @@ const RoomView = () => {
       <GameStatus />
       {isHost && showStartGame && <SetupGame />}
       <TeamOneBox />
-      <div className="boardContainer">{playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}</div>
+      {playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}
       <TeamTwoBox />
-      <div className="break"></div>
       <GameLog />
       <Chat />
 
-      <Clue />
       <WinnerLoserPopup />
       {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
       {/* {isHost && everyonesHere &&  <SetupGame />*/}

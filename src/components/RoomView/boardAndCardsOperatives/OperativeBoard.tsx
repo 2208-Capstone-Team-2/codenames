@@ -5,7 +5,7 @@ import { child, push, ref, update } from 'firebase/database';
 import { database } from '../../../utils/firebase';
 import { RootState } from '../../../store/index.js';
 import { CardObj, SingleHistoryObject } from '../../../utils/interfaces';
-import '../endTurnButton.css';
+import './endTurnButton.css';
 
 const OperativeBoard = () => {
   const words = useSelector((state: RootState) => state.wordsInGame.wordsInGame);
@@ -30,7 +30,6 @@ const OperativeBoard = () => {
   });
 
   const endTurn = () => {
-    console.log('ending turn');
     let nextStatus;
     // if cards remain on both sides, swap to the next teams turn
     if (teamOneRemainingCards && teamTwoRemainingCards) {
@@ -56,33 +55,34 @@ const OperativeBoard = () => {
     }
   };
 
+  //Logic for deciding when to render End Turn button.
+  const imTeamOneOperativeAndItsMyTurn = gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId);
+  const imTeamTwoOperativeAndItsMyTurn = gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId);
+  const imOperativeAndItsMyTurn = imTeamOneOperativeAndItsMyTurn || imTeamTwoOperativeAndItsMyTurn;
+
   return (
-    <div className="board">
-      {words.map((word: CardObj) => {
-        return (
-          <Card
-            key={word.id}
-            word={word.word}
-            id={word.id}
-            isVisibleToAll={word.isVisibleToAll}
-            wordString={word.wordString}
-            wordId={word.wordId}
-            boardId={word.boardId}
-            teamId={word.teamId}
-          />
-        );
-      })}
-      <div className="endTurnButtons">
-        {gameStatus === 'team1OpsTurn' && teamOneOperativesIds.includes(playerId) && (
-          <button className="btn btn-background-circle" onClick={endTurn}>
-            End Turn{' '}
-          </button>
-        )}
-        {gameStatus === 'team2OpsTurn' && teamTwoOperativesIds.includes(playerId) && (
-          <button className="btn btn-background-circle" onClick={endTurn}>
-            End Turn{' '}
-          </button>
-        )}
+    <div className="boardContainer">
+      {imOperativeAndItsMyTurn && (
+        <button className="btn btn-background-circle" onClick={endTurn}>
+          End Turn{' '}
+        </button>
+      )}
+
+      <div className="board">
+        {words.map((word: CardObj) => {
+          return (
+            <Card
+              key={word.id}
+              word={word.word}
+              id={word.id}
+              isVisibleToAll={word.isVisibleToAll}
+              wordString={word.wordString}
+              wordId={word.wordId}
+              boardId={word.boardId}
+              teamId={word.teamId}
+            />
+          );
+        })}
       </div>
     </div>
   );
