@@ -16,10 +16,10 @@
   font-weight: 400;
   letter-spacing: 1px;
   width: 60%;
-  height: 30vh;
+  height: fit-content;
   justify-content: space-evenly;
 }
-.redBoxCard h2 {
+.redBoxCard h3 {
   display: flex;
   justify-content: center;
   align-items: center;

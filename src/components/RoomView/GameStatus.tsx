@@ -142,10 +142,10 @@ const GameStatus = () => {
   return (
     <div className="gameStatusRow">
       <div className="gameStatusContainer">
-        {gameReady && <p className="gameStatusItem">Waiting to begin the game!</p>}
-        {gameComplete && <p className="gameStatusItem">Game over!</p>}
-        {gameInProgress && <p className="gameStatusItem">{playerNote}</p>}
-        {showGuessesRemaining && <p className="gameStatusItem">{guessesRemaining} guesses remaining</p>}
+        {gameReady && <h2 className="gameStatusItem">Waiting to begin the game!</h2>}
+        {gameComplete && <h2 className="gameStatusItem">Game over!</h2>}
+        {gameInProgress && <h2 className="gameStatusItem">{playerNote}</h2>}
+        {showGuessesRemaining && <h3 className="gameStatusItem">{guessesRemaining} guesses remaining</h3>}
         {!host && (
           <p className="gameStatusItem claimHostText">
             The host left the room!

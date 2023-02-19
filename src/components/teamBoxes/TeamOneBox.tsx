@@ -135,8 +135,8 @@ const TeamOneBox = () => {
     <div className="redGridCell">
       <div className="redBoxCard">
         <div>
-          <h2>Team 1</h2>
-          <h2>Remaining Cards: {team1RemainingCards}</h2>
+          <h3>Team 1</h3>
+          <h3>Remaining Cards: {team1RemainingCards}</h3>
         </div>
         <div className="redOpsAndSpys">
           <div>

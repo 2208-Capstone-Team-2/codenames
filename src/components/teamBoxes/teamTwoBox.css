@@ -16,11 +16,11 @@
   letter-spacing: 1px;
   grid-area: blueTeam;
   width: 60%;
-  height: 30vh;
+  height: fit-content;
   justify-content: space-evenly;
   font-size: larger;
 }
-.blueBoxCard h2 {
+.blueBoxCard h3 {
   display: flex;
   justify-content: center;
   align-items: center;

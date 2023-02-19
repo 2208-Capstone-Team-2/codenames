@@ -134,8 +134,8 @@ const TeamTwoBox = () => {
     <div className="blueGridCell">
       <div className="blueBoxCard">
         <div>
-          <h2>Team 2</h2>
-          <h2>Remaining Cards: {team2RemainingCards}</h2>
+          <h3>Team 2</h3>
+          <h3>Remaining Cards: {team2RemainingCards}</h3>
         </div>
         <div className="blueOpsAndSpys">
           <div>
