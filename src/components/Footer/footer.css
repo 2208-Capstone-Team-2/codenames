@@ -1,5 +1,6 @@
 .lastRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
   height: 50px;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
@@ -9,17 +10,17 @@
 }
 .icons {
   height: 50px;
-  margin: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .miscInfo {
   display: flex;
   user-select: none;
+  align-items: center;
+  justify-content: center;
   font-size: 14px;
   gap: 16px;
-  margin: auto;
-  width: 20vw;
   align-items: center;
   color: white;
 }
@@ -31,7 +32,6 @@
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  width: 60vw;
   border-left: 0.5px solid rgba(0, 0, 0, 1);
   border-right: 0.5px solid rgba(0, 0, 0, 1);
   height: 50px;
@@ -39,16 +39,30 @@
 /*-------------------------mobile-------------------------*/
 @media only screen and (max-width: 600px) {
   .lastRow {
-    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    border-top: 0.1px solid rgba(0, 0, 0, 0.4);
+    font-weight: 100;
+    grid-area: footer;
   }
   .icons {
-    height: 20px;
+    height: fit-content;
   }
   .miscInfo {
     font-size: 9px;
     gap: 5px;
+    height: fit-content;
   }
   .groupInfo {
     font-size: 9px;
+    height: fit-content;
+  }
+  .groupInfo p {
+    margin: 0;
+    padding: 0;
   }
 }
