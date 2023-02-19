@@ -14,6 +14,8 @@ body {
   justify-content: center;
   align-content: start;
   overflow-x: hidden;
+  overflow-y: auto;
+  height:100vh;
 }
 .boardContainer {
   grid-area: gameBoard;
@@ -170,6 +172,7 @@ body {
   }
 }
 /*------------------------------------tablet-------------------------------------*/
+/*this is basically a larger version of mobile view*/
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
   .roomViewGrid {display: grid;
     grid-template-columns: 50% 50%;
@@ -182,10 +185,13 @@ body {
       'gameLog chatBox'
       'footer footer';
   }
+.board{gap:1%;margin-bottom: 5%;}
+.gameLog {
+  width: 70%;
+}
 }
 /*------------------------------------small laptop-------------------------------------*/
 /* this will just be a smaller version of our current desktop*/
-/* I don't think we need too much changes other than change the board/card size*/
 @media only screen and (min-width: 1025px) and (max-width: 1400px) {
   .setUpGame {
     z-index: 1;
@@ -193,5 +199,8 @@ body {
     left: 50%;
     transform: translate(-50%, -150%);
     position: absolute;
+  }
+  .gameLog {
+    width: 80%;
   }
 }

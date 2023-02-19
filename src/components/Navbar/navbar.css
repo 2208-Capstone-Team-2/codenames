@@ -2,11 +2,11 @@
   font-weight: 400;
   display: flex;
   justify-content: space-between;
-  padding: 7px;
+  padding: 2px;
   align-items: center;
   border: 3px solid black;
   background-color: #e2c78d;
-  height: 50px;
+  height: fit-content;
   border-radius: 5px;
   font-size: 16px;
   grid-area: topBar;
