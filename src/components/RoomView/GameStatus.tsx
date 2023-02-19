@@ -21,9 +21,9 @@ const GameStatus = () => {
   const otherTeamSpymasterNote: string = 'The opponent spymaster is playing...wait for your turn';
   const sameTeamSpymasterNote: string = 'Wait for spymaster to give you a clue.';
   const spyGivingClueNote: string = 'Give your operatives a clue!';
-  const sameTeamOperativesNote: string = `You gave the clue ${currentClue.clueString}. Your operatives are guessing now`;
-  const otherTeamOperativesNote: string = `The opponent operative is playing...the clue is ${currentClue.clueString}`;
-  const operativeGuessingNote: string = `The clue is ${currentClue.clueString}. Guess a word or click end turn`;
+  const sameTeamOperativesNote: string = `THE CLUE IS ${currentClue.clueString}. Your operatives are guessing now`;
+  const otherTeamOperativesNote: string = `THE CLUE IS ${currentClue.clueString}. The opponent operative is playing...`;
+  const operativeGuessingNote: string = `THE CLUE IS ${currentClue.clueString}. Guess a word or click end turn`;
 
   const claimHost = () => {
     update(hostRef, { playerId, username });

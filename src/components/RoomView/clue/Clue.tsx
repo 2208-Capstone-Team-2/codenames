@@ -143,7 +143,6 @@ const Clue = () => {
     onValue(currentClueRef, (snapshot) => {
       if (snapshot.exists()) {
         const clue = snapshot.val();
-        console.log({clue})
         dispatch(setCurrentClue(clue));
       } else {
         console.log('no clue exists')
