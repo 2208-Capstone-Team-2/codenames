@@ -4,10 +4,10 @@
   justify-content: center;
 }
 .blueBoxCard {
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
   color: #d2dcde;
   padding: 15px 15px 25px 15px;
-  font-size: 16px;
   background-color: #365e7f;
   border-radius: 6px;
   border: black solid 1px;
@@ -16,6 +16,8 @@
   letter-spacing: 1px;
   grid-area: blueTeam;
   width: 60%;
+  height: fit-content;
+  justify-content: space-evenly;
 }
 .blueBoxCard h3 {
   display: flex;
@@ -44,6 +46,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 30px;
+  padding-left: 1vw;
 }
 .blueOpsAndSpys p {
   margin: 8px 0 8px;
@@ -77,6 +80,7 @@
     font-size: 12px;
     font-weight: 200;
     width: 50vw;
+    height: auto;
   }
   .blueBoxCard button {
     font-size: 12px;

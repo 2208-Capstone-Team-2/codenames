@@ -133,8 +133,10 @@ const TeamTwoBox = () => {
   return (
     <div className="blueGridCell">
       <div className="blueBoxCard">
-        <h3>Team 2</h3>
-        <h3>Remaining Cards: {team2RemainingCards}</h3>
+        <div>
+          <h3>Team 2</h3>
+          <h3>Remaining Cards: {team2RemainingCards}</h3>
+        </div>
         <div className="blueOpsAndSpys">
           <div>
             <p>Operative(s)</p>

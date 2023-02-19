@@ -134,8 +134,10 @@ const TeamOneBox = () => {
   return (
     <div className="redGridCell">
       <div className="redBoxCard">
-        <h3>Team 1</h3>
-        <h3>Remaining Cards: {team1RemainingCards}</h3>
+        <div>
+          <h3>Team 1</h3>
+          <h3>Remaining Cards: {team1RemainingCards}</h3>
+        </div>
         <div className="redOpsAndSpys">
           <div>
             <p>Operative(s)</p>
