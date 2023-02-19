@@ -10,6 +10,7 @@ const GameStatus = () => {
   const { playerId, teamId, username, roomId } = useSelector((state: RootState) => state.player);
   const { teamOneOperatives, teamOneSpymaster } = useSelector((state: RootState) => state.teamOne);
   const { teamTwoOperatives, teamTwoSpymaster } = useSelector((state: RootState) => state.teamTwo);
+  const { currentClue } = useSelector((state: RootState) => state.clues);
   const [playerNote, setPlayerNote] = useState<string>('');
 
   // firebase references
@@ -18,11 +19,11 @@ const GameStatus = () => {
 
   // possible game status strings
   const otherTeamSpymasterNote: string = 'The opponent spymaster is playing...wait for your turn';
-  const sameTeamSpymasterNote: string = 'Wait for spymaster to give you a clue';
-  const spyGivingClueNote: string = 'give your operatives a clue';
-  const sameTeamOperativesNote: string = 'Your operatives are guessing now';
-  const otherTeamOperativesNote: string = 'the opponent operative is playing...wait for your turn';
-  const operativeGuessingNote: string = 'guess a word or click end turn';
+  const sameTeamSpymasterNote: string = 'Wait for spymaster to give you a clue.';
+  const spyGivingClueNote: string = 'Give your operatives a clue!';
+  const sameTeamOperativesNote: string = `You gave the clue ${currentClue.clueString}. Your operatives are guessing now`;
+  const otherTeamOperativesNote: string = `The opponent operative is playing...the clue is ${currentClue.clueString}`;
+  const operativeGuessingNote: string = `The clue is ${currentClue.clueString}. Guess a word or click end turn`;
 
   const claimHost = () => {
     update(hostRef, { playerId, username });
@@ -132,12 +133,14 @@ const GameStatus = () => {
           break;
       }
     }
+
   }, [status]);
 
   const showGuessesRemaining = !(guessesRemaining === 0 || guessesRemaining === undefined);
   const gameInProgress = status !== 'ready' && status !== 'complete';
   const gameReady = status === 'ready';
   const gameComplete = status === 'complete';
+
 
   return (
     <div className="gameStatusRow">
