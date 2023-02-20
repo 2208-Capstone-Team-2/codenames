@@ -44,6 +44,7 @@ import { RootState } from '../../store/index.js';
 import './roomView.css';
 import axios from 'axios';
 import { CardObj, WordsWithTeamIdsObj } from '../../utils/interfaces'; // For TS
+import WaitingForPlayersDisplay from './WaitingForPlayersDisplay';
 
 const RoomView = () => {
   // for room nav
@@ -193,6 +194,9 @@ const RoomView = () => {
   OnValueTeamDispatch();
   OnValueCardsRef();
 
+  const showWaitingForPlayersDisplay = isHost && showStartGame && !everyonesHere;
+  console.log('showWaitingForPlayersDisplay:', showWaitingForPlayersDisplay);
+
   return (
     <div className="roomViewGrid">
       <Navbar />
@@ -201,6 +205,7 @@ const RoomView = () => {
           The second one should be used IN PLACE of the first one, for testing purposes, 
           when you dont want the setupgame process to be blocked by needing to have 4 positions filled. */}
       {isHost && everyonesHere && showStartGame && <SetupGame />}
+      {showWaitingForPlayersDisplay && <WaitingForPlayersDisplay />}
       {/* {isHost && showStartGame && <SetupGame />} */}
 
       <TeamOneBox />
