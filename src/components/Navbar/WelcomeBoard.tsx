@@ -6,7 +6,7 @@ const WelcomeBoard = () => {
   const { username, roomId } = useSelector((state: RootState) => state.player);
   return (
     <div className="welcomeBoard">
-      <p className="welcomeBoardItem">Welcome, {username}</p>
+      <p>Welcome, {username}</p>
       <div className="welcomeBoardItem">
         <img src="/images/topBarLogo.svg" alt="codenames" />
       </div>

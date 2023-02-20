@@ -71,7 +71,7 @@ const About = () => {
             </p>
           </div>
           <div className="olivia aboutTeamMember">
-            <img src="/images/olivia.png" alt="olivia" />
+            <img src="/images/olivia.jpeg" alt="olivia" />
 
             <div className="contacts">
               <span>Olivia</span>
@@ -90,7 +90,7 @@ const About = () => {
             </p>
           </div>
           <div className="josh aboutTeamMember">
-            <img src="/images/josh.png" alt="josh" />
+            <img src="/images/josh.PNG" alt="josh" />
 
             <div className="contacts">
               <span>Josh</span>

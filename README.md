@@ -52,8 +52,10 @@ A diagram of how players are created and updated, depending on if they created t
 
 ### Known Issues
 
-- Player must assign themselves a role before the board setup in order to see the board
-- Website layout is not mobile friendly
+- A player who disconnects mid-game cannot rejoin. They are locked out until the game resets.
+- Idling in a room for an indeterminate amount of time may kick you from the room.
+- The Timer feature was not completed
+
 
 ### Contributing
 

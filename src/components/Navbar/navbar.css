@@ -21,8 +21,17 @@
   align-items: center;
   justify-content: space-around;
 }
+.welcomeBoard img {
+}
+.welcomeBoard p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
 .welcomeBoardItem {
-  margin-left: 2em;
+  display: flex;
   text-align: center;
   color: black;
   line-height: 10px;
@@ -93,6 +102,35 @@
 }
 /*---------------------------------------------mobile----------------------------*/
 @media only screen and (max-width: 600px) {
+  .navRow {
+    font-weight: 200;
+    padding: 3px;
+    border: 3px solid black;
+    height: fit-content;
+    border-radius: 5px;
+    font-size: 16px;
+    grid-area: topBar;
+    flex-wrap: wrap;
+  }
+  /*here we have an issue that the logo is not centered when someone join with a crazy long username*/
+  .welcomeBoardItem img {
+    align-self: center;
+    width: 25px;
+  }
+  .welcomeBoard {
+    order: 0;
+    width: 100vw;
+    font-size: 10px;
+  }
+  .navBarButtons {
+    order: 1;
+  }
+  .resetAndHTPBtns {
+    order: 2;
+  }
+}
+
+@media only screen and (max-width: 850px) {
   .navRow {
     font-weight: 200;
     padding: 3px;
