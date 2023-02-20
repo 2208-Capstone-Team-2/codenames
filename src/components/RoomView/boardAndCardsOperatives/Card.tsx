@@ -179,7 +179,7 @@ const Card = (word: CardObj) => {
   if (!word.teamId) cardStyles = allCardStyles.unknownCardStyles;
 
   // Use mediaquery to adjust card height and width - 600px is our 'small screen' breakpoint
-  const isSmallScreen = useMediaQuery('(max-width:600px');
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
   const isTabletScreen = useMediaQuery('(min-width: 601px) and (max-width: 1400px)');
 
   if (isSmallScreen) {
