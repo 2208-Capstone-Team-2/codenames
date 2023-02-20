@@ -17,12 +17,12 @@ export const wordsInGameSlice = createSlice({
       state.wordsInGame = action.payload;
     },
     revealCard: (state, action) => {
-      let found = state.wordsInGame.find(card => card.id === action.payload.wordId);
-      let teamId = action.payload.teamId
-     if (found) {
-      found.isVisibleToAll = true
-      found.teamId = teamId
-     } 
+      let found = state.wordsInGame.find((card) => card.id === action.payload.wordId);
+      let teamId = action.payload.teamId;
+      if (found) {
+        found.isVisibleToAll = true;
+        found.teamId = teamId;
+      }
     },
   },
 });

@@ -9,11 +9,10 @@ const initialState: InitialStateType = {
   currentClue: {
     clueString: '',
     clueNumber: null,
-    teamSubmitted: null
+    teamSubmitted: null,
     //changed to team submitted so
-    //it is easier to figure out 
+    //it is easier to figure out
     //which team the clue belongs to
-    
   },
 };
 

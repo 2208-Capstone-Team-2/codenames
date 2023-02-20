@@ -1,18 +1,22 @@
-.redGridCell{  grid-area: redTeam;
-display: flex;
-justify-content: center;margin-top:15%}
+.redGridCell {
+  grid-area: redTeam;
+  display: flex;
+  justify-content: center;
+}
 .redBoxCard {
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
   color: #d2dcde;
   padding: 15px 15px 25px 15px;
-  font-size: 16px;
   background-color: #8c2a2a;
   border-radius: 6px;
   border: black solid 1px;
   font-family: 'Oswald';
   font-weight: 400;
   letter-spacing: 1px;
-width:60% 
+  width: 60%;
+  height: fit-content;
+  justify-content: space-evenly;
 }
 .redBoxCard h3 {
   display: flex;
@@ -40,12 +44,16 @@ width:60%
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 250px;
   margin-top: 30px;
+  padding-left: 1vw;
 }
 .redOpsAndSpys p {
   margin: 8px 0 8px;
   padding: 0;
+}
+.playerNameContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 .playerName {
   color: white;
@@ -59,4 +67,39 @@ width:60%
   padding-left: 6px !important;
   padding-right: 6px !important;
   margin: 4px !important;
+  word-break: break-all;
+  width: fit-content;
+}
+
+/*---------------------------------------------mobile----------------------------*/
+
+@media only screen and (max-width: 600px) {
+  /*these numbers are not confirmed, change to make it work, I put in numbers that are good enough for the layout*/
+  /*try take of border radius on the box and see how it looks*/
+  .redBoxCard {
+    font-size: 12px;
+    font-weight: 200;
+    width: 50vw;
+    height: auto;
+  }
+  .redBoxCard button {
+    font-size: 12px;
+  }
+  .redOpsAndSpys {
+    width: 100%;
+  }
+}
+/*------------------------------------tablet and small laptop-------------------------------------*/
+
+/* i'm not sure what do we need to change here to make it look good, this is basically a larger version of mobile view*/
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .redBoxCard {
+    width: 70%;
+  }
+}
+/*  this is basically a smaller version of the default view*/
+@media only screen and (min-width: 1024px) and (max-width: 1400px) {
+  .redBoxCard {
+    width: 80%;
+  }
 }

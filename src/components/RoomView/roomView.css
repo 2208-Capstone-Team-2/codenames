@@ -1,19 +1,31 @@
 body {
   margin: 0;
 }
-.roomViewGrid{display:grid;
-grid-template-columns: 25fr 50fr 25fr;
-grid-template-rows: 5fr 5fr 25fr 35fr 51px;
-grid-template-areas: 
-'topBar topBar topBar' 
-'gameStatus gameStatus gameStatus' 
-'redTeam gameBoard blueTeam'
-'gameLog gameBoard chatBox'
-'footer footer footer';
-justify-content: center;
-align-content: start;
-overflow: hidden;}
-.boardContainer{grid-area:gameBoard;  margin-top:8%}
+.roomViewGrid {
+  display: grid;
+  grid-template-columns: 25fr 50fr 25fr;
+  grid-template-rows: 0.1fr 0.1fr 2fr 3fr auto;
+  grid-template-areas:
+    'topBar topBar topBar'
+    'gameStatus gameStatus gameStatus'
+    'redTeam gameBoard blueTeam'
+    'gameLog gameBoard chatBox'
+    'footer footer footer';
+  justify-content: center;
+  align-content: start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
+}
+.boardContainer {
+  grid-area: gameBoard;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem; /* Temporary, I think this is because the current card size overflows out of the grid area?*/
+  place-content: baseline;
+}
 .board {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
@@ -22,14 +34,19 @@ overflow: hidden;}
   align-items: center;
   visibility: visible;
 }
-.gameLogGridcell{  grid-area: gameLog;display: flex;
-  justify-content: center;margin:2% 0 10% 0;}
+.gameLogGridcell {
+  grid-area: gameLog;
+  display: flex;
+  justify-content: center;
+  margin: 2% 0 10% 0;
+}
 .gameLog {
- width:60%;
- height: 80%;
+  width: 60%;
+  height: 80%;
   border-radius: 6px;
   background-color: gainsboro;
   padding: 15px;
+  border: black solid 1px;
 }
 .gameHistoryTitle {
   margin-top: 1%;
@@ -51,10 +68,10 @@ overflow: hidden;}
   width: fit-content;
   background-color: #e2c78d;
   padding: 1rem;
-  border-radius: 5px; 
+  border-radius: 5px;
   z-index: 0;
   grid-area: gameBoard;
-  margin:5% auto;
+  margin: 5% auto;
 }
 
 .setUpForm {
@@ -83,7 +100,8 @@ overflow: hidden;}
   margin-top: 10px;
 }
 
-.loser {  top: 50%;
+.loser {
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
@@ -97,7 +115,6 @@ overflow: hidden;}
   align-items: center;
   padding: 5%;
   font-size: 14px;
-
 }
 .winner {
   top: 50%;
@@ -124,5 +141,70 @@ overflow: hidden;}
   border: none;
   width: 5%;
   height: 15%;
-  border:solid black 1px;
+  border: solid black 1px;
+}
+/*---------------------------------------------mobile----------------------------*/
+@media only screen and (max-width: 600px) {
+  .roomViewGrid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /* below rows fraction is temptorary, it could change once we actually set up each element */
+    grid-template-rows: auto auto 60fr 20fr 20fr auto;
+    grid-template-areas:
+      'topBar topBar'
+      'gameStatus gameStatus'
+      'gameBoard gameBoard'
+      'redTeam blueTeam'
+      'gameLog chatBox'
+      'footer footer';
+    height: 100vh;
+  }
+  .boardContainer {
+    margin-top: 5%;
+  }
+  /* 2% was the default desktop setting, if it is too big, you can change it in below gap:value */
+  .board {
+    gap: 0.5%;
+    margin-bottom: 5%;
+  }
+  .gameLog {
+    width: 100%;
+  }
+}
+/*------------------------------------tablet-------------------------------------*/
+/*this is basically a larger version of mobile view*/
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .roomViewGrid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto auto 4fr 2fr 2fr auto;
+    grid-template-areas:
+      'topBar topBar'
+      'gameStatus gameStatus'
+      'gameBoard gameBoard'
+      'redTeam blueTeam'
+      'gameLog chatBox'
+      'footer footer';
+  }
+  .board {
+    gap: 1%;
+    margin-bottom: 5%;
+  }
+  .gameLog {
+    width: 70%;
+  }
+}
+/*------------------------------------small laptop-------------------------------------*/
+/* this will just be a smaller version of our current desktop*/
+@media only screen and (min-width: 1025px) and (max-width: 1400px) {
+  .setUpGame {
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    position: absolute;
+  }
+  .gameLog {
+    width: 80%;
+  }
 }

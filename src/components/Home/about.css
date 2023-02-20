@@ -1,0 +1,126 @@
+.aboutPage {
+  display: grid;
+  grid-template-rows: 50fr 50fr auto;
+  grid-template-columns: 25% 75%;
+  grid-template-areas:
+    'home aboutMember'
+    'aboutIntro aboutMember'
+    'footer footer';
+}
+.aboutIntro {
+  grid-area: aboutIntro;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 10%;
+  color: white;
+  font-weight: 300;
+}
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 2%;
+  justify-content: flex-start;
+}
+.flex-container img {
+  margin: 5px;
+}
+.aboutTeam {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto auto;
+  grid-template-areas:
+    'member1 member2 member3'
+    'member4 member5 member5';
+  background-color: #ffffff70;
+  grid-area: aboutMember;
+  align-items: start;
+}
+
+.aboutTeamMember {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  width: 85%;
+  padding-top: 32px;
+  font-family: 'Montserrat';
+}
+.heidi {
+  grid-area: member1;
+  margin: 0 auto;
+}
+.rose {
+  grid-area: member2;
+  margin: 0 auto;
+}
+.olivia {
+  grid-area: member3;
+  margin: 0 auto;
+}
+.josh {
+  grid-area: member4;
+  margin: 0 auto;
+  border-top: white 1px solid;
+}
+.topher {
+  grid-area: member5;
+  width: 45% !important;
+  border-top: white 1px solid;
+}
+.contacts {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: white;
+  height: 120px;
+  justify-content: space-evenly;
+  margin-left: 8px;
+}
+.contacts a {
+  color: white;
+}
+.aboutTeamMember img {
+  width: 150px;
+  border-radius: 100px;
+}
+.memberContent {
+  color: white;
+  line-height: 24px;
+  margin-top: 16px;
+  font-size: 14px;
+  font-family: 'Montserrat';
+}
+.homeButton {
+  border-right: solid black 3px;
+  border-bottom: solid black 3px;
+  background-color: white;
+  cursor: pointer;
+  color: black;
+  width: fit-content;
+  padding: 1px 5px;
+  font-family: 'Oswald';
+  font-size: 16px;
+  border-radius: 5px 10px;
+  margin-left: 2vw;
+  grid-area: home;
+  height: fit-content;
+  margin-top: 12px;
+}
+.email {
+  margin: 0;
+}
+@media only screen and (max-width: 1500px) {
+  .aboutPage {
+    overflow: hidden;
+  }
+  .aboutTeamMember img {
+    width: 100px;
+  }
+  .aboutTeamMember {
+    justify-content: flex-start;
+  }
+}

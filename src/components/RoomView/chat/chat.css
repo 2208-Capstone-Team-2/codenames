@@ -1,7 +1,10 @@
-.chatBoxGridCell{  grid-area:chatBox;display: flex;
-  justify-content: center;margin:2% 0 10% 0;
-
-}.chat-container {
+.chatBoxGridCell {
+  grid-area: chatBox;
+  display: flex;
+  justify-content: center;
+  margin: 2% 0 10% 0;
+}
+.chat-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,6 +14,7 @@
   border-radius: 6px;
   background-color: gainsboro;
   height: 80%;
+  border: black solid 1px;
 }
 
 .chat-header {
@@ -51,4 +55,22 @@
 }
 .spectator-message {
   color: black;
+}
+/*---------------------------------------------mobile----------------------------*/
+@media only screen and (max-width: 600px) {
+  /*try take of border radius on the box and see how it looks*/
+  /*font and padding need to change*/
+  .chat-container {
+    width: 100%;
+  }
+}
+/*-----------------------------------tablet and small Laptop--------------------------------------*/
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {  .chat-container {
+  width: 70%;
+}}
+@media only screen and (min-width: 1025px) and (max-width: 1400px) {
+  .chat-container {
+    width: 80%;
+  }
 }

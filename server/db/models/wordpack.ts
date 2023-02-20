@@ -1,5 +1,5 @@
 // typescripted by olivia!
-import  Sequelize  from 'sequelize';
+import Sequelize from 'sequelize';
 import db from '../db';
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 

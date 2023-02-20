@@ -1,5 +1,5 @@
-import express, { NextFunction, Request, Response, Router } from "express";
-import db from "../../db";
+import express, { NextFunction, Request, Response, Router } from 'express';
+import db from '../../db';
 const Player = db.Player;
 const Room = db.Room;
 
@@ -62,7 +62,7 @@ router.put('/:playerId', async (req: Request, res: Response, next: NextFunction)
 
     // if they passed in a roomName, find that room, and associate the player with that.
     if (roomName) {
-      const room = await Room.findOne({ where: { name: roomName }});
+      const room = await Room.findOne({ where: { name: roomName } });
       if (!room) return res.sendStatus(404); // sanity check
       const roomId = room.id;
       updatedPlayer = await player.update({ roomId });
@@ -167,7 +167,7 @@ router.post('/addPlayerToRoom', async (req: Request, res: Response, next: NextFu
 
 // PUT --- once a player has decided their team and role, we can add them here
 //✔ works
-router.put('/update/player/teamAndRole', async (req: Request, res: Response, next: NextFunction)=> {
+router.put('/update/player/teamAndRole', async (req: Request, res: Response, next: NextFunction) => {
   try {
     //Grab players uid, roomId, team to join, and role off the req.body
     const playerId = req.body.playerId;
@@ -226,7 +226,7 @@ router.put('/remove/player/teamAndRole', async (req: Request, res: Response, nex
 //✔ works
 router.put('/remove/player/room', async (req: Request, res: Response, next: NextFunction) => {
   const playerId = req.body.playerId;
-  const roomId = req.body.roomId
+  const roomId = req.body.roomId;
   try {
     const playerToRemoveFromRoom = await Player.findOne({
       where: {
