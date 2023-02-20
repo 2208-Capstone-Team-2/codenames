@@ -62,9 +62,7 @@ export default function BasicPopover() {
           >
             Rules
           </div>
-          <Typography sx={{ p: 2 }}>
-            <GameRules />
-          </Typography>
+          <GameRules />
         </Popover>
       </ThemeProvider>
     </div>
