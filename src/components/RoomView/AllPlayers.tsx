@@ -16,7 +16,7 @@ const AllPlayers = () => {
     teamOneSpymaster,
     teamTwoSpymaster,
   );
-
+  console.log('everyonesHere: ', everyonesHere);
   return (
     <div className="welcomeBoardItem">
       Players:

@@ -197,7 +197,12 @@ const RoomView = () => {
     <div className="roomViewGrid">
       <Navbar />
       <GameStatus />
-      {isHost && showStartGame && <SetupGame />}
+      {/* The two lines that render the SetupGame component should be toggled between.
+          The second one should be used IN PLACE of the first one, for testing purposes, 
+          when you dont want the setupgame process to be blocked by needing to have 4 positions filled. */}
+      {isHost && everyonesHere && showStartGame && <SetupGame />}
+      {/* {isHost && showStartGame && <SetupGame />} */}
+
       <TeamOneBox />
       {playerIsSpymaster ? <SpyMasterBoard /> : <OperativeBoard />}
       <TeamTwoBox />
@@ -205,8 +210,6 @@ const RoomView = () => {
       <Chat />
 
       <WinnerLoserPopup />
-      {/* COMMENTING OUT THE BELOW CODE UNTIL WE'RE DONE TESTING*/}
-      {/* {isHost && everyonesHere &&  <SetupGame />*/}
       <Footer />
     </div>
   );
