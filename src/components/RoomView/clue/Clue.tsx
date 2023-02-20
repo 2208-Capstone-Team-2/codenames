@@ -3,14 +3,13 @@ import pluralize from 'pluralize';
 import { ClueType } from '../../../utils/interfaces'; // for Typescript interface
 // firebase:
 import { database } from '../../../utils/firebase';
-import { ref, child, push, update, off } from 'firebase/database';
+import { ref, child, push, update, off, set } from 'firebase/database';
 // redux:
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentClue } from '../../../store/clueSlice';
 import { RootState } from '../../../store';
 // CSS:
 import './clue.css';
-import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
@@ -33,6 +32,8 @@ const Clue = () => {
   const gameRef = ref(database, `rooms/${roomId}/game/`);
   const gameHistoryRef = ref(database, `rooms/${roomId}/game/history`);
   const cardsRef = ref(database, `rooms/${roomId}/gameboard`);
+  const currentClueRef = ref(database, `rooms/${roomId}/game/currentClue`);
+
   // MUI Alert stuff
   const [open, setOpen] = React.useState<boolean>(false);
   const vertical = 'bottom';
@@ -47,7 +48,6 @@ const Clue = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
   //
@@ -103,6 +103,7 @@ const Clue = () => {
         updates[newClueKey] = clueData;
         dispatch(setCurrentClue(clueData));
         update(gameHistoryRef, updates);
+        set(currentClueRef, clueData)
       } else {
         console.error('newClueKey is null or undefined');
       }
@@ -134,6 +135,7 @@ const Clue = () => {
   const iAmSpy2AndItsMyTurn = gameStatus === 'team2SpyTurn' && teamTwoSpymaster?.playerId === playerId;
   // If either of these above are true, show the Clue component!
   if (iAmSpy1AndItsMyTurn || iAmSpy2AndItsMyTurn) showClue = true;
+
 
   if (!showClue) return <></>;
   return (
