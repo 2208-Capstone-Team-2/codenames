@@ -6,10 +6,10 @@ function Footer() {
   return (
     <div className="lastRow">
       <div className="miscInfo">
-        <Link to={'./about'}>
+        <Link to={'/about'}>
           <p>About Us</p>
         </Link>
-        <p>Contact Us</p>
+        <p style={{ textDecoration: 'underline' }}>Contact Us</p>
         <Link to={'./faq'}>
           <p>FAQ</p>
         </Link>
