@@ -89,3 +89,17 @@
     width: 100%;
   }
 }
+/*------------------------------------tablet and small laptop-------------------------------------*/
+
+/* i'm not sure what do we need to change here to make it look good, this is basically a larger version of mobile view*/
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .redBoxCard {
+    width: 70%;
+  }
+}
+/*  this is basically a smaller version of the default view*/
+@media only screen and (min-width: 1024px) and (max-width: 1400px) {
+  .redBoxCard {
+    width: 80%;
+  }
+}
