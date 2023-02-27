@@ -18,6 +18,8 @@
 
 Fast-paced and easy to learn, simply click the 'create room' button, and invite your friends by sending them the URL in your web browser. Everyone should now enter their usernames, assign themselves teams and roles. The host can now setup the game board- and you're ready to play CODENAMES!
 
+Watch our [presentation and recorded demo video!](https://www.youtube.com/watch?v=nMLCx3XAIkE)
+
 ### Getting Started
 
 There are two ways to run our project.
