@@ -1,6 +1,6 @@
 # Codenames
 
-<img src='public/images/transparentLogo.png' alt='logo' height='auto' width='auto'/>
+<img src='public/images/CODENAMES.jpg' alt='logo' height='auto' width='auto'/>
 
 <div class="flex-container"><!-- .element: style="display: flex; flex-direction: row;" -->
   <img src="https://img.shields.io/badge/Typescript-027bcd?&logo=typescript&logoColor=white" />
@@ -57,7 +57,6 @@ A diagram of how players are created and updated, depending on if they created t
 - A player who disconnects mid-game cannot rejoin. They are locked out until the game resets.
 - Idling in a room for an indeterminate amount of time may kick you from the room.
 - The Timer feature was not completed
-
 
 ### Contributing
 
