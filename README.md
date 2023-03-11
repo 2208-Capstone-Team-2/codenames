@@ -57,6 +57,9 @@ A diagram of how players are created and updated, depending on if they created t
 - A player who disconnects mid-game cannot rejoin. They are locked out until the game resets.
 - Idling in a room for an indeterminate amount of time may kick you from the room.
 - The Timer feature was not completed
+- If the host role is claimed while a board is active, the setup game menu appears behind the board. In this case, please reset the whole game inorder to access this menu.
+- Cards are not tabbable, which is essential for accessibility to those without mouse controls.
+
 
 ### Contributing
 
