@@ -40,7 +40,7 @@ const TeamTwoBox = () => {
       (teamOneSpymaster && teamOneSpymaster.playerId === playerId) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
-      console.log('Cannot join the other team!');
+      // console.log('Cannot join the other team!');
     } else {
       // Here we want to check if a player is already a spymaster, so that they cannot join both
       await get(teamTwoSpymasterRef).then((snapshot) => {
@@ -48,7 +48,7 @@ const TeamTwoBox = () => {
         if (snapshot.exists()) {
           const teamTwoSpymasterSnap = snapshot.val();
           if (teamTwoSpymasterSnap.playerId === playerId) {
-            console.log('cannot join both the spymasters and the operatives');
+            // console.log('cannot join both the spymasters and the operatives');
           } else {
             onDisconnect(playerOnTeamTwoOperativesRef).remove();
             set(child(teamTwoOperativesRef, playerId), { playerId, username });
@@ -80,7 +80,7 @@ const TeamTwoBox = () => {
       (teamOneSpymaster && teamOneSpymaster.playerId === playerId) ||
       (teamOneOperatives && teamOneOperatives.includes(playerId))
     ) {
-      console.log('Cannot join the other team!');
+      // console.log('Cannot join the other team!');
     } else {
       // Here we want to check if a player is already an operative, so that they cannot join both.
       await get(teamTwoOperativesRef).then((snapshot) => {
@@ -89,8 +89,7 @@ const TeamTwoBox = () => {
           const teamTwoOperativesSnap = Object.keys(snapshot.val());
           if (teamTwoOperativesSnap.includes(playerId)) {
             // later we should probably refactor this so that something on the UI is triggered
-
-            console.log('cannot join both the spymasters and the operatives');
+            //console.log('cannot join both the spymasters and the operatives');
           } else {
             onDisconnect(teamTwoSpymasterRef).remove();
             set(teamTwoSpymasterRef, { playerId, username });

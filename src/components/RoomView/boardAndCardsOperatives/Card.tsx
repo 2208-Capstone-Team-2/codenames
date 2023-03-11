@@ -137,12 +137,11 @@ const Card = (word: CardObj) => {
         endTurn();
       }
     } else {
-      console.log('its not my turn');
+      // console.log('its not my turn');
     }
   };
 
   const endTurn = () => {
-    console.log('ending turn');
     let nextStatus;
     // if cards remain on both sides, swap to the next teams turn
     if (teamOneRemainingCards && teamTwoRemainingCards) {

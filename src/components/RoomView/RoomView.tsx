@@ -78,7 +78,7 @@ const RoomView = () => {
         const values = Object.values(players);
         dispatch(setAllPlayers(values));
       } else {
-        console.log('no players in room yet!');
+        // console.log('no players in room yet!');
       }
     });
 
@@ -105,7 +105,6 @@ const RoomView = () => {
                 off(cardsRef); // don't listen to this listener anymore
                 let wordsWithTeamIds = {} as WordsWithTeamIdsObj;
 
-                console.log('making get25 req!');
                 let spyWords = await axios.get(`/api/card/get25/forRoom/${roomId}`);
                 spyWords.data.forEach(
                   (card: CardObj) =>
@@ -175,7 +174,6 @@ const RoomView = () => {
         let game = snapshot.val();
         if (game.team1RemainingCards && game.team2RemainingCards) {
           if (game.gameStatus === 'team1OpsTurn') {
-            console.log('hitting next status');
             nextStatus = 'team2SpyTurn';
             update(gameRef, { gameStatus: nextStatus, guessesRemaining: 0 });
           }
