@@ -59,7 +59,6 @@ function UsernameForm({ handleClose }: UsernameFormProps) {
       const hostRef = ref(database, `rooms/${roomId}/host`);
 
       if (isHost) {
-        console.log('is host hit');
         update(hostRef, { playerId, username: trimmedInputtedUsername });
         onDisconnect(hostRef).remove();
         dispatch(setHost({ playerId, username: trimmedInputtedUsername }));

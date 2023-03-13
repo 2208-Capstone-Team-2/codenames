@@ -28,7 +28,6 @@ const Leaderboard = () => {
   const PER_PAGE: number = 5;
   const offset: number = currentPage * PER_PAGE;
   const currentPageData: Player[] = allPlayers.filter((player) => player.wins > 1).slice(offset, offset + PER_PAGE);
-  console.log(currentPageData);
   const pageCount: number = Math.ceil(allPlayers.filter((player) => player.wins > 1).length / PER_PAGE);
   //
   function handlePageClick({ selected: selectedPage }: PageClickEvent) {

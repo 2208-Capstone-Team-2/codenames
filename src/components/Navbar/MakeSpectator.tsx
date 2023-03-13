@@ -47,7 +47,7 @@ const MakeSpectator = () => {
     } else if (teamTwoSpymaster?.playerId === playerId) {
       remove(teamTwoSpymasterRef);
     } else {
-      console.log('youre already a spectator!');
+      // console.log('youre already a spectator!');
     }
   };
 

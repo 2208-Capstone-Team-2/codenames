@@ -37,7 +37,6 @@ const OperativeBoard = () => {
         nextStatus = 'team2SpyTurn';
         const newGameHistory: string = 'Team 1 operatives ended their turn prematurely';
         const newHistoryKey = push(child(ref(database), 'history')).key;
-        console.log(newGameHistory);
         const updates = {} as SingleHistoryObject;
         updates[`${newHistoryKey}`] = newGameHistory;
         update(gameHistoryRef, updates);
