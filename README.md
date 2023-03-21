@@ -26,7 +26,7 @@ There are two ways to run our project.
 
 #### Play online
 
-Visit our [website](https://codenames-v8v8.onrender.com/) and play!
+Visit our [website](https://codenames-production.up.railway.app/) and play!
 
 #### Play locally
 
