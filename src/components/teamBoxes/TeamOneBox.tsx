@@ -40,7 +40,7 @@ const TeamOneBox = () => {
       (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
-      console.log('Cannot join the other team!');
+      // console.log('Cannot join the other team!');
     } else {
       // Here we want to check if a player is already a spymaster, so that they cannot join both
       await get(teamOneSpymasterRef).then((snapshot) => {
@@ -49,7 +49,7 @@ const TeamOneBox = () => {
           const teamOneSpymasterGet = snapshot.val();
           if (teamOneSpymasterGet.playerId === playerId) {
             // later we should probably refactor this so that something on the UI is triggered
-            console.log('cannot join both the spymasters and the operatives');
+            // console.log('cannot join both the spymasters and the operatives');
           } else {
             onDisconnect(playerOnTeamOneOperativesRef).remove();
             set(child(teamOneOperativesRef, playerId), { playerId, username });
@@ -81,7 +81,7 @@ const TeamOneBox = () => {
       (teamTwoSpymaster && teamTwoSpymaster.playerId === playerId) ||
       (teamTwoOperatives && teamTwoOperatives.includes(playerId))
     ) {
-      console.log('Cannot join the other team!');
+      // console.log('Cannot join the other team!');
     } else {
       await get(teamOneOperativesRef).then((snapshot) => {
         // If players already exist as team one operatives:
@@ -89,7 +89,7 @@ const TeamOneBox = () => {
           const teamOneOperativesGet = Object.keys(snapshot.val());
           if (teamOneOperativesGet.includes(playerId)) {
             // later we should probably refactor thisso that something on the UI is triggered
-            console.log('cannot join both the spymasters and the operatives');
+            // console.log('cannot join both the spymasters and the operatives');
           } else {
             onDisconnect(teamOneSpymasterRef).remove();
             set(teamOneSpymasterRef, { playerId, username });

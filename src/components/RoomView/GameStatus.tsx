@@ -137,7 +137,6 @@ const GameStatus = () => {
           break;
       }
     }
-
   }, [status]);
 
   useEffect(() => {
@@ -145,8 +144,6 @@ const GameStatus = () => {
       if (snapshot.exists()) {
         const clue = snapshot.val();
         dispatch(setCurrentClue(clue));
-      } else {
-        console.log('no clue exists')
       }
     });
     /*game status needs to be watched because rendering the current clue 
@@ -157,7 +154,6 @@ const GameStatus = () => {
   const gameInProgress = status !== 'ready' && status !== 'complete';
   const gameReady = status === 'ready';
   const gameComplete = status === 'complete';
-
 
   return (
     <div className="gameStatusRow">
